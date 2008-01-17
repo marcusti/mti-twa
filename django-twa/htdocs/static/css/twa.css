@@ -1,0 +1,61 @@
+body {
+  margin: 0; padding: 0.2em;
+  font-size: 90%;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, sans-serif;
+}
+
+a {
+  color: #0066CC;
+  text-decoration: none;
+  margin: 0; padding: 0.2em;
+}
+
+a:hover {
+  color: white;
+  background-color: #0066cc;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  text-align: left;
+  vertical-align: top;
+  margin: 0; padding: 0.2em;
+}
+
+td a {
+}
+
+th {
+  text-align: left;
+  vertical-align: top;
+  margin: 0; padding: 0.2em;
+  color: white;
+  background-color: #9d9ea0;
+}
+
+#header {
+  text-align: left;
+  vertical-align: top;
+}
+
+#header form, #header p {
+  clear: both;
+  text-align: right;
+  list-style-type: none;
+}
+
+#content {
+  clear: both;
+}
+
+.row1 {
+  background-color: #eeeeee;
+}
+
+.row2 {
+  background-color: #eeeeee;
+}
+

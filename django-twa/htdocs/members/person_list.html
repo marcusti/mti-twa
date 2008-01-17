@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<table>
+  <tr>
+    <th>{% trans "First Name" %}</th>
+    <th>{% trans "Last Name" %}</th>
+    <th>{% trans "Age" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "Date" %}</th>
+    <th>{% trans "Photo" %}</th>
+  </tr>
+{% for person in object_list %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}</a></td>
+    <td><a href="{{ person.get_absolute_url }}">{{ person.lastname }}</a></td>
+    <td>{{ person.age }}</td>
+    <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
+    <td>{% if person.grade_date %}{{ person.grade_date }}{% endif %}</td>
+    <td>{% if person.thumbnail %}
+        <a href="{{ person.get_absolute_url }}">
+          <img src="{{ person.get_thumbnail_url }}"
+           width="{{ person.get_thumbnail_width }}"
+           height="{{ person.get_thumbnail_height }}"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}"
+            />
+          </a>
+        {% endif %}</td>
+  </tr>
+{% endfor %}
+</table>
+{% endblock %}

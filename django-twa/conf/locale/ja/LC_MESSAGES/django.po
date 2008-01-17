@@ -1,0 +1,287 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-01-17 00:48+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: htdocs/base.html:25
+msgid "Welcome"
+msgstr ""
+
+#: htdocs/base.html:26
+msgid "Home"
+msgstr ""
+
+#: htdocs/base.html:27 src/twa/members/models.py:191
+msgid "Dojos"
+msgstr ""
+
+#: htdocs/base.html:29
+msgid "Members"
+msgstr ""
+
+#: htdocs/base.html:30
+msgid "Admin"
+msgstr ""
+
+#: htdocs/base.html:31
+msgid "Logout"
+msgstr ""
+
+#: htdocs/base.html:33 htdocs/registration/login.html:24
+msgid "Login"
+msgstr ""
+
+#: htdocs/members/dojo_list.html:7 src/twa/members/models.py:43
+#: src/twa/members/models.py:64 src/twa/members/models.py:168
+msgid "Country"
+msgstr ""
+
+#: htdocs/members/dojo_list.html:8 src/twa/members/models.py:63
+#: src/twa/members/models.py:166
+msgid "City"
+msgstr ""
+
+#: htdocs/members/dojo_list.html:9 src/twa/members/models.py:33
+#: src/twa/members/models.py:160
+msgid "Name"
+msgstr ""
+
+#: htdocs/members/dojo_list.html:10 src/twa/members/models.py:70
+#: src/twa/members/models.py:174
+msgid "Website"
+msgstr ""
+
+#: htdocs/members/person_list.html:7 src/twa/members/models.py:54
+msgid "First Name"
+msgstr ""
+
+#: htdocs/members/person_list.html:8 src/twa/members/models.py:55
+msgid "Last Name"
+msgstr ""
+
+#: htdocs/members/person_list.html:9 src/twa/members/models.py:105
+msgid "Age"
+msgstr ""
+
+#: htdocs/members/person_list.html:10 src/twa/members/models.py:88
+#: src/twa/members/models.py:213
+msgid "Rank"
+msgstr ""
+
+#: htdocs/members/person_list.html:11 src/twa/members/models.py:93
+#: src/twa/members/models.py:214
+msgid "Date"
+msgstr ""
+
+#: htdocs/members/person_list.html:12 src/twa/members/models.py:58
+#: src/twa/members/models.py:131
+msgid "Photo"
+msgstr ""
+
+#: htdocs/registration/login.html:7
+msgid "Benutzername oder Passwort ist nicht korrekt."
+msgstr ""
+
+#: htdocs/registration/login.html:13
+msgid "User"
+msgstr ""
+
+#: htdocs/registration/login.html:18
+msgid "Password"
+msgstr ""
+
+#: htdocs/registration/logout.html:5
+msgid "Successfully logged out."
+msgstr ""
+
+#: src/twa/members/models.py:10
+msgid "male"
+msgstr ""
+
+#: src/twa/members/models.py:11
+msgid "female"
+msgstr ""
+
+#: src/twa/members/models.py:15
+msgid "10. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:16
+msgid "9. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:17
+msgid "8. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:18
+msgid "7. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:19
+msgid "6. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:20
+msgid "5. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:21
+msgid "4. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:22
+msgid "3. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:23
+msgid "2. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:24
+msgid "1. Dan"
+msgstr ""
+
+#: src/twa/members/models.py:25
+msgid "1. Kyu"
+msgstr ""
+
+#: src/twa/members/models.py:26
+msgid "2. Kyu"
+msgstr ""
+
+#: src/twa/members/models.py:27
+msgid "3. Kyu"
+msgstr ""
+
+#: src/twa/members/models.py:28
+msgid "4. Kyu"
+msgstr ""
+
+#: src/twa/members/models.py:29
+msgid "5. Kyu"
+msgstr ""
+
+#: src/twa/members/models.py:35 src/twa/members/models.py:80
+#: src/twa/members/models.py:180 src/twa/members/models.py:218
+msgid "Created"
+msgstr ""
+
+#: src/twa/members/models.py:36 src/twa/members/models.py:81
+#: src/twa/members/models.py:181 src/twa/members/models.py:219
+msgid "Last Modified"
+msgstr ""
+
+#: src/twa/members/models.py:44
+msgid "Countries"
+msgstr ""
+
+#: src/twa/members/models.py:56 src/twa/members/models.py:162
+#: src/twa/members/models.py:215
+msgid "Text"
+msgstr ""
+
+#: src/twa/members/models.py:57
+msgid "Text (Beirat)"
+msgstr ""
+
+#: src/twa/members/models.py:59
+msgid "Thumbnail"
+msgstr ""
+
+#: src/twa/members/models.py:61 src/twa/members/models.py:164
+msgid "Street"
+msgstr ""
+
+#: src/twa/members/models.py:62 src/twa/members/models.py:165
+msgid "Zip"
+msgstr ""
+
+#: src/twa/members/models.py:66 src/twa/members/models.py:170
+msgid "Phone"
+msgstr ""
+
+#: src/twa/members/models.py:67 src/twa/members/models.py:171
+msgid "Fax"
+msgstr ""
+
+#: src/twa/members/models.py:68 src/twa/members/models.py:172
+msgid "Mobile"
+msgstr ""
+
+#: src/twa/members/models.py:69 src/twa/members/models.py:173
+msgid "Email"
+msgstr ""
+
+#: src/twa/members/models.py:72
+msgid "Birth"
+msgstr ""
+
+#: src/twa/members/models.py:73
+msgid "Gender"
+msgstr ""
+
+#: src/twa/members/models.py:75
+msgid "Active"
+msgstr ""
+
+#: src/twa/members/models.py:76 src/twa/members/models.py:176
+msgid "TWA Member"
+msgstr ""
+
+#: src/twa/members/models.py:77
+msgid "Licensed"
+msgstr ""
+
+#: src/twa/members/models.py:78
+msgid "Aikido Since"
+msgstr ""
+
+#: src/twa/members/models.py:142 src/twa/members/models.py:212
+msgid "Person"
+msgstr ""
+
+#: src/twa/members/models.py:143
+msgid "Persons"
+msgstr ""
+
+#: src/twa/members/models.py:161
+msgid "Short Name"
+msgstr ""
+
+#: src/twa/members/models.py:177
+msgid "Dojo Members"
+msgstr ""
+
+#: src/twa/members/models.py:178
+msgid "Dojo Leader"
+msgstr ""
+
+#: src/twa/members/models.py:190
+msgid "Dojo"
+msgstr ""
+
+#: src/twa/members/models.py:216
+msgid "Nomination"
+msgstr ""
+
+#: src/twa/members/models.py:226
+msgid "Graduation"
+msgstr ""
+
+#: src/twa/members/models.py:227
+msgid "Graduations"
+msgstr ""

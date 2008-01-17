@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if form.has_errors %}
+<p style="color: red;">{% trans "Benutzername oder Passwort ist nicht korrekt." %}</p>
+{% endif %}
+
+<form method="post" action=".">
+ <table>
+  <tr>
+   <td align="right"><label for="id_username">{% trans "User" %}:</label></td>
+   <td>{{ form.username }}</td>
+  </tr>
+
+  <tr>
+   <td align="right"><label for="id_password">{% trans "Password" %}:</label></td>
+   <td>{{ form.password }}</td>
+  </tr>
+
+  <tr>
+   <td></td>
+   <td><input type="submit" value="{% trans "Login" %}" /></td>
+  </tr>
+ </table>
+
+
+<input type="hidden" name="next" value="{{ next }}" />
+<input type="hidden" name="language" value="{{ language }}" />
+</form>
+
+{% endblock %}
