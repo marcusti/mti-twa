@@ -75,7 +75,7 @@ class Person( models.Model ):
     is_active = models.BooleanField( _( 'Active' ), default = True )
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
     is_licensed = models.BooleanField( _( 'Licensed' ), default = False )
-    aikido_since = models.DateField( _( 'Aikido Since' ), blank = True, null = True )
+    aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
@@ -132,7 +132,7 @@ class Person( models.Model ):
     admin_thumb.allow_tags = True
 
     def get_absolute_url( self ):
-        return '/person/%i/' % self.id
+        return '/member/%i/' % self.id
 
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.firstname, self.lastname )

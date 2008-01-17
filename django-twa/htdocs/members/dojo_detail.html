@@ -3,8 +3,13 @@
 
 {% block content %}
 <table>
+  <colgroup>
+    <col width="1*">
+    <col width="4*">
+  </colgroup>
+
   <tr>
-    <th colspan="2">Dojo</th>
+    <th colspan="2">{% trans "Dojo" %}</th>
   </tr>
 
   <tr>
@@ -27,7 +32,15 @@
 
   <tr>
     <td>{% trans "Dojo Leader" %}:</td>
-    <td>{% if dojo.leader %}{{ dojo.leader }}{% endif %}</td>
+    <td>
+      {% if dojo.leader %}
+        {% if user.is_authenticated %}
+          <a href="{{ dojo.leader.get_absolute_url }}">{{ dojo.leader }}</a>
+        {% else %}
+          {{ dojo.leader }}
+        {% endif %}
+      {% endif %}
+    </td>
   </tr>
 
   <tr>
@@ -45,7 +58,7 @@
   </tr>
   <tr>
     <td>{% trans "Country" %}:</td>
-    <td>{% if dojo.country %}{{ dojo.country }}{% endif %}</td>
+    <td>{{ dojo.country|default:"" }}</td>
   </tr>
 
   <tr>
@@ -67,7 +80,7 @@
   </tr>
   <tr>
     <td>{% trans "Email" %}:</td>
-    <td><a href="mailto:{{ dojo.email }}">{{ dojo.email }}</a></td>
+    <td>{% if person.email %}<a href="mailto:{{ dojo.email }}">{{ dojo.email }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>{% trans "Website" %}:</td>
@@ -85,5 +98,5 @@
   </tr>
 </table>
 
-<p align="right"><small>{% trans "Last Modified" %}: {{ dojo.last_modified }}</small></p>
+<p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ dojo.last_modified }}</small></p>
 {% endblock %}

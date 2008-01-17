@@ -55,6 +55,16 @@ def members( request ):
     )
 
 @login_required
+def member( request, mid = None ):
+    return object_detail(
+        request,
+        queryset = Person.actives.all(),
+        object_id = mid,
+        template_object_name = 'person',
+        extra_context = get_context( request ),
+    )
+
+@login_required
 def dojos_csv( request ):
     response = HttpResponse( mimetype='text/csv' )
     response['Content-Disposition'] = 'attachment; filename=dojos.csv'
