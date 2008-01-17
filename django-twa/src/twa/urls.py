@@ -15,6 +15,7 @@ urlpatterns += patterns( 'django.views.generic.simple',
 urlpatterns += patterns( 'twa.members.views',
     ( r'^$', 'index' ),
     ( r'^dojos/', 'dojos' ),
+    ( r'^dojo/(\d+)/', 'dojo' ),
     ( r'^members/', 'members' ),
     ( r'^csv/', 'dojos_csv' ),
  )

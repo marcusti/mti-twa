@@ -36,6 +36,10 @@ th {
   background-color: #9d9ea0;
 }
 
+tr {
+  background-color: #eeeeee;
+}
+
 #header {
   text-align: left;
   vertical-align: top;

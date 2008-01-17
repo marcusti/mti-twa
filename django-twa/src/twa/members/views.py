@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
 from twa.members.models import Dojo, Person
@@ -24,7 +24,7 @@ def mylogin( request ):
                 extra_context = get_context( request )
             )
 
-def index(request):
+def index( request ):
     return direct_to_template( request,
         template = 'base.html',
         extra_context = get_context( request )
@@ -34,6 +34,15 @@ def dojos( request ):
     return object_list(
         request,
         queryset = Dojo.objects.all(),
+        extra_context = get_context( request ),
+    )
+
+def dojo( request, did = None ):
+    return object_detail(
+        request,
+        queryset = Dojo.objects.all(),
+        object_id = did,
+        template_object_name = 'dojo',
         extra_context = get_context( request ),
     )
 

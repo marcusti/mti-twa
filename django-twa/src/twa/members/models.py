@@ -182,6 +182,9 @@ class Dojo( models.Model ):
 
     objects = DojoManager()
 
+    def get_absolute_url( self ):
+        return '/dojo/%i/' % self.id
+
     def __unicode__( self ):
         return self.name
 
