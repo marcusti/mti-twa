@@ -104,7 +104,11 @@
 
   {% if user.is_authenticated %}
   <tr>
-    <td>{% trans "Members" %}:</td>
+    <th colspan="2">{% trans "Members" %}</th>
+  </tr>
+
+  <tr>
+    <td></td>
     <td>
     <ul>
     {% for person in members %}
