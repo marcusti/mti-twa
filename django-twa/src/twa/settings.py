@@ -1,7 +1,8 @@
 #-*- coding: utf-8 -*-
 # Django settings for twa project.
 
-DEBUG = True
+#DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
