@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
-from twa.members.models import Dojo, Person
+from twa.members.models import Dojo, Graduation, Person
 import csv
 
 def get_context( request ):
@@ -25,43 +25,51 @@ def mylogin( request ):
             )
 
 def index( request ):
+    ctx = get_context( request )
     return direct_to_template( request,
         template = 'base.html',
-        extra_context = get_context( request )
+        extra_context = ctx,
     )
 
 def dojos( request ):
+    ctx = get_context( request )
     return object_list(
         request,
         queryset = Dojo.objects.all(),
-        extra_context = get_context( request ),
+        extra_context = ctx,
     )
 
 def dojo( request, did = None ):
+    ctx = get_context( request )
+    ctx['members'] = Person.objects.filter( dojo_member__id = did )
     return object_detail(
         request,
         queryset = Dojo.objects.all(),
         object_id = did,
         template_object_name = 'dojo',
-        extra_context = get_context( request ),
+        extra_context = ctx,
     )
 
 @login_required
 def members( request ):
+    ctx = get_context( request )
     return object_list(
         request,
         queryset = Person.actives.all(),
-        extra_context = get_context( request ),
+        extra_context = ctx,
     )
 
 @login_required
 def member( request, mid = None ):
+    ctx = get_context( request )
+    ctx['dojos'] = Dojo.objects.filter( members__id = mid )
+    ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     return object_detail(
         request,
         queryset = Person.actives.all(),
         object_id = mid,
         template_object_name = 'person',
-        extra_context = get_context( request ),
+        extra_context = ctx,
     )
 
 @login_required

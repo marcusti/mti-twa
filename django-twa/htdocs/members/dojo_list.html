@@ -14,7 +14,7 @@
     <td>{{ dojo.country }}</td>
     <td>{{ dojo.city }}</td>
     <td><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></td>
-    <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.name }}</a>{% endif %}</td>
+    <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
   </tr>
 {% endfor %}
 </table>

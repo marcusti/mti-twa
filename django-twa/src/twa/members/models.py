@@ -174,7 +174,7 @@ class Dojo( models.Model ):
     website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
 
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
-    members = models.ManyToManyField( Person, verbose_name = _( 'Dojo Members' ), related_name = 'dojo_member', blank = True, null = True )
+    members = models.ManyToManyField( Person, verbose_name = _( 'Dojo Members' ), filter_interface=models.VERTICAL, related_name = 'dojo_member', blank = True, null = True )
     leader = models.ForeignKey( Person, verbose_name = _( 'Dojo Leader' ), related_name = 'dojo_leader', blank = True, null = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
@@ -195,7 +195,7 @@ class Dojo( models.Model ):
 
     class Admin:
         ordering = [ 'city', 'name' ]
-        list_display = ( 'id', 'name', 'city', 'leader', 'is_twa_member' )
+        list_display = ( 'id', 'city', 'name', 'leader', 'is_twa_member' )
         list_display_links = ( 'name', )
         #list_filter = ( 'city', )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
@@ -212,9 +212,9 @@ class GraduationManager( models.Manager ):
             return ''
 
 class Graduation( models.Model ):
-    person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
-    rank = models.IntegerField( _( 'Rank' ), choices = RANK )
-    date = models.DateField( _( 'Date' ), blank = True, null = True )
+    person = models.ForeignKey( Person, verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
+    rank = models.IntegerField( _( 'Rank' ), choices = RANK, core = True )
+    date = models.DateField( _( 'Date' ), blank = True, null = True, core = True )
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
 
@@ -231,7 +231,7 @@ class Graduation( models.Model ):
 
     class Admin:
         ordering = [ '-rank', '-date' ]
-        list_display = ( 'id', 'rank', 'date', 'person', 'is_nomination' )
+        list_display = ( 'id', 'rank', 'date', 'person', 'text', 'is_nomination' )
         list_display_links = ( 'date', 'rank', )
-        list_filter = ( 'is_nomination', 'rank' )
+        list_filter = ( 'is_nomination', 'rank', 'person' )
         #search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
