@@ -84,7 +84,7 @@
   </tr>
   <tr>
     <td>{% trans "Website" %}:</td>
-    <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.name }}</a>{% endif %}</td>
+    <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
   </tr>
 
   <tr>
@@ -96,6 +96,25 @@
     <td>{% trans "Text" %}:</td>
     <td>{{ dojo.text|linebreaks }}</td>
   </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  {% if user.is_authenticated %}
+  <tr>
+    <td>{% trans "Members" %}:</td>
+    <td>
+    <ul>
+    {% for person in members %}
+      <li><a href="{{ person.get_absolute_url }}">{{ person }}</a></li>
+    {% endfor %}
+    </ul>
+    </td>
+  </tr>
+  {% endif %}
+
 </table>
 
 <p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ dojo.last_modified }}</small></p>
