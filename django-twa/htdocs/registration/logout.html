@@ -2,5 +2,10 @@
 {% load i18n %}
 
 {% block content %}
-    {% trans "Successfully logged out." %}
+    <table>
+      <tr>
+        <th>{% trans "Logout" %}</th>
+      </tr>
+    </table>
+  <p>{% trans "Successfully logged out." %}</p>
 {% endblock %}
