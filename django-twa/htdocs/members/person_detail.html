@@ -162,6 +162,27 @@
     <td>{% trans "Text" %}:</td>
     <td>{{ person.text|linebreaks }}</td>
   </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Documents" %}:</td>
+    <td>
+    <ul>
+    {% for doc in documents %}
+      <li title="{{ doc.name }}"><a href="">{{ doc.name }}</a></li>
+    {% endfor %}
+    </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
 </table>
 
 <p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ person.last_modified }}</small></p>
