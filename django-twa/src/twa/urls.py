@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.conf import settings
 
 urlpatterns = patterns( '',
     # Admin
@@ -6,11 +7,12 @@ urlpatterns = patterns( '',
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     ( r'^accounts/login/$', 'django.contrib.auth.views.login' ),
     ( r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'template_name': 'registration/logout.html'} ),
-    ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/max/eclipse/workspace/django-twa/htdocs/static'} ),
+ )
 
- )
-urlpatterns += patterns( 'django.views.generic.simple',
- )
+if settings.DEBUG:
+    urlpatterns += patterns( '',
+        ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/max/eclipse/workspace/django-twa/htdocs/static'} ),
+     )
 
 urlpatterns += patterns( 'twa.members.views',
     ( r'^$', 'index' ),

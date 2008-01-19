@@ -68,8 +68,8 @@ class Import:
         for row in csv.DictReader( open( filename ) ):
             dojo = Dojo.objects.get( id = row['dojo_id'] )
             person = Person.objects.get( id = row['person_id'] )
-            dojo.members.add( person )
-            dojo.save()
+            person.dojos.add( dojo )
+            person.save()
 
         filename = os.path.join( os.getcwd(), 'graduierungen.csv' )
         print 'importing...', filename
