@@ -41,7 +41,7 @@ def dojos( request ):
 
 def dojo( request, did = None ):
     ctx = get_context( request )
-    ctx['members'] = Person.objects.filter( dojosX__id = did )
+    ctx['members'] = Person.objects.filter( dojos__id = did )
     return object_detail(
         request,
         queryset = Dojo.objects.all(),
