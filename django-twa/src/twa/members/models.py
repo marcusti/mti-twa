@@ -29,8 +29,27 @@ RANK = [
     ( 10, _( '5. Kyu' ) ),
 ]
 
+class Document( models.Model ):
+    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )
+    file = models.FileField( _( 'File' ), upload_to = 'docs/', core = True )
+    person = models.ForeignKey( 'Person', verbose_name = _( 'Member' ), blank = True, null = True, edit_inline = models.TABULAR, num_in_admin = 3 )
+
+    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, core = True )
+    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+
+    def __unicode__( self ):
+        return self.name
+
+    class Meta:
+        ordering = [ 'name' ]
+        verbose_name = _( 'Document' )
+        verbose_name_plural = _( 'Documents' )
+
+    class Admin:
+        ordering = [ 'name' ]
+
 class Country( models.Model ):
-    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )
+    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
