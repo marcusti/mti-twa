@@ -1,10 +1,6 @@
 #-*- coding: utf-8 -*-
 # Django settings for twa project.
 
-#DEBUG = True
-DEBUG = False
-TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
  )
