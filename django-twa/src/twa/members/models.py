@@ -76,6 +76,7 @@ class Person( models.Model ):
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
     is_licensed = models.BooleanField( _( 'Licensed' ), default = False )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
+    dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), filter_interface=models.VERTICAL, blank = True, null = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
@@ -174,7 +175,6 @@ class Dojo( models.Model ):
     website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
 
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
-    members = models.ManyToManyField( Person, verbose_name = _( 'Dojo Members' ), filter_interface=models.VERTICAL, related_name = 'dojo_member', blank = True, null = True )
     leader = models.ForeignKey( Person, verbose_name = _( 'Dojo Leader' ), related_name = 'dojo_leader', blank = True, null = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
@@ -189,7 +189,7 @@ class Dojo( models.Model ):
         return self.name
 
     class Meta:
-        ordering = [ 'city', 'name' ]
+        ordering = [ 'country', 'city', 'name' ]
         verbose_name = _( 'Dojo' )
         verbose_name_plural = _( 'Dojos' )
 
@@ -218,7 +218,7 @@ class Graduation( models.Model ):
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
 
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
+    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, core = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     def __unicode__( self ):

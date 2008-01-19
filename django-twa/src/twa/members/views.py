@@ -41,7 +41,7 @@ def dojos( request ):
 
 def dojo( request, did = None ):
     ctx = get_context( request )
-    ctx['members'] = Person.objects.filter( dojo_member__id = did )
+    ctx['members'] = Person.objects.filter( dojosX__id = did )
     return object_detail(
         request,
         queryset = Dojo.objects.all(),
@@ -62,7 +62,7 @@ def members( request ):
 @login_required
 def member( request, mid = None ):
     ctx = get_context( request )
-    ctx['dojos'] = Dojo.objects.filter( members__id = mid )
+    ctx['dojos'] = Dojo.objects.filter( person__id = mid )
     ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     return object_detail(
         request,
