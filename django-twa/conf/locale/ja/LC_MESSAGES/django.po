@@ -22,11 +22,11 @@ msgstr ""
 
 #: htdocs/base.html:25
 msgid "Welcome"
-msgstr ""
+msgstr "ようこそ"
 
 #: htdocs/base.html:26
 msgid "Home"
-msgstr ""
+msgstr "ホーム"
 
 #: htdocs/base.html:27 src/twa/members/models.py:194
 msgid "Dojos"
