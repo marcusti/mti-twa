@@ -31,9 +31,9 @@ RANK = [
 ]
 
 class Country( models.Model ):
-    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
-    name_de = models.CharField( _( 'German Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    name_ja = models.CharField( _( 'Japanese Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    name = models.CharField( _( 'Name (en)' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
+    name_de = models.CharField( _( 'Name (de)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    name_ja = models.CharField( _( 'Name (ja)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )

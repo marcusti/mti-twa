@@ -1,21 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-20 16:55+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-
 #: htdocs/404.html:10
 msgid "The site you requested could not be found."
 msgstr ""
@@ -24,7 +6,7 @@ msgstr ""
 msgid "Server Error. Please try again later."
 msgstr ""
 
-#: htdocs/base.html:13 htdocs/base.html.py:31
+#: htdocs/base.html:13 htdocs/base.html.py:37
 #: htdocs/members/dojo_detail.html:107
 msgid "Members"
 msgstr ""
@@ -33,24 +15,24 @@ msgstr ""
 msgid "Welcome"
 msgstr "ようこそ"
 
-#: htdocs/base.html:28
+#: htdocs/base.html:34
 msgid "Home"
 msgstr "ホーム"
 
-#: htdocs/base.html:29 src/twa/members/models.py:87
+#: htdocs/base.html:35 src/twa/members/models.py:87
 #: src/twa/members/models.py:209
 msgid "Dojos"
 msgstr ""
 
-#: htdocs/base.html:32
+#: htdocs/base.html:38
 msgid "Admin"
 msgstr ""
 
-#: htdocs/base.html:33 htdocs/registration/logout.html:7
+#: htdocs/base.html:39 htdocs/registration/logout.html:7
 msgid "Logout"
 msgstr ""
 
-#: htdocs/base.html:35 htdocs/registration/login.html:18
+#: htdocs/base.html:41 htdocs/registration/login.html:18
 #: htdocs/registration/login.html.py:33
 msgid "Login"
 msgstr ""
@@ -61,8 +43,8 @@ msgid "Dojo"
 msgstr ""
 
 #: htdocs/members/dojo_detail.html:16 htdocs/members/dojo_list.html:9
-#: htdocs/members/person_detail.html:18 src/twa/members/models.py:34
-#: src/twa/members/models.py:176 src/twa/members/models.py:255
+#: htdocs/members/person_detail.html:18 src/twa/members/models.py:176
+#: src/twa/members/models.py:255
 msgid "Name"
 msgstr ""
 
@@ -293,12 +275,16 @@ msgstr ""
 msgid "5. Kyu"
 msgstr ""
 
+#: src/twa/members/models.py:34
+msgid "Name (en)"
+msgstr ""
+
 #: src/twa/members/models.py:35
-msgid "German Name"
+msgid "Name (de)"
 msgstr ""
 
 #: src/twa/members/models.py:36
-msgid "Japanese Name"
+msgid "Name (ja)"
 msgstr ""
 
 #: src/twa/members/models.py:38 src/twa/members/models.py:89
