@@ -1,8 +1,9 @@
 #-*- coding: utf-8 -*-
 
+from datetime import date, datetime
 from django.db import models
+from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
-from datetime import date
 
 DEFAULT_MAX_LENGTH = 200
 
@@ -29,30 +30,16 @@ RANK = [
     ( 10, _( '5. Kyu' ) ),
 ]
 
-class Document( models.Model ):
-    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )
-    file = models.FileField( _( 'File' ), upload_to = 'docs/', core = True )
-    person = models.ForeignKey( 'Person', verbose_name = _( 'Member' ), blank = True, null = True, edit_inline = models.TABULAR, num_in_admin = 3 )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, core = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
-
-    def __unicode__( self ):
-        return self.name
-
-    class Meta:
-        ordering = [ 'name' ]
-        verbose_name = _( 'Document' )
-        verbose_name_plural = _( 'Documents' )
-
-    class Admin:
-        ordering = [ 'name' ]
-
 class Country( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
+    name_de = models.CharField( _( 'German Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    name_ja = models.CharField( _( 'Japanese Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+
+    def get_name( self, language = None ):
+        return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
 
     def __unicode__( self ):
         return self.name
@@ -64,6 +51,8 @@ class Country( models.Model ):
 
     class Admin:
         ordering = [ 'name' ]
+        list_display = ( 'name', 'name_de', 'name_ja' )
+        list_display_links = ( 'name', 'name_de', 'name_ja' )
 
 class PersonManager( models.Manager ):
     def get_query_set( self ):
@@ -244,7 +233,7 @@ class Graduation( models.Model ):
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
 
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, core = True )
+    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     def __unicode__( self ):
@@ -261,3 +250,24 @@ class Graduation( models.Model ):
         list_display_links = ( 'date', 'rank', )
         list_filter = ( 'is_nomination', 'rank', 'person' )
         #search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
+
+class Document( models.Model ):
+    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )
+    file = models.FileField( _( 'File' ), upload_to = 'docs/', core = True )
+    person = models.ForeignKey( Person, verbose_name = _( 'Person' ), blank = True, null = True, edit_inline = models.TABULAR, num_in_admin = 3 )
+
+    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
+    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+
+    def __unicode__( self ):
+        return self.name
+
+    class Meta:
+        ordering = [ 'name' ]
+        verbose_name = _( 'Document' )
+        verbose_name_plural = _( 'Documents' )
+
+    class Admin:
+        ordering = [ 'person_id', 'name' ]
+        list_display = ( 'id', 'name', 'file', 'person' )
+        list_display_links = ( 'name', 'file', )
