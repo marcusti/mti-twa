@@ -11,7 +11,7 @@
   </tr>
 {% for dojo in object_list %}
   <tr class="{% cycle 'row1' 'row2' %}">
-    <td>{{ dojo.country }}</td>
+    <td>{{ dojo.country.get_name }}</td>
     <td>{{ dojo.city }}</td>
     <td><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></td>
     <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
