@@ -2,6 +2,15 @@
 {% load i18n %}
 
 {% block content %}
+{% comment %}
+  <form id="search" action="/dojos/search/" method="get">
+   <fieldset>
+     {% trans "Search" %}: <input type="text" name="s" id="s" value="{{ search }}" />
+     <input type="submit" value="Los!" />
+   </fieldset>
+  </form>
+{% endcomment %}
+
 <table>
   <tr>
     <th>{% trans "Country" %}</th>
