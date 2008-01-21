@@ -17,6 +17,7 @@ if settings.DEBUG:
 urlpatterns += patterns( 'twa.members.views',
     ( r'^$', 'index' ),
     ( r'^dojos/', 'dojos' ),
+    ( r'^dojos/search/', 'dojos_search' ),
     ( r'^dojo/(\d+)/', 'dojo' ),
     ( r'^members/', 'members' ),
     ( r'^member/(\d+)/', 'member' ),

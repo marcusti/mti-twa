@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
@@ -36,6 +37,17 @@ def dojos( request ):
     return object_list(
         request,
         queryset = Dojo.objects.all(),
+        extra_context = ctx,
+    )
+
+def dojos_search( request ):
+    s = request['s']
+    s = 'berlin'
+    ctx = get_context( request )
+    ctx['search'] = s
+    return object_list(
+        request,
+        queryset = Dojo.objects.filter( Q( name__icontains=s ) | Q( shortname__icontains=s ) | Q( text__icontains=s ) | Q( street__icontains=s ) | Q( zip__icontains=s ) | Q( city__icontains=s ) ),
         extra_context = ctx,
     )
 
