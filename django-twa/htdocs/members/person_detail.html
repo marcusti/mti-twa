@@ -27,7 +27,7 @@
            alt="[{{ person.firstname }} {{ person.lastname }}]"
            title="{{ person.firstname }} {{ person.lastname }}" />
     {% else %}
-      [{% trans "No picture available." %}]
+      {% trans "No picture available." %}
     {% endif %}
     </td>
   </tr>
@@ -173,7 +173,9 @@
     <td>
     <ul>
     {% for doc in documents %}
-      <li title="{{ doc.name }}"><a href="{{ doc.get_file_url }}">{{ doc.name }}</a></li>
+      <li title="{{ doc.file }}">
+        <a href="{{ doc.get_file_url }}">{{ doc.name }}</a> <span class="meta">({{ doc.file }})</span>
+      </li>
     {% endfor %}
     </ul>
     </td>
