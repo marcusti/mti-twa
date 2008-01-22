@@ -11,10 +11,17 @@
  <link rel="stylesheet" type="text/css" href="/static/css/twa.css">
  <link rel="shortcut icon" href="/static/images/twa-icon.jpg" type="image/ico" >
  <title>TWA {% trans "Members" %}</title>
+ <script src="/static/js/jquery.js"></script>
  <script type="text/javascript">
   function Absenden() {
     document.getElementById("setlang").submit();
   }
+
+  $(document).ready(function(){
+    $("#search-title").click(function () {
+      $("#search").slideToggle("slow");
+    });
+  });
  </script>
 </head>
 
@@ -49,6 +56,7 @@
       </select>
     </form>
     <br/>
+
   </div>
 
   <div id="content">

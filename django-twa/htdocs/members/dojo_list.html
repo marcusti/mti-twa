@@ -2,17 +2,17 @@
 {% load i18n %}
 
 {% block content %}
-{% comment %}
-  <form id="search" action="/dojos/search/" method="get">
-   <fieldset>
-     {% trans "Search" %}: <input type="text" name="s" id="s" value="{{ search }}" />
-     <input type="submit" value="Los!" />
-   </fieldset>
-  </form>
-{% endcomment %}
+
+<form id="search" name="SearchForm" action="/dojos/search/" method="get">
+  <input type="submit" id="go" value="{% trans "Search" %}!" />
+  {% trans "ID" %}: <input type="text" name="sid" id="sid" name="sid" value="{{ searchid }}" size="4" />
+  {% trans "Text" %}: <input type="text" name="s" id="s" name="s" value="{{ search }}" />
+<!--  <a href="javascript:document.SearchForm.reset()" title="{% trans "Clear input fields" %}">x</a> -->
+</form>
 
 <table>
   <tr>
+    <th>{% trans "ID" %}</th>
     <th>{% trans "Country" %}</th>
     <th>{% trans "City" %}</th>
     <th>{% trans "Name" %}</th>
@@ -20,6 +20,7 @@
   </tr>
 {% for dojo in object_list %}
   <tr class="{% cycle 'row1' 'row2' %}">
+    <td>{{ dojo.id }}</td>
     <td>{{ dojo.country.get_name }}</td>
     <td>{{ dojo.city }}</td>
     <td><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></td>

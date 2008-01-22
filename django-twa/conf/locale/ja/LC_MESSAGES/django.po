@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-20 22:15+0100\n"
+"POT-Creation-Date: 2008-01-22 21:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,33 +24,33 @@ msgstr ""
 msgid "Server Error. Please try again later."
 msgstr ""
 
-#: htdocs/base.html:13 htdocs/base.html.py:37
+#: htdocs/base.html:13 htdocs/base.html.py:44
 #: htdocs/members/dojo_detail.html:107
 msgid "Members"
 msgstr ""
 
-#: htdocs/base.html:27
+#: htdocs/base.html:34
 msgid "Welcome"
 msgstr ""
 
-#: htdocs/base.html:34
+#: htdocs/base.html:41
 msgid "Home"
 msgstr ""
 
-#: htdocs/base.html:35 src/twa/members/models.py:87
+#: htdocs/base.html:42 src/twa/members/models.py:87
 #: src/twa/members/models.py:209
 msgid "Dojos"
 msgstr ""
 
-#: htdocs/base.html:38
+#: htdocs/base.html:45
 msgid "Admin"
 msgstr ""
 
-#: htdocs/base.html:39 htdocs/registration/logout.html:7
+#: htdocs/base.html:46 htdocs/registration/logout.html:7
 msgid "Logout"
 msgstr ""
 
-#: htdocs/base.html:41 htdocs/registration/login.html:18
+#: htdocs/base.html:48 htdocs/registration/login.html:18
 #: htdocs/registration/login.html.py:33
 msgid "Login"
 msgstr ""
@@ -60,7 +60,7 @@ msgstr ""
 msgid "Dojo"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:16 htdocs/members/dojo_list.html:9
+#: htdocs/members/dojo_detail.html:16 htdocs/members/dojo_list.html:15
 #: htdocs/members/person_detail.html:18 src/twa/members/models.py:176
 #: src/twa/members/models.py:255
 msgid "Name"
@@ -88,13 +88,13 @@ msgstr ""
 msgid "Zip"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:56 htdocs/members/dojo_list.html:8
+#: htdocs/members/dojo_detail.html:56 htdocs/members/dojo_list.html:14
 #: htdocs/members/person_detail.html:66 src/twa/members/models.py:71
 #: src/twa/members/models.py:182
 msgid "City"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:60 htdocs/members/dojo_list.html:7
+#: htdocs/members/dojo_detail.html:60 htdocs/members/dojo_list.html:13
 #: htdocs/members/person_detail.html:70 src/twa/members/models.py:49
 #: src/twa/members/models.py:72 src/twa/members/models.py:184
 msgid "Country"
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:86 htdocs/members/dojo_list.html:10
+#: htdocs/members/dojo_detail.html:86 htdocs/members/dojo_list.html:16
 #: htdocs/members/person_detail.html:96 src/twa/members/models.py:78
 #: src/twa/members/models.py:190
 msgid "Website"
@@ -132,11 +132,15 @@ msgstr ""
 msgid "Text"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:124 htdocs/members/person_detail.html:188
+#: htdocs/members/dojo_detail.html:124 htdocs/members/person_detail.html:190
 #: src/twa/members/models.py:39 src/twa/members/models.py:90
 #: src/twa/members/models.py:196 src/twa/members/models.py:237
 #: src/twa/members/models.py:260
 msgid "Last Modified"
+msgstr ""
+
+#: htdocs/members/dojo_list.html:7
+msgid "Search"
 msgstr ""
 
 #: htdocs/members/person_detail.html:14 src/twa/members/models.py:158
