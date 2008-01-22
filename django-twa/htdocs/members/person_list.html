@@ -2,8 +2,15 @@
 {% load i18n %}
 
 {% block content %}
+<form id="search" action="/members/search/" method="get">
+  <input type="submit" id="go" value="{% trans "Search" %}!" />
+  {% trans "ID" %}: <input type="text" name="sid" id="s" value="{{ searchid }}" size="4" />
+  {% trans "Text" %}: <input type="text" name="s" id="s" value="{{ search }}" />
+</form>
+
 <table>
   <tr>
+    <th>{% trans "ID" %}</th>
     <th>{% trans "First Name" %}</th>
     <th>{% trans "Last Name" %}</th>
     <th>{% trans "Age" %}</th>
@@ -13,6 +20,7 @@
   </tr>
 {% for person in object_list %}
   <tr class="{% cycle 'row1' 'row2' %}">
+    <td>{{ person.id }}</td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}</a></td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.lastname }}</a></td>
     <td>{{ person.age }}</td>

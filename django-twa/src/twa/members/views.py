@@ -42,12 +42,24 @@ def dojos( request ):
 
 def dojos_search( request ):
     s = request['s']
-    s = 'berlin'
+    sid = request['sid']
     ctx = get_context( request )
     ctx['search'] = s
+    ctx['searchid'] = sid
+
+    if sid:
+        qs = Dojo.objects.filter( Q( id__icontains = sid ) )
+    else:
+        qs = Dojo.objects.filter( Q( name__icontains=s ) |
+                    Q( shortname__icontains=s ) |
+                    Q( text__icontains=s ) |
+                    Q( street__icontains=s ) |
+                    Q( zip__icontains=s ) |
+                    Q( city__icontains=s ) )
+
     return object_list(
         request,
-        queryset = Dojo.objects.filter( Q( name__icontains=s ) | Q( shortname__icontains=s ) | Q( text__icontains=s ) | Q( street__icontains=s ) | Q( zip__icontains=s ) | Q( city__icontains=s ) ),
+        queryset = qs,
         extra_context = ctx,
     )
 
@@ -68,6 +80,31 @@ def members( request ):
     return object_list(
         request,
         queryset = Person.actives.all(),
+        extra_context = ctx,
+    )
+
+@login_required
+def members_search( request ):
+    s = request['s']
+    sid = request['sid']
+    ctx = get_context( request )
+    ctx['search'] = s
+    ctx['searchid'] = sid
+
+    if sid:
+        qs = Person.actives.filter( Q( id__icontains = sid ) )
+    else:
+        qs = Person.actives.filter( Q( firstname__icontains=s ) |
+                    Q( lastname__icontains=s ) |
+                    Q( text__icontains=s ) |
+                    Q( email__icontains=s ) |
+                    Q( street__icontains=s ) |
+                    Q( zip__icontains=s ) |
+                    Q( city__icontains=s ) )
+
+    return object_list(
+        request,
+        queryset = qs,
         extra_context = ctx,
     )
 
