@@ -5,6 +5,7 @@ body {
 }
 
 a {
+  cursor: pointer;
   color: #0066CC;
   text-decoration: none;
   margin: 0; padding: 0;
@@ -59,8 +60,13 @@ tr {
 form {
 }
 
-#search, #search input {
+#searchform {
   text-align: right;
+  font-size: 90%;
+  margin: 0; padding: 0.2em;
+}
+
+#searchform input {
   font-size: 90%;
   margin: 0; padding: 0.2em;
 }

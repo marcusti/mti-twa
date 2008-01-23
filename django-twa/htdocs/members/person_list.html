@@ -2,10 +2,8 @@
 {% load i18n %}
 
 {% block content %}
-<form id="search" action="/members/search/" method="get">
-  <input type="submit" id="go" value="{% trans "Search" %}!" />
-  {% trans "ID" %}: <input type="text" name="sid" id="s" value="{{ searchid }}" size="4" />
-  {% trans "Text" %}: <input type="text" name="s" id="s" value="{{ search }}" />
+<form id="searchform" action="/members/search/" method="get">
+{% include "members/search.html" %}
 </form>
 
 <table>
