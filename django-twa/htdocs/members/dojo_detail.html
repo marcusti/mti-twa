@@ -58,7 +58,7 @@
   </tr>
   <tr>
     <td>{% trans "Country" %}:</td>
-    <td>{{ dojo.country|default:"" }}</td>
+    <td>{{ dojo.country.get_name|default:"" }}</td>
   </tr>
 
   <tr>

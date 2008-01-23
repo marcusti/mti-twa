@@ -68,7 +68,7 @@
   </tr>
   <tr>
     <td>{% trans "Country" %}:</td>
-    <td>{{ person.country|default:"" }}</td>
+    <td>{{ person.country.get_name|default:"" }}</td>
   </tr>
 
   <tr>
