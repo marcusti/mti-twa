@@ -10,18 +10,30 @@
  <meta name="description" content="Mitgliederverwaltung des Tendo World Aikido Deutschland" />
  <link rel="stylesheet" type="text/css" href="/static/css/twa.css">
  <link rel="shortcut icon" href="/static/images/twa-icon.jpg" type="image/ico" >
+
  <title>TWA {% trans "Members" %}</title>
+
  <script src="/static/js/jquery.js"></script>
+
  <script type="text/javascript">
+ <!--
+
   function Absenden() {
     document.getElementById("setlang").submit();
   }
 
   $(document).ready(function(){
-    $("#search-title").click(function () {
-      $("#search").slideToggle("slow");
+
+    $(":text").focus(function() {
+      $(this).select();
     });
+
+    $("#search-clear").click(function() {
+      $(":text").val("");
+    });
+
   });
+  -->
  </script>
 </head>
 

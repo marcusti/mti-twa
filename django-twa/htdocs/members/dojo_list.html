@@ -3,11 +3,8 @@
 
 {% block content %}
 
-<form id="search" name="SearchForm" action="/dojos/search/" method="get">
-  <input type="submit" id="go" value="{% trans "Search" %}!" />
-  {% trans "ID" %}: <input type="text" name="sid" id="sid" name="sid" value="{{ searchid }}" size="4" />
-  {% trans "Text" %}: <input type="text" name="s" id="s" name="s" value="{{ search }}" />
-<!--  <a href="javascript:document.SearchForm.reset()" title="{% trans "Clear input fields" %}">x</a> -->
+<form id="searchform" action="/dojos/search/" method="get">
+{% include "members/search.html" %}
 </form>
 
 <table>
