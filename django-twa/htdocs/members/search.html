@@ -1,7 +1,7 @@
-  {% load i18n %}
+{% load i18n %}
 
-  {% trans "ID" %}: <input type="text" id="sid" name="sid" value="{{ searchid }}" size="4" />
-  {% trans "Text" %}: <input type="text" id="s" name="s" value="{{ search }}" />
+{% trans "ID" %}: <input type="text" id="sid" name="sid" value="{{ searchid }}" size="4" />
+{% trans "Text" %}: <input type="text" id="s" name="s" value="{{ search }}" />
 
-  <input type="button" id="search-clear" value="{% trans "Clear" %}" />
-  <input type="submit" id="search-go" value="{% trans "Search" %}!" />
+<input type="button" id="search-clear" value="{% trans "Clear" %}" />
+<input type="submit" id="search-go" value="{% trans "Search" %}!" />
