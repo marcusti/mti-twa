@@ -66,6 +66,22 @@ form {
   margin: 0; padding: 0.2em;
 }
 
+.pagination {
+  text-align: left;
+  font-size: 90%;
+  margin: 0; padding: 0.2em;
+}
+
+.bottom {
+  vertical-align: bottom;
+}
+
+.current_page {
+  vertical-align: bottom;
+  font-size: 110%;
+  font-weight: bold;
+}
+
 #searchform input {
   font-size: 90%;
   margin: 0; padding: 0.2em;

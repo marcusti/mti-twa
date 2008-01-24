@@ -2,11 +2,19 @@
 {% load i18n %}
 
 {% block content %}
-<form id="searchform" action="/members/search/" method="get">
-{% include "members/search.html" %}
-</form>
 
 <table>
+  <tr>
+    <td colspan="5" class="bottom">
+      {% include "pagination.html" %} <span class="meta">({{ hits }} {% trans "Members" %})</span>
+    </td>
+
+    <td colspan="2" class="bottom">
+      <form id="searchform" action="/members/search/" method="get">
+        {% include "members/search.html" %}
+      </form>
+    </td>
+  </tr>
   <tr>
     <th>{% trans "ID" %}</th>
     <th>{% trans "First Name" %}</th>
@@ -36,5 +44,10 @@
         {% endif %}</td>
   </tr>
 {% endfor %}
+  <tr>
+    <td colspan="7" class="bottom">
+      {% include "pagination.html" %} <span class="meta">({{ hits }} {% trans "Members" %})</span>
+    </td>
+  </tr>
 </table>
 {% endblock %}

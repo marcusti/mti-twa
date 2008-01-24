@@ -37,6 +37,7 @@ def dojos( request ):
     return object_list(
         request,
         queryset = Dojo.objects.all(),
+        paginate_by = 50,
         extra_context = ctx,
     )
 
@@ -80,11 +81,12 @@ def members( request ):
     return object_list(
         request,
         queryset = Person.actives.all(),
+        paginate_by = 50,
         extra_context = ctx,
     )
 
 @login_required
-def members_search( request ):
+def members_search( request, p=None ):
     s = request['s']
     sid = request['sid']
     ctx = get_context( request )
