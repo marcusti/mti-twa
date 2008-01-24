@@ -33,10 +33,12 @@ def index( request ):
     )
 
 def dojos( request ):
+    qs = Dojo.objects.all()
     ctx = get_context( request )
+    ctx['counter'] = qs.count()
     return object_list(
         request,
-        queryset = Dojo.objects.all(),
+        queryset = qs,
         paginate_by = 50,
         extra_context = ctx,
     )
@@ -58,6 +60,8 @@ def dojos_search( request ):
                     Q( zip__icontains=s ) |
                     Q( city__icontains=s ) )
 
+    ctx['counter'] = qs.count()
+
     return object_list(
         request,
         queryset = qs,
@@ -77,10 +81,12 @@ def dojo( request, did = None ):
 
 @login_required
 def members( request ):
+    qs = Person.actives.all()
     ctx = get_context( request )
+    ctx['counter'] = qs.count()
     return object_list(
         request,
-        queryset = Person.actives.all(),
+        queryset = qs,
         paginate_by = 50,
         extra_context = ctx,
     )
@@ -94,7 +100,7 @@ def members_search( request, p=None ):
     ctx['searchid'] = sid
 
     if sid:
-        qs = Person.actives.filter( Q( id__icontains = sid ) )
+        qs = Person.actives.filter( Q( id__exact = sid ) )
     else:
         qs = Person.actives.filter( Q( firstname__icontains=s ) |
                     Q( lastname__icontains=s ) |
@@ -103,6 +109,8 @@ def members_search( request, p=None ):
                     Q( street__icontains=s ) |
                     Q( zip__icontains=s ) |
                     Q( city__icontains=s ) )
+
+    ctx['counter'] = qs.count()
 
     return object_list(
         request,
