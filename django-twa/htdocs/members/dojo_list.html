@@ -3,11 +3,18 @@
 
 {% block content %}
 
-<form id="searchform" action="/dojos/search/" method="get">
-{% include "members/search.html" %}
-</form>
-
 <table>
+  <tr>
+    <td colspan="4" class="bottom">
+      <span class="meta">({{ hits }} {% trans "Dojos" %})</span> {% include "pagination.html" %}
+    </td>
+
+    <td colspan="1" class="bottom">
+      <form id="searchform" action="/dojos/search/" method="get">
+        {% include "members/search.html" %}
+      </form>
+    </td>
+  </tr>
   <tr>
     <th>{% trans "ID" %}</th>
     <th>{% trans "Country" %}</th>

@@ -1,0 +1,13 @@
+{% load i18n %}
+{% if is_paginated %}
+  {% trans "Page" %} {{ url }}
+
+  {% for p in page_range %}
+    {% ifequal p page %}
+      <span class="current_page">{{ p }}</span>
+    {% else %}
+      <a href="?page={{ p }}">{{ p }}</a>
+    {% endifequal %}
+  {% endfor %}
+
+{% endif %}
