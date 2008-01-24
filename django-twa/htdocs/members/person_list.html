@@ -5,16 +5,19 @@
 
 <table>
   <tr>
-    <td colspan="5" class="white bottom">
+    <td class="white bottom">
       {% include "pagination.html" %} {% include "members/person_counter.html" %}
     </td>
 
-    <td colspan="2" class="white bottom">
+    <td class="white bottom">
       <form id="searchform" action="/members/search/" method="get">
         {% include "members/search.html" %}
       </form>
     </td>
   </tr>
+</table>
+
+<table>
   <tr>
     <th>{% trans "ID" %}</th>
     <th>{% trans "First Name" %}</th>
@@ -44,10 +47,7 @@
         {% endif %}</td>
   </tr>
 {% endfor %}
-  <tr>
-    <td colspan="7" class="white bottom">
-      {% include "pagination.html" %} {% include "members/person_counter.html" %}
-    </td>
-  </tr>
 </table>
+
+<p>{% include "pagination.html" %} {% include "members/person_counter.html" %}</p>
 {% endblock %}
