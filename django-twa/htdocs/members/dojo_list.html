@@ -5,16 +5,19 @@
 
 <table>
   <tr>
-    <td colspan="4" class="white bottom">
+    <td class="white bottom">
       {% include "pagination.html" %} {% include "members/dojo_counter.html" %}
     </td>
 
-    <td colspan="1" class="white bottom">
+    <td class="white bottom">
       <form id="searchform" action="/dojos/search/" method="get">
         {% include "members/search.html" %}
       </form>
     </td>
   </tr>
+</table>
+
+<table>
   <tr>
     <th>{% trans "ID" %}</th>
     <th>{% trans "Country" %}</th>
@@ -31,10 +34,7 @@
     <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
   </tr>
 {% endfor %}
-  <tr>
-    <td colspan="6" class="white bottom">
-      {% include "pagination.html" %} {% include "members/dojo_counter.html" %}
-    </td>
-  </tr>
 </table>
+
+<p>{% include "pagination.html" %} {% include "members/dojo_counter.html" %}</p>
 {% endblock %}
