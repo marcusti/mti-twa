@@ -5,11 +5,11 @@
 
 <table>
   <tr>
-    <td colspan="5" class="bottom">
-      {% include "pagination.html" %} <span class="meta">({{ hits }} {% trans "Members" %})</span>
+    <td colspan="5" class="white bottom">
+      {% include "pagination.html" %} {% include "members/person_counter.html" %}
     </td>
 
-    <td colspan="2" class="bottom">
+    <td colspan="2" class="white bottom">
       <form id="searchform" action="/members/search/" method="get">
         {% include "members/search.html" %}
       </form>
@@ -45,8 +45,8 @@
   </tr>
 {% endfor %}
   <tr>
-    <td colspan="7" class="bottom">
-      {% include "pagination.html" %} <span class="meta">({{ hits }} {% trans "Members" %})</span>
+    <td colspan="7" class="white bottom">
+      {% include "pagination.html" %} {% include "members/person_counter.html" %}
     </td>
   </tr>
 </table>
