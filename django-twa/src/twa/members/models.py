@@ -30,6 +30,31 @@ RANK = [
     ( 10, _( '5. Kyu' ) ),
 ]
 
+class Translation( models.Model ):
+    name = models.CharField( 'Name', max_length = DEFAULT_MAX_LENGTH, unique = True )
+    entry = models.CharField( 'Entry (en)', max_length = DEFAULT_MAX_LENGTH )
+    entry_de = models.CharField( 'Entry (de)', max_length = DEFAULT_MAX_LENGTH, blank = True )
+    entry_ja = models.CharField( 'Entry (ja)', max_length = DEFAULT_MAX_LENGTH, blank = True )
+
+    created = models.DateTimeField( 'Created', auto_now_add = True )
+    last_modified = models.DateTimeField( 'Last Modified', auto_now = True )
+
+    def get_entry( self, language = None ):
+        return getattr( self, "entry_%s" % ( language or translation.get_language()[:2] ), "" ) or self.entry
+
+    def __unicode__( self ):
+        return self.get_entry()
+
+    class Meta:
+        ordering = [ 'entry' ]
+        verbose_name = 'Translation'
+        verbose_name_plural = 'Translations'
+
+    class Admin:
+        ordering = [ 'entry' ]
+        list_display = ( 'name', 'entry', 'entry_de', 'entry_ja' )
+        list_display_links = ( 'name', 'entry', 'entry_de', 'entry_ja' )
+
 class Country( models.Model ):
     name = models.CharField( _( 'Name (en)' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
     name_de = models.CharField( _( 'Name (de)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
