@@ -11,7 +11,7 @@ a {
   margin: 0; padding: 0;
 }
 
-a:hover {
+a:hover, a:hover img {
   color: white;
   background-color: #0066cc;
 }
@@ -79,7 +79,6 @@ form {
 .current_page {
   vertical-align: bottom;
   font-size: 110%;
-  font-weight: bold;
 }
 
 #searchform input {
@@ -105,5 +104,30 @@ form {
 
 .white {
   background-color: white;
+}
+
+img, img.left, img.center, img.right, .photo {
+  padding: 1px;
+  border: 1px solid #a0a0a0;
+}
+
+img.left {
+  float: left;
+  margin: 0 12px 5px 0;
+}
+
+img.center {
+  display: block;
+  margin: 0 auto 5px auto;
+}
+
+img.right {
+  float: right;
+  margin: 0 0 0 12px;
+}
+
+img.logo {
+  padding: 1px;
+  border: none;
 }
 
