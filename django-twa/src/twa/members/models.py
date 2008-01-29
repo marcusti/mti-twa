@@ -106,8 +106,10 @@ class Person( models.Model ):
     gender = models.CharField( _( 'Gender' ), max_length = 1, choices = GENDER, blank = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
-    is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
-    is_licensed = models.BooleanField( _( 'Licensed' ), default = False )
+    is_twa_membership_requested = models.BooleanField( _( 'TWA Membership Request' ), default = False )
+    is_twa_license_requested = models.BooleanField( _( 'TWA License Request' ), default = False )
+    twa_member_since = models.DateField( _( 'TWA Member Date' ), blank = True, null = True )
+    twa_license_since = models.DateField( _( 'TWA License Date' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), filter_interface=models.VERTICAL, blank = True, null = True )
 
@@ -185,7 +187,7 @@ class Person( models.Model ):
 
     class Admin:
         ordering = [ 'firstname', 'lastname' ]
-        list_display = ( 'id', 'firstname', 'lastname', 'age', 'gender', 'current_rank', 'grade_date', 'is_active', 'is_twa_member', 'is_licensed', 'admin_thumb' )
+        list_display = ( 'id', 'firstname', 'lastname', 'age', 'gender', 'current_rank', 'grade_date', 'is_active', 'admin_thumb' )
         list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
         #list_filter = ( 'current_rank', )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
