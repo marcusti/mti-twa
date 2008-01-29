@@ -144,13 +144,37 @@
     <td>{% trans "Active" %}:</td>
     <td>{{ person.is_active|yesno }}</td>
   </tr>
+
   <tr>
     <td>{% trans "TWA Member" %}:</td>
-    <td>{{ person.is_twa_member|yesno }}</td>
+    <td>
+      {% if person.twa_member_since %}
+        {{ person.twa_member_since }}
+        <span class="meta">( {{ person.twa_member_since|timesince }} )</span>
+      {% else %}
+        {% if person.is_twa_membership_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "Not requested" %}
+        {% endif %}
+      {% endif %}
+    </td>
   </tr>
+
   <tr>
-    <td>{% trans "Licensed" %}:</td>
-    <td>{{ person.is_licensed|yesno }}</td>
+    <td>{% trans "TWA License" %}:</td>
+    <td>
+      {% if person.twa_license_since %}
+        {{ person.twa_license_since }}
+        <span class="meta">( {{ person.twa_license_since|timesince }} )</span>
+      {% else %}
+        {% if person.is_twa_license_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "Not requested" %}
+        {% endif %}
+      {% endif %}
+    </td>
   </tr>
 
   <tr>
