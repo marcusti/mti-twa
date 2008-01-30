@@ -1,17 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# FIRST AUTHOR «EMAIL@ADDRESS», YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 23:59+0100\n"
+"POT-Creation-Date: 2008-01-30 23:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: FULL NAME «EMAIL@ADDRESS»\n"
+"Language-Team: LANGUAGE «LL@li.org»\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,33 +27,33 @@ msgstr ""
 #: htdocs/base.html:14 htdocs/base.html.py:57
 #: htdocs/members/dojo_detail.html:107
 msgid "Members"
-msgstr ""
+msgstr "メンバー"
 
 #: htdocs/base.html:47
 msgid "Welcome"
-msgstr ""
+msgstr "ようこそ"
 
 #: htdocs/base.html:54
 msgid "Home"
-msgstr ""
+msgstr "ホーム"
 
 #: htdocs/base.html:55 htdocs/members/dojo_counter.html:8
 #: src/twa/members/models.py:114 src/twa/members/models.py:236
 msgid "Dojos"
-msgstr ""
+msgstr "道場"
 
 #: htdocs/base.html:58
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: htdocs/base.html:59 htdocs/registration/logout.html:7
 msgid "Logout"
-msgstr ""
+msgstr "ログアウト"
 
 #: htdocs/base.html:61 htdocs/registration/login.html:18
 #: htdocs/registration/login.html.py:33
 msgid "Login"
-msgstr ""
+msgstr "ログイン"
 
 #: htdocs/pagination.html:4
 msgid "Page"
@@ -62,37 +62,37 @@ msgstr ""
 #: htdocs/members/dojo_counter.html:6 htdocs/members/dojo_detail.html:12
 #: htdocs/members/person_detail.html:46 src/twa/members/models.py:235
 msgid "Dojo"
-msgstr ""
+msgstr "道場"
 
 #: htdocs/members/dojo_detail.html:16 htdocs/members/dojo_list.html:25
 #: htdocs/members/person_detail.html:18 src/twa/members/models.py:203
 #: src/twa/members/models.py:282
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: htdocs/members/dojo_detail.html:20 src/twa/members/models.py:204
 msgid "Short Name"
-msgstr ""
+msgstr "愛称"
 
 #: htdocs/members/dojo_detail.html:24 htdocs/members/dojo_list.html:22
 #: htdocs/members/person_detail.html:36 htdocs/members/person_list.html:22
 #: htdocs/members/search.html:3
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: htdocs/members/dojo_detail.html:34 src/twa/members/models.py:220
 msgid "Dojo Leader"
-msgstr ""
+msgstr "道場責任者"
 
 #: htdocs/members/dojo_detail.html:52 htdocs/members/person_detail.html:62
 #: src/twa/members/models.py:94 src/twa/members/models.py:207
 msgid "Street"
-msgstr ""
+msgstr "住所"
 
 #: htdocs/members/dojo_detail.html:56 htdocs/members/person_detail.html:66
 #: src/twa/members/models.py:95 src/twa/members/models.py:208
 msgid "Zip"
-msgstr ""
+msgstr "郵便番号"
 
 #: htdocs/members/dojo_detail.html:56 htdocs/members/dojo_list.html:24
 #: htdocs/members/person_detail.html:66 src/twa/members/models.py:96
@@ -104,89 +104,89 @@ msgstr ""
 #: htdocs/members/person_detail.html:70 src/twa/members/models.py:74
 #: src/twa/members/models.py:97 src/twa/members/models.py:211
 msgid "Country"
-msgstr ""
+msgstr "国"
 
 #: htdocs/members/dojo_detail.html:70 htdocs/members/person_detail.html:80
 #: src/twa/members/models.py:99 src/twa/members/models.py:213
 msgid "Phone"
-msgstr ""
+msgstr "電話"
 
 #: htdocs/members/dojo_detail.html:74 htdocs/members/person_detail.html:84
 #: src/twa/members/models.py:100 src/twa/members/models.py:214
 msgid "Fax"
-msgstr ""
+msgstr "ファックス"
 
 #: htdocs/members/dojo_detail.html:78 htdocs/members/person_detail.html:88
 #: src/twa/members/models.py:101 src/twa/members/models.py:215
 msgid "Mobile"
-msgstr ""
+msgstr "携帯電話"
 
 #: htdocs/members/dojo_detail.html:82 htdocs/members/person_detail.html:92
 #: src/twa/members/models.py:102 src/twa/members/models.py:216
 msgid "Email"
-msgstr ""
+msgstr "メール"
 
 #: htdocs/members/dojo_detail.html:86 htdocs/members/dojo_list.html:26
 #: htdocs/members/person_detail.html:96 src/twa/members/models.py:103
 #: src/twa/members/models.py:217
 msgid "Website"
-msgstr ""
+msgstr "ホームページ"
 
 #: htdocs/members/dojo_detail.html:96 htdocs/members/person_detail.html:186
 #: htdocs/members/search.html:4 src/twa/members/models.py:89
 #: src/twa/members/models.py:205 src/twa/members/models.py:260
 msgid "Text"
-msgstr ""
+msgstr "文書"
 
 #: htdocs/members/dojo_detail.html:124 htdocs/members/person_detail.html:214
 #: src/twa/members/models.py:64 src/twa/members/models.py:117
 #: src/twa/members/models.py:223 src/twa/members/models.py:264
 #: src/twa/members/models.py:287
 msgid "Last Modified"
-msgstr ""
+msgstr "最終変更"
 
 #: htdocs/members/person_counter.html:6 htdocs/members/person_detail.html:14
 #: src/twa/members/models.py:185 src/twa/members/models.py:257
 #: src/twa/members/models.py:284
 msgid "Person"
-msgstr ""
+msgstr "メンバー"
 
 #: htdocs/members/person_counter.html:8 src/twa/members/models.py:186
 msgid "Persons"
-msgstr ""
+msgstr "メンバー"
 
 #: htdocs/members/person_detail.html:30
 msgid "No picture available."
-msgstr ""
+msgstr "写真なし"
 
 #: htdocs/members/person_detail.html:106 src/twa/members/models.py:106
 msgid "Gender"
-msgstr ""
+msgstr "性別"
 
 #: htdocs/members/person_detail.html:110 htdocs/members/person_list.html:25
 #: src/twa/members/models.py:141
 msgid "Age"
-msgstr ""
+msgstr "年齢"
 
 #: htdocs/members/person_detail.html:114 src/twa/members/models.py:105
 msgid "Birth"
-msgstr ""
+msgstr "生年月日"
 
 #: htdocs/members/person_detail.html:118 src/twa/members/models.py:113
 msgid "Aikido"
-msgstr ""
+msgstr "合気道"
 
 #: htdocs/members/person_detail.html:128 src/twa/members/models.py:272
 msgid "Graduations"
-msgstr ""
+msgstr "昇級昇段"
 
 #: htdocs/members/person_detail.html:144 src/twa/members/models.py:108
 msgid "Active"
-msgstr ""
+msgstr "活動しているメンバー"
 
 #: htdocs/members/person_detail.html:149 src/twa/members/models.py:219
 msgid "TWA Member"
-msgstr ""
+msgstr "TWAメンバー"
 
 #: htdocs/members/person_detail.html:156 htdocs/members/person_detail.html:172
 msgid "Requested"
@@ -197,35 +197,36 @@ msgid "Not requested"
 msgstr ""
 
 #: htdocs/members/person_detail.html:165
+#, fuzzy
 msgid "TWA License"
-msgstr ""
+msgstr "指導者認定書"
 
 #: htdocs/members/person_detail.html:196 src/twa/members/models.py:295
 msgid "Documents"
-msgstr ""
+msgstr "書類"
 
 #: htdocs/members/person_list.html:23 src/twa/members/models.py:87
 msgid "First Name"
-msgstr ""
+msgstr "名"
 
 #: htdocs/members/person_list.html:24 src/twa/members/models.py:88
 msgid "Last Name"
-msgstr ""
+msgstr "氏"
 
 #: htdocs/members/person_list.html:26 src/twa/members/models.py:124
 #: src/twa/members/models.py:258
 msgid "Rank"
-msgstr ""
+msgstr "段･級位"
 
 #: htdocs/members/person_list.html:27 src/twa/members/models.py:129
 #: src/twa/members/models.py:259
 msgid "Date"
-msgstr ""
+msgstr "日付け"
 
 #: htdocs/members/person_list.html:28 src/twa/members/models.py:91
 #: src/twa/members/models.py:174
 msgid "Photo"
-msgstr ""
+msgstr "写真"
 
 #: htdocs/members/search.html:6
 msgid "Clear"
@@ -237,99 +238,99 @@ msgstr ""
 
 #: htdocs/registration/login.html:7
 msgid "Wrong username or password."
-msgstr ""
+msgstr "ユーザ名前やパスワードが違いま。"
 
 #: htdocs/registration/login.html:22
 msgid "User"
-msgstr ""
+msgstr "ユーザ"
 
 #: htdocs/registration/login.html:27
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
 #: htdocs/registration/logout.html:10
 msgid "Successfully logged out."
-msgstr ""
+msgstr "ログアウト終了"
 
 #: src/twa/members/models.py:11
 msgid "male"
-msgstr ""
+msgstr "男"
 
 #: src/twa/members/models.py:12
 msgid "female"
-msgstr ""
+msgstr "女"
 
 #: src/twa/members/models.py:16
 msgid "10. Dan"
-msgstr ""
+msgstr "10．段"
 
 #: src/twa/members/models.py:17
 msgid "9. Dan"
-msgstr ""
+msgstr "9．段"
 
 #: src/twa/members/models.py:18
 msgid "8. Dan"
-msgstr ""
+msgstr "8．段"
 
 #: src/twa/members/models.py:19
 msgid "7. Dan"
-msgstr ""
+msgstr "7．段"
 
 #: src/twa/members/models.py:20
 msgid "6. Dan"
-msgstr ""
+msgstr "6．段"
 
 #: src/twa/members/models.py:21
 msgid "5. Dan"
-msgstr ""
+msgstr "5．段"
 
 #: src/twa/members/models.py:22
 msgid "4. Dan"
-msgstr ""
+msgstr "4．段"
 
 #: src/twa/members/models.py:23
 msgid "3. Dan"
-msgstr ""
+msgstr "3．段"
 
 #: src/twa/members/models.py:24
 msgid "2. Dan"
-msgstr ""
+msgstr "2．段"
 
 #: src/twa/members/models.py:25
 msgid "1. Dan"
-msgstr ""
+msgstr "1．段"
 
 #: src/twa/members/models.py:26
 msgid "1. Kyu"
-msgstr ""
+msgstr "1．級"
 
 #: src/twa/members/models.py:27
 msgid "2. Kyu"
-msgstr ""
+msgstr "2．級"
 
 #: src/twa/members/models.py:28
 msgid "3. Kyu"
-msgstr ""
+msgstr "3．級"
 
 #: src/twa/members/models.py:29
 msgid "4. Kyu"
-msgstr ""
+msgstr "4．級"
 
 #: src/twa/members/models.py:30
 msgid "5. Kyu"
-msgstr ""
+msgstr "5. 級"
 
 #: src/twa/members/models.py:59
 msgid "Name (en)"
-msgstr ""
+msgstr "名前"
 
 #: src/twa/members/models.py:60
 msgid "Name (de)"
-msgstr ""
+msgstr "名前"
 
 #: src/twa/members/models.py:61
 msgid "Name (ja)"
-msgstr ""
+msgstr "名前"
 
 #: src/twa/members/models.py:63 src/twa/members/models.py:116
 #: src/twa/members/models.py:222 src/twa/members/models.py:263
@@ -339,27 +340,29 @@ msgstr ""
 
 #: src/twa/members/models.py:75
 msgid "Countries"
-msgstr ""
+msgstr "国"
 
 #: src/twa/members/models.py:90
 msgid "Text (Beirat)"
-msgstr ""
+msgstr "文書"
 
 #: src/twa/members/models.py:92
 msgid "Thumbnail"
-msgstr ""
+msgstr "サムネイル"
 
 #: src/twa/members/models.py:109
+#, fuzzy
 msgid "TWA Membership Request"
-msgstr ""
+msgstr "TWAメンバー"
 
 #: src/twa/members/models.py:110
 msgid "TWA License Request"
 msgstr ""
 
 #: src/twa/members/models.py:111
+#, fuzzy
 msgid "TWA Member Date"
-msgstr ""
+msgstr "TWAメンバー"
 
 #: src/twa/members/models.py:112
 msgid "TWA License Date"
@@ -367,16 +370,16 @@ msgstr ""
 
 #: src/twa/members/models.py:261
 msgid "Nomination"
-msgstr ""
+msgstr "推薦"
 
 #: src/twa/members/models.py:271
 msgid "Graduation"
-msgstr ""
+msgstr "昇級昇段"
 
 #: src/twa/members/models.py:283
 msgid "File"
-msgstr ""
+msgstr "ファイル"
 
 #: src/twa/members/models.py:294
 msgid "Document"
-msgstr ""
+msgstr "書類"
