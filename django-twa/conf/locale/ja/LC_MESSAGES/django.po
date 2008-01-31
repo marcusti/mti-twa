@@ -44,7 +44,7 @@ msgstr "道場"
 
 #: htdocs/base.html:58
 msgid "Admin"
-msgstr "Admin"
+msgstr "運営"
 
 #: htdocs/base.html:59 htdocs/registration/logout.html:7
 msgid "Logout"

@@ -51,15 +51,17 @@
           {{ user.username|capfirst }}.
         {% endif %}
       {% endif %}
-      <a href="/">{% trans "Home" %}</a>
-      <a href="/dojos/">{% trans "Dojos" %}</a>
+      <span class="meta">
+      <a href="/">{% trans "Home" %}</a> |
+      <a href="/dojos/">{% trans "Dojos" %}</a> 
       {% if user.is_authenticated %}
-        <a href="/members/">{% trans "Members" %}</a>
-        <a href="/admin/">{% trans "Admin" %}</a>
-        <a href="/accounts/logout/">{% trans "Logout" %}</a>
+        | <a href="/members/">{% trans "Members" %}</a>
+        | <a href="/admin/">{% trans "Admin" %}</a>
+        | <a href="/accounts/logout/">{% trans "Logout" %}</a>
       {% else %}
-        <a href="/accounts/login/">{% trans "Login" %}</a>
+        | <a href="/accounts/login/">{% trans "Login" %}</a>
       {% endif %}
+      </span>
 
       <select name="language" onchange="Absenden()" >
       {% for lang in LANGUAGES %}
