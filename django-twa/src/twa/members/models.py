@@ -253,7 +253,9 @@ class Dojo( models.Model ):
         return '/dojo/%i/' % self.id
 
     def __unicode__( self ):
-        return self.name
+        if not self.city:
+            return self.name
+        return '%s - %s'.strip() % (self.city, self.name)
 
     class Meta:
         ordering = [ 'country', 'city', 'name' ]
