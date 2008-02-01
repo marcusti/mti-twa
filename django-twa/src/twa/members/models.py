@@ -78,27 +78,16 @@ class Country( models.Model ):
 
 class PersonManager( models.Manager ):
     def get_query_set( self ):
-        return super( PersonManager, self ).get_query_set().filter( is_active = True )
+        return super( PersonManager, self ).get_query_set().filter()
 
-class BirthdayManager( models.Manager ):
-    def get_query_set( self ):
-        d = date.today()
-
-#        this_day = d.strftime( '%d' )
-#        this_month = d.strftime( '%m' )
-#        next_month = str( get_next_month( int( this_month ) ) ).zfill( 2 )
-#
-#        return super( BirthdayManager, self ).get_query_set().filter( Q( birth__isnull = False ),
-#            Q( birth_sort_string__endswith = this_day ),
-#            Q( birth_sort_string__startswith = this_month ) |
-#            Q( birth_sort_string__startswith = next_month )
-#            ).order_by( 'birth_sort_string' )
-
-        qs = super( BirthdayManager, self ).get_query_set().filter( birth__isnull = False, birth__day = d.day, birth__month = d.month )
-        for i in range( 1, 7 ):
-            d += timedelta( 1 )
-            qs |= super( BirthdayManager, self ).get_query_set().filter( birth__isnull = False, birth__day = d.day, birth__month = d.month )
-        return qs.order_by( 'birth_sort_string' )
+    def get_next_birthdays( self ):
+        liste = []
+        persons = self.get_query_set().filter(birth__isnull = False)
+        for person in persons:
+            if person.days() < 8:
+                liste.append(person)
+        liste.sort()
+        return liste
 
 class Person( models.Model ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
@@ -124,19 +113,18 @@ class Person( models.Model ):
     gender = models.CharField( _( 'Gender' ), max_length = 1, choices = GENDER, blank = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
-    is_twa_membership_requested = models.BooleanField( _( 'TWA Membership Request' ), default = False )
-    is_twa_license_requested = models.BooleanField( _( 'TWA License Request' ), default = False )
-    twa_member_since = models.DateField( _( 'TWA Member Date' ), blank = True, null = True )
-    twa_license_since = models.DateField( _( 'TWA License Date' ), blank = True, null = True )
+    twa_membership_requested = models.DateField( _( 'TWA Membership Request' ), blank = True, null = True )
+    twa_license_requested = models.DateField( _( 'TWA License Request' ), blank = True, null = True )
+    twa_membership = models.DateField( _( 'TWA Member Date' ), blank = True, null = True )
+    twa_license = models.DateField( _( 'TWA License Date' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), filter_interface=models.VERTICAL, blank = True, null = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
-    objects = models.Manager()
-    actives = PersonManager()
-    next_birthdays = BirthdayManager()
+    objects = PersonManager()
+    persons = PersonManager()
 
     def current_rank( self ):
         return GraduationManager().get_current( self ).get_rank_display()
@@ -159,6 +147,18 @@ class Person( models.Model ):
            return ''
     age.short_description = _( 'Age' )
     age.allow_tags = False
+
+    def days( self ):
+        if self.birth:
+            today = date.today()
+            this_years_birthday = date( today.year, self.birth.month, self.birth.day )
+            if this_years_birthday < today:
+                this_years_birthday = date(today.year + 1, self.birth.month, self.birth.day)
+            return (this_years_birthday - today).days
+        else:
+           return 0
+    days.short_description = _( 'Days' )
+    days.allow_tags = False
 
     def save( self ):
         if self.birth:
@@ -199,6 +199,9 @@ class Person( models.Model ):
     def get_absolute_url( self ):
         return '/member/%i/' % self.id
 
+    def __cmp__(self, other):
+        return cmp( self.days(), other.days() )
+    
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.firstname, self.lastname )
 
@@ -209,7 +212,7 @@ class Person( models.Model ):
 
     class Admin:
         ordering = [ 'firstname', 'lastname' ]
-        list_display = ( 'id', 'firstname', 'lastname', 'age', 'gender', 'current_rank', 'grade_date', 'is_active', 'admin_thumb' )
+        list_display = ( 'id', 'firstname', 'lastname', 'age', 'days', 'gender', 'current_rank', 'grade_date', 'is_active', 'admin_thumb' )
         list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
         #list_filter = ( 'current_rank', )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]

@@ -132,7 +132,11 @@
     <td>
     <ul>
     {% for grad in graduations %}
+    {% if grad.is_nomination %}
+      <li title="{{ grad.text }}">{% trans "Nomination" %}: {{ grad.get_rank_display }}<span class="meta"> {{ grad.date|default:"" }} ({{ grad.date|timesince }})</span></li>
+    {% else %}
       <li title="{{ grad.text }}">{{ grad.get_rank_display }}<span class="meta"> {{ grad.date|default:"" }} ({{ grad.date|timesince }})</span></li>
+    {% endif %}
     {% endfor %}
     </ul>
     </td>
