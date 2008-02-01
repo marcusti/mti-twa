@@ -50,7 +50,7 @@
     <td>
     <ul>
     {% for dojo in dojos %}
-      <li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>
+      <li><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></li>
     {% endfor %}
     </ul>
     </td>
