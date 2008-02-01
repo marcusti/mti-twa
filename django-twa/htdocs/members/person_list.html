@@ -22,9 +22,9 @@
     <th>{% trans "ID" %}</th>
     <th>{% trans "First Name" %}</th>
     <th>{% trans "Last Name" %}</th>
-    <th>{% trans "Age" %}</th>
     <th>{% trans "Rank" %}</th>
-    <th>{% trans "Date" %}</th>
+    <th>{% trans "TWA Member" %}</th>
+    <th>{% trans "TWA License" %}</th>
     <th>{% trans "Photo" %}</th>
   </tr>
 {% for person in object_list %}
@@ -32,9 +32,29 @@
     <td>{{ person.id }}</td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}</a></td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.lastname }}</a></td>
-    <td>{{ person.age }}</td>
     <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
-    <td>{% if person.grade_date %}{{ person.grade_date }}{% endif %}</td>
+    <td>
+      {% if person.twa_membership %}
+        {% trans "Yes" %}
+      {% else %}
+        {% if person.twa_membership_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>
+      {% if person.twa_license %}
+        {% trans "Yes" %}
+      {% else %}
+        {% if person.twa_license_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+    </td>
     <td>{% if person.thumbnail %}
         <a href="{{ person.get_absolute_url }}">
           <img src="{{ person.get_thumbnail_url }}"
