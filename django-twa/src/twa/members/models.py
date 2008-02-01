@@ -82,10 +82,10 @@ class PersonManager( models.Manager ):
 
     def get_next_birthdays( self ):
         liste = []
-        persons = self.get_query_set().filter(birth__isnull = False)
+        persons = self.get_query_set().filter( birth__isnull = False )
         for person in persons:
             if person.days() < 8:
-                liste.append(person)
+                liste.append( person )
         liste.sort()
         return liste
 
@@ -153,8 +153,8 @@ class Person( models.Model ):
             today = date.today()
             this_years_birthday = date( today.year, self.birth.month, self.birth.day )
             if this_years_birthday < today:
-                this_years_birthday = date(today.year + 1, self.birth.month, self.birth.day)
-            return (this_years_birthday - today).days
+                this_years_birthday = date( today.year + 1, self.birth.month, self.birth.day )
+            return ( this_years_birthday - today ).days
         else:
            return 0
     days.short_description = _( 'Days' )
@@ -199,7 +199,7 @@ class Person( models.Model ):
     def get_absolute_url( self ):
         return '/member/%i/' % self.id
 
-    def __cmp__(self, other):
+    def __cmp__( self, other ):
         return cmp( self.days(), other.days() )
 
     def __unicode__( self ):
@@ -255,7 +255,7 @@ class Dojo( models.Model ):
     def __unicode__( self ):
         if not self.city:
             return self.name
-        return '%s - %s'.strip() % (self.city, self.name)
+        return '%s - %s'.strip() % ( self.city, self.name )
 
     class Meta:
         ordering = [ 'country', 'city', 'name' ]
