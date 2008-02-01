@@ -16,9 +16,11 @@ def get_context( request ):
 def index( request ):
     today = date.today()
     ctx = get_context( request )
-    ctx['license_requests'] = Person.objects.filter( is_twa_license_requested = True )
-    ctx['membership_requests'] = Person.objects.filter( is_twa_membership_requested = True )
-    ctx['birthdays'] = Person.next_birthdays.all()
+    if request.user.is_authenticated():
+        ctx['license_requests'] = Person.objects.filter( twa_license_requested__isnull = False )
+        ctx['membership_requests'] = Person.objects.filter( twa_membership_requested__isnull = False )
+        ctx['birthdays'] = Person.persons.get_next_birthdays()
+        ctx['nominations'] = Graduation.objects.filter( is_nomination = True )
     return direct_to_template( request,
         template = 'base.html',
         extra_context = ctx,

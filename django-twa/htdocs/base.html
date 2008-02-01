@@ -86,17 +86,41 @@
 {% if user.is_authenticated %}
 
   <tr>
+    <th>{% trans "Nominations" %}</th>
+    <th>{% trans "Date" %}</th>
+    <th>{% trans "Rank" %} ( {% trans "Nomination" %} )</th>
+  </tr>
+
+  {% if nominations %}
+    {% for grad in nominations %}
+      <tr>
+        <td><a href="{{ grad.person.get_absolute_url }}">{{ grad.person }}</a></td>
+        <td>{% if grad.date %}{{ grad.date }}{% endif %}</td>
+        <td>{% if grad.rank %}{{ grad.get_rank_display }}{% endif %}</td>
+      </tr>
+    {% endfor %}
+  {% else %}
+      <tr>
+        <td colspan="3">{% trans "None" %}</td>
+      </tr>
+  {% endif %}
+
+  <tr>
+    <td colspan="3" class="white">&nbsp;</td>
+  </tr>
+
+  <tr>
     <th>{% trans "Requested Licenses" %}</th>
+    <th>{% trans "Date" %}</th>
     <th>{% trans "Rank" %}</th>
-    <th>{% trans "City" %}</th>
   </tr>
 
   {% if license_requests %}
     {% for person in license_requests %}
       <tr>
         <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
+        <td>{% if person.twa_license_requested %}{{ person.twa_license_requested }}{% endif %}</td>
         <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
-        <td>{% if person.city %}{{ person.city }}{% endif %}</td>
       </tr>
     {% endfor %}
   {% else %}
@@ -111,16 +135,16 @@
 
   <tr>
     <th>{% trans "Requested TWA Membership" %}</th>
+    <th>{% trans "Date" %}</th>
     <th>{% trans "Rank" %}</th>
-    <th>{% trans "City" %}</th>
   </tr>
 
   {% if membership_requests %}
     {% for person in membership_requests %}
       <tr>
         <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
+        <td>{% if person.twa_membership_requested %}{{ person.twa_membership_requested }}{% endif %}</td>
         <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
-        <td>{% if person.city %}{{ person.city }}{% endif %}</td>
       </tr>
     {% endfor %}
   {% else %}
