@@ -11,7 +11,10 @@
   </colgroup>
 
   <tr>
-    <th colspan="3">{% trans "Person" %}</th>
+    <th colspan="3">
+      {% trans "Person" %}
+      {% if perms.members %}<a href="/admin/members/person/{{ person.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+    </th>
   </tr>
 
   <tr>

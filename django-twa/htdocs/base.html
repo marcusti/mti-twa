@@ -53,7 +53,7 @@
       {% endif %}
       <span class="meta">
       <a href="/">{% trans "Home" %}</a> |
-      <a href="/dojos/">{% trans "Dojos" %}</a> 
+      <a href="/dojos/">{% trans "Dojos" %}</a>
       {% if user.is_authenticated %}
         | <a href="/members/">{% trans "Members" %}</a>
         | <a href="/admin/">{% trans "Admin" %}</a>
@@ -75,11 +75,91 @@
 
   <div id="content">
   {% block content %}
-    <table>
+
+<table>
+  <colgroup>
+    <col width="2*">
+    <col width="1*">
+    <col width="1*">
+  </colgroup>
+
+{% if user.is_authenticated %}
+
+  <tr>
+    <th>{% trans "Requested Licenses" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "City" %}</th>
+  </tr>
+
+  {% if license_requests %}
+    {% for person in license_requests %}
       <tr>
-        <th>&nbsp;</th>
+        <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
+        <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
+        <td>{% if person.city %}{{ person.city }}{% endif %}</td>
       </tr>
-    </table>
+    {% endfor %}
+  {% else %}
+      <tr>
+        <td colspan="3">{% trans "None" %}</td>
+      </tr>
+  {% endif %}
+
+  <tr>
+    <td colspan="3" class="white">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <th>{% trans "Requested TWA Membership" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "City" %}</th>
+  </tr>
+
+  {% if membership_requests %}
+    {% for person in membership_requests %}
+      <tr>
+        <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
+        <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
+        <td>{% if person.city %}{{ person.city }}{% endif %}</td>
+      </tr>
+    {% endfor %}
+  {% else %}
+      <tr>
+        <td colspan="3">{% trans "None" %}</td>
+      </tr>
+  {% endif %}
+
+  <tr>
+    <td colspan="3" class="white">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <th>{% trans "Upcoming birthdays" %}</th>
+    <th>{% trans "Birth" %}</th>
+    <th>{% trans "Age" %}</th>
+  </tr>
+
+  {% if birthdays %}
+    {% for person in birthdays %}
+      <tr>
+        <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
+        <td>{{ person.birth }}</td>
+        <td>{{ person.age }}</td>
+      </tr>
+    {% endfor %}
+  {% else %}
+      <tr>
+        <td colspan="3">{% trans "None" %}</td>
+      </tr>
+  {% endif %}
+
+  {% else %}
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+  {% endif %}
+</table>
+
   {% endblock %}
   </div>
 </body>
