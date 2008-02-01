@@ -166,7 +166,7 @@ class Person( models.Model ):
 
         if self.photo:
             THUMBNAIL_SIZE = ( 75, 75 )
-            SCALE_SIZE = ( 800, 600 )
+            SCALE_SIZE = ( 300, 200 )
 
             if not self.thumbnail:
                 from PIL import Image
@@ -201,7 +201,7 @@ class Person( models.Model ):
 
     def __cmp__(self, other):
         return cmp( self.days(), other.days() )
-    
+
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.firstname, self.lastname )
 
