@@ -165,24 +165,23 @@ class Person( models.Model ):
             self.birth_sort_string = self.birth.strftime( '%m%d' )
 
         if self.photo:
+            from PIL import Image
             THUMBNAIL_SIZE = ( 75, 75 )
-            SCALE_SIZE = ( 300, 200 )
+            SCALE_SIZE = ( 300, 400 )
 
             if not self.thumbnail:
-                from PIL import Image
-
                 self.save_thumbnail_file( self.get_photo_filename(), '' )
 
-                image = Image.open( self.get_photo_filename() )
+            image = Image.open( self.get_photo_filename() )
 
-                if image.mode not in ( 'L', 'RGB' ):
-                    image = image.convert( 'RGB' )
+            if image.mode not in ( 'L', 'RGB' ):
+                image = image.convert( 'RGB' )
 
-                image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
-                image.save( self.get_photo_filename() )
+            image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
+            image.save( self.get_photo_filename() )
 
-                image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
-                image.save( self.get_thumbnail_filename() )
+            image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
+            image.save( self.get_thumbnail_filename() )
 
         super( Person, self ).save()
 
