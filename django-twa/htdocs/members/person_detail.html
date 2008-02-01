@@ -157,9 +157,9 @@
     <td>
       {% if person.twa_member_since %}
         {{ person.twa_member_since }}
-        <span class="meta">( {{ person.twa_member_since|timesince }} )</span>
+        <span class="meta">( {{ person.twa_member|timesince }} )</span>
       {% else %}
-        {% if person.is_twa_membership_requested %}
+        {% if person.twa_membership_requested %}
           {% trans "Requested" %}
         {% else %}
           {% trans "Not requested" %}
@@ -173,9 +173,9 @@
     <td>
       {% if person.twa_license_since %}
         {{ person.twa_license_since }}
-        <span class="meta">( {{ person.twa_license_since|timesince }} )</span>
+        <span class="meta">( {{ person.twa_license|timesince }} )</span>
       {% else %}
-        {% if person.is_twa_license_requested %}
+        {% if person.twa_license_requested %}
           {% trans "Requested" %}
         {% else %}
           {% trans "Not requested" %}

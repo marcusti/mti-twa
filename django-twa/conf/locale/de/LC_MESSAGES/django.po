@@ -82,11 +82,11 @@ msgstr "Keine"
 
 #: htdocs/base.html:113
 msgid "Requested Licenses"
-msgstr "offene Anträge auf Lizenz"
+msgstr "Anträge auf TWA Lizenz"
 
 #: htdocs/base.html:137
 msgid "Requested TWA Membership"
-msgstr "offene Anträge auf TWA Mitgliedschaft"
+msgstr "Anträge auf TWA Mitgliedschaft"
 
 #: htdocs/base.html:161
 msgid "Upcoming birthdays"
