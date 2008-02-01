@@ -1,7 +1,8 @@
 #-*- coding: utf-8 -*-
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.db import models
+from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
@@ -30,6 +31,12 @@ RANK = [
     ( 10, _( '5. Kyu' ) ),
 ]
 
+def get_next_month( month ):
+    if month == 12:
+        return 1
+    else:
+        return month + 1
+
 class Translation( models.Model ):
     name = models.CharField( 'Name', max_length = DEFAULT_MAX_LENGTH, unique = True )
     entry = models.CharField( 'Entry (en)', max_length = DEFAULT_MAX_LENGTH )
@@ -44,16 +51,6 @@ class Translation( models.Model ):
 
     def __unicode__( self ):
         return self.get_entry()
-
-    class Meta:
-        ordering = [ 'entry' ]
-        verbose_name = 'Translation'
-        verbose_name_plural = 'Translations'
-
-    class Admin:
-        ordering = [ 'entry' ]
-        list_display = ( 'name', 'entry', 'entry_de', 'entry_ja' )
-        list_display_links = ( 'name', 'entry', 'entry_de', 'entry_ja' )
 
 class Country( models.Model ):
     name = models.CharField( _( 'Name (en)' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
@@ -83,6 +80,26 @@ class PersonManager( models.Manager ):
     def get_query_set( self ):
         return super( PersonManager, self ).get_query_set().filter( is_active = True )
 
+class BirthdayManager( models.Manager ):
+    def get_query_set( self ):
+        d = date.today()
+
+#        this_day = d.strftime( '%d' )
+#        this_month = d.strftime( '%m' )
+#        next_month = str( get_next_month( int( this_month ) ) ).zfill( 2 )
+#
+#        return super( BirthdayManager, self ).get_query_set().filter( Q( birth__isnull = False ),
+#            Q( birth_sort_string__endswith = this_day ),
+#            Q( birth_sort_string__startswith = this_month ) |
+#            Q( birth_sort_string__startswith = next_month )
+#            ).order_by( 'birth_sort_string' )
+
+        qs = super( BirthdayManager, self ).get_query_set().filter( birth__isnull = False, birth__day = d.day, birth__month = d.month )
+        for i in range( 1, 7 ):
+            d += timedelta( 1 )
+            qs |= super( BirthdayManager, self ).get_query_set().filter( birth__isnull = False, birth__day = d.day, birth__month = d.month )
+        return qs.order_by( 'birth_sort_string' )
+
 class Person( models.Model ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
     lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
@@ -103,6 +120,7 @@ class Person( models.Model ):
     website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
 
     birth = models.DateField( _( 'Birth' ), blank = True, null = True )
+    birth_sort_string = models.CharField( max_length = 4, editable = False )
     gender = models.CharField( _( 'Gender' ), max_length = 1, choices = GENDER, blank = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
@@ -118,6 +136,7 @@ class Person( models.Model ):
 
     objects = models.Manager()
     actives = PersonManager()
+    next_birthdays = BirthdayManager()
 
     def current_rank( self ):
         return GraduationManager().get_current( self ).get_rank_display()
@@ -142,6 +161,9 @@ class Person( models.Model ):
     age.allow_tags = False
 
     def save( self ):
+        if self.birth:
+            self.birth_sort_string = self.birth.strftime( '%m%d' )
+
         if self.photo:
             THUMBNAIL_SIZE = ( 75, 75 )
             SCALE_SIZE = ( 800, 600 )

@@ -1,3 +1,4 @@
+from datetime import date
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -6,27 +7,18 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
 from twa.members.models import Document, Dojo, Graduation, Person
-import csv
 
 def get_context( request ):
     my_context = {}
     my_context['language'] = request.session.get( 'django_language' )
     return my_context
 
-def mylogin( request ):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate( username=username, password=password )
-    if user is not None:
-        if user.is_active:
-            login( request, user )
-            return direct_to_template( request,
-                template = 'base.html',
-                extra_context = get_context( request )
-            )
-
 def index( request ):
+    today = date.today()
     ctx = get_context( request )
+    ctx['license_requests'] = Person.objects.filter( is_twa_license_requested = True )
+    ctx['membership_requests'] = Person.objects.filter( is_twa_membership_requested = True )
+    ctx['birthdays'] = Person.next_birthdays.all()
     return direct_to_template( request,
         template = 'base.html',
         extra_context = ctx,
@@ -81,7 +73,7 @@ def dojo( request, did = None ):
 
 @login_required
 def members( request ):
-    qs = Person.actives.all()
+    qs = Person.objects.all()
     ctx = get_context( request )
     ctx['counter'] = qs.count()
     return object_list(
@@ -100,9 +92,9 @@ def members_search( request, p=None ):
     ctx['searchid'] = sid
 
     if sid:
-        qs = Person.actives.filter( Q( id__exact = sid ) )
+        qs = Person.objects.filter( Q( id__exact = sid ) )
     else:
-        qs = Person.actives.filter( Q( firstname__icontains=s ) |
+        qs = Person.objects.filter( Q( firstname__icontains=s ) |
                     Q( lastname__icontains=s ) |
                     Q( text__icontains=s ) |
                     Q( email__icontains=s ) |
@@ -126,7 +118,7 @@ def member( request, mid = None ):
     ctx['documents'] = Document.objects.filter( person__id = mid )
     return object_detail(
         request,
-        queryset = Person.actives.all(),
+        queryset = Person.objects.all(),
         object_id = mid,
         template_object_name = 'person',
         extra_context = ctx,
@@ -137,9 +129,12 @@ def dojos_csv( request ):
     response = HttpResponse( mimetype='text/csv' )
     response['Content-Disposition'] = 'attachment; filename=dojos.csv'
 
-    writer = csv.writer( response )
+    from csvutf8 import UnicodeWriter
+    writer = UnicodeWriter( response )
 
-    for p in Person.objects.all():
-        writer.writerow( [p.firstname, p.lastname] )
+    writer.writerow( ['id', 'name', 'street', 'zip', 'city', 'country'] )
+
+    for d in Dojo.objects.all():
+        writer.writerow( [str( d.id ), d.name, d.street, d.zip, d.city, d.country.get_name()] )
 
     return response

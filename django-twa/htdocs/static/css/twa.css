@@ -16,6 +16,15 @@ a:hover, a:hover img {
   background-color: #0066cc;
 }
 
+a.edit {
+  color: #cc0000;
+}
+
+a:hover.edit {
+  color: white;
+  background-color: #cc0000;
+}
+
 ul {
   list-style-type: none;
   margin: 0; padding: 0.2em;
@@ -31,15 +40,16 @@ td {
   margin: 0; padding: 0.2em;
 }
 
-td a {
-}
-
 th {
   text-align: left;
   vertical-align: top;
   margin: 0; padding: 0.2em;
   color: white;
   background-color: #9d9ea0;
+}
+
+th.edit {
+  text-align: right;
 }
 
 tr {
@@ -130,4 +140,3 @@ img.logo {
   padding: 1px;
   border: none;
 }
-
