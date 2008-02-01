@@ -6,7 +6,8 @@ urlpatterns = patterns( '',
     ( r'^admin/', include( 'django.contrib.admin.urls' ) ),
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     ( r'^accounts/login/$', 'django.contrib.auth.views.login' ),
-    ( r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'template_name': 'registration/logout.html'} ),
+    ( r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login' ),
+    #( r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'template_name': 'registration/logout.html'} ),
  )
 
 if settings.DEBUG:
