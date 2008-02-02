@@ -30,6 +30,12 @@ ul {
   margin: 0; padding: 0.2em;
 }
 
+ul ul {
+  list-style-type: circle;
+  margin: 0;
+  padding: 0.2em 0.2em 0.2em 2em;
+}
+
 table {
   width: 100%;
 }
@@ -110,6 +116,10 @@ form {
 
 .meta {
   color: #9d9ea0;
+}
+
+.small {
+  font-size: 90%;
 }
 
 .white {
