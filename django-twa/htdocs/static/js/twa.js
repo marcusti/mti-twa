@@ -1,7 +1,3 @@
-function Absenden() {
-  document.getElementById("setlang").submit();
-}
-
 $(document).ready(function(){
   $(":text").focus(function() {
     $(this).select();
@@ -31,7 +27,8 @@ $(document).ready(function(){
     $("#dojo-filter").submit();
   });
 
-  $("#setlang").change(function() {
-    $(this).submit();
+  $("#language").change(function() {
+    $("#setlang").submit();
   });
 });
+
