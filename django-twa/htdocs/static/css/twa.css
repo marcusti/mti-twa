@@ -4,6 +4,10 @@ body {
   font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, sans-serif;
 }
 
+p {
+  margin: 0; padding: 2em 0.2em 2em 0.2em;
+}
+
 a {
   cursor: pointer;
   color: #0066CC;
@@ -161,4 +165,8 @@ img.right {
 img.logo {
   padding: 1px;
   border: none;
+}
+
+.nobr {
+  white-space: nowrap;
 }
