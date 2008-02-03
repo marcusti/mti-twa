@@ -29,18 +29,7 @@
           {% for rank in ranks %}
             <option class="smaller" value="{{ rank.0 }}" {% ifequal r rank.0 %} selected {% endifequal %}>{{ rank.1 }}</option>
           {% endfor %}
-<!--            <option class="smaller" value="600" {% ifequal r "600" %} selected {% endifequal %}>{% trans "6. Dan" %}</option>
-            <option class="smaller" value="500" {% ifequal r "500" %} selected {% endifequal %}>{% trans "5. Dan" %}</option>
-            <option class="smaller" value="400" {% ifequal r "400" %} selected {% endifequal %}>{% trans "4. Dan" %}</option>
-            <option class="smaller" value="300" {% ifequal r "300" %} selected {% endifequal %}>{% trans "3. Dan" %}</option>
-            <option class="smaller" value="200" {% ifequal r "200" %} selected {% endifequal %}>{% trans "2. Dan" %}</option>
-            <option class="smaller" value="100" {% ifequal r "100" %} selected {% endifequal %}>{% trans "1. Dan" %}</option>
-            <option class="smaller" value="50" {% ifequal r "50" %} selected {% endifequal %}>{% trans "1. Kyu" %}</option>
-            <option class="smaller" value="40" {% ifequal r "40" %} selected {% endifequal %}>{% trans "2. Kyu" %}</option>
-            <option class="smaller" value="30" {% ifequal r "30" %} selected {% endifequal %}>{% trans "3. Kyu" %}</option>
-            <option class="smaller" value="20" {% ifequal r "20" %} selected {% endifequal %}>{% trans "4. Kyu" %}</option>
-            <option class="smaller" value="10" {% ifequal r "10" %} selected {% endifequal %}>{% trans "5. Kyu" %}</option>
- -->       </select>
+        </select>
     </th>
     <th>
         {% trans "TWA Member" %}
