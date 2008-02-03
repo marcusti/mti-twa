@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<table>
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>{% trans "Username" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Email" %}</th>
+    <th>{% trans "Last Login" %}</th>
+    <th>{% trans "Active" %}</th>
+    <th>{% trans "Admin" %}</th>
+    <th>{% trans "Superuser" %}</th>
+  </tr>
+  {% for user in users %}
+  <tr>
+    <td>{{ user.id }}</td>
+    <td>{{ user.username }}</td>
+    <td>{{ user.first_name }} {{ user.last_name }}</td>
+    <td>{{ user.email }}</td>
+    <td>{{ user.last_login }} <span class="meta small nobr">( {{ user.last_login|timesince }} )</span></td>
+    <td>{{ user.is_active|yesno }}</td>
+    <td>{{ user.is_staff|yesno }}</td>
+    <td>{{ user.is_superuser|yesno }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td class="white" colspan="8">&nbsp;</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>#</th>
+    <th>{% trans "Expired Session ID" %}</th>
+    <th>{% trans "Is Expired" %}</th>
+  </tr>
+  {% for session in expired_sessions %}
+  <tr>
+    <td>{{ forloop.revcounter }}</td>
+    <td>{{ session.pk }}</td>
+    <td>{{ session.expire_date }} <span class="edit small nobr">( {{ session.expire_date|timesince }} )</span></td>
+  </tr>
+  {% endfor %}
+
+  <tr>
+    <td class="" colspan="3">
+      {% if expired_sessions %}
+      <form id="clean_up_session_form" action="." method="post">
+        <input type="submit" id="clean_up_expired_sessions" name="clean_up_expired_sessions" value="Clean up" href="" /> all {{ expired_sessions|length }} expired sessions.
+      </form>
+      {% else %}
+        {% trans "None" %}
+      {% endif %}
+    </td>
+  </tr>
+</table>
+
+<p>There are {{ active_sessions|length }} active sessions.</p>
+
+{% endblock %}
