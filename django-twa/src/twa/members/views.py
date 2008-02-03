@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
@@ -24,6 +24,9 @@ def get_context( request ):
 
 @login_required
 def info( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     now = datetime.now()
 
     if request.user.is_authenticated() and request.user.is_superuser:
