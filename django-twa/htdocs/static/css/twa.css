@@ -16,13 +16,16 @@ a:hover, a:hover img {
   background-color: #0066cc;
 }
 
-a.edit {
+a.edit, .edit {
   color: #cc0000;
 }
 
 a:hover.edit {
   color: white;
   background-color: #cc0000;
+}
+
+p {
 }
 
 ul {
@@ -67,10 +70,17 @@ tr {
   vertical-align: top;
 }
 
-#header form, #header p {
+#header form, #header td {
   clear: both;
   text-align: right;
   list-style-type: none;
+}
+
+#footer {
+  text-align: right;
+  vertical-align: bottom;
+  margin: 0;
+  padding: 2em 0.2em 2em 0.2em;
 }
 
 form {
@@ -80,6 +90,9 @@ form {
   text-align: right;
   font-size: 90%;
   margin: 0; padding: 0.2em;
+}
+.right {
+  text-align: right;
 }
 
 .pagination {
@@ -120,6 +133,10 @@ form {
 
 .small {
   font-size: 90%;
+}
+
+.smaller {
+  font-size: 80%;
 }
 
 .white {

@@ -6,7 +6,13 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template
-from twa.members.models import Document, Dojo, Graduation, Person
+from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK
+
+def __get_rank_display( rank ):
+    for id, name in RANK:
+        if id == rank:
+            return name
+    return ''
 
 def get_context( request ):
     my_context = {}
@@ -17,8 +23,8 @@ def index( request ):
     today = date.today()
     ctx = get_context( request )
     if request.user.is_authenticated():
-        ctx['license_requests'] = Person.objects.filter( twa_license_requested__isnull = False ).order_by( '-twa_license_requested' )
-        ctx['membership_requests'] = Person.objects.filter( twa_membership_requested__isnull = False ).order_by( '-twa_membership_requested' )
+        ctx['license_requests'] = Person.objects.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( '-twa_license_requested' )
+        ctx['membership_requests'] = Person.objects.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
         ctx['birthdays'] = Person.persons.get_next_birthdays()
         ctx['nominations'] = Graduation.objects.filter( is_nomination = True )
     return direct_to_template( request,
@@ -27,38 +33,56 @@ def index( request ):
     )
 
 def dojos( request ):
-    qs = Dojo.objects.all()
     ctx = get_context( request )
-    ctx['counter'] = qs.count()
-    return object_list(
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-    )
 
-def dojos_search( request ):
-    s = request['s']
-    sid = request['sid']
-    ctx = get_context( request )
-    ctx['search'] = s
-    ctx['searchid'] = sid
+    countries = []
+    for d in Dojo.objects.values( 'country' ).order_by( 'country' ).distinct():
+        countries.append( ( str( d['country'] ), Country.objects.get( id = d['country'] ).get_name() ) )
+    ctx['counties'] = countries
 
-    if sid:
-        qs = Dojo.objects.filter( Q( id__icontains = sid ) )
-    else:
-        qs = Dojo.objects.filter( Q( name__icontains=s ) |
+    if request.has_key( 's' ):
+        s = request['s']
+        ctx['search'] = s
+        if s:
+            qs = Dojo.objects.filter( Q( name__icontains=s ) |
                     Q( shortname__icontains=s ) |
                     Q( text__icontains=s ) |
                     Q( street__icontains=s ) |
                     Q( zip__icontains=s ) |
                     Q( city__icontains=s ) )
+        else:
+            qs = Dojo.objects.all()
+    else:
+        qs = Dojo.objects.all()
+
+    if request.has_key( 'sid' ):
+        sid = request['sid']
+        ctx['searchid'] = sid
+        if sid:
+            qs &= Dojo.objects.filter( Q( id__icontains = sid ) )
+
+    ctx['cities'] = Dojo.objects.values( 'city' ).order_by( 'city' ).distinct()
+    if request.has_key( 'ci' ):
+        city = request['ci']
+        ctx['ci'] = city
+        if city <> 'all':
+            qs &= Dojo.objects.filter( city = city )
+
+    if request.has_key( 'co' ):
+        co = request['co']
+        ctx['co'] = co
+        if co <> 'all':
+            ctx['cities'] = Dojo.objects.values( 'city' ).filter( country = co ).order_by( 'city' ).distinct()
+            qs &= Dojo.objects.filter( country = co )
+        else:
+            ctx['cities'] = Dojo.objects.values( 'city' ).order_by( 'city' ).distinct()
 
     ctx['counter'] = qs.count()
 
     return object_list(
         request,
         queryset = qs,
+        paginate_by = 50,
         extra_context = ctx,
     )
 
@@ -67,7 +91,7 @@ def dojo( request, did = None ):
     ctx['members'] = Person.objects.filter( dojos__id = did )
     return object_detail(
         request,
-        queryset = Dojo.objects.all(),
+        queryset = Dojo.objects.filter( id = did ),
         object_id = did,
         template_object_name = 'dojo',
         extra_context = ctx,
@@ -75,28 +99,38 @@ def dojo( request, did = None ):
 
 @login_required
 def members( request ):
-    qs = Person.objects.all()
-    ctx = get_context( request )
-    ctx['counter'] = qs.count()
-    return object_list(
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-    )
+    #for p in Person.objects.all():
+    #    p.save()
 
-@login_required
-def members_search( request, p=None ):
-    s = request['s']
-    sid = request['sid']
     ctx = get_context( request )
-    ctx['search'] = s
-    ctx['searchid'] = sid
 
-    if sid:
-        qs = Person.objects.filter( Q( id__exact = sid ) )
+    if request.has_key( 'l' ):
+        rank = request['l']
+        ctx['l'] = rank
+        if rank == 'yes':
+            qs = Person.objects.filter( twa_license__isnull = False )
+        elif rank == 'requested':
+            qs = Person.objects.filter( twa_license_requested__isnull = False )
+        else:
+            qs = Person.objects.all()
     else:
-        qs = Person.objects.filter( Q( firstname__icontains=s ) |
+        qs = Person.objects.all()
+
+    if request.has_key( 'm' ):
+        rank = request['m']
+        ctx['m'] = rank
+        if rank == 'yes':
+            qs &= Person.objects.filter( twa_membership__isnull = False )
+        elif rank == 'requested':
+            qs &= Person.objects.filter( twa_membership_requested__isnull = False )
+        else:
+            qs &= Person.objects.all()
+
+    if request.has_key( 's' ):
+        s = request['s']
+        ctx['search'] = s
+        if s:
+            qs &= Person.objects.filter( Q( firstname__icontains=s ) |
                     Q( lastname__icontains=s ) |
                     Q( text__icontains=s ) |
                     Q( email__icontains=s ) |
@@ -104,11 +138,29 @@ def members_search( request, p=None ):
                     Q( zip__icontains=s ) |
                     Q( city__icontains=s ) )
 
+    if request.has_key( 'sid' ):
+        sid = request['sid']
+        ctx['searchid'] = sid
+        if sid:
+            qs &= Person.objects.filter( Q( id__exact = sid ) )
+
+    ranks = []
+    for r in Graduation.objects.values( 'rank' ).distinct():
+        ranks.append( ( str( r['rank'] ), __get_rank_display( r['rank'] ) ) )
+    ctx['ranks'] = ranks
+
+    if request.has_key( 'r' ):
+        rank = request['r']
+        ctx['r'] = rank
+        if rank <> 'all':
+            qs &= Person.objects.get_persons_by_rank( rank )
+
     ctx['counter'] = qs.count()
 
     return object_list(
         request,
         queryset = qs,
+        paginate_by = 50,
         extra_context = ctx,
     )
 
@@ -120,7 +172,7 @@ def member( request, mid = None ):
     ctx['documents'] = Document.objects.filter( person__id = mid )
     return object_detail(
         request,
-        queryset = Person.objects.all(),
+        queryset = Person.objects.filter( id = mid ),
         object_id = mid,
         template_object_name = 'person',
         extra_context = ctx,

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-01 12:10+0100\n"
+"POT-Creation-Date: 2008-02-02 19:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,245 +23,269 @@ msgstr "Die angeforderte Seite wurde nicht gefunden."
 msgid "Server Error. Please try again later."
 msgstr "Es ist ein Server Fehler aufgetreten."
 
-#: htdocs/base.html:14 htdocs/base.html.py:58
-#: htdocs/members/dojo_detail.html:107
+#: htdocs/base.html:16 htdocs/base.html.py:36
+#: htdocs/members/dojo_detail.html:110
 msgid "Members"
 msgstr "Mitglieder"
 
-#: htdocs/base.html:47
+#: htdocs/base.html:25
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: htdocs/base.html:55
+#: htdocs/base.html:33
 msgid "Home"
 msgstr "Startseite"
 
-#: htdocs/base.html:56 htdocs/members/dojo_counter.html:8
-#: src/twa/members/models.py:132 src/twa/members/models.py:258
+#: htdocs/base.html:34 htdocs/members/dojo_counter.html:8
+#: src/twa/members/models.py:121 src/twa/members/models.py:262
 msgid "Dojos"
 msgstr ""
 
-#: htdocs/base.html:59
+#: htdocs/base.html:37
 msgid "Admin"
 msgstr "Verwaltung"
 
-#: htdocs/base.html:60 htdocs/registration/logout.html:7
+#: htdocs/base.html:38 htdocs/registration/logout.html:7
 msgid "Logout"
 msgstr "Abmelden"
 
-#: htdocs/base.html:62 htdocs/registration/login.html:18
+#: htdocs/base.html:40 htdocs/registration/login.html:18
 #: htdocs/registration/login.html.py:33
 msgid "Login"
 msgstr "Anmelden"
 
-#: htdocs/base.html:89
+#: htdocs/base.html:67
 msgid "Nominations"
 msgstr "Vorschläge zur Graduierung"
 
-#: htdocs/base.html:90 htdocs/base.html.py:114 htdocs/base.html.py:138
-#: htdocs/members/person_list.html:27 src/twa/members/models.py:148
-#: src/twa/members/models.py:281
+#: htdocs/base.html:68 htdocs/base.html.py:92 htdocs/base.html.py:116
+#: src/twa/members/models.py:136 src/twa/members/models.py:285
 msgid "Date"
 msgstr "Datum"
 
-#: htdocs/base.html:91 htdocs/base.html.py:115 htdocs/base.html.py:139
-#: htdocs/members/person_list.html:26 src/twa/members/models.py:143
-#: src/twa/members/models.py:280
+#: htdocs/base.html:69 htdocs/base.html.py:93 htdocs/base.html.py:117
+#: htdocs/members/person_list.html:26 src/twa/members/models.py:131
+#: src/twa/members/models.py:284
 msgid "Rank"
 msgstr "Graduierung"
 
-#: htdocs/base.html:91 htdocs/members/person_detail.html:136
-#: src/twa/members/models.py:283
+#: htdocs/base.html:69 htdocs/members/person_detail.html:137
+#: src/twa/members/models.py:287
 msgid "Nomination"
 msgstr "Vorschlag"
 
-#: htdocs/base.html:104 htdocs/base.html.py:128 htdocs/base.html.py:152
-#: htdocs/base.html:176
+#: htdocs/base.html:82 htdocs/base.html.py:106 htdocs/base.html.py:130
+#: htdocs/base.html:159
 msgid "None"
 msgstr "Keine"
 
-#: htdocs/base.html:113
+#: htdocs/base.html:91
 msgid "Requested Licenses"
 msgstr "Anträge auf TWA Lizenz"
 
-#: htdocs/base.html:137
+#: htdocs/base.html:115
 msgid "Requested TWA Membership"
 msgstr "Anträge auf TWA Mitgliedschaft"
 
-#: htdocs/base.html:161
+#: htdocs/base.html:139
 msgid "Upcoming birthdays"
 msgstr "Die nächsten Geburtstage"
 
-#: htdocs/base.html:162 htdocs/members/person_detail.html:117
-#: src/twa/members/models.py:122
+#: htdocs/base.html:140 htdocs/members/person_detail.html:117
+#: src/twa/members/models.py:111
 msgid "Birth"
 msgstr "Geburtstag"
 
-#: htdocs/base.html:163 htdocs/members/person_detail.html:113
-#: htdocs/members/person_list.html:25 src/twa/members/models.py:160
+#: htdocs/base.html:141 htdocs/members/person_detail.html:113
+#: src/twa/members/models.py:148
 msgid "Age"
 msgstr "Alter"
+
+#: htdocs/base.html:149
+msgid "today"
+msgstr "heute"
 
 #: htdocs/pagination.html:4
 msgid "Page"
 msgstr "Seite"
 
-#: htdocs/members/dojo_counter.html:6 htdocs/members/dojo_detail.html:12
-#: htdocs/members/person_detail.html:49 src/twa/members/models.py:257
+#: htdocs/members/dojo_counter.html:6 htdocs/members/dojo_detail.html:13
+#: htdocs/members/person_detail.html:49 src/twa/members/models.py:261
 msgid "Dojo"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:16 htdocs/members/dojo_list.html:25
-#: htdocs/members/person_detail.html:21 src/twa/members/models.py:225
-#: src/twa/members/models.py:304
+#: htdocs/members/dojo_detail.html:14 htdocs/members/person_detail.html:16
+msgid "edit"
+msgstr "bearbeiten"
+
+#: htdocs/members/dojo_detail.html:19 htdocs/members/dojo_list.html:25
+#: htdocs/members/person_detail.html:21 src/twa/members/models.py:227
+#: src/twa/members/models.py:308
 msgid "Name"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:20 src/twa/members/models.py:226
+#: htdocs/members/dojo_detail.html:23 src/twa/members/models.py:228
 msgid "Short Name"
 msgstr "Kurzer Name"
 
-#: htdocs/members/dojo_detail.html:24 htdocs/members/dojo_list.html:22
+#: htdocs/members/dojo_detail.html:27 htdocs/members/dojo_list.html:22
 #: htdocs/members/person_detail.html:39 htdocs/members/person_list.html:22
 #: htdocs/members/search.html:3
 msgid "ID"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:34 src/twa/members/models.py:242
+#: htdocs/members/dojo_detail.html:37 src/twa/members/models.py:244
 msgid "Dojo Leader"
 msgstr "Dojo Leiter"
 
-#: htdocs/members/dojo_detail.html:52 htdocs/members/person_detail.html:65
-#: src/twa/members/models.py:111 src/twa/members/models.py:229
+#: htdocs/members/dojo_detail.html:55 htdocs/members/person_detail.html:65
+#: src/twa/members/models.py:100 src/twa/members/models.py:231
 msgid "Street"
 msgstr "Straße"
 
-#: htdocs/members/dojo_detail.html:56 htdocs/members/person_detail.html:69
-#: src/twa/members/models.py:112 src/twa/members/models.py:230
+#: htdocs/members/dojo_detail.html:59 htdocs/members/person_detail.html:69
+#: src/twa/members/models.py:101 src/twa/members/models.py:232
 msgid "Zip"
 msgstr "PLZ"
 
-#: htdocs/members/dojo_detail.html:56 htdocs/members/dojo_list.html:24
-#: htdocs/members/person_detail.html:69 src/twa/members/models.py:113
-#: src/twa/members/models.py:231
+#: htdocs/members/dojo_detail.html:59 htdocs/members/dojo_list.html:24
+#: htdocs/members/person_detail.html:69 src/twa/members/models.py:102
+#: src/twa/members/models.py:233
 msgid "City"
 msgstr "Stadt"
 
-#: htdocs/members/dojo_detail.html:60 htdocs/members/dojo_list.html:23
+#: htdocs/members/dojo_detail.html:63 htdocs/members/dojo_list.html:23
 #: htdocs/members/person_detail.html:73 src/twa/members/models.py:71
-#: src/twa/members/models.py:114 src/twa/members/models.py:233
+#: src/twa/members/models.py:103 src/twa/members/models.py:235
 msgid "Country"
 msgstr "Land"
 
-#: htdocs/members/dojo_detail.html:70 htdocs/members/person_detail.html:83
-#: src/twa/members/models.py:116 src/twa/members/models.py:235
+#: htdocs/members/dojo_detail.html:73 htdocs/members/person_detail.html:83
+#: src/twa/members/models.py:105 src/twa/members/models.py:237
 msgid "Phone"
 msgstr "Telefon"
 
-#: htdocs/members/dojo_detail.html:74 htdocs/members/person_detail.html:87
-#: src/twa/members/models.py:117 src/twa/members/models.py:236
+#: htdocs/members/dojo_detail.html:77 htdocs/members/person_detail.html:87
+#: src/twa/members/models.py:106 src/twa/members/models.py:238
 msgid "Fax"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:78 htdocs/members/person_detail.html:91
-#: src/twa/members/models.py:118 src/twa/members/models.py:237
+#: htdocs/members/dojo_detail.html:81 htdocs/members/person_detail.html:91
+#: src/twa/members/models.py:107 src/twa/members/models.py:239
 msgid "Mobile"
 msgstr "Handy"
 
-#: htdocs/members/dojo_detail.html:82 htdocs/members/person_detail.html:95
-#: src/twa/members/models.py:119 src/twa/members/models.py:238
+#: htdocs/members/dojo_detail.html:85 htdocs/members/person_detail.html:95
+#: src/twa/members/models.py:108 src/twa/members/models.py:240
 msgid "Email"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:86 htdocs/members/dojo_list.html:26
-#: htdocs/members/person_detail.html:99 src/twa/members/models.py:120
-#: src/twa/members/models.py:239
+#: htdocs/members/dojo_detail.html:89 htdocs/members/dojo_list.html:26
+#: htdocs/members/person_detail.html:99 src/twa/members/models.py:109
+#: src/twa/members/models.py:241
 msgid "Website"
 msgstr "Webseite"
 
-#: htdocs/members/dojo_detail.html:96 htdocs/members/person_detail.html:193
-#: htdocs/members/search.html:4 src/twa/members/models.py:106
-#: src/twa/members/models.py:227 src/twa/members/models.py:282
+#: htdocs/members/dojo_detail.html:99 htdocs/members/person_detail.html:200
+#: htdocs/members/search.html:4 src/twa/members/models.py:95
+#: src/twa/members/models.py:229 src/twa/members/models.py:286
 msgid "Text"
 msgstr ""
 
-#: htdocs/members/dojo_detail.html:124 htdocs/members/person_detail.html:221
-#: src/twa/members/models.py:61 src/twa/members/models.py:135
-#: src/twa/members/models.py:245 src/twa/members/models.py:286
-#: src/twa/members/models.py:309
+#: htdocs/members/dojo_detail.html:127 htdocs/members/person_detail.html:228
+#: src/twa/members/models.py:61 src/twa/members/models.py:124
+#: src/twa/members/models.py:247 src/twa/members/models.py:290
+#: src/twa/members/models.py:313
 msgid "Last Modified"
 msgstr "Letzte Änderung"
 
 #: htdocs/members/person_counter.html:6 htdocs/members/person_detail.html:15
-#: src/twa/members/models.py:207 src/twa/members/models.py:279
-#: src/twa/members/models.py:306
+#: src/twa/members/models.py:209 src/twa/members/models.py:283
+#: src/twa/members/models.py:310
 msgid "Person"
 msgstr ""
 
-#: htdocs/members/person_counter.html:8 src/twa/members/models.py:208
+#: htdocs/members/person_counter.html:8 src/twa/members/models.py:210
 msgid "Persons"
 msgstr "Personen"
-
-#: htdocs/members/person_detail.html:16
-msgid "edit"
-msgstr ""
 
 #: htdocs/members/person_detail.html:33
 msgid "No picture available."
 msgstr "Es liegt uns kein Bild vor."
 
-#: htdocs/members/person_detail.html:109 src/twa/members/models.py:124
+#: htdocs/members/person_detail.html:109 src/twa/members/models.py:113
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: htdocs/members/person_detail.html:121 src/twa/members/models.py:131
+#: htdocs/members/person_detail.html:121 src/twa/members/models.py:120
 msgid "Aikido"
 msgstr ""
 
-#: htdocs/members/person_detail.html:131 src/twa/members/models.py:294
+#: htdocs/members/person_detail.html:131 src/twa/members/models.py:298
 msgid "Graduations"
 msgstr "Graduierungen"
 
-#: htdocs/members/person_detail.html:151 src/twa/members/models.py:126
+#: htdocs/members/person_detail.html:158 src/twa/members/models.py:115
 msgid "Active"
 msgstr "Aktiv"
 
-#: htdocs/members/person_detail.html:156 src/twa/members/models.py:241
+#: htdocs/members/person_detail.html:163 htdocs/members/person_list.html:35
+#: src/twa/members/models.py:118 src/twa/members/models.py:243
 msgid "TWA Member"
 msgstr "TWA Mitglied"
 
-#: htdocs/members/person_detail.html:163 htdocs/members/person_detail.html:179
+#: htdocs/members/person_detail.html:170 htdocs/members/person_detail.html:186
+#: htdocs/members/person_list.html:39 htdocs/members/person_list.html.py:47
+#: htdocs/members/person_list.html:63 htdocs/members/person_list.html.py:74
 msgid "Requested"
 msgstr "Beantragt"
 
-#: htdocs/members/person_detail.html:165 htdocs/members/person_detail.html:181
+#: htdocs/members/person_detail.html:172 htdocs/members/person_detail.html:188
 msgid "Not requested"
 msgstr "Nicht beantragt"
 
-#: htdocs/members/person_detail.html:172
+#: htdocs/members/person_detail.html:179 htdocs/members/person_list.html:43
+#: src/twa/members/models.py:119
 msgid "TWA License"
 msgstr "TWA Lizenz"
 
-#: htdocs/members/person_detail.html:203 src/twa/members/models.py:317
+#: htdocs/members/person_detail.html:210 src/twa/members/models.py:321
 msgid "Documents"
 msgstr "Dokumente"
 
-#: htdocs/members/person_list.html:23 src/twa/members/models.py:104
+#: htdocs/members/person_list.html:23 src/twa/members/models.py:93
 msgid "First Name"
 msgstr "Vorname"
 
-#: htdocs/members/person_list.html:24 src/twa/members/models.py:105
+#: htdocs/members/person_list.html:24 src/twa/members/models.py:94
 msgid "Last Name"
 msgstr "Nachname"
 
-#: htdocs/members/person_list.html:28 src/twa/members/models.py:108
-#: src/twa/members/models.py:196
+#: htdocs/members/person_list.html:28 htdocs/members/person_list.html.py:37
+#: htdocs/members/person_list.html:45
+msgid "all"
+msgstr "alle"
+
+#: htdocs/members/person_list.html:38
+msgid "Member"
+msgstr "Mitglied"
+
+#: htdocs/members/person_list.html:46
+msgid "Licensed"
+msgstr "Lizenziert"
+
+#: htdocs/members/person_list.html:50 src/twa/members/models.py:97
+#: src/twa/members/models.py:195
 msgid "Photo"
 msgstr "Bild"
 
-#: htdocs/members/search.html:6
-msgid "Clear"
-msgstr "Löschen"
+#: htdocs/members/person_list.html:60 htdocs/members/person_list.html.py:71
+msgid "Yes"
+msgstr "Ja"
+
+#: htdocs/members/person_list.html:65 htdocs/members/person_list.html.py:76
+msgid "No"
+msgstr "Nein"
 
 #: htdocs/members/search.html:7
 msgid "Search"
@@ -363,9 +387,9 @@ msgstr ""
 msgid "Name (ja)"
 msgstr ""
 
-#: src/twa/members/models.py:60 src/twa/members/models.py:134
-#: src/twa/members/models.py:244 src/twa/members/models.py:285
-#: src/twa/members/models.py:308
+#: src/twa/members/models.py:60 src/twa/members/models.py:123
+#: src/twa/members/models.py:246 src/twa/members/models.py:289
+#: src/twa/members/models.py:312
 msgid "Created"
 msgstr "Erstellt"
 
@@ -373,38 +397,34 @@ msgstr "Erstellt"
 msgid "Countries"
 msgstr "Länder"
 
-#: src/twa/members/models.py:107
+#: src/twa/members/models.py:96
 msgid "Text (Beirat)"
 msgstr ""
 
-#: src/twa/members/models.py:109
+#: src/twa/members/models.py:98
 msgid "Thumbnail"
 msgstr "Vorschau"
 
-#: src/twa/members/models.py:127
+#: src/twa/members/models.py:116
 msgid "TWA Membership Request"
 msgstr "TWA Mitglied Antrag"
 
-#: src/twa/members/models.py:128
+#: src/twa/members/models.py:117
 msgid "TWA License Request"
 msgstr "TWA Lizenz Antrag"
 
-#: src/twa/members/models.py:129
-msgid "TWA Member Date"
-msgstr "TWA Mitglied seit"
+#: src/twa/members/models.py:160
+msgid "Days"
+msgstr "Tage"
 
-#: src/twa/members/models.py:130
-msgid "TWA License Date"
-msgstr "TWA Lizenz seit"
-
-#: src/twa/members/models.py:293
+#: src/twa/members/models.py:297
 msgid "Graduation"
 msgstr "Graduierung"
 
-#: src/twa/members/models.py:305
+#: src/twa/members/models.py:309
 msgid "File"
 msgstr "Datei"
 
-#: src/twa/members/models.py:316
+#: src/twa/members/models.py:320
 msgid "Document"
 msgstr "Dokument"
