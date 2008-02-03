@@ -3,6 +3,8 @@ $(document).ready(function(){
     $(this).select();
   });
 
+  $("#id_username").focus();
+
   $("#search-clear").click(function() {
     $(":text").val("");
   });
