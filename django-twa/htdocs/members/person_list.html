@@ -3,16 +3,16 @@
 
 {% block content %}
 
+<form action="." method="get" id="member_filter">
+
 <table>
   <tr>
     <td class="white bottom">
       {% include "pagination.html" %} {% include "members/person_counter.html" %}
     </td>
 
-    <td class="white bottom">
-      <form id="searchform" action="/members/search/" method="get">
-        {% include "members/search.html" %}
-      </form>
+    <td class="white bottom right" align="right">
+      {% include "members/search.html" %}
     </td>
   </tr>
 </table>
@@ -22,9 +22,42 @@
     <th>{% trans "ID" %}</th>
     <th>{% trans "First Name" %}</th>
     <th>{% trans "Last Name" %}</th>
-    <th>{% trans "Rank" %}</th>
-    <th>{% trans "TWA Member" %}</th>
-    <th>{% trans "TWA License" %}</th>
+    <th>
+        {% trans "Rank" %}
+        <select class="smaller" id="rank-filter" name="r">
+          <option class="smaller" value="all" {% ifequal r "all" %} selected {% endifequal %}>{% trans "all" %}</option>
+          {% for rank in ranks %}
+            <option class="smaller" value="{{ rank.0 }}" {% ifequal r rank.0 %} selected {% endifequal %}>{{ rank.1 }}</option>
+          {% endfor %}
+<!--            <option class="smaller" value="600" {% ifequal r "600" %} selected {% endifequal %}>{% trans "6. Dan" %}</option>
+            <option class="smaller" value="500" {% ifequal r "500" %} selected {% endifequal %}>{% trans "5. Dan" %}</option>
+            <option class="smaller" value="400" {% ifequal r "400" %} selected {% endifequal %}>{% trans "4. Dan" %}</option>
+            <option class="smaller" value="300" {% ifequal r "300" %} selected {% endifequal %}>{% trans "3. Dan" %}</option>
+            <option class="smaller" value="200" {% ifequal r "200" %} selected {% endifequal %}>{% trans "2. Dan" %}</option>
+            <option class="smaller" value="100" {% ifequal r "100" %} selected {% endifequal %}>{% trans "1. Dan" %}</option>
+            <option class="smaller" value="50" {% ifequal r "50" %} selected {% endifequal %}>{% trans "1. Kyu" %}</option>
+            <option class="smaller" value="40" {% ifequal r "40" %} selected {% endifequal %}>{% trans "2. Kyu" %}</option>
+            <option class="smaller" value="30" {% ifequal r "30" %} selected {% endifequal %}>{% trans "3. Kyu" %}</option>
+            <option class="smaller" value="20" {% ifequal r "20" %} selected {% endifequal %}>{% trans "4. Kyu" %}</option>
+            <option class="smaller" value="10" {% ifequal r "10" %} selected {% endifequal %}>{% trans "5. Kyu" %}</option>
+ -->       </select>
+    </th>
+    <th>
+        {% trans "TWA Member" %}
+        <select class="smaller" id="membership-filter" name="m">
+          <option class="smaller" value="all" {% ifequal m "all" %} selected{% endifequal %}>{% trans "all" %}</option>
+          <option class="smaller" value="yes" {% ifequal m "yes" %} selected{% endifequal %}>{% trans "Member" %}</option>
+          <option class="smaller" value="requested" {% ifequal m "requested" %} selected{% endifequal %}>{% trans "Requested" %}</option>
+        </select>
+    </th>
+    <th>
+        {% trans "TWA License" %}
+        <select class="smaller" id="license-filter" name="l">
+          <option class="smaller" value="all" {% ifequal l "all" %} selected{% endifequal %}>{% trans "all" %}</option>
+          <option class="smaller" value="yes" {% ifequal l "yes" %} selected{% endifequal %}>{% trans "Licensed" %}</option>
+          <option class="smaller" value="requested" {% ifequal l "requested" %} selected{% endifequal %}>{% trans "Requested" %}</option>
+        </select>
+    </th>
     <th>{% trans "Photo" %}</th>
   </tr>
 {% for person in object_list %}
@@ -32,7 +65,7 @@
     <td>{{ person.id }}</td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}</a></td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.lastname }}</a></td>
-    <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
+    <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
     <td>
       {% if person.twa_membership %}
         {% trans "Yes" %}
@@ -68,6 +101,7 @@
   </tr>
 {% endfor %}
 </table>
+</form>
 
 <p>{% include "pagination.html" %} {% include "members/person_counter.html" %}</p>
 {% endblock %}

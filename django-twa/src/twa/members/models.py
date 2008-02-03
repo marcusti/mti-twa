@@ -78,7 +78,10 @@ class Country( models.Model ):
 
 class PersonManager( models.Manager ):
     def get_query_set( self ):
-        return super( PersonManager, self ).get_query_set().filter()
+        return super( PersonManager, self ).get_query_set()
+
+    def get_persons_by_rank( self, rank ):
+        return self.get_query_set().filter( current_rank = rank )
 
     def get_next_birthdays( self ):
         liste = []
@@ -119,22 +122,13 @@ class Person( models.Model ):
     twa_license = models.DateField( _( 'TWA License' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), filter_interface=models.VERTICAL, blank = True, null = True )
+    current_rank = models.IntegerField( _( 'Rank' ), choices = RANK, editable = False )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     objects = PersonManager()
     persons = PersonManager()
-
-    def current_rank( self ):
-        return GraduationManager().get_current( self ).get_rank_display()
-    current_rank.short_description = _( 'Rank' )
-    current_rank.allow_tags = False
-
-    def grade_date( self ):
-        return GraduationManager().get_current( self ).date
-    grade_date.short_description = _( 'Date' )
-    grade_date.allow_tags = False
 
     def age( self ):
         if self.birth:
@@ -161,6 +155,8 @@ class Person( models.Model ):
     days.allow_tags = False
 
     def save( self ):
+        self.current_rank = GraduationManager().get_current( self ).rank
+
         if self.birth:
             self.birth_sort_string = self.birth.strftime( '%m%d' )
 
@@ -211,9 +207,9 @@ class Person( models.Model ):
 
     class Admin:
         ordering = [ 'firstname', 'lastname' ]
-        list_display = ( 'id', 'firstname', 'lastname', 'age', 'days', 'gender', 'current_rank', 'grade_date', 'is_active', 'admin_thumb' )
+        list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'twa_license' , 'age', 'gender', 'is_active', 'admin_thumb' )
         list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
-        #list_filter = ( 'current_rank', )
+        list_filter = ( 'current_rank', 'twa_membership', 'twa_license' )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
 class DojoManager( models.Manager ):
@@ -273,24 +269,24 @@ class GraduationManager( models.Manager ):
         return super( GraduationManager, self ).get_query_set().filter( is_nomination = False )
 
     def get_current( self, person ):
-        graduations = Graduation.objects.filter( person__id = person.id, is_nomination = False ).order_by( '-rank' )
-        if graduations:
-            return graduations[0]
-        else:
-            return ''
+        return Graduation.objects.filter( person__id = person.id, is_nomination = False ).latest( 'date' )
 
 class Graduation( models.Model ):
-    person = models.ForeignKey( Person, verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
+    person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
     rank = models.IntegerField( _( 'Rank' ), choices = RANK, core = True )
     date = models.DateField( _( 'Date' ), blank = True, null = True, core = True )
     text = models.TextField( _( 'Text' ), blank = True )
-    is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
+    is_nomination = models.BooleanField( _( 'Nomination' ), default = False, core = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.rank, self.date )
+
+    def save( self ):
+        self.person.save()
+        super( Graduation, self ).save()
 
     class Meta:
         ordering = [ '-rank', '-date' ]
@@ -299,7 +295,7 @@ class Graduation( models.Model ):
 
     class Admin:
         ordering = [ '-rank', '-date' ]
-        list_display = ( 'id', 'rank', 'date', 'person', 'text', 'is_nomination' )
+        list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination' )
         list_display_links = ( 'date', 'rank', )
         list_filter = ( 'is_nomination', 'rank', 'person' )
         #search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
