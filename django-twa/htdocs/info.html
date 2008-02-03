@@ -17,7 +17,7 @@
   {% for user in users %}
   <tr>
     <td>{{ user.id }}</td>
-    <td>{{ user.username }}</td>
+    <td><a class="edit" href="/admin/auth/user/{{ user.id }}/">{{ user.username }}</a></td>
     <td>{{ user.first_name }} {{ user.last_name }}</td>
     <td>{{ user.email }}</td>
     <td>{{ user.last_login }} <span class="meta small nobr">( {{ user.last_login|timesince }} )</span></td>
