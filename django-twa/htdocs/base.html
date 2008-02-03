@@ -11,6 +11,7 @@
  <meta name="description" content="Mitgliederverwaltung des Tendo World Aikido Deutschland" />
  <link rel="stylesheet" type="text/css" href="/static/css/twa.css" />
  <link rel="shortcut icon" href="/static/images/Kamon_blue.jpg" type="image/ico" />
+ <!-- IE7 Bugfix: <script src="..." type=".."></script> !!! -->
  <script src="/static/js/jquery.js" type="text/javascript"></script>
  <script src="/static/js/twa.js" type="text/javascript"></script>
  <title>TWA {% trans "Members" %}</title>
@@ -179,12 +180,12 @@
 
   <p class="meta smaller" id="footer">
     tendo world aikido {% now "Y" %}
-<!--    <a href="http://www.djangoproject.com/">
+    <a href="http://www.djangoproject.com/">
       <img class="logo"
-           src="http://media.djangoproject.com/img/badges/djangosite80x15_grey.gif"
+           src="/static/images/djangosite80x15_grey.gif"
            border="0"
            alt="A Django site." title="A Django site." />
-    </a> -->
+    </a>
   </p>
 </body>
 </html>
