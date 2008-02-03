@@ -25,9 +25,6 @@ a:hover.edit {
   background-color: #cc0000;
 }
 
-p {
-}
-
 ul {
   list-style-type: none;
   margin: 0; padding: 0.2em;
@@ -83,14 +80,12 @@ tr {
   padding: 2em 0.2em 2em 0.2em;
 }
 
-form {
-}
-
 #searchform {
   text-align: right;
   font-size: 90%;
   margin: 0; padding: 0.2em;
 }
+
 .right {
   text-align: right;
 }
