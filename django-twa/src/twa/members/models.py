@@ -261,7 +261,7 @@ class Dojo( models.Model ):
         ordering = [ 'city', 'name' ]
         list_display = ( 'id', 'city', 'name', 'leader', 'is_twa_member' )
         list_display_links = ( 'name', )
-        #list_filter = ( 'city', )
+        list_filter = ( 'country', )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
 class GraduationManager( models.Manager ):
