@@ -22,4 +22,5 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^dojos/csv/$', 'dojos_csv' ),
     ( r'^members/$', 'members' ),
     ( r'^member/(\d+)/$', 'member' ),
+    ( r'^info/$', 'info' ),
  )

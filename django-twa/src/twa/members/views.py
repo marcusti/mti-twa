@@ -1,6 +1,9 @@
-from datetime import date
+from datetime import date, datetime
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
+from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -18,6 +21,25 @@ def get_context( request ):
     my_context = {}
     my_context['language'] = request.session.get( 'django_language' )
     return my_context
+
+@login_required
+def info( request ):
+    now = datetime.now()
+
+    if request.user.is_authenticated() and request.user.is_superuser:
+        if request.POST.has_key( 'clean_up_expired_sessions' ):
+            Session.objects.filter( expire_date__lt = now ).delete()
+            transaction.commit_unless_managed()
+
+    ctx = get_context( request )
+    ctx['users'] = User.objects.all().order_by( '-last_login' )
+    ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( '-expire_date' )
+    ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
+
+    return direct_to_template( request,
+        template = 'info.html',
+        extra_context = ctx,
+    )
 
 def index( request ):
     today = date.today()

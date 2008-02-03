@@ -30,5 +30,10 @@ $(document).ready(function(){
   $("#language").change(function() {
     $("#setlang").submit();
   });
+
+  $("#clean_up_expired_sessions").click(function() {
+    $("#clean_up_session_form").submit();
+  });
+
 });
 
