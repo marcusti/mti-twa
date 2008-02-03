@@ -3,10 +3,6 @@
 
 {% block content %}
 
-{% if form.has_errors %}
-<p style="color: red;">{% trans "Wrong username or password." %}</p>
-{% endif %}
-
 <form method="post" action=".">
  <table>
   <colgroup>
@@ -38,5 +34,9 @@
 <input type="hidden" name="next" value="{{ next }}" />
 <input type="hidden" name="language" value="{{ language }}" />
 </form>
+
+{% if form.has_errors %}
+<p style="color: red;">{% trans "Wrong username or password." %}</p>
+{% endif %}
 
 {% endblock %}

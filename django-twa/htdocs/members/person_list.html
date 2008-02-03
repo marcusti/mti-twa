@@ -89,8 +89,10 @@
         {% endif %}</td>
   </tr>
 {% endfor %}
+  <tr>
+    <td class="white" colspan="7">{% include "pagination.html" %} {% include "members/person_counter.html" %}</td>
+  </tr>
 </table>
 </form>
 
-<p>{% include "pagination.html" %} {% include "members/person_counter.html" %}</p>
 {% endblock %}

@@ -78,7 +78,7 @@ class Country( models.Model ):
 
 class PersonManager( models.Manager ):
     def get_query_set( self ):
-        return super( PersonManager, self ).get_query_set()
+        return super( PersonManager, self ).get_query_set().filter( is_active = True )
 
     def get_persons_by_rank( self, rank ):
         return self.get_query_set().filter( current_rank = rank )
@@ -127,7 +127,7 @@ class Person( models.Model ):
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
-    objects = PersonManager()
+    objects = models.Manager()
     persons = PersonManager()
 
     def age( self ):
@@ -221,7 +221,7 @@ class DojoManager( models.Manager ):
 
 class Dojo( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
-    shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH )
+    shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
 
     street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )

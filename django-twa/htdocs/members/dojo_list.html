@@ -49,8 +49,10 @@
     <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
   </tr>
 {% endfor %}
+  <tr>
+    <td class="white" colspan="5">{% include "pagination.html" %} {% include "members/dojo_counter.html" %}</td>
+  </tr>
 </table>
 </form>
 
-<p>{% include "pagination.html" %} {% include "members/dojo_counter.html" %}</p>
 {% endblock %}

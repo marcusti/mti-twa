@@ -48,8 +48,8 @@ def index( request ):
     today = date.today()
     ctx = get_context( request )
     if request.user.is_authenticated():
-        ctx['license_requests'] = Person.objects.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( '-twa_license_requested' )
-        ctx['membership_requests'] = Person.objects.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
+        ctx['license_requests'] = Person.persons.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( '-twa_license_requested' )
+        ctx['membership_requests'] = Person.persons.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
         ctx['birthdays'] = Person.persons.get_next_birthdays()
         ctx['nominations'] = Graduation.objects.filter( is_nomination = True )
     return direct_to_template( request,
@@ -113,7 +113,7 @@ def dojos( request ):
 
 def dojo( request, did = None ):
     ctx = get_context( request )
-    ctx['members'] = Person.objects.filter( dojos__id = did )
+    ctx['members'] = Person.persons.filter( dojos__id = did )
     return object_detail(
         request,
         queryset = Dojo.objects.filter( id = did ),
@@ -133,29 +133,29 @@ def members( request ):
         rank = request['l']
         ctx['l'] = rank
         if rank == 'yes':
-            qs = Person.objects.filter( twa_license__isnull = False )
+            qs = Person.persons.filter( twa_license__isnull = False )
         elif rank == 'requested':
-            qs = Person.objects.filter( twa_license_requested__isnull = False )
+            qs = Person.persons.filter( twa_license_requested__isnull = False )
         else:
-            qs = Person.objects.all()
+            qs = Person.persons.all()
     else:
-        qs = Person.objects.all()
+        qs = Person.persons.all()
 
     if request.has_key( 'm' ):
         rank = request['m']
         ctx['m'] = rank
         if rank == 'yes':
-            qs &= Person.objects.filter( twa_membership__isnull = False )
+            qs &= Person.persons.filter( twa_membership__isnull = False )
         elif rank == 'requested':
-            qs &= Person.objects.filter( twa_membership_requested__isnull = False )
+            qs &= Person.persons.filter( twa_membership_requested__isnull = False )
         else:
-            qs &= Person.objects.all()
+            qs &= Person.persons.all()
 
     if request.has_key( 's' ):
         s = request['s']
         ctx['search'] = s
         if s:
-            qs &= Person.objects.filter( Q( firstname__icontains=s ) |
+            qs &= Person.persons.filter( Q( firstname__icontains=s ) |
                     Q( lastname__icontains=s ) |
                     Q( text__icontains=s ) |
                     Q( email__icontains=s ) |
@@ -167,7 +167,7 @@ def members( request ):
         sid = request['sid']
         ctx['searchid'] = sid
         if sid:
-            qs &= Person.objects.filter( Q( id__exact = sid ) )
+            qs &= Person.persons.filter( Q( id__exact = sid ) )
 
     ranks = []
     for r in Graduation.objects.values( 'rank' ).distinct():
@@ -178,7 +178,7 @@ def members( request ):
         rank = request['r']
         ctx['r'] = rank
         if rank <> 'all':
-            qs &= Person.objects.get_persons_by_rank( rank )
+            qs &= Person.persons.get_persons_by_rank( rank )
 
     ctx['counter'] = qs.count()
 
@@ -197,7 +197,7 @@ def member( request, mid = None ):
     ctx['documents'] = Document.objects.filter( person__id = mid )
     return object_detail(
         request,
-        queryset = Person.objects.filter( id = mid ),
+        queryset = Person.persons.filter( id = mid ),
         object_id = mid,
         template_object_name = 'person',
         extra_context = ctx,
