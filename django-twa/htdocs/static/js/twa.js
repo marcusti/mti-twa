@@ -37,5 +37,10 @@ $(document).ready(function(){
     $("#clean_up_session_form").submit();
   });
 
+  $("#active_sessions").hide();
+  $("#toggle_active_sessions").click(function() {
+    $("#active_sessions").toggle();
+  });
+
 });
 
