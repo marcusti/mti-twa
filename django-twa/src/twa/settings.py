@@ -1,12 +1,6 @@
 #-*- coding: utf-8 -*-
 # Django settings for twa project.
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
- )
-
-MANAGERS = ADMINS
-
 from mysettings import *
 
 # Local time zone for this installation. Choices can be found here:

@@ -56,6 +56,23 @@
       {% endif %}
     </td>
   </tr>
+
+  <tr>
+    <td class="white" colspan="3">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <th>#</th>
+    <th>{% trans "Active Session ID" %}</th>
+    <th>{% trans "Will Expire" %}</th>
+  </tr>
+  {% for session in active_sessions %}
+  <tr>
+    <td>{{ forloop.revcounter }}</td>
+    <td>{{ session.pk }}</td>
+    <td>{{ session.expire_date }} <span class="meta small nobr">( {{ session.expire_date|timeuntil }} )</span></td>
+  </tr>
+  {% endfor %}
 </table>
 
 <p>There are {{ active_sessions|length }} active sessions.</p>
