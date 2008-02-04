@@ -8,7 +8,7 @@ from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
-from django.views.generic.simple import direct_to_template
+from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK
 
 def __get_rank_display( rank ):
@@ -22,11 +22,22 @@ def get_context( request ):
     my_context['language'] = request.session.get( 'django_language' )
     return my_context
 
+def login( request ):
+    ctx = get_context( request )
+
+    return redirect_to( request,
+        url = '/accounts/login/',
+        extra_context = ctx,
+    )
+
 @login_required
 def info( request ):
     if not request.user.is_superuser:
         raise Http404
-
+    
+    #from django.core.mail import mail_admins, send_mail
+    #mail_admins( 'Subject here', 'Here is the message.', fail_silently = True )
+    
     now = datetime.now()
 
     if request.user.is_authenticated() and request.user.is_superuser:
@@ -36,7 +47,7 @@ def info( request ):
 
     ctx = get_context( request )
     ctx['users'] = User.objects.all().order_by( '-last_login' )
-    ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( '-expire_date' )
+    ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( 'expire_date' )
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
 
     return direct_to_template( request,
