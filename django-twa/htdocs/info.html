@@ -41,7 +41,7 @@
   <tr>
     <td>{{ forloop.revcounter }}</td>
     <td>{{ session.pk }}</td>
-    <td>{{ session.expire_date }} <span class="edit small nobr">( {{ session.expire_date|timesince }} )</span></td>
+    <td>{{ session.expire_date }} <span class="meta small nobr">( {{ session.expire_date|timesince }} )</span></td>
   </tr>
   {% endfor %}
 
@@ -49,7 +49,7 @@
     <td class="" colspan="3">
       {% if expired_sessions %}
       <form id="clean_up_session_form" action="." method="post">
-        <input type="submit" id="clean_up_expired_sessions" name="clean_up_expired_sessions" value="Clean up" href="" /> all {{ expired_sessions|length }} expired sessions.
+        <input type="submit" id="clean_up_expired_sessions" name="clean_up_expired_sessions" value="Clean up" href="" /> will remove {{ expired_sessions|length }} expired sessions.
       </form>
       {% else %}
         {% trans "None" %}
