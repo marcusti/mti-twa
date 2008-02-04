@@ -56,11 +56,14 @@
       {% endif %}
     </td>
   </tr>
-
   <tr>
-    <td class="white" colspan="3">&nbsp;</td>
+    <td class="white" colspan="8">&nbsp;</td>
   </tr>
+</table>
 
+<p><a id="toggle_active_sessions">Show/hide</a> all {{ active_sessions|length }} active sessions.</p>
+
+<table id="active_sessions">
   <tr>
     <th>#</th>
     <th>{% trans "Active Session ID" %}</th>
@@ -74,7 +77,5 @@
   </tr>
   {% endfor %}
 </table>
-
-<p>There are {{ active_sessions|length }} active sessions.</p>
 
 {% endblock %}
