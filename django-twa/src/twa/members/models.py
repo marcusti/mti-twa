@@ -155,7 +155,9 @@ class Person( models.Model ):
     days.allow_tags = False
 
     def save( self ):
-        self.current_rank = GraduationManager().get_current( self ).rank
+        current = GraduationManager().get_current( self )
+        if current:
+            self.current_rank = current.rank
 
         if self.birth:
             self.birth_sort_string = self.birth.strftime( '%m%d' )
@@ -269,7 +271,10 @@ class GraduationManager( models.Manager ):
         return super( GraduationManager, self ).get_query_set().filter( is_nomination = False )
 
     def get_current( self, person ):
-        return Graduation.objects.filter( person__id = person.id, is_nomination = False ).latest( 'date' )
+        try:
+            return Graduation.objects.filter( person__id = person.id, is_nomination = False ).latest( 'date' )
+        except:
+            return None
 
 class Graduation( models.Model ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
