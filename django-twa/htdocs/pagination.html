@@ -3,6 +3,16 @@
 {% if is_paginated %}
   {% trans "Page" %} {{ url }}
 
+  {% if many_pages %}
+      <a href="?page=1">1</a>
+      ..
+      <a href="?page={{ previous }}">{{ previous }}</a>
+      <span class="current_page">{{ page }}</span>
+      <a href="?page={{ next }}">{{ next }}</a>
+      ..
+      <a href="?page={{ pages }}">{{ pages }}</a>
+  {% else %}
+
   {% for p in page_range %}
     {% ifequal p page %}
       <span class="current_page">{{ p }}</span>
@@ -10,5 +20,7 @@
       <a href="?page={{ p }}">{{ p }}</a>
     {% endifequal %}
   {% endfor %}
+
+  {% endif %}
 
 {% endif %}

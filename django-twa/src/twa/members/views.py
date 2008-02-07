@@ -34,10 +34,10 @@ def login( request ):
 def info( request ):
     if not request.user.is_superuser:
         raise Http404
-    
+
     #from django.core.mail import mail_admins, send_mail
     #mail_admins( 'Subject here', 'Here is the message.', fail_silently = True )
-    
+
     now = datetime.now()
 
     if request.user.is_authenticated() and request.user.is_superuser:
@@ -141,11 +141,11 @@ def members( request ):
     ctx = get_context( request )
 
     if request.has_key( 'l' ):
-        rank = request['l']
-        ctx['l'] = rank
-        if rank == 'yes':
+        license = request['l']
+        ctx['l'] = license
+        if license == 'yes':
             qs = Person.persons.filter( twa_license__isnull = False )
-        elif rank == 'requested':
+        elif license == 'requested':
             qs = Person.persons.filter( twa_license_requested__isnull = False )
         else:
             qs = Person.persons.all()
@@ -153,11 +153,11 @@ def members( request ):
         qs = Person.persons.all()
 
     if request.has_key( 'm' ):
-        rank = request['m']
-        ctx['m'] = rank
-        if rank == 'yes':
+        member = request['m']
+        ctx['m'] = member
+        if member == 'yes':
             qs &= Person.persons.filter( twa_membership__isnull = False )
-        elif rank == 'requested':
+        elif member == 'requested':
             qs &= Person.persons.filter( twa_membership_requested__isnull = False )
         else:
             qs &= Person.persons.all()
