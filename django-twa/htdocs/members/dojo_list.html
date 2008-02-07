@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load twa_tags %}
 
 {% block content %}
 
@@ -7,7 +8,7 @@
 <table>
   <tr>
     <td class="white bottom">
-      {% include "pagination.html" %} {% include "members/dojo_counter.html" %}
+      {% include "members/dojo_counter.html" %}<br/>{% paginator %}
     </td>
 
     <td class="white bottom right" align="right">
@@ -50,7 +51,9 @@
   </tr>
 {% endfor %}
   <tr>
-    <td class="white" colspan="5">{% include "pagination.html" %} {% include "members/dojo_counter.html" %}</td>
+    <td class="white" colspan="5">
+      {% paginator %}
+    </td>
   </tr>
 </table>
 </form>
