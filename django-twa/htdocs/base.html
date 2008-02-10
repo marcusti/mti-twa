@@ -167,11 +167,14 @@
   {% if birthdays %}
     {% for person in birthdays %}
       <tr>
-        <td></td>
-        <td>
+        <td class="meta">
           {% ifequal person.days 0 %}
             <span class="edit small">{% trans "today" %}</span>
+          {% else %}
+            {{ person.days }}
           {% endifequal %}
+        </td>
+        <td>
           <a href="{{ person.get_absolute_url }}">{{ person }}</a>
         </td>
         <td>{{ person.birth }}</td>
