@@ -81,19 +81,19 @@ msgstr "推薦"
 #: htdocs/base.html:100 htdocs/base.html.py:126 htdocs/base.html.py:152
 #: htdocs/base.html:183 htdocs/info.html:55
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: htdocs/base.html:110
 msgid "Requested Licenses"
-msgstr ""
+msgstr "TWA指導者認定書申込み"
 
 #: htdocs/base.html:136
 msgid "Requested TWA Membership"
-msgstr ""
+msgstr "TWAメンバー申込み"
 
 #: htdocs/base.html:162
 msgid "Upcoming birthdays"
-msgstr ""
+msgstr "次の誕生日"
 
 #: htdocs/base.html:163 htdocs/members/person_detail.html:117
 #: src/twa/members/models.py:114
@@ -162,15 +162,15 @@ msgstr ""
 
 #: htdocs/pagination.html:4 htdocs/paginator.html:11
 msgid "Page"
-msgstr ""
+msgstr "ページ"
 
 #: htdocs/paginator.html:4 htdocs/paginator.html.py:6
 msgid "previous"
-msgstr ""
+msgstr "戻る"
 
 #: htdocs/paginator.html:35 htdocs/paginator.html.py:37
 msgid "next"
-msgstr ""
+msgstr "次へ"
 
 #: htdocs/members/dojo_counter.html:6 htdocs/members/dojo_detail.html:13
 #: htdocs/members/person_detail.html:49 src/twa/members/models.py:259
@@ -179,7 +179,7 @@ msgstr "道場"
 
 #: htdocs/members/dojo_detail.html:14 htdocs/members/person_detail.html:16
 msgid "edit"
-msgstr ""
+msgstr "編集"
 
 #: htdocs/members/dojo_detail.html:33 src/twa/members/models.py:242
 msgid "Dojo Leader"
@@ -199,7 +199,7 @@ msgstr "郵便番号"
 #: htdocs/members/person_detail.html:69 src/twa/members/models.py:105
 #: src/twa/members/models.py:231
 msgid "City"
-msgstr ""
+msgstr "町"
 
 #: htdocs/members/dojo_detail.html:59 htdocs/members/dojo_list.html:24
 #: htdocs/members/person_detail.html:73 src/twa/members/models.py:71
@@ -245,7 +245,7 @@ msgstr "最終変更"
 #: htdocs/members/person_list.html:29 htdocs/members/person_list.html.py:38
 #: htdocs/members/person_list.html:46
 msgid "all"
-msgstr ""
+msgstr "全て"
 
 #: htdocs/members/person_counter.html:6 htdocs/members/person_detail.html:15
 #: src/twa/members/models.py:207 src/twa/members/models.py:280
@@ -282,11 +282,11 @@ msgstr "TWAメンバー"
 #: htdocs/members/person_list.html:40 htdocs/members/person_list.html.py:48
 #: htdocs/members/person_list.html:64 htdocs/members/person_list.html.py:75
 msgid "Requested"
-msgstr ""
+msgstr "申し込み済み"
 
 #: htdocs/members/person_detail.html:172 htdocs/members/person_detail.html:188
 msgid "Not requested"
-msgstr ""
+msgstr "未申し込み"
 
 #: htdocs/members/person_detail.html:179 htdocs/members/person_list.html:44
 #: src/twa/members/models.py:122
@@ -328,7 +328,7 @@ msgstr "いいえ"
 
 #: htdocs/members/search.html:7
 msgid "Search"
-msgstr ""
+msgstr "検索"
 
 #: htdocs/registration/login.html:18
 msgid "User"
@@ -446,11 +446,11 @@ msgstr "サムネイル"
 
 #: src/twa/members/models.py:119
 msgid "TWA Membership Request"
-msgstr ""
+msgstr "TWAメンバー申込み"
 
 #: src/twa/members/models.py:120
 msgid "TWA License Request"
-msgstr ""
+msgstr "TWA指導者認定書申込み"
 
 #: src/twa/members/models.py:154
 msgid "Days"
