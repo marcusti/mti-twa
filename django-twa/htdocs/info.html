@@ -31,6 +31,24 @@
   </tr>
 </table>
 
+<table id="techinfo">
+  <tr>
+    <th colspan="2">{% trans "Technical Information" %}</th>
+  </tr>
+  <tr>
+    <td>Server Time</td>
+    <td>{% now "r" %}</td>
+  </tr>
+  <tr>
+    <td>Django Version</td>
+    <td>{{ django_version }}</td>
+  </tr>
+  <tr>
+    <td>Python Version</td>
+    <td>{{ python_version }}</td>
+  </tr>
+</table>
+
 <p><a id="toggle_expired_sessions">Show/hide</a> all {{ expired_sessions|length }} expired sessions.</p>
 
 <table id="expired_sessions">
@@ -79,6 +97,5 @@
   </tr>
   {% endfor %}
 </table>
-
 
 {% endblock %}
