@@ -26,6 +26,8 @@ LANGUAGES = (
         )
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # List of callables that know how to import templates from various sources.

@@ -31,12 +31,6 @@ RANK = [
     ( 10, _( '5. Kyu' ) ),
 ]
 
-def get_next_month( month ):
-    if month == 12:
-        return 1
-    else:
-        return month + 1
-
 class Translation( models.Model ):
     name = models.CharField( 'Name', max_length = DEFAULT_MAX_LENGTH, unique = True )
     entry = models.CharField( 'Entry (en)', max_length = DEFAULT_MAX_LENGTH )

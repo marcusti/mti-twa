@@ -9,6 +9,8 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
+from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
+from twa.members.forms import LoginForm
 from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK
 
 def __get_rank_display( rank ):
@@ -22,21 +24,42 @@ def get_context( request ):
     my_context['language'] = request.session.get( 'django_language' )
     return my_context
 
-def login( request ):
+def twa_login( request ):
     ctx = get_context( request )
+    ctx['next'] = request.GET.get( 'next', LOGIN_REDIRECT_URL )
+    ctx['LANGUAGES'] = LANGUAGES
 
-    return redirect_to( request,
-        url = '/accounts/login/',
-        extra_context = ctx,
-    )
+    if request.method == 'POST':
+        form = LoginForm( request.POST )
+        if form.is_valid():
+            # user authentication is done in LoginForm validation
+            user = form.get_user()
+            login( request, user )
+
+            if not user.is_superuser:
+                from django.core.mail import mail_admins, send_mail
+                name = user.get_full_name()
+                mail_admins( 'Login', '%s: %s hat sich eingeloggt' % ( datetime.now(), name ), fail_silently = True )
+
+            if request.has_key( 'next' ):
+                next = request['next']
+            else:
+                next = LOGIN_REDIRECT_URL
+
+            return redirect_to( request, next )
+    else:
+        form = LoginForm()
+
+    ctx['form'] = form
+    return render_to_response(
+               'members/login.html',
+               ctx,
+            )
 
 @login_required
 def info( request ):
     if not request.user.is_superuser:
         raise Http404
-
-    #from django.core.mail import mail_admins, send_mail
-    #mail_admins( 'Subject here', 'Here is the message.', fail_silently = True )
 
     now = datetime.now()
 

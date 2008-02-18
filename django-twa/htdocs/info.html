@@ -31,7 +31,9 @@
   </tr>
 </table>
 
-<table>
+<p><a id="toggle_expired_sessions">Show/hide</a> all {{ expired_sessions|length }} expired sessions.</p>
+
+<table id="expired_sessions">
   <tr>
     <th>#</th>
     <th>{% trans "Expired Session ID" %}</th>
@@ -77,5 +79,6 @@
   </tr>
   {% endfor %}
 </table>
+
 
 {% endblock %}
