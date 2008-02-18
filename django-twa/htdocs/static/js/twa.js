@@ -42,5 +42,10 @@ $(document).ready(function(){
     $("#active_sessions").toggle();
   });
 
+  $("#expired_sessions").hide();
+  $("#toggle_expired_sessions").click(function() {
+    $("#expired_sessions").toggle();
+  });
+
 });
 
