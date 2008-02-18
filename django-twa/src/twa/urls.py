@@ -21,6 +21,8 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^dojos/csv/$', 'dojos_csv' ),
     ( r'^members/$', 'members' ),
     ( r'^member/(\d+)/$', 'member' ),
+    ( r'^members/csv/$', 'members_csv' ),
+    ( r'^members/xls/$', 'members_xls' ),
     ( r'^info/$', 'info' ),
     ( r'^login/$', 'twa_login' ),
  )
