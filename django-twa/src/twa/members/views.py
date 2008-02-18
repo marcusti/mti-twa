@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from django import get_version
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -9,9 +10,9 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
-from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
 from twa.members.forms import LoginForm
 from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK
+from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
 
 def __get_rank_display( rank ):
     for id, name in RANK:
@@ -68,7 +69,10 @@ def info( request ):
             Session.objects.filter( expire_date__lt = now ).delete()
             transaction.commit_unless_managed()
 
+    import sys
     ctx = get_context( request )
+    ctx['django_version'] = get_version()
+    ctx['python_version'] = sys.version
     ctx['users'] = User.objects.all().order_by( '-last_login' )
     ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( 'expire_date' )
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
