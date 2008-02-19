@@ -14,6 +14,7 @@ from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
 from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
+import sys
 
 def __get_rank_display( rank ):
     for id, name in RANK:
@@ -70,7 +71,6 @@ def info( request ):
             Session.objects.filter( expire_date__lt = now ).delete()
             transaction.commit_unless_managed()
 
-    import sys
     ctx = get_context( request )
     ctx['django_version'] = get_version()
     ctx['python_version'] = sys.version
@@ -259,50 +259,19 @@ def dojos_csv( request ):
 
 @login_required
 def members_xls( request ):
-    from pyExcelerator import *
+    from pyExcelerator import Workbook
+
     wb = Workbook()
     ws0 = wb.add_sheet( 'Members' )
 
-    ws0.write( 0, 0, 'id')
-    ws0.write( 0, 1, 'firstname')
-    ws0.write( 0, 2, 'lastname')
-    ws0.write( 0, 3, 'street')
-    ws0.write( 0, 4, 'zip')
-    ws0.write( 0, 5, 'city')
-    ws0.write( 0, 6, 'country')
-    ws0.write( 0, 7, 'phone')
-    ws0.write( 0, 8, 'fax')
-    ws0.write( 0, 9, 'mobile')
-    ws0.write( 0, 10, 'email')
-    ws0.write( 0, 11, 'website')
-    ws0.write( 0, 12, 'rank')
-    ws0.write( 0, 13, 'gender')
-    ws0.write( 0, 14, 'birth')
-    ws0.write( 0, 15, 'photo')
-    ws0.write( 0, 16, 'text')
+    for y, header in enumerate( __get_export_headers() ):
+        ws0.write( 0, y, header )
 
-    x = 0
-    for person in Person.persons.all().order_by( 'id' ):
-        x += 1
-        ws0.write( x, 0, str( person.id ) )
-        ws0.write( x, 1, person.firstname )
-        ws0.write( x, 2, person.lastname )
-        ws0.write( x, 3, person.street )
-        ws0.write( x, 4, person.zip )
-        ws0.write( x, 5, person.city )
-        ws0.write( x, 6, __get_name( person.country ) )
-        ws0.write( x, 7, person.phone )
-        ws0.write( x, 8, person.fax )
-        ws0.write( x, 9, person.mobile )
-        ws0.write( x, 10, person.email )
-        ws0.write( x, 11, person.website )
-        ws0.write( x, 12, person.get_current_rank_display() )
-        ws0.write( x, 13, person.get_gender_display() )
-        ws0.write( x, 14, str( person.birth ) )
-        ws0.write( x, 15, person.photo )
-        ws0.write( x, 16, person.text )
+    for x, person in enumerate( Person.persons.all().order_by( 'id' ) ):
+        for y, content in enumerate( __get_export_content( person ) ):
+            ws0.write( x + 1, y, content )
 
-    filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d%H%M%S' )
+    filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     wb.save( filename )
     response = HttpResponse( open( filename, 'r' ).read(), mimetype='application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
@@ -317,46 +286,55 @@ def members_csv( request ):
     from csvutf8 import UnicodeWriter
     writer = UnicodeWriter( response )
 
-    writer.writerow( ['id',
-                      'firstname',
-                      'lastname',
-                      'street',
-                      'zip',
-                      'city',
-                      'country',
-                      'phone',
-                      'fax',
-                      'mobile',
-                      'email',
-                      'website',
-                      'rank',
-                      'gender',
-                      'birth',
-                      'photo',
-                      'text',
-                      ] )
+    writer.writerow( __get_export_headers() )
 
     for person in Person.persons.all().order_by( 'id' ):
-        writer.writerow( [str( person.id ),
-                          person.firstname,
-                          person.lastname,
-                          person.street,
-                          person.zip,
-                          person.city,
-                          __get_name( person.country ),
-                          person.phone,
-                          person.fax,
-                          person.mobile,
-                          person.email,
-                          person.website,
-                          person.get_current_rank_display(),
-                          person.get_gender_display(),
-                          str( person.birth ),
-                          person.photo,
-                          person.text,
-                          ] )
+        writer.writerow( __get_export_content( person ) )
 
     return response
+
+def __get_export_headers():
+    #print Person._meta.fields
+    return [
+            'id',
+            'firstname',
+            'lastname',
+            'street',
+            'zip',
+            'city',
+            'country',
+            'phone',
+            'fax',
+            'mobile',
+            'email',
+            'website',
+            'rank',
+            'gender',
+            'birth',
+            'photo',
+            'text',
+            ]
+
+def __get_export_content( person ):
+    return [
+            str( person.id ),
+            person.firstname,
+            person.lastname,
+            person.street,
+            person.zip,
+            person.city,
+            __get_name( person.country ),
+            person.phone,
+            person.fax,
+            person.mobile,
+            person.email,
+            person.website,
+            person.get_current_rank_display(),
+            person.get_gender_display(),
+            str( person.birth ),
+            person.photo,
+            person.text,
+            ]
 
 def __get_name( o ):
     if o:
