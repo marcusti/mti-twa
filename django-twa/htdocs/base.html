@@ -121,6 +121,11 @@
         <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
       </tr>
     {% endfor %}
+    {% if perms.members %}
+      <tr>
+        <td></td><td class="meta" colspan="3"><a href="mailto:{% for person in license_requests %}{{ person }} &lt;{{ person.email }}&gt;,{% endfor %}">Email</a> an alle schreiben.</td>
+      </tr>
+    {% endif %}
   {% else %}
       <tr>
         <td class="meta" colspan="4">{% trans "None" %}</td>
