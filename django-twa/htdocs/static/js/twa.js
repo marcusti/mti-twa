@@ -48,7 +48,8 @@ $(document).ready(function(){
   });
 
   $("#login-button").click(function() {
-    $(this).attr("disabled", "disabled");
+    $("#login-button").attr("disabled", "disabled");
+    $("#login-form").submit();
   });
 
 });
