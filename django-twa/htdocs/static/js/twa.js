@@ -47,5 +47,9 @@ $(document).ready(function(){
     $("#expired_sessions").toggle();
   });
 
+  $("#login-button").click(function() {
+    $(this).attr("disabled", "disabled");
+  });
+
 });
 
