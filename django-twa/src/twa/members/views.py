@@ -100,7 +100,7 @@ def dojos( request ):
     ctx = get_context( request )
 
     countries = []
-    for d in Dojo.objects.values( 'country' ).order_by( 'country' ).distinct():
+    for d in Dojo.dojos.values( 'country' ).order_by( 'country' ).distinct():
         countries.append( ( str( d['country'] ), Country.objects.get( id = d['country'] ).get_name() ) )
     ctx['counties'] = countries
 
@@ -108,38 +108,38 @@ def dojos( request ):
         s = request['s']
         ctx['search'] = s
         if s:
-            qs = Dojo.objects.filter( Q( name__icontains=s ) |
+            qs = Dojo.dojos.filter( Q( name__icontains=s ) |
                     Q( shortname__icontains=s ) |
                     Q( text__icontains=s ) |
                     Q( street__icontains=s ) |
                     Q( zip__icontains=s ) |
                     Q( city__icontains=s ) )
         else:
-            qs = Dojo.objects.all()
+            qs = Dojo.dojos.all()
     else:
-        qs = Dojo.objects.all()
+        qs = Dojo.dojos.all()
 
     if request.has_key( 'sid' ):
         sid = request['sid']
         ctx['searchid'] = sid
         if sid:
-            qs &= Dojo.objects.filter( Q( id__icontains = sid ) )
+            qs &= Dojo.dojos.filter( Q( id__icontains = sid ) )
 
-    ctx['cities'] = Dojo.objects.values( 'city' ).order_by( 'city' ).distinct()
+    ctx['cities'] = Dojo.dojos.values( 'city' ).order_by( 'city' ).distinct()
     if request.has_key( 'ci' ):
         city = request['ci']
         ctx['ci'] = city
         if city <> 'all':
-            qs &= Dojo.objects.filter( city = city )
+            qs &= Dojo.dojos.filter( city = city )
 
     if request.has_key( 'co' ):
         co = request['co']
         ctx['co'] = co
         if co <> 'all':
-            ctx['cities'] = Dojo.objects.values( 'city' ).filter( country = co ).order_by( 'city' ).distinct()
-            qs &= Dojo.objects.filter( country = co )
+            ctx['cities'] = Dojo.dojos.values( 'city' ).filter( country = co ).order_by( 'city' ).distinct()
+            qs &= Dojo.dojos.filter( country = co )
         else:
-            ctx['cities'] = Dojo.objects.values( 'city' ).order_by( 'city' ).distinct()
+            ctx['cities'] = Dojo.dojos.values( 'city' ).order_by( 'city' ).distinct()
 
     ctx['counter'] = qs.count()
 
@@ -155,7 +155,7 @@ def dojo( request, did = None ):
     ctx['members'] = Person.persons.filter( dojos__id = did )
     return object_detail(
         request,
-        queryset = Dojo.objects.filter( id = did ),
+        queryset = Dojo.dojos.filter( id = did ),
         object_id = did,
         template_object_name = 'dojo',
         extra_context = ctx,
@@ -231,7 +231,7 @@ def members( request ):
 @login_required
 def member( request, mid = None ):
     ctx = get_context( request )
-    ctx['dojos'] = Dojo.objects.filter( person__id = mid )
+    ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
     ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     ctx['documents'] = Document.objects.filter( person__id = mid )
     return object_detail(
@@ -252,7 +252,7 @@ def dojos_csv( request ):
 
     writer.writerow( ['id', 'name', 'street', 'zip', 'city', 'country'] )
 
-    for d in Dojo.objects.all():
+    for d in Dojo.dojos.all():
         writer.writerow( [str( d.id ), d.name, d.street, d.zip, d.city, d.country.get_name()] )
 
     return response
