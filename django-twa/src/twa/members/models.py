@@ -205,14 +205,14 @@ class Person( models.Model ):
         ordering = [ 'firstname', 'lastname' ]
         list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'twa_license' , 'age', 'gender', 'is_active', 'admin_thumb' )
         list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
-        list_filter = ( 'current_rank', 'twa_membership', 'twa_license' )
+        list_filter = ( 'current_rank', 'is_active', 'twa_membership', 'twa_license' )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
 class DojoManager( models.Manager ):
     def get_query_set( self ):
-        if Person.objects.all().count() == 0:
-            from createInitialData import Import
-            Import()
+        #if Person.objects.all().count() == 0:
+        #    from createInitialData import Import
+        #    Import()
         return super( DojoManager, self ).get_query_set()
 
 class Dojo( models.Model ):
@@ -232,6 +232,7 @@ class Dojo( models.Model ):
     email = models.EmailField( _( 'Email' ), blank = True )
     website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
 
+    is_active = models.BooleanField( _( 'Active' ), default = True )
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
     leader = models.ForeignKey( Person, verbose_name = _( 'Dojo Leader' ), related_name = 'dojo_leader', blank = True, null = True )
 
