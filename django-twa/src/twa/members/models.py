@@ -246,6 +246,10 @@ class Dojo( models.Model ):
         return '/dojo/%i/' % self.id
 
     def save( self ):
+        if self.is_active == False:
+            for person in Person.objects.filter( dojos__id = self.id ):
+                person.is_active = False
+                person.save()
         super( Dojo, self ).save()
 
     def __unicode__( self ):
