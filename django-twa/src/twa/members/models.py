@@ -72,6 +72,9 @@ class Country( models.Model ):
 
 class PersonManager( models.Manager ):
     def get_query_set( self ):
+        #if Person.objects.all().count() == 0:
+        #    from createInitialData import Import
+        #    Import()
         return super( PersonManager, self ).get_query_set().filter( is_active = True )
 
     def get_persons_by_rank( self, rank ):
@@ -210,10 +213,7 @@ class Person( models.Model ):
 
 class DojoManager( models.Manager ):
     def get_query_set( self ):
-        #if Person.objects.all().count() == 0:
-        #    from createInitialData import Import
-        #    Import()
-        return super( DojoManager, self ).get_query_set()
+        return super( DojoManager, self ).get_query_set().filter( is_active = True )
 
 class Dojo( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
@@ -239,10 +239,14 @@ class Dojo( models.Model ):
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
-    objects = DojoManager()
+    objects = models.Manager()
+    dojos = DojoManager()
 
     def get_absolute_url( self ):
         return '/dojo/%i/' % self.id
+
+    def save( self ):
+        super( Dojo, self ).save()
 
     def __unicode__( self ):
         if not self.city:
@@ -256,9 +260,9 @@ class Dojo( models.Model ):
 
     class Admin:
         ordering = [ 'city', 'name' ]
-        list_display = ( 'id', 'city', 'name', 'leader', 'is_twa_member' )
+        list_display = ( 'id', 'city', 'name', 'leader', 'is_active', 'is_twa_member' )
         list_display_links = ( 'name', )
-        list_filter = ( 'country', )
+        list_filter = ( 'is_active', 'country', )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
 class GraduationManager( models.Manager ):
