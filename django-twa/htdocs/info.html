@@ -80,16 +80,16 @@
     <th>{% trans "User" %}</th>
     <th>{% trans "Path" %}</th>
     <th>{% trans "User Agent" %}</th>
-    <th>{% trans "Host" %}</th>
+    <th>{% trans "Remote" %}</th>
   </tr>
   {% for r in requests %}
   <tr>
     <td>{{ r.id }}</td>
     <td>{{ r.created }}</td>
     <td>{{ r.user }}</td>
-    <td>{{ r.path }}</td>
+    <td><a href="{{ r.path }}">{{ r.path }}</a></td>
     <td>{{ r.user_agent }}</td>
-    <td>{{ r.host }}</td>
+    <td>{{ r.remote }}</td>
   </tr>
   {% endfor %}
   <tr>
