@@ -136,13 +136,18 @@
       {% if grad.is_nomination %}
         {% trans "Nomination" %}:
       {% endif %}
-      {{ grad.get_rank_display }}<span class="meta"> {{ grad.date|default:"" }} ({{ grad.date|timesince }})</span>
+      {{ grad.get_rank_display }}
 
-      {% if grad.text %}
+        <span class="meta">
         <ul>
-          <li class="meta small">{{ grad.text|linebreaksbr }}</li>
+          <li>{{ grad.date|default:"" }} ({{ grad.date|timesince }})</li>
+
+          {% if grad.text %}
+            <li>{{ grad.text|linebreaksbr }}</li>
+          {% endif %}
         </ul>
-      {% endif %}
+        </span>
+
       </li>
     {% endfor %}
     </ul>
@@ -169,7 +174,7 @@
         {% if person.twa_membership_requested %}
           {% trans "Requested" %}
         {% else %}
-          {% trans "Not requested" %}
+          {% trans "No" %}
         {% endif %}
       {% endif %}
     </td>
@@ -178,16 +183,90 @@
   <tr>
     <td>{% trans "TWA License" %}:</td>
     <td>
-      {% if person.twa_license_since %}
-        {{ person.twa_license_since }}
-        <span class="meta">( {{ person.twa_license|timesince }} )</span>
-      {% else %}
-        {% if person.twa_license_requested %}
-          {% trans "Requested" %}
-        {% else %}
-          {% trans "Not requested" %}
-        {% endif %}
-      {% endif %}
+    {% if not person.is_license_requested and not person.is_licensed %}
+      {% trans "No" %}
+    {% else %}
+    <ul>
+    {% for license in person.license_set.all %}
+        <li>
+          {% trans "License" %}:
+          {% if perms.members %}<a href="/admin/members/license/{{ license.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+          <span class="meta">
+          <ul>
+            <li>
+              {% if license.date %}
+                {{ license.date }}
+                ( {{ license.date|timesince }} )
+              {% else %}
+                {% trans "No" %}
+              {% endif %}
+            </li>
+          </ul>
+          </span>
+        </li>
+
+        <li>
+          {% trans "Request" %}:
+          <span class="meta">
+          <ul>
+            <li>
+              {% if license.request %}
+                {{ license.request }}
+                ( {{ license.request|timesince }} )
+              {% else %}
+                {% trans "No" %}
+              {% endif %}
+            </li>
+
+            {% if license.request_doc %}
+            <li class="small">
+              <a href="{{ license.get_request_doc_url }}">{{ license.request_doc }}</a>
+            </li>
+            {% endif %}
+
+          </ul>
+          </span>
+        </li>
+
+        <li>
+          {% trans "Receipt" %}:
+          <span class="meta">
+          <ul>
+            <li>
+              {% if license.receipt %}
+                {{ license.receipt }}
+                ( {{ license.receipt|timesince }} )
+              {% else %}
+                {% trans "No" %}
+              {% endif %}
+            </li>
+
+            {% if license.receipt_doc %}
+            <li class="small">
+              <a href="{{ license.get_receipt_doc_url }}">{{ license.receipt_doc }}</a>
+            </li>
+            {% endif %}
+
+          </ul>
+          </span>
+        </li>
+
+        <li>
+          {% trans "Text" %}:
+          <span class="meta">
+          <ul>
+            <li>
+              {% if license.text %}
+                {{ license.text }}
+              {% endif %}
+            </li>
+          </ul>
+          </span>
+        </li>
+
+    {% endfor %}
+    </ul>
+    {% endif %}
     </td>
   </tr>
 

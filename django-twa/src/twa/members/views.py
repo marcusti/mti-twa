@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
-from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK, Request, RequestManager
+from twa.members.models import Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, Request, RequestManager
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
 import sys
 
@@ -94,10 +94,20 @@ def info( request ):
     )
 
 def index( request ):
+    if License.ocjects.all().count() == 0:
+        for person in Person.persons.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( 'twa_license_requested', 'lastname' ):
+            l = License()
+            l.person = person
+            l.request = person.twa_license_requested
+            l.receipt = person.twa_license_receipt
+            for doc in Document.objects.filter( person__id = person.id ):
+                l.request_doc = doc.file
+            l.save()
+
     today = date.today()
     ctx = get_context( request )
     if request.user.is_authenticated():
-        ctx['license_requests'] = Person.persons.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( '-twa_license_requested' )
+        ctx['requested_licenses'] = License.ocjects.get_requested_licenses()
         ctx['membership_requests'] = Person.persons.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
         ctx['birthdays'] = Person.persons.get_next_birthdays()
         ctx['nominations'] = Graduation.objects.filter( is_nomination = True )
@@ -173,18 +183,15 @@ def dojo( request, did = None ):
 
 @login_required
 def members( request ):
-    #for p in Person.objects.all():
-    #    p.save()
-
     ctx = get_context( request )
 
     if request.has_key( 'l' ):
         license = request['l']
         ctx['l'] = license
         if license == 'yes':
-            qs = Person.persons.filter( twa_license__isnull = False )
+            qs = Person.persons.get_licensed()
         elif license == 'requested':
-            qs = Person.persons.filter( twa_license_requested__isnull = False )
+            qs = Person.persons.get_by_requested_licenses()
         else:
             qs = Person.persons.all()
     else:

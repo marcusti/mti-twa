@@ -18,7 +18,7 @@
   </tr>
 </table>
 
-<table>
+<table class="columnhover">
   <tr>
     <th>{% trans "ID" %}</th>
     <th>{% trans "First Name" %}</th>
@@ -68,10 +68,10 @@
       {% endif %}
     </td>
     <td>
-      {% if person.twa_license %}
+      {% if person.is_licensed %}
         {% trans "Yes" %}
       {% else %}
-        {% if person.twa_license_requested %}
+        {% if person.is_license_requested %}
           {% trans "Requested" %}
         {% else %}
           {% trans "No" %}
