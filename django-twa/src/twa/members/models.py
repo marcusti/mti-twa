@@ -146,6 +146,7 @@ class Person( models.Model ):
     is_active = models.BooleanField( _( 'Active' ), default = True )
     twa_membership_requested = models.DateField( _( 'TWA Membership Request' ), blank = True, null = True )
     twa_license_requested = models.DateField( _( 'TWA License Request' ), blank = True, null = True )
+    twa_license_receipt = models.DateField( _( 'TWA License Receipt' ), blank = True, null = True )
     twa_membership = models.DateField( _( 'TWA Member' ), blank = True, null = True )
     twa_license = models.DateField( _( 'TWA License' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
