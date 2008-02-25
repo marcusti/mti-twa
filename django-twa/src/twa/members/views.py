@@ -27,7 +27,7 @@ def get_context( request ):
     if ua.find( 'dummy connection' ) == -1:
         r = Request( user = request.user )
         r.user_agent = ua
-        r.host = request.get_host()
+        r.remote = request.META['REMOTE_ADDR']
         r.path = request.get_full_path()
         r.save()
 

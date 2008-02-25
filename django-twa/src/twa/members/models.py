@@ -46,10 +46,10 @@ class RequestManager( models.Manager ):
         return agents
 
 class Request( models.Model ):
-    user = models.CharField( 'User', max_length = DEFAULT_MAX_LENGTH )
-    user_agent = models.CharField( 'User Agent', max_length = 500 )
-    path = models.CharField( 'Path', max_length = DEFAULT_MAX_LENGTH )
-    host = models.CharField( 'Host', max_length = DEFAULT_MAX_LENGTH )
+    user = models.CharField( 'User', max_length = DEFAULT_MAX_LENGTH, blank = True )
+    user_agent = models.CharField( 'User Agent', max_length = 500, blank = True )
+    path = models.CharField( 'Path', max_length = DEFAULT_MAX_LENGTH, blank = True )
+    remote = models.CharField( 'Remote', max_length = DEFAULT_MAX_LENGTH, blank = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
@@ -58,7 +58,7 @@ class Request( models.Model ):
 
     #class Admin:
     #    ordering = [ '-created' ]
-    #    list_display = ( 'id', 'created', 'user', 'path', 'user_agent', 'host' )
+    #    list_display = ( 'id', 'created', 'user', 'path', 'user_agent', 'remote' )
     #    #list_display_links = ( 'created', 'user' )
     #    list_filter = [ 'user' ]
 
