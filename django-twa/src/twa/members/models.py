@@ -111,6 +111,12 @@ class PersonManager( models.Manager ):
     def get_persons_by_rank( self, rank ):
         return self.get_query_set().filter( current_rank = rank )
 
+    def get_licensed( self ):
+        return self.get_query_set().filter( license__date__isnull = False )
+
+    def get_by_requested_licenses( self ):
+        return self.get_query_set().filter( license__request__isnull = False, license__date__isnull = True )
+
     def get_next_birthdays( self ):
         liste = []
         persons = self.get_query_set().filter( birth__isnull = False )
@@ -145,10 +151,7 @@ class Person( models.Model ):
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
     twa_membership_requested = models.DateField( _( 'TWA Membership Request' ), blank = True, null = True )
-    twa_license_requested = models.DateField( _( 'TWA License Request' ), blank = True, null = True )
-    twa_license_receipt = models.DateField( _( 'TWA License Receipt' ), blank = True, null = True )
     twa_membership = models.DateField( _( 'TWA Member' ), blank = True, null = True )
-    twa_license = models.DateField( _( 'TWA License' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), filter_interface=models.VERTICAL, blank = True, null = True )
     current_rank = models.IntegerField( _( 'Rank' ), choices = RANK, editable = False )
@@ -158,6 +161,12 @@ class Person( models.Model ):
 
     objects = models.Manager()
     persons = PersonManager()
+
+    def is_license_requested( self ):
+        return self.license_set.filter( request__isnull = False, date__isnull = True ).count() > 0
+
+    def is_licensed( self ):
+        return self.license_set.filter( date__isnull = False ).count() > 0
 
     def age( self ):
         if self.birth:
@@ -238,9 +247,9 @@ class Person( models.Model ):
 
     class Admin:
         ordering = [ 'firstname', 'lastname' ]
-        list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'twa_license' , 'age', 'gender', 'is_active', 'admin_thumb' )
+        list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'age', 'gender', 'is_active', 'admin_thumb' )
         list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
-        list_filter = ( 'current_rank', 'is_active', 'twa_membership', 'twa_license' )
+        list_filter = ( 'current_rank', 'is_active', 'twa_membership' )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
 class DojoManager( models.Manager ):
@@ -339,6 +348,40 @@ class Graduation( models.Model ):
         list_display_links = ( 'date', 'rank', )
         list_filter = ( 'is_nomination', 'rank', 'person' )
         #search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
+
+class LicenseManager( models.Manager ):
+    def get_requested_licenses( self ):
+        return License.ocjects.filter( request__isnull = False, date__isnull = True )
+
+    def get_granted_licenses( self ):
+        return License.ocjects.filter( date__isnull = False )
+
+class License( models.Model ):
+    person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
+    date = models.DateField( _( 'License Date' ), blank = True, null = True )
+    request = models.DateField( _( 'Request' ), blank = True, null = True )
+    receipt = models.DateField( _( 'Receipt' ), blank = True, null = True )
+    request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
+    receipt_doc = models.FileField( _( 'Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
+    text = models.TextField( _( 'Text' ), blank = True )
+
+    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
+    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+
+    ocjects = LicenseManager()
+
+    def __unicode__( self ):
+        return u'License date: %s, requested: %s'.strip() % ( self.date, self.request )
+
+    class Meta:
+        ordering = [ '-date', '-request', 'person' ]
+        verbose_name = _( 'License' )
+        verbose_name_plural = _( 'Licenses' )
+
+    class Admin:
+        ordering = [ '-date', '-request', 'person' ]
+        list_display = ( 'id', 'person', 'date', 'request', 'receipt' )
+        list_display_links = ( 'person', 'date', 'request' )
 
 class Document( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )

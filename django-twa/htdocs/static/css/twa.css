@@ -35,7 +35,7 @@ ul {
 }
 
 ul ul {
-  list-style-type: circle;
+  list-style-type: none;
   margin: 0;
   padding: 0.2em 0.2em 0.2em 2em;
 }
@@ -136,6 +136,14 @@ tr {
 
 .smaller {
   font-size: 80%;
+}
+
+.leftpad {
+  padding: 0 0 0 1em;
+}
+
+.columnhover tr:hover {
+  background-color: #dddddd;
 }
 
 .white {

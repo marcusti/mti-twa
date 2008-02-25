@@ -13,6 +13,7 @@
  <link rel="shortcut icon" href="/static/images/Kamon_blue.jpg" type="image/ico" />
  <script src="/static/js/jquery.js" type="text/javascript"></script> {# IE7 Bugfix: <script src="..." type=".."></script> !!! #}
  <script src="/static/js/twa.js" type="text/javascript"></script>
+ <script src="/static/js/jquery.columnhover.pack.js" type="text/javascript"></script>
  <title>TWA {% trans "Members" %}</title>
 </head>
 
@@ -76,14 +77,14 @@
   <div id="content">
   {% block content %}
 
-<table>
 {% if user.is_authenticated %}
+  <table class="columnhover">
 
   <tr id="nominations-header">
     <th>#</th>
     <th>{% trans "Nominations" %}</th>
-    <th>{% trans "Date" %}</th>
-    <th>Zahlungsbeleg</th>
+    <th>{% trans "Nomination" %}</th>
+    <th>{% trans "Receipt" %}</th>
     <th>{% trans "Rank" %} ( {% trans "Nomination" %} )</th>
   </tr>
 
@@ -110,24 +111,35 @@
   <tr>
     <th>#</th>
     <th>{% trans "Requested Licenses" %}</th>
-    <th>{% trans "TWA License Request" %}</th>
-    <th>Zahlungsbeleg</th>
+    <th>{% trans "Request" %}</th>
+    <th>{% trans "Receipt" %}</th>
     <th>{% trans "Rank" %}</th>
   </tr>
 
-  {% if license_requests %}
-    {% for person in license_requests %}
+  {% if requested_licenses %}
+    {% for license in requested_licenses %}
       <tr>
         <td class="meta">{{ forloop.revcounter }}</td>
-        <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
-        <td>{% if person.twa_license_requested %}{{ person.twa_license_requested }}{% endif %}</td>
-        <td>{% if person.twa_license_receipt %}{{ person.twa_license_receipt }}{% endif %}</td>
-        <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
+        <td><a href="{{ license.person.get_absolute_url }}">{{ license.person }}</a></td>
+        <td>
+          {% if license.request %}{{ license.request }}{% endif %}
+          {% if license.request_doc %} <span class="smaller leftpad"><a href="{{ license.get_request_doc_url }}">{{ license.request_doc|slice:"-3:" }}</a></span>{% endif %}
+        </td>
+        <td>
+          {% if license.receipt %}{{ license.receipt }}{% endif %}
+          {% if license.receipt_doc %} <span class="smaller leftpad"><a href="{{ license.get_receipt_doc_url }}">{{ license.receipt_doc|slice:"-3:" }}</a></span>{% endif %}
+        </td>
+        <td>
+          {% if license.person.current_rank %}{{ license.person.get_current_rank_display }}{% endif %}
+        </td>
       </tr>
     {% endfor %}
     {% if user.is_superuser %}
       <tr>
-        <td></td><td class="meta" colspan="4"><a href="mailto:{% for person in license_requests %}{{ person|urlencode }} &lt;{{ person.email }}&gt;,{% endfor %}">Email</a> an alle schreiben.</td>
+        <td></td>
+        <td class="meta" colspan="4">
+          <a href="mailto:{% for license in requested_licenses %}{{ license.person|urlencode }} &lt;{{ license.person.email }}&gt;,{% endfor %}">Email</a> an alle schreiben.
+        </td>
       </tr>
     {% endif %}
   {% else %}
@@ -143,8 +155,8 @@
   <tr>
     <th>#</th>
     <th>{% trans "Requested TWA Membership" %}</th>
-    <th>{% trans "Date" %}</th>
-    <th>Zahlungsbeleg</th>
+    <th>{% trans "Request" %}</th>
+    <th>{% trans "Receipt" %}</th>
     <th>{% trans "Rank" %}</th>
   </tr>
 
@@ -199,13 +211,15 @@
         <td class="meta" colspan="5">{% trans "None" %}</td>
       </tr>
   {% endif %}
+  </table>
 
   {% else %}
+  <table>
     <tr>
       <th colspan="5">&nbsp;</th>
     </tr>
+  </table>
   {% endif %}
-</table>
 
   {% endblock %}
   </div>
