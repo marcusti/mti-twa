@@ -31,6 +31,37 @@ RANK = [
     ( 10, _( '5. Kyu' ) ),
 ]
 
+class RequestManager( models.Manager ):
+    def get_query_set( self ):
+        return super( RequestManager, self ).get_query_set()
+
+    def get_user_agents( self ):
+        return self.get_query_set().values( 'user_agent' ).distinct()
+
+    def get_user_agents_by_requests( self ):
+        agents = []
+        for ua in self.get_user_agents():
+            agents.append( { 'count': self.get_query_set().filter( user_agent = ua['user_agent'] ).count(), 'user_agent': ua['user_agent'] } )
+        agents.append( { 'user_agent': '[all requests]', 'count': self.get_query_set().count() } )
+        return agents
+
+class Request( models.Model ):
+    user = models.CharField( 'User', max_length = DEFAULT_MAX_LENGTH )
+    user_agent = models.CharField( 'User Agent', max_length = 500 )
+    path = models.CharField( 'Path', max_length = DEFAULT_MAX_LENGTH )
+    host = models.CharField( 'Host', max_length = DEFAULT_MAX_LENGTH )
+
+    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
+    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+
+    objects = RequestManager()
+
+    #class Admin:
+    #    ordering = [ '-created' ]
+    #    list_display = ( 'id', 'created', 'user', 'path', 'user_agent', 'host' )
+    #    #list_display_links = ( 'created', 'user' )
+    #    list_filter = [ 'user' ]
+
 class Translation( models.Model ):
     name = models.CharField( 'Name', max_length = DEFAULT_MAX_LENGTH, unique = True )
     entry = models.CharField( 'Entry (en)', max_length = DEFAULT_MAX_LENGTH )

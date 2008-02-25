@@ -47,6 +47,11 @@ $(document).ready(function(){
     $("#expired_sessions").toggle();
   });
 
+  $("#requests").hide();
+  $("#toggle_requests").click(function() {
+    $("#requests").toggle();
+  });
+
   $("#login-button").click(function() {
     $("#login-button").attr("disabled", "disabled");
     $("#login-form").submit();
