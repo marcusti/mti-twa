@@ -374,12 +374,12 @@ class License( models.Model ):
         return u'License date: %s, requested: %s'.strip() % ( self.date, self.request )
 
     class Meta:
-        ordering = [ '-date', '-request', 'person' ]
+        ordering = [ '-request', 'person' ]
         verbose_name = _( 'License' )
         verbose_name_plural = _( 'Licenses' )
 
     class Admin:
-        ordering = [ '-date', '-request', 'person' ]
+        ordering = [ '-request', 'person' ]
         list_display = ( 'id', 'person', 'date', 'request', 'receipt' )
         list_display_links = ( 'person', 'date', 'request' )
 

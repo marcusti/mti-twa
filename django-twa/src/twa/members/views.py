@@ -94,15 +94,15 @@ def info( request ):
     )
 
 def index( request ):
-    if License.ocjects.all().count() == 0:
-        for person in Person.persons.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( 'twa_license_requested', 'lastname' ):
-            l = License()
-            l.person = person
-            l.request = person.twa_license_requested
-            l.receipt = person.twa_license_receipt
-            for doc in Document.objects.filter( person__id = person.id ):
-                l.request_doc = doc.file
-            l.save()
+    #if License.ocjects.all().count() == 0:
+    #    for person in Person.persons.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( 'twa_license_requested', 'lastname' ):
+    #        l = License()
+    #        l.person = person
+    #        l.request = person.twa_license_requested
+    #        l.receipt = person.twa_license_receipt
+    #        for doc in Document.objects.filter( person__id = person.id ):
+    #            l.request_doc = doc.file
+    #        l.save()
 
     today = date.today()
     ctx = get_context( request )
