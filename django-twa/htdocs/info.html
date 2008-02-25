@@ -47,6 +47,54 @@
     <td>Python Version</td>
     <td>{{ python_version }}</td>
   </tr>
+  <tr>
+    <td class="white" colspan="8">&nbsp;</td>
+  </tr>
+</table>
+
+
+<table>
+  <tr>
+    <th>#</th>
+    <th>{% trans "User Agent" %}</th>
+    <th>{% trans "Requests" %}</th>
+  </tr>
+  {% for agent in agents %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ agent.user_agent }}</td>
+    <td style="text-align: right;">{{ agent.count|floatformat }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td class="white" colspan="8">&nbsp;</td>
+  </tr>
+</table>
+
+<p><a id="toggle_requests">Show/hide</a> last {{ requests|length }} requests.</p>
+
+<table id="requests">
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>{% trans "Date" %}</th>
+    <th>{% trans "User" %}</th>
+    <th>{% trans "Path" %}</th>
+    <th>{% trans "User Agent" %}</th>
+    <th>{% trans "Host" %}</th>
+  </tr>
+  {% for r in requests %}
+  <tr>
+    <td>{{ r.id }}</td>
+    <td>{{ r.created }}</td>
+    <td>{{ r.user }}</td>
+    <td>{{ r.path }}</td>
+    <td>{{ r.user_agent }}</td>
+    <td>{{ r.host }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td class="white" colspan="8">&nbsp;</td>
+  </tr>
 </table>
 
 <p><a id="toggle_expired_sessions">Show/hide</a> all {{ expired_sessions|length }} expired sessions.</p>

@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
-from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK
+from twa.members.models import Country, Document, Dojo, Graduation, Person, PersonManager, RANK, Request, RequestManager
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
 import sys
 
@@ -23,6 +23,14 @@ def __get_rank_display( rank ):
     return ''
 
 def get_context( request ):
+    ua = request.META['HTTP_USER_AGENT']
+    if ua.find( 'dummy connection' ) == -1:
+        r = Request( user = request.user )
+        r.user_agent = ua
+        r.host = request.get_host()
+        r.path = request.get_full_path()
+        r.save()
+
     my_context = {}
     my_context['language'] = request.session.get( 'django_language' )
     return my_context
@@ -77,6 +85,8 @@ def info( request ):
     ctx['users'] = User.objects.all().order_by( '-last_login' )
     ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( 'expire_date' )
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
+    ctx['requests'] = Request.objects.all().order_by( '-id' )[:200]
+    ctx['agents'] = Request.objects.get_user_agents_by_requests()
 
     return direct_to_template( request,
         template = 'info.html',
