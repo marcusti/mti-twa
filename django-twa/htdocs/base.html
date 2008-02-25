@@ -83,6 +83,7 @@
     <th>#</th>
     <th>{% trans "Nominations" %}</th>
     <th>{% trans "Date" %}</th>
+    <th>Zahlungsbeleg</th>
     <th>{% trans "Rank" %} ( {% trans "Nomination" %} )</th>
   </tr>
 
@@ -92,23 +93,25 @@
         <td class="meta">{{ forloop.revcounter }}</td>
         <td><a href="{{ grad.person.get_absolute_url }}">{{ grad.person }}</a></td>
         <td>{% if grad.date %}{{ grad.date }}{% endif %}</td>
+        <td></td>
         <td>{% if grad.rank %}{{ grad.get_rank_display }}{% endif %}</td>
       </tr>
     {% endfor %}
   {% else %}
       <tr>
-        <td class="meta" colspan="4">{% trans "None" %}</td>
+        <td class="meta" colspan="5">{% trans "None" %}</td>
       </tr>
   {% endif %}
 
   <tr>
-    <td colspan="4" class="white">&nbsp;</td>
+    <td colspan="5" class="white">&nbsp;</td>
   </tr>
 
   <tr>
     <th>#</th>
     <th>{% trans "Requested Licenses" %}</th>
-    <th>{% trans "Date" %}</th>
+    <th>{% trans "TWA License Request" %}</th>
+    <th>Zahlungsbeleg</th>
     <th>{% trans "Rank" %}</th>
   </tr>
 
@@ -118,28 +121,30 @@
         <td class="meta">{{ forloop.revcounter }}</td>
         <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
         <td>{% if person.twa_license_requested %}{{ person.twa_license_requested }}{% endif %}</td>
+        <td>{% if person.twa_license_receipt %}{{ person.twa_license_receipt }}{% endif %}</td>
         <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
       </tr>
     {% endfor %}
     {% if user.is_superuser %}
       <tr>
-        <td></td><td class="meta" colspan="3"><a href="mailto:{% for person in license_requests %}{{ person|urlencode }} &lt;{{ person.email }}&gt;,{% endfor %}">Email</a> an alle schreiben.</td>
+        <td></td><td class="meta" colspan="4"><a href="mailto:{% for person in license_requests %}{{ person|urlencode }} &lt;{{ person.email }}&gt;,{% endfor %}">Email</a> an alle schreiben.</td>
       </tr>
     {% endif %}
   {% else %}
       <tr>
-        <td class="meta" colspan="4">{% trans "None" %}</td>
+        <td class="meta" colspan="5">{% trans "None" %}</td>
       </tr>
   {% endif %}
 
   <tr>
-    <td colspan="4" class="white">&nbsp;</td>
+    <td colspan="5" class="white">&nbsp;</td>
   </tr>
 
   <tr>
     <th>#</th>
     <th>{% trans "Requested TWA Membership" %}</th>
     <th>{% trans "Date" %}</th>
+    <th>Zahlungsbeleg</th>
     <th>{% trans "Rank" %}</th>
   </tr>
 
@@ -150,16 +155,17 @@
         <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
         <td>{% if person.twa_membership_requested %}{{ person.twa_membership_requested }}{% endif %}</td>
         <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
+        <td></td>
       </tr>
     {% endfor %}
   {% else %}
       <tr>
-        <td class="meta" colspan="4">{% trans "None" %}</td>
+        <td class="meta" colspan="5">{% trans "None" %}</td>
       </tr>
   {% endif %}
 
   <tr>
-    <td colspan="4" class="white">&nbsp;</td>
+    <td colspan="5" class="white">&nbsp;</td>
   </tr>
 
   <tr>
@@ -167,6 +173,7 @@
     <th>{% trans "Upcoming birthdays" %}</th>
     <th>{% trans "Birth" %}</th>
     <th>{% trans "Age" %}</th>
+    <th></th>
   </tr>
 
   {% if birthdays %}
@@ -184,17 +191,18 @@
         </td>
         <td>{{ person.birth }}</td>
         <td>{{ person.age }}</td>
+        <td></td>
       </tr>
     {% endfor %}
   {% else %}
       <tr>
-        <td class="meta" colspan="4">{% trans "None" %}</td>
+        <td class="meta" colspan="5">{% trans "None" %}</td>
       </tr>
   {% endif %}
 
   {% else %}
     <tr>
-      <th colspan="3">&nbsp;</th>
+      <th colspan="5">&nbsp;</th>
     </tr>
   {% endif %}
 </table>
