@@ -14,7 +14,7 @@ from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
 from twa.members.models import Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, Request, RequestManager
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
-import sys
+import platform, sys
 
 def __get_rank_display( rank ):
     for id, name in RANK:
@@ -83,6 +83,7 @@ def info( request ):
     ctx = get_context( request )
     ctx['django_version'] = get_version()
     ctx['python_version'] = sys.version
+    ctx['os_version'] = platform.platform()
     ctx['users'] = User.objects.all().order_by( '-last_login' )
     ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( 'expire_date' )
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
