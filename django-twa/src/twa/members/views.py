@@ -51,7 +51,9 @@ def twa_login( request ):
             if not user.is_superuser:
                 from django.core.mail import mail_admins, send_mail
                 name = user.get_full_name()
-                mail_admins( 'Login', '%s: %s hat sich eingeloggt' % ( datetime.now(), name ), fail_silently = True )
+                msg = '%s: %s hat sich eingeloggt.\n' % ( datetime.now(), name )
+                msg += 'https://marcusti.dyndns.org/'
+                mail_admins( 'Login', msg, fail_silently = True )
 
             if request.has_key( 'next' ):
                 next = request['next']
