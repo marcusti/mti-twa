@@ -2,6 +2,10 @@ from django import template
 
 register = template.Library()
 
+@register.simple_tag
+def maximum(a1, a2):
+    return max(a1, a2)
+
 def paginator( context, adjacent_pages = 3 ):
     """
     To be used in conjunction with the object_list generic view.

@@ -370,6 +370,9 @@ class License( models.Model ):
 
     ocjects = LicenseManager()
 
+    def get_absolute_url( self ):
+        return '/member/%i/' % self.person.id
+
     def __unicode__( self ):
         return u'License date: %s, requested: %s'.strip() % ( self.date, self.request )
 
