@@ -47,6 +47,7 @@ def twa_login( request ):
             user = form.get_user()
             login( request, user )
 
+            #send mail
             if not user.is_superuser:
                 from django.core.mail import mail_admins, send_mail
                 name = user.get_full_name()

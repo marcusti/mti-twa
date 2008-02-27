@@ -185,6 +185,7 @@
     <td>
     {% if not person.is_license_requested and not person.is_licensed %}
       {% trans "No" %}
+      {% if perms.members %}<a href="/admin/members/license/add/" class="edit small">{% trans "new" %}</a>{% endif %}
     {% else %}
     <ul>
     {% for license in person.license_set.all %}
