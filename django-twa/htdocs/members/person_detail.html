@@ -140,7 +140,9 @@
 
         <span class="meta">
         <ul>
-          <li>{{ grad.date|default:"" }} ({{ grad.date|timesince }})</li>
+          {% if grad.date %}
+          <li>{{ grad.date }} ({{ grad.date|timesince }})</li>
+          {% endif %}
 
           {% if grad.text %}
             <li>{{ grad.text|linebreaksbr }}</li>

@@ -316,14 +316,14 @@ class GraduationManager( models.Manager ):
 
     def get_current( self, person ):
         try:
-            return Graduation.objects.filter( person__id = person.id, is_nomination = False ).latest( 'date' )
+            return max( Graduation.objects.filter( person__id = person.id, is_nomination = False ).iterator() )
         except:
             return None
 
 class Graduation( models.Model ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
     rank = models.IntegerField( _( 'Rank' ), choices = RANK, core = True )
-    date = models.DateField( _( 'Date' ), blank = True, null = True, core = True )
+    date = models.DateField( _( 'Date' ), blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False, core = True )
 
@@ -332,6 +332,9 @@ class Graduation( models.Model ):
 
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.rank, self.date )
+    
+    def __cmp__( self, other ):
+        return cmp( self.rank, other.rank )
 
     def save( self ):
         self.person.save()
