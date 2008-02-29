@@ -107,6 +107,9 @@ def index( request ):
     #        for doc in Document.objects.filter( person__id = person.id ):
     #            l.request_doc = doc.file
     #        l.save()
+    
+    #for person in Person.objects.all():
+    #    person.save()
 
     today = date.today()
     ctx = get_context( request )
