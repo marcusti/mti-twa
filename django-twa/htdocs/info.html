@@ -12,7 +12,11 @@
     <th>{% trans "Active" %}</th>
     <th>{% trans "Admin" %}</th>
     <th>{% trans "Groups" %}</th>
+
+    {% if user.is_superuser %}
     <th>{% trans "Superuser" %}</th>
+    {% endif %}
+
   </tr>
   {% for benutzer in users %}
   <tr>
@@ -29,7 +33,11 @@
     <td>{{ benutzer.is_active|yesno }}</td>
     <td>{{ benutzer.is_staff|yesno }}</td>
     <td>{% for group in benutzer.groups.all %}{{ group.name }} {% endfor %}</td>
+
+    {% if user.is_superuser %}
     <td>{{ benutzer.is_superuser|yesno }}</td>
+    {% endif %}
+
   </tr>
   {% endfor %}
   <tr>
