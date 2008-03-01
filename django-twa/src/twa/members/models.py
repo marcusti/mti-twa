@@ -258,7 +258,7 @@ class Person( models.Model ):
 
     class Admin:
         ordering = [ 'firstname', 'lastname' ]
-        list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'age', 'gender', 'is_active', 'admin_thumb' )
+        list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'age', 'gender', 'photo', 'is_active', 'admin_thumb' )
         list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
         list_filter = ( 'current_rank', 'is_active', 'twa_membership' )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
