@@ -1,3 +1,4 @@
+from PIL import Image
 from datetime import date, datetime
 from django import get_version
 from django.contrib.auth import authenticate, login
@@ -14,7 +15,7 @@ from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
 from twa.members.models import Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, Request, RequestManager
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
-import platform, sys
+import os, platform, sys
 
 def __get_rank_display( rank ):
     for id, name in RANK:
@@ -286,18 +287,31 @@ def dojos_csv( request ):
 def members_xls( request ):
     from pyExcelerator import Workbook
 
-    wb = Workbook()
-    ws0 = wb.add_sheet( 'Members' )
+    workbook = Workbook()
+    sheet = workbook.add_sheet( 'Members' )
 
     for y, header in enumerate( __get_export_headers() ):
-        ws0.write( 0, y, header )
+        sheet.write( 0, y, header )
 
     for x, person in enumerate( Person.persons.all().order_by( 'id' ) ):
+        col = 0
         for y, content in enumerate( __get_export_content( person ) ):
-            ws0.write( x + 1, y, content )
+            sheet.write( x + 1, y, content )
+            col = y
+        if person.thumbnail:
+            file, ext = os.path.splitext( person.get_thumbnail_filename() )
+            bmp_name = file + '.bmp'
+            img = Image.open( person.get_thumbnail_filename() )
+            img.convert( 'RGB' )
+            img.save( bmp_name )
+            try:
+                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
+            except:
+                pass
+
 
     filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
-    wb.save( filename )
+    workbook.save( filename )
     response = HttpResponse( open( filename, 'r' ).read(), mimetype='application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 

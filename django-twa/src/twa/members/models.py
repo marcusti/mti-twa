@@ -1,11 +1,12 @@
 #-*- coding: utf-8 -*-
 
-import calendar
+from PIL import Image
 from datetime import date, datetime, timedelta
 from django.db import models
 from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
+import calendar
 
 DEFAULT_MAX_LENGTH = 200
 
@@ -212,7 +213,6 @@ class Person( models.Model ):
             self.birth_sort_string = self.birth.strftime( '%m%d' )
 
         if self.photo:
-            from PIL import Image
             THUMBNAIL_SIZE = ( 75, 75 )
             SCALE_SIZE = ( 300, 400 )
 
