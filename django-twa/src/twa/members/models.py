@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+import calendar
 from datetime import date, datetime, timedelta
 from django.db import models
 from django.db.models import Q
@@ -181,14 +182,24 @@ class Person( models.Model ):
     age.allow_tags = False
 
     def days( self ):
-        if self.birth:
-            today = date.today()
-            this_years_birthday = date( today.year, self.birth.month, self.birth.day )
-            if this_years_birthday < today:
-                this_years_birthday = date( today.year + 1, self.birth.month, self.birth.day )
-            return ( this_years_birthday - today ).days
-        else:
-           return 0
+        try:
+            if self.birth:
+                today = date.today()
+                this_years_birthday = date( today.year, self.birth.month, self.birth.day )
+                if this_years_birthday < today:
+                    year = today.year + 1
+                    if self.birth.month == 2 and self.birth.day == 29:
+                        while not calendar.isleap( year ):
+                            year += 1
+                    this_years_birthday = date( year, self.birth.month, self.birth.day )
+                return ( this_years_birthday - today ).days
+            else:
+               return 0
+        except:
+            from django.core.mail import mail_admins
+            msg = 'error resolving days to birth %s for %s. today is %s' % ( self.birth, self, date.today() )
+            mail_admins( 'Error', msg, fail_silently = True )
+            return 9999
     days.short_description = _( 'Days' )
     days.allow_tags = False
 
