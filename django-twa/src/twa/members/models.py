@@ -343,7 +343,7 @@ class Graduation( models.Model ):
 
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.rank, self.date )
-    
+
     def __cmp__( self, other ):
         return cmp( self.rank, other.rank )
 
