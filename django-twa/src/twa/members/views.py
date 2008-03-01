@@ -311,8 +311,8 @@ def members_xls( request ):
 
 
     filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
-    workbook.save( filename )
-    response = HttpResponse( open( filename, 'r' ).read(), mimetype='application/ms-excel' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
