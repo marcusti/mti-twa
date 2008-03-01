@@ -2,7 +2,7 @@ from datetime import date, datetime
 from django import get_version
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.sessions.models import Session
 from django.db import transaction
 from django.db.models import Q
@@ -72,7 +72,7 @@ def twa_login( request ):
 
 @login_required
 def info( request ):
-    if not request.user.is_superuser:
+    if not request.user.groups.filter( id = 1 ):
         raise Http404
 
     now = datetime.now()
@@ -91,6 +91,7 @@ def info( request ):
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
     ctx['requests'] = Request.objects.all().order_by( '-id' )[:200]
     ctx['agents'] = Request.objects.get_user_agents_by_requests()
+    ctx['hits'] = Request.objects.get_user_agents().count()
 
     return direct_to_template( request,
         template = 'info.html',
@@ -107,7 +108,7 @@ def index( request ):
     #        for doc in Document.objects.filter( person__id = person.id ):
     #            l.request_doc = doc.file
     #        l.save()
-    
+
     #for person in Person.objects.all():
     #    person.save()
 
