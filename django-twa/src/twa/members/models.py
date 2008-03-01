@@ -43,7 +43,7 @@ class RequestManager( models.Manager ):
         agents = []
         for ua in self.get_user_agents():
             agents.append( { 'count': self.get_query_set().filter( user_agent = ua['user_agent'] ).count(), 'user_agent': ua['user_agent'] } )
-        agents.append( { 'user_agent': '[all requests]', 'count': self.get_query_set().count() } )
+        #agents.append( { 'user_agent': '[all requests]', 'count': self.get_query_set().count() } )
         return agents
 
 class Request( models.Model ):

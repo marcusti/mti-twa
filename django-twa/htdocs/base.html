@@ -48,7 +48,7 @@
           | <a href="/admin/">{% trans "Admin" %}</a>
         {% endif %}
 
-        {% if user.is_superuser %}
+        {% if perms.members %}
           | <a href="/info/">{% trans "Info" %}</a>
         {% endif %}
 
