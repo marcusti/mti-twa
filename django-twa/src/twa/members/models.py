@@ -337,6 +337,7 @@ class Graduation( models.Model ):
     date = models.DateField( _( 'Date' ), blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False, core = True )
+    request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )

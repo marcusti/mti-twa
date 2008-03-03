@@ -92,9 +92,15 @@
       <tr>
         <td class="meta">{{ forloop.revcounter }}</td>
         <td><a href="{{ grad.person.get_absolute_url }}">{{ grad.person }}</a></td>
-        <td>{% if grad.date %}{{ grad.date }}{% endif %}</td>
+        <td>
+          {% if grad.date %}{{ grad.date }}{% endif %}
+          {% if grad.request_doc %} <span class="smaller leftpad"><a href="{{ grad.get_request_doc_url }}">{{ grad.request_doc|slice:"-3:" }}</a></span>{% endif %}
+        </td>
         <td></td>
-        <td>{% if grad.rank %}{{ grad.get_rank_display }}{% endif %}</td>
+        <td>
+          {% if grad.rank %}{{ grad.get_rank_display }}{% endif %}
+          <span class="meta small">{% if grad.text %}{{ grad.text }}{% endif %}</span>
+        </td>
       </tr>
     {% endfor %}
   {% else %}

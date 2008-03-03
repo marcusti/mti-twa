@@ -119,7 +119,7 @@ def index( request ):
         ctx['requested_licenses'] = License.ocjects.get_requested_licenses()
         ctx['membership_requests'] = Person.persons.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
         ctx['birthdays'] = Person.persons.get_next_birthdays()
-        ctx['nominations'] = Graduation.objects.filter( is_nomination = True )
+        ctx['nominations'] = Graduation.objects.filter( is_nomination = True ).order_by( '-date', '-rank' )
     return direct_to_template( request,
         template = 'base.html',
         extra_context = ctx,
