@@ -5,7 +5,7 @@ urlpatterns = patterns( '',
     # Admin
     ( r'^admin/', include( 'django.contrib.admin.urls' ) ),
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
-    ( r'^logout/$', 'django.contrib.auth.views.logout_then_login' ),
+    #( r'^logout/$', 'django.contrib.auth.views.logout_then_login' ),
     #( r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'template_name': 'registration/logout.html'} ),
  )
 
@@ -25,4 +25,5 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^members/xls/$', 'members_xls' ),
     ( r'^info/$', 'info' ),
     ( r'^login/$', 'twa_login' ),
+    ( r'^logout/$', 'twa_logout' ),
  )
