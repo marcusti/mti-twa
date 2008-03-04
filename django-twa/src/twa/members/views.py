@@ -1,7 +1,7 @@
 from PIL import Image
 from datetime import date, datetime
 from django import get_version
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.contrib.sessions.models import Session
@@ -33,13 +33,13 @@ def get_context( request ):
         r.save()
 
     my_context = {}
+    my_context['LANGUAGES'] = LANGUAGES
     my_context['language'] = request.session.get( 'django_language' )
     return my_context
 
 def twa_login( request ):
     ctx = get_context( request )
     ctx['next'] = request.GET.get( 'next', LOGIN_REDIRECT_URL )
-    ctx['LANGUAGES'] = LANGUAGES
 
     if request.method == 'POST':
         form = LoginForm( request.POST )
@@ -70,6 +70,11 @@ def twa_login( request ):
                'members/login.html',
                ctx,
             )
+
+def twa_logout( request ):
+    ctx = get_context( request )
+    logout( request )
+    return redirect_to( request, '/login/' )
 
 @login_required
 def info( request ):
