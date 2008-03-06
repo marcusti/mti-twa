@@ -121,7 +121,7 @@ def index( request ):
     today = date.today()
     ctx = get_context( request )
     if request.user.is_authenticated():
-        ctx['requested_licenses'] = License.ocjects.get_requested_licenses()
+        ctx['requested_licenses'] = License.ocjects.get_requested_licenses().order_by( '-id' )
         ctx['membership_requests'] = Person.persons.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
         ctx['birthdays'] = Person.persons.get_next_birthdays()
         ctx['nominations'] = Graduation.objects.filter( is_nomination = True ).order_by( '-date', '-rank' )
