@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 from PIL import Image
 from datetime import date, datetime
 from django import get_version
@@ -121,7 +123,7 @@ def index( request ):
     today = date.today()
     ctx = get_context( request )
     if request.user.is_authenticated():
-        ctx['requested_licenses'] = License.ocjects.get_requested_licenses().order_by( '-id' )
+        ctx['requested_licenses'] = License.objects.get_requested_licenses().order_by( '-id' )
         ctx['membership_requests'] = Person.persons.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
         ctx['birthdays'] = Person.persons.get_next_birthdays()
         ctx['nominations'] = Graduation.objects.filter( is_nomination = True ).order_by( '-date', '-rank' )
@@ -316,6 +318,42 @@ def members_xls( request ):
 
 
     filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    return response
+
+@login_required
+def license_requests_xls( request ):
+    from pyExcelerator import Workbook
+
+    workbook = Workbook()
+    sheet = workbook.add_sheet( 'Lizenz Anträge' )
+
+    for y, header in enumerate( ['NR', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
+        sheet.write( 0, y, header )
+
+    for x, license in enumerate( License.objects.get_requested_licenses().order_by( 'request' ) ):
+        person = license.person
+        content = [x + 1, person.firstname, person.lastname, person.city, person.get_current_rank_display(), str(license.request), str(license.receipt)]
+        col = 0
+        for y, content in enumerate( content ):
+            sheet.write( x + 1, y, content )
+            col = y
+        if person.thumbnail:
+            file, ext = os.path.splitext( person.get_thumbnail_filename() )
+            bmp_name = file + '.bmp'
+            img = Image.open( person.get_thumbnail_filename() )
+            img.convert( 'RGB' )
+            img.save( bmp_name )
+            try:
+                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
+            except:
+                pass
+
+
+    filename = 'license-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
