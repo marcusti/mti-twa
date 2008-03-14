@@ -26,4 +26,5 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^info/$', 'info' ),
     ( r'^login/$', 'twa_login' ),
     ( r'^logout/$', 'twa_logout' ),
+    ( r'^license-requests$', 'license_requests_xls' ),
  )

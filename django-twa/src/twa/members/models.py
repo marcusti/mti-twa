@@ -366,10 +366,10 @@ class Graduation( models.Model ):
 
 class LicenseManager( models.Manager ):
     def get_requested_licenses( self ):
-        return License.ocjects.filter( request__isnull = False, date__isnull = True )
+        return License.objects.filter( request__isnull = False, date__isnull = True )
 
     def get_granted_licenses( self ):
-        return License.ocjects.filter( date__isnull = False )
+        return License.objects.filter( date__isnull = False )
 
 class License( models.Model ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
@@ -383,7 +383,7 @@ class License( models.Model ):
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
-    ocjects = LicenseManager()
+    objects = LicenseManager()
 
     def get_absolute_url( self ):
         return '/member/%i/' % self.person.id
