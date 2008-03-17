@@ -300,21 +300,21 @@ def members_xls( request ):
     for y, header in enumerate( __get_export_headers() ):
         sheet.write( 0, y, header )
 
-    for x, person in enumerate( Person.persons.all().order_by( 'id' ) ):
+    for x, person in enumerate( Person.persons.all().order_by( 'firstname', 'lastname' ) ):
         col = 0
         for y, content in enumerate( __get_export_content( person ) ):
             sheet.write( x + 1, y, content )
             col = y
-        if person.thumbnail:
-            file, ext = os.path.splitext( person.get_thumbnail_filename() )
-            bmp_name = file + '.bmp'
-            img = Image.open( person.get_thumbnail_filename() )
-            img.convert( 'RGB' )
-            img.save( bmp_name )
-            try:
-                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
-            except:
-                pass
+#        if person.thumbnail:
+#            file, ext = os.path.splitext( person.get_thumbnail_filename() )
+#            bmp_name = file + '.bmp'
+#            img = Image.open( person.get_thumbnail_filename() )
+#            img.convert( 'RGB' )
+#            img.save( bmp_name )
+#            try:
+#                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
+#            except:
+#                pass
 
 
     filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
@@ -331,26 +331,26 @@ def license_requests_xls( request ):
     workbook = Workbook()
     sheet = workbook.add_sheet( 'Lizenz Anträge' )
 
-    for y, header in enumerate( ['NR', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
+    for y, header in enumerate( ['L-ID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
         sheet.write( 0, y, header )
 
-    for x, license in enumerate( License.objects.get_requested_licenses().order_by( 'request' ) ):
+    for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
         person = license.person
-        content = [x + 1, person.firstname, person.lastname, person.city, person.get_current_rank_display(), str(license.request), str(license.receipt)]
+        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date(license.request), __get_date(license.receipt)]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
-            col = y
-        if person.thumbnail:
-            file, ext = os.path.splitext( person.get_thumbnail_filename() )
-            bmp_name = file + '.bmp'
-            img = Image.open( person.get_thumbnail_filename() )
-            img.convert( 'RGB' )
-            img.save( bmp_name )
-            try:
-                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
-            except:
-                pass
+#            col = y
+#        if person.thumbnail:
+#            file, ext = os.path.splitext( person.get_thumbnail_filename() )
+#            bmp_name = file + '.bmp'
+#            img = Image.open( person.get_thumbnail_filename() )
+#            img.convert( 'RGB' )
+#            img.save( bmp_name )
+#            try:
+#                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
+#            except:
+#                pass
 
 
     filename = 'license-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
@@ -421,5 +421,11 @@ def __get_export_content( person ):
 def __get_name( o ):
     if o:
         return o.get_name()
+    else:
+        return ''
+
+def __get_date( d ):
+    if d:
+        return str( d )
     else:
         return ''
