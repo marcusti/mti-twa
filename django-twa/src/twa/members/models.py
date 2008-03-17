@@ -276,7 +276,7 @@ class Dojo( models.Model ):
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     #country = models.CharField( _( 'Country' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    country = models.ForeignKey( Country, verbose_name = _( 'Country' ), blank = True, null = True )
+    country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
 
     phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )

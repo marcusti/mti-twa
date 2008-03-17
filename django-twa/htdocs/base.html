@@ -139,20 +139,20 @@
         </td>
       </tr>
     {% endfor %}
-      <tr>
-        <td></td>
-        <td class="meta small" colspan="4">
-          {% trans "Export to" %} <a href="license-requests">xls</a>
-        </td>
-      </tr>
     {% if user.is_superuser %}
-      <tr>
-        <td></td>
-        <td class="meta small" colspan="4">
+      <tr class="white small">
+        <td class="white small"></td>
+        <td class="white meta small" colspan="4">
           <a href="mailto:{% for license in requested_licenses %}{{ license.person|urlencode }} &lt;{{ license.person.email }}&gt;, {% endfor %}">Email</a> an alle schreiben.
         </td>
       </tr>
     {% endif %}
+      <tr class="white small">
+        <td class="white small"></td>
+        <td class="white meta small" colspan="4">
+          {% trans "Export to" %} <a href="license-requests">xls</a>
+        </td>
+      </tr>
   {% else %}
       <tr>
         <td class="meta" colspan="5">{% trans "None" %}</td>
