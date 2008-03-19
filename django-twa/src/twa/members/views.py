@@ -326,13 +326,18 @@ def members_xls( request ):
 
 @login_required
 def license_requests_xls( request ):
-    from pyExcelerator import Workbook
+    import pyExcelerator as xl
 
-    workbook = Workbook()
+    workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Lizenz Anträge' )
+    header_font = xl.Font()
+    header_font.bold = True
+
+    header_style = xl.XFStyle()
+    header_style.font = header_font
 
     for y, header in enumerate( ['L-ID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
-        sheet.write( 0, y, header )
+        sheet.write( 0, y, header, header_style )
 
     for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
         person = license.person
@@ -378,23 +383,23 @@ def members_csv( request ):
 def __get_export_headers():
     #print Person._meta.fields
     return [
-            'id',
-            'firstname',
-            'lastname',
-            'street',
-            'zip',
-            'city',
-            'country',
-            'phone',
-            'fax',
-            'mobile',
-            'email',
-            'website',
-            'rank',
-            'gender',
-            'birth',
-            'photo',
-            'text',
+            'ID',
+            'FIRSTNAME',
+            'LASTNAME',
+            'STREET',
+            'ZIP',
+            'CITY',
+            'COUNTRY',
+            'PHONE',
+            'FAX',
+            'MOBILE',
+            'EMAIL',
+            'WEBSITE',
+            'RANK',
+            'GENDER',
+            'BIRTH',
+            'PHOTO',
+            'TEXT',
             ]
 
 def __get_export_content( person ):
