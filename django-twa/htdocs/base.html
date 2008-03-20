@@ -103,6 +103,12 @@
         </td>
       </tr>
     {% endfor %}
+      <tr class="white small">
+        <td class="white small"></td>
+        <td class="white meta small" colspan="4">
+          {% trans "Export to" %} <a href="nominations-xls">xls</a>
+        </td>
+      </tr>
   {% else %}
       <tr>
         <td class="meta" colspan="5">{% trans "None" %}</td>
@@ -150,7 +156,7 @@
       <tr class="white small">
         <td class="white small"></td>
         <td class="white meta small" colspan="4">
-          {% trans "Export to" %} <a href="license-requests">xls</a>
+          {% trans "Export to" %} <a href="license-requests-xls">xls</a>
         </td>
       </tr>
   {% else %}
