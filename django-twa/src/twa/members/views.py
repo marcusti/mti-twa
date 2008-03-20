@@ -292,13 +292,18 @@ def dojos_csv( request ):
 
 @login_required
 def members_xls( request ):
-    from pyExcelerator import Workbook
+    import pyExcelerator as xl
 
-    workbook = Workbook()
+    workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Members' )
+    header_font = xl.Font()
+    header_font.bold = True
+
+    header_style = xl.XFStyle()
+    header_style.font = header_font
 
     for y, header in enumerate( __get_export_headers() ):
-        sheet.write( 0, y, header )
+        sheet.write( 0, y, header, header_style )
 
     for x, person in enumerate( Person.persons.all().order_by( 'firstname', 'lastname' ) ):
         col = 0
@@ -345,20 +350,37 @@ def license_requests_xls( request ):
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
-#            col = y
-#        if person.thumbnail:
-#            file, ext = os.path.splitext( person.get_thumbnail_filename() )
-#            bmp_name = file + '.bmp'
-#            img = Image.open( person.get_thumbnail_filename() )
-#            img.convert( 'RGB' )
-#            img.save( bmp_name )
-#            try:
-#                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
-#            except:
-#                pass
-
 
     filename = 'license-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    return response
+
+@login_required
+def nominations_xls( request ):
+    import pyExcelerator as xl
+
+    workbook = xl.Workbook()
+    sheet = workbook.add_sheet( 'Graduierungen' )
+    header_font = xl.Font()
+    header_font.bold = True
+
+    header_style = xl.XFStyle()
+    header_style.font = header_font
+
+    for y, header in enumerate( ['NR', 'P-ID', 'VORNAME', 'NACHNAME', 'ORT', 'VORSCHLAG', 'DATUM', 'TEXT'] ):
+        sheet.write( 0, y, header, header_style )
+
+    for x, grad in enumerate( Graduation.objects.filter( is_nomination = True ).order_by( '-date', '-rank' ) ):
+        person = grad.person
+        content = [str( x + 1 ), str( person.id ), person.firstname, person.lastname, person.city, grad.get_rank_display(), __get_date(grad.date), grad.text]
+        col = 0
+        for y, content in enumerate( content ):
+            sheet.write( x + 1, y, content )
+
+    filename = 'nominations-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
