@@ -305,9 +305,12 @@ class Dojo( models.Model ):
         super( Dojo, self ).save()
 
     def __unicode__( self ):
-        if not self.city:
+        if self.shortname:
+            return self.shortname
+        elif self.city:
+            return self.city
+        else:
             return self.name
-        return '%s - %s'.strip() % ( self.city, self.name )
 
     class Meta:
         ordering = [ 'country', 'city', 'name' ]

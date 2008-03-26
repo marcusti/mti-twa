@@ -82,6 +82,7 @@
   <tr id="nominations-header">
     <th>#</th>
     <th>{% trans "Nominations" %}</th>
+    <th>{% trans "Dojo" %}</th>
     <th>{% trans "Nomination" %}</th>
     <th>{% trans "Receipt" %}</th>
     <th>{% trans "Rank" %} ( {% trans "Nomination" %} )</th>
@@ -92,6 +93,7 @@
       <tr>
         <td class="meta">{{ forloop.revcounter }}</td>
         <td><a href="{{ grad.person.get_absolute_url }}">{{ grad.person }}</a></td>
+        <td>{% for dojo in grad.person.dojos.all %}{{ dojo }} {% endfor %}</a></td>
         <td>
           {% if grad.date %}{{ grad.date }}{% endif %}
           {% if grad.request_doc %} <span class="smaller leftpad"><a href="{{ grad.get_request_doc_url }}">{{ grad.request_doc|slice:"-3:" }}</a></span>{% endif %}
@@ -122,6 +124,7 @@
   <tr>
     <th>{% trans "ID" %}</th>
     <th>{% trans "Requested Licenses" %}</th>
+    <th>{% trans "Dojo" %}</th>
     <th>{% trans "Request" %}</th>
     <th>{% trans "Receipt" %}</th>
     <th>{% trans "Rank" %}</th>
@@ -132,6 +135,7 @@
       <tr>
         <td class="meta">{{ license.id }}</td>
         <td><a href="{{ license.person.get_absolute_url }}">{{ license.person }}</a></td>
+        <td>{% for dojo in license.person.dojos.all %}{{ dojo }} {% endfor %}</a></td>
         <td>
           {% if license.request %}{{ license.request }}{% endif %}
           {% if license.request_doc %} <span class="smaller leftpad"><a href="{{ license.get_request_doc_url }}">{{ license.request_doc|slice:"-3:" }}</a></span>{% endif %}
@@ -172,6 +176,7 @@
   <tr>
     <th>#</th>
     <th>{% trans "Requested TWA Membership" %}</th>
+    <th>{% trans "Dojo" %}</th>
     <th>{% trans "Request" %}</th>
     <th>{% trans "Receipt" %}</th>
     <th>{% trans "Rank" %}</th>
@@ -182,6 +187,7 @@
       <tr>
         <td class="meta">{{ forloop.revcounter }}</td>
         <td><a href="{{ person.get_absolute_url }}">{{ person }}</a></td>
+        <td>{% for dojo in person.dojos.all %}{{ dojo }} {% endfor %}</a></td>
         <td>{% if person.twa_membership_requested %}{{ person.twa_membership_requested }}{% endif %}</td>
         <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
         <td></td>
@@ -200,6 +206,7 @@
   <tr>
     <th></th>
     <th>{% trans "Upcoming birthdays" %}</th>
+    <th>{% trans "Dojo" %}</th>
     <th>{% trans "Birth" %}</th>
     <th>{% trans "Age" %}</th>
     <th></th>
@@ -218,6 +225,7 @@
         <td>
           <a href="{{ person.get_absolute_url }}">{{ person }}</a>
         </td>
+        <td>{% for dojo in person.dojos.all %}{{ dojo }} {% endfor %}</a></td>
         <td>{{ person.birth }}</td>
         <td>{{ person.age }}</td>
         <td></td>
