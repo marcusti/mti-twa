@@ -91,6 +91,11 @@ def info( request ):
             transaction.commit_unless_managed()
 
     ctx = get_context( request )
+    try:
+        import MySQLdb
+        ctx['mysql_version'] = MySQLdb.version_info
+    except:
+        pass
     ctx['django_version'] = get_version()
     ctx['python_version'] = sys.version
     ctx['os_version'] = platform.platform()
