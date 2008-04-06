@@ -369,10 +369,10 @@ class Graduation( models.Model ):
 
 class LicenseManager( models.Manager ):
     def get_requested_licenses( self ):
-        return License.objects.filter( request__isnull = False, date__isnull = True )
+        return License.objects.filter( request__isnull = False, date__isnull = True, is_active = True )
 
     def get_granted_licenses( self ):
-        return License.objects.filter( date__isnull = False )
+        return License.objects.filter( date__isnull = False, is_active = True )
 
 class License( models.Model ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
@@ -382,6 +382,7 @@ class License( models.Model ):
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
     receipt_doc = models.FileField( _( 'Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
+    is_active = models.BooleanField( _( 'Active' ), default = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
