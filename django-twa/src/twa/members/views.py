@@ -351,7 +351,7 @@ def license_requests_xls( request ):
 
     for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
         person = license.person
-        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date(license.request), __get_date(license.receipt)]
+        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request ), __get_date( license.receipt )]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
@@ -380,7 +380,7 @@ def nominations_xls( request ):
 
     for x, grad in enumerate( Graduation.objects.filter( is_nomination = True ).order_by( '-date', '-rank' ) ):
         person = grad.person
-        content = [str( x + 1 ), str( person.id ), person.firstname, person.lastname, person.city, grad.get_rank_display(), __get_date(grad.date), grad.text]
+        content = [str( x + 1 ), str( person.id ), person.firstname, person.lastname, person.city, grad.get_rank_display(), __get_date( grad.date ), grad.text]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
