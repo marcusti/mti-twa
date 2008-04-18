@@ -1,6 +1,7 @@
-{% if counter %}
-<span class="meta">
-  {{ counter }}
+<span class="tableheader active">
   {% block counter-title %}{% endblock %}
 </span>
-{% endif %}
+
+<span class="meta">
+  ({{ counter }})
+</span>

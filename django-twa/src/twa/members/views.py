@@ -15,7 +15,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
-from twa.members.models import Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, Request, RequestManager
+from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, Request, RequestManager
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
 import os, platform, sys
 
@@ -41,6 +41,7 @@ def get_context( request ):
 
 def twa_login( request ):
     ctx = get_context( request )
+    ctx['menu'] = 'login'
     ctx['next'] = request.GET.get( 'next', LOGIN_REDIRECT_URL )
 
     if request.method == 'POST':
@@ -75,6 +76,7 @@ def twa_login( request ):
 
 def twa_logout( request ):
     ctx = get_context( request )
+    ctx['menu'] = 'logout'
     logout( request )
     return redirect_to( request, '/login/' )
 
@@ -91,6 +93,7 @@ def info( request ):
             transaction.commit_unless_managed()
 
     ctx = get_context( request )
+    ctx['menu'] = 'info'
     try:
         import MySQLdb
         ctx['mysql_version'] = MySQLdb.version_info
@@ -127,11 +130,17 @@ def index( request ):
 
     today = date.today()
     ctx = get_context( request )
+    ctx['menu'] = 'home'
     if request.user.is_authenticated():
-        ctx['requested_licenses'] = License.objects.get_requested_licenses().order_by( '-id' )
-        ctx['membership_requests'] = Person.persons.filter( twa_membership_requested__isnull = False, twa_membership__isnull = True ).order_by( '-twa_membership_requested' )
+        ctx['requested_licenses'] = License.objects.get_requested_licenses().count()
+        ctx['membership_requests'] = Person.persons.get_by_requested_membership().count()
+        ctx['associations'] = Association.objects.all().count()
+        ctx['dojos'] = Dojo.dojos.count()
+        ctx['members'] = Person.persons.count()
+        ctx['licenses'] = License.objects.get_granted_licenses().count()
+        ctx['graduations'] = Graduation.graduations.get_this_years_graduations().count()
+        ctx['suggestions'] = Graduation.suggestions.count()
         ctx['birthdays'] = Person.persons.get_next_birthdays()
-        ctx['nominations'] = Graduation.objects.filter( is_nomination = True ).order_by( '-date', '-rank' )
     return direct_to_template( request,
         template = 'base.html',
         extra_context = ctx,
@@ -139,6 +148,7 @@ def index( request ):
 
 def dojos( request ):
     ctx = get_context( request )
+    ctx['menu'] = 'dojos'
 
     countries = []
     for d in Dojo.dojos.values( 'country' ).order_by( 'country' ).distinct():
@@ -193,6 +203,7 @@ def dojos( request ):
 
 def dojo( request, did = None ):
     ctx = get_context( request )
+    ctx['menu'] = 'dojos'
     ctx['members'] = Person.persons.filter( dojos__id = did )
     return object_detail(
         request,
@@ -202,9 +213,39 @@ def dojo( request, did = None ):
         extra_context = ctx,
     )
 
+def associations( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'associations'
+
+    qs = Association.objects.all()
+    ctx['counter'] = qs.count()
+
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+    )
+
+def association( request, aid = None ):
+    ctx = get_context( request )
+    ctx['menu'] = 'associations'
+
+    qs = Association.objects.all()
+    ctx['counter'] = qs.count()
+
+    return object_detail(
+        request,
+        queryset = Association.objects.filter( id = aid ),
+        object_id = aid,
+        template_object_name = 'association',
+        extra_context = ctx,
+    )
+
 @login_required
 def members( request ):
     ctx = get_context( request )
+    ctx['menu'] = 'members'
 
     if request.has_key( 'l' ):
         license = request['l']
@@ -269,6 +310,7 @@ def members( request ):
 @login_required
 def member( request, mid = None ):
     ctx = get_context( request )
+    ctx['menu'] = 'members'
     ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
     ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     ctx['documents'] = Document.objects.filter( person__id = mid )
@@ -278,6 +320,83 @@ def member( request, mid = None ):
         object_id = mid,
         template_object_name = 'person',
         extra_context = ctx,
+    )
+
+@login_required
+def member_requests( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'member-requests'
+
+    qs = Person.persons.get_by_requested_membership().order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'members/member_requests_list.html',
+    )
+
+@login_required
+def licenses( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'licenses'
+
+    qs = License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
+    ctx['counter'] = qs.count()
+
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+    )
+
+@login_required
+def license_requests( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'license-requests'
+
+    qs = License.objects.get_requested_licenses().order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'members/license_requests_list.html',
+    )
+
+def graduations( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'graduations'
+
+    qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-rank', 'members_person.firstname', 'members_person.lastname' )
+    ctx['counter'] = qs.count()
+
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+    )
+
+@login_required
+def suggestions( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'suggestions'
+
+    qs = Graduation.suggestions.select_related().order_by( '-rank', 'members_person.firstname', 'members_person.lastname' )
+    ctx['counter'] = qs.count()
+
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'members/graduation_suggestion_list.html',
     )
 
 @login_required
@@ -346,7 +465,7 @@ def license_requests_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['L-ID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
+    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
@@ -356,7 +475,36 @@ def license_requests_xls( request ):
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
 
-    filename = 'license-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    filename = 'license-requests-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    return response
+
+@login_required
+def licenses_xls( request ):
+    import pyExcelerator as xl
+
+    workbook = xl.Workbook()
+    sheet = workbook.add_sheet( 'Lizenzen' )
+    header_font = xl.Font()
+    header_font.bold = True
+
+    header_style = xl.XFStyle()
+    header_style.font = header_font
+
+    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG'] ):
+        sheet.write( 0, y, header, header_style )
+
+    for x, license in enumerate( License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' ) ):
+        person = license.person
+        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request )]
+        col = 0
+        for y, content in enumerate( content ):
+            sheet.write( x + 1, y, content )
+
+    filename = 'licenses-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
