@@ -330,7 +330,7 @@ class Dojo( models.Model ):
         list_filter = ( 'is_active', 'country', )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
-class Association(models.Model):
+class Association( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
     shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
@@ -357,10 +357,7 @@ class Association(models.Model):
         return '/association/%i/' % self.id
 
     def __unicode__( self ):
-        if self.shortname:
-            return self.shortname
-        else:
-            return self.name
+        return ( '%s - %s' % ( self.province, self.name ) ).strip()
 
     class Meta:
         ordering = [ 'country', 'province', 'name' ]
