@@ -10,22 +10,18 @@
 
   <tr>
     <th colspan="2">
-      {% trans "Dojo" %}
-      {% if perms.members %}<a href="/admin/members/dojo/{{ dojo.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+      {% trans "National Association" %}
+      {% if perms.members %}<a href="/admin/members/association/{{ association.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
     </th>
   </tr>
 
   <tr>
     <td>{% trans "Name" %}:</td>
-    <td><b>{{ dojo.name }}</b></td>
+    <td><b>{{ association.name }}</b></td>
   </tr>
   <tr>
     <td>{% trans "ID" %}:</td>
-    <td>{{ dojo.id }}</td>
-  </tr>
-  <tr>
-    <td>{% trans "National Association" %}:</td>
-    <td>{% if dojo.association %}<a href="{{ dojo.association.get_absolute_url  }}">{{ dojo.association }}</a>{% endif %}</td>
+    <td>{{ association.id }}</td>
   </tr>
 
   <tr>
@@ -36,11 +32,11 @@
   <tr>
     <td>{% trans "Dojo Leader" %}:</td>
     <td>
-      {% if dojo.leader %}
+      {% if association.contact %}
         {% if user.is_authenticated %}
-          <a href="{{ dojo.leader.get_absolute_url }}">{{ dojo.leader }}</a>
+          <a href="{{ association.contact.get_absolute_url }}">{{ association.contact }}</a>
         {% else %}
-          {{ dojo.leader }}
+          {{ association.contact }}
         {% endif %}
       {% endif %}
     </td>
@@ -53,15 +49,15 @@
 
   <tr>
     <td>{% trans "Street" %}:</td>
-    <td>{{ dojo.street }}</td>
+    <td>{{ association.street }}</td>
   </tr>
   <tr>
     <td>{% trans "Zip" %}, {% trans "City" %}:</td>
-    <td>{{ dojo.zip }} {{ dojo.city }}</td>
+    <td>{{ association.zip }} {{ association.city }}</td>
   </tr>
   <tr>
     <td>{% trans "Country" %}:</td>
-    <td>{{ dojo.country.get_name|default:"" }}</td>
+    <td>{{ association.country.get_name|default:"" }}</td>
   </tr>
 
   <tr>
@@ -71,23 +67,23 @@
 
   <tr>
     <td>{% trans "Phone" %}:</td>
-    <td>{{ dojo.phone }}</td>
+    <td>{{ association.phone }}</td>
   </tr>
   <tr>
     <td>{% trans "Fax" %}:</td>
-    <td>{{ dojo.fax }}</td>
+    <td>{{ association.fax }}</td>
   </tr>
   <tr>
     <td>{% trans "Mobile" %}:</td>
-    <td>{{ dojo.mobile }}</td>
+    <td>{{ association.mobile }}</td>
   </tr>
   <tr>
     <td>{% trans "Email" %}:</td>
-    <td>{% if person.email %}<a href="mailto:{{ dojo.email }}">{{ dojo.email }}</a>{% endif %}</td>
+    <td>{% if person.email %}<a href="mailto:{{ association.email }}">{{ association.email }}</a>{% endif %}</td>
   </tr>
   <tr>
     <td>{% trans "Website" %}:</td>
-    <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
+    <td>{% if association.website %}<a href="{{ association.website }}" target="_blank">{{ association.website }}</a>{% endif %}</td>
   </tr>
 
   <tr>
@@ -97,7 +93,7 @@
 
   <tr>
     <td>{% trans "Text" %}:</td>
-    <td>{{ dojo.text|linebreaksbr }}</td>
+    <td>{{ association.text|linebreaksbr }}</td>
   </tr>
 
   <tr>
@@ -106,15 +102,15 @@
 
   {% if user.is_authenticated %}
   <tr>
-    <th colspan="2">{% trans "Members" %}</th>
+    <th colspan="2">{% trans "Dojos" %}</th>
   </tr>
 
   <tr>
     <td></td>
     <td>
     <ul>
-    {% for person in members %}
-      <li><a href="{{ person.get_absolute_url }}">{{ person }}</a></li>
+    {% for dojo in association.dojo_set.all %}
+      <li><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></li>
     {% endfor %}
     </ul>
     </td>
@@ -123,5 +119,5 @@
 
 </table>
 
-<p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ dojo.last_modified }}</small></p>
+<p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ association.last_modified }}</small></p>
 {% endblock %}

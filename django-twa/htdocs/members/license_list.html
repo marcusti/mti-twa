@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<form action="." method="get" id="member_filter">
+
+<table>
+  <tr>
+    <td class="white bottom">
+      {% include "members/license_counter.html" %}<br/>{% paginator %}
+    </td>
+  </tr>
+</table>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "LID" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Dojo" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "License" %}</th>
+  </tr>
+
+{% for license in object_list %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+
+    <td>{{ license.id }}</td>
+
+    <td><a href="{{ license.person.get_absolute_url }}">{{ license.person.firstname }} {{ license.person.lastname }}</a></td>
+
+    <td><ul>{% for dojo in license.person.dojos.all %}<li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>{% endfor %}</ul></td>
+
+    <td>{% if license.person.current_rank %}{{ license.person.get_current_rank_display }}{% endif %}</td>
+
+    <td>{{ license.date }}</td>
+
+  </tr>
+{% endfor %}
+
+{% if object_list|length_is:"0" %}
+  <tr>
+    <td class="" colspan="6">
+      {% trans "None" %}
+    </td>
+  </tr>
+{% endif %}
+
+  <tr>
+    <td class="white" colspan="6">
+      {% paginator %}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="white meta" colspan="6">
+      {% trans "Export to" %} <a href="/licenses/xls/">xls</a>
+    </td>
+  </tr>
+</table>
+</form>
+
+{% endblock %}

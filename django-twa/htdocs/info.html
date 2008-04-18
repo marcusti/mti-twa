@@ -78,10 +78,10 @@
 <table>
   <tr>
     <th>#</th>
-    <th>{% trans "User Agent" %}</th>
+    <th>{% trans "User Agents Top 10" %}</th>
     <th>{% trans "Page Hits" %}</th>
   </tr>
-  {% for agent in agents|dictsortreversed:"count" %}
+  {% for agent in agents|dictsortreversed:"count"|slice:"10" %}
   <tr>
     <td>{{ forloop.counter }}</td>
     <td>{{ agent.user_agent }}</td>

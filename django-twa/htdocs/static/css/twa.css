@@ -31,7 +31,8 @@ a:hover.edit {
 
 ul {
   list-style-type: none;
-  margin: 0; padding: 0.2em;
+  margin: 0;
+  padding: 0;
 }
 
 ul ul {
@@ -62,6 +63,11 @@ th.edit {
   text-align: right;
 }
 
+.tableheader {
+  color: black;
+  background-color: white;
+}
+
 tr {
   background-color: #eeeeee;
 }
@@ -69,6 +75,12 @@ tr {
 #header {
   text-align: left;
   vertical-align: top;
+  padding: 0;
+  margin: 0 0 1em 0;
+}
+
+#header table {
+  style: fixed;
 }
 
 #header form, #header td {
@@ -88,6 +100,19 @@ tr {
   text-align: right;
   font-size: 90%;
   margin: 0; padding: 0.2em;
+}
+
+.menu {
+  clear: both;
+  border-top: 1px solid #9d9ea0;
+  border-bottom: 1px solid #9d9ea0;
+}
+
+.menu-block {
+  float: right;
+  text-align: right;
+  margin: 0;
+  padding: 1em 0 0 2em;
 }
 
 .right {
@@ -181,4 +206,8 @@ img.logo {
 
 .error {
   color: red;
+}
+
+.active {
+  font-weight: bold;
 }

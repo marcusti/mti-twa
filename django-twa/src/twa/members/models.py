@@ -119,6 +119,12 @@ class PersonManager( models.Manager ):
     def get_by_requested_licenses( self ):
         return self.get_query_set().filter( license__request__isnull = False, license__date__isnull = True )
 
+    def get_by_requested_membership( self ):
+        return self.get_query_set().filter( twa_membership_requested__isnull = False, twa_membership__isnull = True )
+
+    def get_members( self ):
+        return self.get_query_set().filter( twa_membership__isnull = False )
+
     def get_next_birthdays( self ):
         liste = []
         persons = self.get_query_set().filter( birth__isnull = False )
@@ -275,7 +281,6 @@ class Dojo( models.Model ):
     street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    #country = models.CharField( _( 'Country' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
 
     phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -287,6 +292,7 @@ class Dojo( models.Model ):
     is_active = models.BooleanField( _( 'Active' ), default = True )
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
     leader = models.ForeignKey( Person, verbose_name = _( 'Dojo Leader' ), related_name = 'dojo_leader', blank = True, null = True )
+    association = models.ForeignKey( 'Association', verbose_name = _( 'Association' ), blank = True, null = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
@@ -324,13 +330,64 @@ class Dojo( models.Model ):
         list_filter = ( 'is_active', 'country', )
         search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
+class Association(models.Model):
+    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
+    shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    text = models.TextField( _( 'Text' ), blank = True )
+
+    street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    province = models.CharField( _( 'Province' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
+
+    phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    mobile = models.CharField( _( 'Mobile' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    email = models.EmailField( _( 'Email' ), blank = True )
+    website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
+
+    is_active = models.BooleanField( _( 'Active' ), default = True )
+    contact = models.ForeignKey( Person, verbose_name = _( 'Contact' ), related_name = 'association', blank = True, null = True )
+
+    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
+    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+
+    def get_absolute_url( self ):
+        return '/association/%i/' % self.id
+
+    def __unicode__( self ):
+        if self.shortname:
+            return self.shortname
+        else:
+            return self.name
+
+    class Meta:
+        ordering = [ 'country', 'province', 'name' ]
+        verbose_name = _( 'Association' )
+        verbose_name_plural = _( 'Associations' )
+
+    class Admin:
+        ordering = [ 'country', 'province', 'name' ]
+        list_display = ( 'id', 'name', 'contact', 'is_active' )
+        list_display_links = ( 'name', )
+        list_filter = ( 'is_active', 'country', )
+        search_fields = [ 'id', 'name', 'shortname', 'city', 'text' ]
+
+class SuggestionsManager( models.Manager ):
+    def get_query_set( self ):
+        return super( SuggestionsManager, self ).get_query_set().filter( is_nomination = True )
+
 class GraduationManager( models.Manager ):
     def get_query_set( self ):
         return super( GraduationManager, self ).get_query_set().filter( is_nomination = False )
 
     def get_current( self, person ):
+        return max( Graduation.objects.filter( person__id = person.id, is_nomination = False ).iterator() )
+
+    def get_this_years_graduations( self ):
         try:
-            return max( Graduation.objects.filter( person__id = person.id, is_nomination = False ).iterator() )
+            return self.get_query_set().filter( date__year = date.today().year )
         except:
             return None
 
@@ -345,6 +402,10 @@ class Graduation( models.Model ):
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
+    objects = models.Manager()
+    graduations = GraduationManager()
+    suggestions = SuggestionsManager()
+
     def __unicode__( self ):
         return u'%s %s'.strip() % ( self.rank, self.date )
 
@@ -357,6 +418,7 @@ class Graduation( models.Model ):
 
     class Meta:
         ordering = [ '-rank', '-date' ]
+        get_latest_by = "date"
         verbose_name = _( 'Graduation' )
         verbose_name_plural = _( 'Graduations' )
 
