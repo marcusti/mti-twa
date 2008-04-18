@@ -35,6 +35,6 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^members/csv/$', 'members_csv' ),
     ( r'^members/xls/$', 'members_xls' ),
     ( r'^nominations-xls$', 'nominations_xls' ),
-    ( r'^rosetta/', include('rosetta.urls') ),
+#    ( r'^rosetta/', include('rosetta.urls') ),
     ( r'^suggestions/$', 'suggestions' ),
  )
