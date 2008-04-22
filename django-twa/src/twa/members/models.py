@@ -380,13 +380,13 @@ class GraduationManager( models.Manager ):
         return super( GraduationManager, self ).get_query_set().filter( is_nomination = False )
 
     def get_current( self, person ):
-        return max( Graduation.objects.filter( person__id = person.id, is_nomination = False ).iterator() )
-
-    def get_this_years_graduations( self ):
         try:
-            return self.get_query_set().filter( date__year = date.today().year )
+            return max( Graduation.objects.filter( person__id = person.id, is_nomination = False ).iterator() )
         except:
             return None
+
+    def get_this_years_graduations( self ):
+        return self.get_query_set().filter( date__year = date.today().year )
 
 class Graduation( models.Model ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
