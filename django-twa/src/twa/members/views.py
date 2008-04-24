@@ -69,7 +69,7 @@ def twa_login( request ):
         form = LoginForm()
 
     ctx['form'] = form
-    return render_to_response( 
+    return render_to_response(
                'members/login.html',
                ctx,
             )
@@ -95,8 +95,8 @@ def info( request ):
     ctx = get_context( request )
     ctx['menu'] = 'info'
     try:
-        import MySQLdb
-        ctx['mysql_version'] = MySQLdb.version_info
+        from django import db
+        ctx['mysql_version'] = '%s %s' % ( db.settings.DATABASE_ENGINE, db.backend.Database.get_client_info() )
     except:
         pass
     ctx['django_version'] = get_version()
@@ -194,7 +194,7 @@ def dojos( request ):
 
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -205,7 +205,7 @@ def dojo( request, did = None ):
     ctx = get_context( request )
     ctx['menu'] = 'dojos'
     ctx['members'] = Person.persons.filter( dojos__id = did )
-    return object_detail( 
+    return object_detail(
         request,
         queryset = Dojo.dojos.filter( id = did ),
         object_id = did,
@@ -220,7 +220,7 @@ def associations( request ):
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -234,7 +234,7 @@ def association( request, aid = None ):
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_detail( 
+    return object_detail(
         request,
         queryset = Association.objects.filter( id = aid ),
         object_id = aid,
@@ -300,7 +300,7 @@ def members( request ):
 
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -314,7 +314,7 @@ def member( request, mid = None ):
     ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
     ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     ctx['documents'] = Document.objects.filter( person__id = mid )
-    return object_detail( 
+    return object_detail(
         request,
         queryset = Person.persons.filter( id = mid ),
         object_id = mid,
@@ -330,7 +330,7 @@ def member_requests( request ):
     qs = Person.persons.get_by_requested_membership().order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -346,7 +346,7 @@ def licenses( request ):
     qs = License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -361,7 +361,7 @@ def license_requests( request ):
     qs = License.objects.get_requested_licenses().order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -376,7 +376,7 @@ def graduations( request ):
     qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-rank', 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -391,7 +391,7 @@ def suggestions( request ):
     qs = Graduation.suggestions.select_related().order_by( '-rank', 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
