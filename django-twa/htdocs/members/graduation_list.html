@@ -16,7 +16,7 @@
 
 <table class="columnhover">
   <tr>
-    <th>{% trans "GID" %}</th>
+    <th>#</th>
     <th>{% trans "Name" %}</th>
     <th>{% trans "Dojo" %}</th>
     <th>{% trans "Rank" %}</th>
@@ -26,7 +26,7 @@
 {% for graduation in object_list %}
   <tr class="{% cycle 'row1' 'row2' %}">
 
-    <td>{{ graduation.id }}</td>
+    <td>{{ forloop.counter }}</td>
 
     <td><a href="{{ graduation.person.get_absolute_url }}">{{ graduation.person.firstname }} {{ graduation.person.lastname }}</a></td>
 
@@ -34,7 +34,9 @@
 
     <td>{% if graduation.rank %}{{ graduation.get_rank_display }}{% endif %}</td>
 
-    <td>{{ graduation.date }}</td>
+    <td>
+      {{ graduation.date|default:"" }}
+</td>
 
   </tr>
 {% endfor %}
