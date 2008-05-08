@@ -107,7 +107,7 @@ def info( request ):
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
     ctx['requests'] = Request.objects.all().order_by( '-id' )[:200]
     ctx['agents'] = Request.objects.get_user_agents_by_requests()
-    ctx['hits'] = Request.objects.get_user_agents().count()
+    ctx['hits'] = Request.objects.all().count()
 
     return direct_to_template( request,
         template = 'info.html',
