@@ -373,20 +373,20 @@ class Association( models.Model ):
 
 class SuggestionsManager( models.Manager ):
     def get_query_set( self ):
-        return super( SuggestionsManager, self ).get_query_set().filter( is_nomination = True )
+        return super( SuggestionsManager, self ).get_query_set().filter( is_active = True, is_nomination = True )
 
 class GraduationManager( models.Manager ):
     def get_query_set( self ):
-        return super( GraduationManager, self ).get_query_set().filter( is_nomination = False )
+        return super( GraduationManager, self ).get_query_set().filter( is_active = True, is_nomination = False )
 
     def get_current( self, person ):
         try:
-            return max( Graduation.objects.filter( person__id = person.id, is_nomination = False ).iterator() )
+            return max( Graduation.objects.filter( person__id = person.id, is_active = True, is_nomination = False ).iterator() )
         except:
             return None
 
     def get_this_years_graduations( self ):
-        return self.get_query_set().filter( date__year = date.today().year )
+        return self.get_query_set().filter( is_active = True, date__year = date.today().year )
 
 class Graduation( models.Model ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
@@ -395,6 +395,7 @@ class Graduation( models.Model ):
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False, core = True )
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
+    is_active = models.BooleanField( _( 'Active' ), default = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
     last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
@@ -421,9 +422,9 @@ class Graduation( models.Model ):
 
     class Admin:
         ordering = [ '-rank', '-date' ]
-        list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination' )
+        list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'is_active' )
         list_display_links = ( 'date', 'rank', )
-        list_filter = ( 'is_nomination', 'rank', 'person' )
+        list_filter = ( 'is_active', 'is_nomination', 'rank', 'person' )
         #search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
 
 class LicenseManager( models.Manager ):

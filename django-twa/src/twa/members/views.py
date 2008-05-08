@@ -288,7 +288,7 @@ def members( request ):
             qs &= Person.persons.filter( Q( id__exact = sid ) )
 
     ranks = []
-    for r in Graduation.objects.values( 'rank' ).distinct():
+    for r in Graduation.graduations.values( 'rank' ).distinct():
         ranks.append( ( str( r['rank'] ), __get_rank_display( r['rank'] ) ) )
     ctx['ranks'] = ranks
 
@@ -312,7 +312,7 @@ def member( request, mid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'members'
     ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
-    ctx['graduations'] = Graduation.objects.filter( person__id = mid )
+    ctx['graduations'] = Graduation.graduations.filter( person__id = mid )
     ctx['documents'] = Document.objects.filter( person__id = mid )
     return object_detail(
         request,
@@ -388,7 +388,7 @@ def suggestions( request ):
     ctx = get_context( request )
     ctx['menu'] = 'suggestions'
 
-    qs = Graduation.suggestions.select_related().order_by( '-rank', 'members_person.firstname', 'members_person.lastname' )
+    qs = Graduation.suggestions.select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
     return object_list(
@@ -526,7 +526,7 @@ def nominations_xls( request ):
     for y, header in enumerate( ['NR', 'P-ID', 'VORNAME', 'NACHNAME', 'ORT', 'VORSCHLAG', 'DATUM', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
-    for x, grad in enumerate( Graduation.objects.filter( is_nomination = True ).order_by( '-date', '-rank' ) ):
+    for x, grad in enumerate( Graduation.suggestions.all().order_by( '-date', '-rank' ) ):
         person = grad.person
         content = [str( x + 1 ), str( person.id ), person.firstname, person.lastname, person.city, grad.get_rank_display(), __get_date( grad.date ), grad.text]
         col = 0
