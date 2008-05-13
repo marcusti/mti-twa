@@ -312,7 +312,7 @@ def member( request, mid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'members'
     ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
-    ctx['graduations'] = Graduation.graduations.filter( person__id = mid )
+    ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     ctx['documents'] = Document.objects.filter( person__id = mid )
     return object_detail(
         request,
