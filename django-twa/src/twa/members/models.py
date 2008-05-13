@@ -482,6 +482,6 @@ class Document( models.Model ):
         verbose_name_plural = _( 'Documents' )
 
     class Admin:
-        ordering = [ 'person_id', 'name' ]
+        ordering = [ 'name' ]
         list_display = ( 'id', 'name', 'file', 'person' )
         list_display_links = ( 'name', 'file', )
