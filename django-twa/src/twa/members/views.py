@@ -126,7 +126,9 @@ def index( request ):
     #        l.save()
 
     #for person in Person.objects.all():
-    #    person.save()
+    #    if person.country_id is None:
+    #        person.country_id = 1
+    #        person.save()
 
     today = date.today()
     ctx = get_context( request )
