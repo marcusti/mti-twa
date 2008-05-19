@@ -185,6 +185,11 @@ class Person( models.Model ):
     def is_licensed( self ):
         return self.license_set.filter( date__isnull = False ).count() > 0
 
+    def rank( self ):
+        return GraduationManager.get_current( self )
+    rank.short_description = _( 'Rank' )
+    rank.allow_tags = False
+
     def age( self ):
         if self.birth:
             today = date.today()
@@ -220,9 +225,9 @@ class Person( models.Model ):
     days.allow_tags = False
 
     def save( self ):
-        current = GraduationManager().get_current( self )
-        if current:
-            self.current_rank = current.rank
+        #current = GraduationManager().get_current( self )
+        #if current:
+        #    self.current_rank = current.rank
 
         if self.birth:
             self.birth_sort_string = self.birth.strftime( '%m%d' )
@@ -429,9 +434,9 @@ class Graduation( models.Model ):
     def __cmp__( self, other ):
         return cmp( self.rank, other.rank )
 
-    def save( self ):
-        self.person.save()
-        super( Graduation, self ).save()
+    #def save( self ):
+    #    self.person.save()
+    #    super( Graduation, self ).save()
 
     class Meta:
         ordering = [ '-rank', '-date' ]
