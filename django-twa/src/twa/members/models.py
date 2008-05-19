@@ -408,11 +408,11 @@ class GraduationManager( models.Manager ):
 
 class Graduation( models.Model ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), edit_inline = models.TABULAR, num_in_admin = 3 )
+    nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominated_by', blank = True, null = True )
     rank = models.IntegerField( _( 'Rank' ), choices = RANK, core = True )
     date = models.DateField( _( 'Date' ), blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False, core = True )
-    nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominated by', blank = True, null = True )
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
