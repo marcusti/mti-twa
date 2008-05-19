@@ -137,6 +137,7 @@ class PersonManager( models.Manager ):
 class Person( models.Model ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
     lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
+    nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
     text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True )
     photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', blank = True )

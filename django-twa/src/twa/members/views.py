@@ -276,6 +276,7 @@ def members( request ):
         ctx['search'] = s
         if s:
             qs &= Person.persons.filter( Q( firstname__icontains=s ) |
+                    Q( nickname__icontains=s ) |
                     Q( lastname__icontains=s ) |
                     Q( text__icontains=s ) |
                     Q( email__icontains=s ) |
