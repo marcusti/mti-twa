@@ -20,7 +20,7 @@
     <th>{% trans "Name" %}</th>
     <th>{% trans "Dojo" %}</th>
     <th>{% trans "Rank" %} ( {% trans "Nomination" %} )</th>
-    <th>{% trans "Text" %}</th>
+    <th>{% trans "Nominated By" %}</th>
     <th>{% trans "Date" %}</th>
   </tr>
 
@@ -35,7 +35,7 @@
 
     <td>{% if grad.rank %}{{ grad.get_rank_display }}{% endif %}</td>
 
-    <td>{{ grad.text }}</td>
+    <td>{% if grad.nominated_by %}{{ grad.nominated_by }}{% endif %}</td>
 
     <td>
       {{ grad.date|default:"" }}

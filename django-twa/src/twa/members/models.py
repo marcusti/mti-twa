@@ -442,9 +442,9 @@ class Graduation( models.Model ):
     class Admin:
         ordering = [ '-rank', '-date' ]
         list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'nominated_by', 'is_active' )
-        list_display_links = ( 'date', 'rank', )
+        list_display_links = ( 'person', 'rank', )
         list_filter = ( 'is_active', 'is_nomination', 'rank', 'person' )
-        #search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
+        search_fields = [ 'id', 'text' ]
 
 class LicenseManager( models.Manager ):
     def get_requested_licenses( self ):
