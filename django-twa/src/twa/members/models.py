@@ -412,6 +412,7 @@ class Graduation( models.Model ):
     date = models.DateField( _( 'Date' ), blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False, core = True )
+    nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), core = True, null = True )
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
