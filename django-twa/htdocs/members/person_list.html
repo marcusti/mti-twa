@@ -9,7 +9,9 @@
 <table>
   <tr>
     <td class="white bottom">
-      {% include "members/person_counter.html" %}<br/>{% paginator %}
+      {% include "members/person_counter.html" %}
+      {% if perms.members %}<a href="/admin/members/person/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      <br/>{% paginator %}
     </td>
 
     <td class="white bottom right" align="right">
