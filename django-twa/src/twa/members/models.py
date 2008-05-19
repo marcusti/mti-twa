@@ -407,12 +407,12 @@ class GraduationManager( models.Manager ):
         return self.get_query_set().filter( is_active = True, date__year = date.today().year )
 
 class Graduation( models.Model ):
-    person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), related_name = 'person', edit_inline = models.TABULAR, num_in_admin = 3 )
-    #nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominated_by', blank = True, null = True )
-    rank = models.IntegerField( _( 'Rank' ), choices = RANK, core = True )
+    person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), related_name = 'person_related' )
+    nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominated_by_related', blank = True, null = True )
+    rank = models.IntegerField( _( 'Rank' ), choices = RANK )
     date = models.DateField( _( 'Date' ), blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
-    is_nomination = models.BooleanField( _( 'Nomination' ), default = False, core = True )
+    is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
@@ -441,7 +441,7 @@ class Graduation( models.Model ):
 
     class Admin:
         ordering = [ '-rank', '-date' ]
-        list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'is_active' )
+        list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'nominated_by', 'is_active' )
         list_display_links = ( 'date', 'rank', )
         list_filter = ( 'is_active', 'is_nomination', 'rank', 'person' )
         #search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
