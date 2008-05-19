@@ -15,6 +15,13 @@ GENDER = [
     ( 'f', _( 'female' ) ),
 ]
 
+NAME_PREFIX = [
+    ( 'd', _( 'Dr.' ) ),
+    ( 'p', _( 'Prof.' ) ),
+    ( 'dd', _( 'Dr. Dr.' ) ),
+    ( 'pd', _( 'Prof. Dr.' ) ),
+]
+
 RANK = [
     ( 1000, _( '10. Dan' ) ),
     ( 900, _( '9. Dan' ) ),
@@ -136,8 +143,9 @@ class PersonManager( models.Manager ):
 
 class Person( models.Model ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
-    lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
     nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
+    name_prefix = models.CharField( _( 'Name Prefix' ), max_length = 5, choices = NAME_PREFIX, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
     text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True )
     photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', blank = True )
