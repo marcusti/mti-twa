@@ -268,7 +268,12 @@ class Person( models.Model ):
             nick = '"%s"' % self.nickname
         else:
             nick = ''
-        return u'%s %s %s'.strip() % ( self.firstname, nick, self.lastname )
+
+        if self.name_prefix:
+            prefix = self.get_name_prefix_display()
+        else:
+            prefix = ''
+        return u'%s %s %s %s'.strip() % ( prefix, self.firstname, nick, self.lastname )
 
     class Meta:
         ordering = [ 'firstname', 'lastname' ]

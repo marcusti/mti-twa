@@ -163,6 +163,14 @@ tr {
   font-size: 80%;
 }
 
+.big {
+  font-size: 120%;
+}
+
+.bigger {
+  font-size: 140%;
+}
+
 .leftpad {
   padding: 0 0 0 1em;
 }
