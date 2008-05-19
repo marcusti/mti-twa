@@ -256,7 +256,11 @@ class Person( models.Model ):
         return cmp( self.days(), other.days() )
 
     def __unicode__( self ):
-        return u'%s %s'.strip() % ( self.firstname, self.lastname )
+        if self.nickname:
+            nick = '"%s"' % self.nickname
+        else:
+            nick = ''
+        return u'%s %s %s'.strip() % ( self.firstname, nick, self.lastname )
 
     class Meta:
         ordering = [ 'firstname', 'lastname' ]
