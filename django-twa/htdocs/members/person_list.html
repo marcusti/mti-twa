@@ -53,7 +53,7 @@
 {% for person in object_list %}
   <tr class="{% cycle 'row1' 'row2' %}">
     <td>{{ person.id }}</td>
-    <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}</a></td>
+    <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}{% if person.nickname %} "{{ person.nickname }}"{% endif %}</a></td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.lastname }}</a></td>
     <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
     <td>

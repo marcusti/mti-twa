@@ -19,7 +19,7 @@
 
   <tr>
     <td>{% trans "Name" %}:</td>
-    <td><b>{{ person.firstname }} {{ person.lastname }}</b></td>
+    <td><b>{{ person.firstname }} {% if person.nickname %}"{{ person.nickname }}" {% endif %}{{ person.lastname }}</b></td>
 
     <td rowspan="30" style="text-align: right">
     {% if person.photo %}

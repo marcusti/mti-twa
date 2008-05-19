@@ -28,7 +28,7 @@
 
     <td>{{ forloop.counter }}</td>
 
-    <td><a href="{{ graduation.person.get_absolute_url }}">{{ graduation.person.firstname }} {{ graduation.person.lastname }}</a></td>
+    <td><a href="{{ graduation.person.get_absolute_url }}">{{ graduation.person }}</a></td>
 
     <td><ul>{% for dojo in graduation.person.dojos.all %}<li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>{% endfor %}</ul></td>
 

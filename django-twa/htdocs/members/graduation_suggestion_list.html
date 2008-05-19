@@ -29,7 +29,7 @@
 
     <td>{{ forloop.revcounter }}</td>
 
-    <td><a href="{{ grad.person.get_absolute_url }}">{{ grad.person.firstname }} {{ grad.person.lastname }}</a></td>
+    <td><a href="{{ grad.person.get_absolute_url }}">{{ grad.person }}</a></td>
 
     <td><ul>{% for dojo in grad.person.dojos.all %}<li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>{% endfor %}</ul></td>
 
