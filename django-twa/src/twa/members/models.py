@@ -220,10 +220,6 @@ class Person( models.Model ):
     days.allow_tags = False
 
     def save( self ):
-        #current = GraduationManager().get_current( self )
-        #if current:
-        #    self.current_rank = current.rank
-
         if self.birth:
             self.birth_sort_string = self.birth.strftime( '%m%d' )
 
@@ -431,7 +427,7 @@ class Graduation( models.Model ):
 
     def save( self ):
         super( Graduation, self ).save()
-        self.person.current_rank = self
+        self.person.current_rank = GraduationManager().get_current( self.person )
         self.person.save()
 
     class Meta:
