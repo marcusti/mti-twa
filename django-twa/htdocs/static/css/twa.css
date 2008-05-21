@@ -216,6 +216,18 @@ img.logo {
   color: red;
 }
 
+.status-2 {
+  background-color: #8ae234;
+}
+
+.status-3 {
+  background-color: #ef2929;
+}
+
+.status-4 {
+  background-color: #fce94f;
+}
+
 .active {
   font-weight: bold;
 }

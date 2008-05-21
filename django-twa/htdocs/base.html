@@ -41,7 +41,7 @@
             <li><a href="/logout/" class="edit">{% trans "Logout" %}</a></li>
 
             {% if user.is_staff %}
-              <li><a href="/admin/"{% ifequal menu "admin" %} class="active"{% endifequal %}>{% trans "Admin" %}</a></li>
+              <li><a href="/admin/" target="_blank"{% ifequal menu "admin" %} class="active"{% endifequal %}>{% trans "Admin" %}</a></li>
             {% endif %}
 
             {% if perms.members %}
@@ -76,6 +76,7 @@
           <ul>
             <li><a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a></li>
             <li><a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "Requests" %}</a></li>
+{#            <li><a href="/license-rejected/"{% ifequal menu "license-rejected" %} class="active"{% endifequal %}>{% trans "Rejected" %}</a></li> #}
           </ul>
         </div>
 
