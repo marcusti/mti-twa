@@ -40,6 +40,20 @@ RANK = [
     ( 10, _( '5. Kyu' ) ),
 ]
 
+LICENSE_STATUS_OPEN = 1
+LICENSE_STATUS_ACCEPTED = 2
+LICENSE_STATUS_REJECTED = 3
+LICENSE_STATUS_VERIFY = 4
+LICENSE_STATUS_LICENSED = 5
+
+LICENSE_STATUS = [
+    ( LICENSE_STATUS_OPEN, _( 'open' ) ),
+    ( LICENSE_STATUS_ACCEPTED, _( 'accepted' ) ),
+    ( LICENSE_STATUS_REJECTED, _( 'rejected' ) ),
+    ( LICENSE_STATUS_VERIFY, _( 'verify' ) ),
+    ( LICENSE_STATUS_LICENSED, _( 'licensed' ) ),
+]
+
 class RequestManager( models.Manager ):
     def get_query_set( self ):
         return super( RequestManager, self ).get_query_set()
@@ -445,18 +459,33 @@ class Graduation( models.Model ):
 
 class LicenseManager( models.Manager ):
     def get_requested_licenses( self ):
-        return License.objects.filter( request__isnull = False, date__isnull = True, is_active = True )
+        #for lic in License.objects.all():
+        #    if lic.date:
+        #        lic.status = LICENSE_STATUS_LICENSED
+        #    else:
+        #        if lic.is_active:
+        #            lic.status = LICENSE_STATUS_OPEN
+        #        else:
+        #            lic.status = LICENSE_STATUS_REJECTED
+        #    lic.save()
+
+        return License.objects.filter( is_active = True ).exclude( status = LICENSE_STATUS_LICENSED )#.exclude( status = LICENSE_STATUS_REJECTED )
 
     def get_granted_licenses( self ):
-        return License.objects.filter( date__isnull = False, is_active = True )
+        return License.objects.filter( status = LICENSE_STATUS_LICENSED, is_active = True )
+
+    def get_rejected_licenses( self ):
+        return License.objects.filter( status = LICENSE_STATUS_REJECTED, is_active = True )
 
 class License( models.Model ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
+    status = models.IntegerField( _( 'License Status' ), choices = LICENSE_STATUS, default = LICENSE_STATUS_OPEN )
     date = models.DateField( _( 'License Date' ), blank = True, null = True )
-    request = models.DateField( _( 'Request' ), blank = True, null = True )
-    receipt = models.DateField( _( 'Receipt' ), blank = True, null = True )
-    request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
-    receipt_doc = models.FileField( _( 'Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
+    request = models.DateField( _( 'License Request' ), blank = True, null = True )
+    receipt = models.DateField( _( 'License Receipt' ), blank = True, null = True )
+    rejected = models.DateField( _( 'License Rejected' ), blank = True, null = True )
+    request_doc = models.FileField( _( 'License Request Document' ), upload_to = 'docs/', blank = True, null = True )
+    receipt_doc = models.FileField( _( 'License Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
@@ -469,17 +498,19 @@ class License( models.Model ):
         return '/member/%i/' % self.person.id
 
     def __unicode__( self ):
-        return u'License date: %s, requested: %s'.strip() % ( self.date, self.request )
+        return u'%s'.strip() % ( self.person )
 
     class Meta:
-        ordering = [ '-request', 'person' ]
+        ordering = [ '-id' ]
         verbose_name = _( 'License' )
         verbose_name_plural = _( 'Licenses' )
 
     class Admin:
-        ordering = [ '-request', 'person' ]
-        list_display = ( 'id', 'person', 'date', 'request', 'receipt' )
-        list_display_links = ( 'person', 'date', 'request' )
+        ordering = [ '-id' ]
+        list_display = ( 'id', 'status', 'person', 'date', 'request', 'receipt', 'rejected', 'is_active' )
+        list_display_links = ( 'status', 'person' )
+        list_filter = [ 'status', 'is_active' ]
+        search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
 
 class Document( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )

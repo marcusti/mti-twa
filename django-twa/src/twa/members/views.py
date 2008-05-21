@@ -372,6 +372,22 @@ def license_requests( request ):
         template_name = 'members/license_requests_list.html',
     )
 
+@login_required
+def license_rejected( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'license-rejected'
+
+    qs = License.objects.get_rejected_licenses().order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list(
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'members/license_requests_list.html',
+    )
+
 def graduations( request ):
     ctx = get_context( request )
     ctx['menu'] = 'graduations'
