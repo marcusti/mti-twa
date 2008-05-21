@@ -82,9 +82,6 @@ def twa_logout( request ):
 
 @login_required
 def info( request ):
-    if not request.user.groups.filter( id = 1 ):
-        raise Http404
-
     now = datetime.now()
 
     if request.user.is_authenticated() and request.user.is_superuser:
