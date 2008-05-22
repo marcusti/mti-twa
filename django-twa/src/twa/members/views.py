@@ -481,12 +481,12 @@ def license_requests_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
+    for y, header in enumerate( ['LID', 'STATUS', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
         person = license.person
-        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request ), __get_date( license.receipt )]
+        content = [str( license.id ), license.get_status_display(), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request ), license.text]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
@@ -510,12 +510,12 @@ def licenses_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG'] ):
+    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, license in enumerate( License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' ) ):
         person = license.person
-        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request )]
+        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request ), __get_date( license.receipt )]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
