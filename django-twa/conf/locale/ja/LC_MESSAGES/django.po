@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-21 23:07+0900\n"
+"POT-Creation-Date: 2008-05-24 09:24+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME «EMAIL@ADDRESS»\n"
 "Language-Team: LANGUAGE «LL@li.org»\n"
@@ -68,13 +68,9 @@ msgstr "指導者認定書"
 msgid "Requests"
 msgstr "申し込み済み"
 
-#: htdocs/base.html:79
-msgid "Rejected"
-msgstr ""
-
 #: htdocs/base.html:85 src/twa/members/models.py:393
 msgid "Associations"
-msgstr ""
+msgstr "協会"
 
 #: htdocs/base.html:86 htdocs/base.html.py:123
 #: htdocs/members/association_detail.html:105
@@ -89,7 +85,7 @@ msgstr "ホーム"
 
 #: htdocs/base.html:118 htdocs/members/association_counter.html:5
 msgid "National Associations"
-msgstr ""
+msgstr "国内協会"
 
 #: htdocs/base.html:133 htdocs/members/member_requests_counter.html:5
 msgid "Requested TWA Membership"
@@ -101,7 +97,7 @@ msgstr "TWA指導者認定書申込み"
 
 #: htdocs/base.html:148 htdocs/members/graduation_counter.html:5
 msgid "This Year's Graduations"
-msgstr "昇級昇段"
+msgstr "今年の昇級昇段"
 
 #: htdocs/base.html:153 htdocs/members/graduation_suggestion_counter.html:5
 msgid "Suggestions of Graduation"
@@ -255,7 +251,7 @@ msgstr "次へ"
 #: htdocs/members/association_detail.html:13
 #: htdocs/members/dojo_detail.html:27
 msgid "National Association"
-msgstr ""
+msgstr "国内協会"
 
 #: htdocs/members/association_detail.html:14
 #: htdocs/members/dojo_detail.html:14 htdocs/members/person_detail.html:18
@@ -356,7 +352,7 @@ msgstr ""
 
 #: htdocs/members/association_list.html:22 src/twa/members/models.py:379
 msgid "Contact"
-msgstr ""
+msgstr "連絡"
 
 #: htdocs/members/dojo_list.html:26 htdocs/members/dojo_list.html.py:35
 #: htdocs/members/person_list.html:31 htdocs/members/person_list.html.py:40
@@ -381,7 +377,7 @@ msgstr "段･級位"
 #: htdocs/members/member_requests_list.html:68
 #: htdocs/members/person_list.html:102
 msgid "Export to"
-msgstr ""
+msgstr "取り出し"
 
 #: htdocs/members/graduation_suggestion_list.html:22
 #: htdocs/members/person_detail.html:145 src/twa/members/models.py:425
@@ -391,7 +387,7 @@ msgstr "推薦"
 #: htdocs/members/graduation_suggestion_list.html:23
 #: src/twa/members/models.py:421
 msgid "Nominated By"
-msgstr "推薦"
+msgstr "推薦者"
 
 #: htdocs/members/license_list.html:19
 #: htdocs/members/license_requests_list.html:19
@@ -405,7 +401,7 @@ msgstr "指導者認定書"
 
 #: htdocs/members/license_requests_list.html:20
 msgid "Status"
-msgstr ""
+msgstr "状態"
 
 #: htdocs/members/license_requests_list.html:24
 #: htdocs/members/member_requests_list.html:23
@@ -416,7 +412,7 @@ msgstr "申し込み済み"
 #: htdocs/members/license_requests_list.html:25
 #: htdocs/members/person_detail.html:247
 msgid "Receipt"
-msgstr ""
+msgstr "領収済"
 
 #: htdocs/members/login.html:41 htdocs/registration/login.html:39
 msgid "Wrong username or password."
@@ -435,7 +431,7 @@ msgstr "メンバー"
 #: htdocs/members/person_detail.html:17 htdocs/members/person_detail.html:202
 #: htdocs/members/person_list.html:13
 msgid "new"
-msgstr ""
+msgstr "新規"
 
 #: htdocs/members/person_detail.html:36
 msgid "No picture available."
@@ -485,7 +481,7 @@ msgstr "氏"
 
 #: htdocs/members/person_list.html:49
 msgid "Licensed"
-msgstr "指導者認定書"
+msgstr "認可"
 
 #: htdocs/members/person_list.html:53 src/twa/members/models.py:165
 #: src/twa/members/models.py:267
@@ -620,23 +616,23 @@ msgstr "5. 級"
 
 #: src/twa/members/models.py:50
 msgid "open"
-msgstr ""
+msgstr "開く"
 
 #: src/twa/members/models.py:51
 msgid "accepted"
-msgstr ""
+msgstr "受入"
 
 #: src/twa/members/models.py:52
 msgid "rejected"
-msgstr ""
+msgstr "削除"
 
 #: src/twa/members/models.py:53
 msgid "verify"
-msgstr ""
+msgstr "照合"
 
 #: src/twa/members/models.py:54
 msgid "licensed"
-msgstr ""
+msgstr "認可"
 
 #: src/twa/members/models.py:77 src/twa/members/models.py:108
 #: src/twa/members/models.py:190 src/twa/members/models.py:325
@@ -663,7 +659,7 @@ msgstr "国"
 
 #: src/twa/members/models.py:160
 msgid "Nickname"
-msgstr ""
+msgstr "愛書"
 
 #: src/twa/members/models.py:162
 msgid "Name Prefix"
@@ -715,7 +711,7 @@ msgstr "指導者認定書"
 
 #: src/twa/members/models.py:484
 msgid "License Request"
-msgstr ""
+msgstr "認定申込"
 
 #: src/twa/members/models.py:485
 msgid "License Receipt"
@@ -727,11 +723,11 @@ msgstr ""
 
 #: src/twa/members/models.py:487
 msgid "License Request Document"
-msgstr ""
+msgstr "認定申込書類"
 
 #: src/twa/members/models.py:488
 msgid "License Receipt Document"
-msgstr ""
+msgstr "認定支払済書類"
 
 #: src/twa/members/models.py:517
 msgid "File"
