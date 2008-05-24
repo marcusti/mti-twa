@@ -36,7 +36,7 @@ def get_context( request ):
 
     my_context = {}
     my_context['LANGUAGES'] = LANGUAGES
-    my_context['language'] = request.session.get( 'django_language' )
+    my_context['language'] = request.LANGUAGE_CODE
     return my_context
 
 def twa_login( request ):
