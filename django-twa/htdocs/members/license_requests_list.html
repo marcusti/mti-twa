@@ -28,7 +28,7 @@
 {% for license in object_list %}
   <tr class="{% cycle 'row1' 'row2' %}">
     <td>
-    {% if perms.members %}
+    {% if perms.members.change_license %}
       <a href="/admin/members/license/{{ license.id }}/" class="edit">{{ license.id }}</a>
     {% else %}
       {{ license.id }}

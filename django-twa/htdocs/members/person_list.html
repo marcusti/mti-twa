@@ -10,7 +10,7 @@
   <tr>
     <td class="white bottom">
       {% include "members/person_counter.html" %}
-      {% if perms.members %}<a href="/admin/members/person/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit small">{% trans "new" %}</a>{% endif %}
       <br/>{% paginator %}
     </td>
 

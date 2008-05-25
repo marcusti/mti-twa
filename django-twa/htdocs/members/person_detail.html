@@ -13,10 +13,8 @@
   <tr>
     <th colspan="3">
       {% trans "Person" %}
-      {% if perms.members %}
-        <a href="/admin/members/person/add/" class="edit small">{% trans "new" %}</a> |
-        <a href="/admin/members/person/{{ person.id }}" class="edit small">{% trans "edit" %}</a>
-      {% endif %}
+      {% if perms.members.add_person %} | <a href="/admin/members/person/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      {% if perms.members.change_person %} | <a href="/admin/members/person/{{ person.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
     </th>
   </tr>
 
@@ -199,13 +197,13 @@
     <td>
     {% if not person.is_license_requested and not person.is_licensed %}
       {% trans "No" %}
-      {% if perms.members %}<a href="/admin/members/license/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      {% if perms.members.add_license %}<a href="/admin/members/license/add/" class="edit small">{% trans "new" %}</a>{% endif %}
     {% else %}
     <ul>
     {% for license in person.license_set.all %}
         <li>
           {% trans "License" %}:
-          {% if perms.members %}<a href="/admin/members/license/{{ license.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+          {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
           <span class="meta">
           <ul>
             <li>
