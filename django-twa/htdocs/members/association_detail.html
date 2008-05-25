@@ -11,7 +11,7 @@
   <tr>
     <th colspan="2">
       {% trans "National Association" %}
-      {% if perms.members %}<a href="/admin/members/association/{{ association.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+      {% if perms.members.change_association %} | <a href="/admin/members/association/{{ association.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
     </th>
   </tr>
 

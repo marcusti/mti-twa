@@ -11,7 +11,8 @@
   <tr>
     <th colspan="2">
       {% trans "Dojo" %}
-      {% if perms.members %}<a href="/admin/members/dojo/{{ dojo.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+      {% if perms.members.add_dojo %} | <a href="/admin/members/dojo/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      {% if perms.members.change_dojo %} | <a href="/admin/members/dojo/{{ dojo.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
     </th>
   </tr>
 
