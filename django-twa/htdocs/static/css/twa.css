@@ -216,16 +216,31 @@ img.logo {
   color: red;
 }
 
+/* LICENSE_STATUS_ACCEPTED */
 .status-2 {
   background-color: #aaffaa;
 }
 
+tr:hover .status-2 {
+  background-color: #55ff55;
+}
+
+/* LICENSE_STATUS_REJECTED */
 .status-3 {
   background-color: #ffaaaa;
 }
 
+tr:hover .status-3 {
+  background-color: #ff5555;
+}
+
+/* LICENSE_STATUS_VERIFY */
 .status-4 {
-  background-color: #FFFFAA;
+  background-color: #ffffaa;
+}
+
+tr:hover .status-4 {
+  background-color: #ffff55;
 }
 
 .active {
