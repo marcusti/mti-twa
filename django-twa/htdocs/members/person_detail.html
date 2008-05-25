@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+1;1613;0c
 {% block content %}
 
 <table>
@@ -134,7 +134,10 @@
   </tr>
 
   <tr>
-    <td>{% trans "Graduations" %}:</td>
+    <td>
+      {% trans "Graduations" %}:
+      {% if perms.members.add_graduation %}<a href="/admin/members/graduation/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+    </td>
     <td>
     <ul>
     {% for grad in graduations %}
@@ -193,11 +196,10 @@
   </tr>
 
   <tr>
-    <td>{% trans "TWA License" %}:</td>
+    <td>{% trans "TWA License" %}: {% if not person.is_license_requested and not person.is_licensed and perms.members.add_license %}<a href="/admin/members/license/add/" class="edit small">{% trans "new" %}</a>{% endif %}</td>
     <td>
     {% if not person.is_license_requested and not person.is_licensed %}
       {% trans "No" %}
-      {% if perms.members.add_license %}<a href="/admin/members/license/add/" class="edit small">{% trans "new" %}</a>{% endif %}
     {% else %}
     <ul>
     {% for license in person.license_set.all %}
