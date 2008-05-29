@@ -157,8 +157,8 @@ class PersonManager( models.Manager ):
 
 class Person( models.Model ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
-    nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
+    nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_prefix = models.CharField( _( 'Name Prefix' ), max_length = 5, choices = NAME_PREFIX, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
     text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True )
@@ -438,6 +438,9 @@ class Graduation( models.Model ):
 
     def __cmp__( self, other ):
         return cmp( self.rank, other.rank )
+
+    def get_absolute_url( self ):
+        return '/member/%i/' % self.person.id
 
     def save( self ):
         super( Graduation, self ).save()
