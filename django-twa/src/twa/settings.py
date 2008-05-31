@@ -25,6 +25,9 @@ LANGUAGES = (
         ('ja', u'日本語'),
         )
 
+#SEND_MAIL_ON_LOGIN = True
+SEND_MAIL_ON_LOGIN = False
+
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'

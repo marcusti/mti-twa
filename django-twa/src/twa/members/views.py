@@ -16,7 +16,7 @@ from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
 from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, Request, RequestManager
-from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES
+from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, SEND_MAIL_ON_LOGIN
 import os, platform, sys
 
 def __get_rank_display( rank ):
@@ -52,7 +52,7 @@ def twa_login( request ):
             login( request, user )
 
             #send mail
-            if not user.is_superuser:
+            if SEND_MAIL_ON_LOGIN and not user.is_superuser:
                 from django.core.mail import mail_admins, send_mail
                 name = user.get_full_name()
                 msg = '%s: %s hat sich eingeloggt.\n' % ( datetime.now(), name )
