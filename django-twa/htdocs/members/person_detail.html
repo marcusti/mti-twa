@@ -153,6 +153,10 @@
           <li>{{ grad.date }} ({{ grad.date|timesince }})</li>
           {% endif %}
 
+          {% if grad.nominated_by %}
+            <li>{% trans "Nominated By" %} {{ grad.nominated_by }}</li>
+          {% endif %}
+
           {% if grad.text %}
             <li>{{ grad.text|linebreaksbr }}</li>
           {% endif %}
