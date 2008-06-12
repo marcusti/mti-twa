@@ -1,0 +1,5 @@
+# robots.txt
+# Verbietet Suchrobotern wie Google, Yahoo, MSN... diese Seite zu indizieren
+
+User-agent: *
+Disallow: /
