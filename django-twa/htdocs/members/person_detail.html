@@ -125,7 +125,7 @@
   </tr>
   <tr>
     <td>{% trans "Aikido" %}:</td>
-    <td>{{ person.aikido_since|timesince }}</td>
+    <td>{{ person.aikido_since|default:"" }} ({{ person.aikido_since|timesince }})</td>
   </tr>
 
   <tr>
