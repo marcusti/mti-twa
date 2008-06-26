@@ -26,7 +26,7 @@
 {% for graduation in object_list %}
   <tr class="{% cycle 'row1' 'row2' %}">
 
-    <td>{{ forloop.counter }}</td>
+    <td>{{ forloop.revcounter }}</td>
 
     <td><a href="{{ graduation.person.get_absolute_url }}">{{ graduation.person }}</a></td>
 

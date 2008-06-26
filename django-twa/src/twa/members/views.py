@@ -389,7 +389,7 @@ def graduations( request ):
     ctx = get_context( request )
     ctx['menu'] = 'graduations'
 
-    qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-rank', 'members_person.firstname', 'members_person.lastname' )
+    qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
     return object_list(
