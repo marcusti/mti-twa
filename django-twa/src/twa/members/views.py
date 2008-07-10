@@ -395,7 +395,7 @@ def graduations( request ):
     return object_list(
         request,
         queryset = qs,
-        paginate_by = 50,
+        paginate_by = 100,
         extra_context = ctx,
     )
 
