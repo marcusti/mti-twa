@@ -1,9 +1,10 @@
-from django.conf.urls.defaults import *
 from django.conf import settings
+from django.conf.urls.defaults import *
+from django.contrib import admin
 
 urlpatterns = patterns( '',
     # Admin
-    ( r'^admin/', include( 'django.contrib.admin.urls' ) ),
+    ( r'^admin/(.*)', admin.site.root ),
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     #( r'^logout/$', 'django.contrib.auth.views.logout_then_login' ),
     #( r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'template_name': 'registration/logout.html'} ),
