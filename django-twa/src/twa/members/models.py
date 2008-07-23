@@ -434,6 +434,8 @@ class Graduation( models.Model ):
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
+    confirmation_doc = models.FileField( _( 'Confirmation Document' ), upload_to = 'docs/', blank = True, null = True )
+    payment_doc = models.FileField( _( 'Payment Document' ), upload_to = 'docs/', blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
@@ -464,7 +466,7 @@ class Graduation( models.Model ):
         verbose_name_plural = _( 'Graduations' )
 
 class GraduationAdmin( admin.ModelAdmin ):
-    ordering = [ '-rank', '-date' ]
+    ordering = [ '-date', '-rank' ]
     list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'nominated_by', 'is_active' )
     list_display_links = ( 'person', 'rank', )
     list_filter = ( 'is_active', 'is_nomination', 'rank', 'person' )
