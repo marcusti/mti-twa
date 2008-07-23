@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-1;1613;0c
+
 {% block content %}
 
 <table>
@@ -164,6 +164,14 @@
           {% if grad.request_doc %}
             <li><a href="{{ grad.get_request_doc_url }}">{{ grad.request_doc }}</a></li>
           {% endif %}
+
+          {% if grad.confirmation_doc %}
+            <li><a href="{{ grad.get_confirmation_doc_url }}">{{ grad.confirmation_doc }}</a></li>
+          {% endif %}
+
+          {% if grad.payment_doc %}
+            <li><a href="{{ grad.get_payment_doc_url }}">{{ grad.payment_doc }}</a></li>
+          {% endif %}
         </ul>
         </span>
 
@@ -210,9 +218,9 @@
         <li>
           {% trans "License" %}:
           {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
-          <span class="meta">
           <ul>
-            <li>
+            <li>{{ license.get_status_display|capfirst }}</li>
+            <li class="meta">
               {% if license.date %}
                 {{ license.date }}
                 ( {{ license.date|timesince }} )
@@ -221,7 +229,6 @@
               {% endif %}
             </li>
           </ul>
-          </span>
         </li>
 
         <li>
