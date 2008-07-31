@@ -71,7 +71,10 @@
     </td>
     <td>
       {% if person.is_licensed %}
-        {% trans "Yes" %}
+        {% for license in person.license_set.all %}
+          {% trans "License" %} {% trans "ID" %} {{ license.id }}<br/>
+          {{ license.date }}
+        {% endfor %}
       {% else %}
         {% if person.is_license_requested %}
           {% trans "Requested" %}
