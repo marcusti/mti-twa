@@ -59,10 +59,11 @@ def twa_login( request ):
                 msg += 'https://marcusti.dyndns.org/'
                 mail_admins( 'Login', msg, fail_silently = True )
 
-            if request.has_key( 'next' ):
-                next = request['next']
-            else:
-                next = LOGIN_REDIRECT_URL
+            next = request.REQUEST.get( 'next', LOGIN_REDIRECT_URL )
+#            if request.REQUEST.has_key( 'next' ):
+#                next = request.REQUEST['next']
+#            else:
+#                next = LOGIN_REDIRECT_URL
 
             return redirect_to( request, next )
     else:
@@ -154,8 +155,8 @@ def dojos( request ):
         countries.append( ( str( d['country'] ), Country.objects.get( id = d['country'] ).get_name() ) )
     ctx['counties'] = countries
 
-    if request.has_key( 's' ):
-        s = request['s']
+    if request.REQUEST.has_key( 's' ):
+        s = request.REQUEST['s']
         ctx['search'] = s
         if s:
             qs = Dojo.dojos.filter( Q( name__icontains=s ) |
@@ -169,21 +170,21 @@ def dojos( request ):
     else:
         qs = Dojo.dojos.all()
 
-    if request.has_key( 'sid' ):
-        sid = request['sid']
+    if request.REQUEST.has_key( 'sid' ):
+        sid = request.REQUEST['sid']
         ctx['searchid'] = sid
         if sid:
             qs &= Dojo.dojos.filter( Q( id__icontains = sid ) )
 
     ctx['cities'] = Dojo.dojos.values( 'city' ).order_by( 'city' ).distinct()
-    if request.has_key( 'ci' ):
-        city = request['ci']
+    if request.REQUEST.has_key( 'ci' ):
+        city = request.REQUEST['ci']
         ctx['ci'] = city
         if city <> 'all':
             qs &= Dojo.dojos.filter( city = city )
 
-    if request.has_key( 'co' ):
-        co = request['co']
+    if request.REQUEST.has_key( 'co' ):
+        co = request.REQUEST['co']
         ctx['co'] = co
         if co <> 'all':
             ctx['cities'] = Dojo.dojos.values( 'city' ).filter( country = co ).order_by( 'city' ).distinct()
@@ -246,8 +247,8 @@ def members( request ):
     ctx = get_context( request )
     ctx['menu'] = 'members'
 
-    if request.has_key( 'l' ):
-        license = request['l']
+    if request.REQUEST.has_key( 'l' ):
+        license = request.REQUEST['l']
         ctx['l'] = license
         if license == 'yes':
             qs = Person.persons.get_licensed()
@@ -258,8 +259,8 @@ def members( request ):
     else:
         qs = Person.persons.all()
 
-    if request.has_key( 'm' ):
-        member = request['m']
+    if request.REQUEST.has_key( 'm' ):
+        member = request.REQUEST['m']
         ctx['m'] = member
         if member == 'yes':
             qs &= Person.persons.filter( twa_membership__isnull = False )
@@ -268,8 +269,8 @@ def members( request ):
         else:
             qs &= Person.persons.all()
 
-    if request.has_key( 's' ):
-        s = request['s']
+    if request.REQUEST.has_key( 's' ):
+        s = request.REQUEST['s']
         ctx['search'] = s
         if s:
             qs &= Person.persons.filter( Q( firstname__icontains=s ) |
@@ -281,8 +282,8 @@ def members( request ):
                     Q( zip__icontains=s ) |
                     Q( city__icontains=s ) )
 
-    if request.has_key( 'sid' ):
-        sid = request['sid']
+    if request.REQUEST.has_key( 'sid' ):
+        sid = request.REQUEST['sid']
         ctx['searchid'] = sid
         if sid:
             qs &= Person.persons.filter( Q( id__exact = sid ) )
@@ -292,8 +293,8 @@ def members( request ):
         ranks.append( ( str( r['rank'] ), __get_rank_display( r['rank'] ) ) )
     ctx['ranks'] = ranks
 
-    if request.has_key( 'r' ):
-        rank = request['r']
+    if request.REQUEST.has_key( 'r' ):
+        rank = request.REQUEST['r']
         ctx['r'] = rank
         if rank <> 'all':
             qs &= Person.persons.get_persons_by_rank( rank )
