@@ -24,9 +24,9 @@
 
     <td rowspan="31" style="text-align: right">
     {% if person.photo %}
-      <img src="{{ person.get_photo_url }}"
-           width="{{ person.get_photo_width }}"
-           height="{{ person.get_photo_height }}"
+      <img src="{{ person.photo.url }}"
+           width="{{ person.photo.width }}"
+           height="{{ person.photo.height }}"
            align="right"
            alt="[{{ person.firstname }} {{ person.lastname }}]"
            title="{{ person.firstname }} {{ person.lastname }}" />
@@ -162,15 +162,15 @@
           {% endif %}
 
           {% if grad.request_doc %}
-            <li><a href="{{ grad.get_request_doc_url }}">{{ grad.request_doc }}</a></li>
+            <li><a href="{{ grad.request_doc.url }}">{{ grad.request_doc }}</a></li>
           {% endif %}
 
           {% if grad.confirmation_doc %}
-            <li><a href="{{ grad.get_confirmation_doc_url }}">{{ grad.confirmation_doc }}</a></li>
+            <li><a href="{{ grad.confirmation_doc.url }}">{{ grad.confirmation_doc }}</a></li>
           {% endif %}
 
           {% if grad.payment_doc %}
-            <li><a href="{{ grad.get_payment_doc_url }}">{{ grad.payment_doc }}</a></li>
+            <li><a href="{{ grad.payment_doc.url }}">{{ grad.payment_doc }}</a></li>
           {% endif %}
         </ul>
         </span>
@@ -246,7 +246,7 @@
 
             {% if license.request_doc %}
             <li class="small">
-              <a href="{{ license.get_request_doc_url }}">{{ license.request_doc }}</a>
+              <a href="{{ license.request_doc.url }}">{{ license.request_doc }}</a>
             </li>
             {% endif %}
 
@@ -269,7 +269,7 @@
 
             {% if license.receipt_doc %}
             <li class="small">
-              <a href="{{ license.get_receipt_doc_url }}">{{ license.receipt_doc }}</a>
+              <a href="{{ license.receipt_doc.url }}">{{ license.receipt_doc }}</a>
             </li>
             {% endif %}
 
@@ -317,7 +317,7 @@
     <ul>
     {% for doc in documents %}
       <li title="{{ doc.file }}">
-        <a href="{{ doc.get_file_url }}">{{ doc.name }}</a> <span class="meta">({{ doc.file }})</span>
+        <a href="{{ doc.file.url }}">{{ doc.name }}</a> <span class="meta">({{ doc.file }})</span>
       </li>
     {% endfor %}
     </ul>

@@ -85,9 +85,9 @@
     </td>
     <td>{% if person.thumbnail %}
         <a href="{{ person.get_absolute_url }}">
-          <img src="{{ person.get_thumbnail_url }}"
-           width="{{ person.get_thumbnail_width }}"
-           height="{{ person.get_thumbnail_height }}"
+          <img src="{{ person.thumbnail.url }}"
+           width="{{ person.thumbnail.width }}"
+           height="{{ person.thumbnail.height }}"
            alt="[{{ person.firstname }} {{ person.lastname }}]"
            title="{{ person.firstname }} {{ person.lastname }}"
             />
