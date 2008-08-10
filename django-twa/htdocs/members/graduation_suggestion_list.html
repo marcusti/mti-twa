@@ -39,7 +39,7 @@
 
     <td>
       {{ grad.date|default:"" }}
-      {% if grad.request_doc %} <span class="smaller leftpad"><a href="{{ grad.get_request_doc_url }}">{{ grad.request_doc|slice:"-3:" }}</a></span>{% endif %}
+      {% if grad.request_doc %} <span class="smaller leftpad"><a href="{{ grad.request_doc.url }}">{{ grad.request_doc|slice:"-3:" }}</a></span>{% endif %}
     </td>
 
   </tr>

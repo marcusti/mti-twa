@@ -53,12 +53,12 @@
 
     <td>
       {{ license.request|default:"" }}
-      {% if license.request_doc %}<span class="smaller leftpad"><a href="{{ license.get_request_doc_url }}">{{ license.request_doc|slice:"-3:" }}</a></span>{% endif %}
+      {% if license.request_doc %}<span class="smaller leftpad"><a href="{{ license.request_doc.url }}">{{ license.request_doc|slice:"-3:" }}</a></span>{% endif %}
     </td>
 
     <td>
       {{ license.receipt|default:"" }}
-      {% if license.receipt_doc %} <span class="smaller leftpad"><a href="{{ license.get_receipt_doc_url }}">{{ license.receipt_doc|slice:"-3:" }}</a></span>{% endif %}
+      {% if license.receipt_doc %} <span class="smaller leftpad"><a href="{{ license.receipt_doc.url }}">{{ license.receipt_doc|slice:"-3:" }}</a></span>{% endif %}
     </td>
   </tr>
 {% endfor %}

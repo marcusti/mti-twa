@@ -533,7 +533,7 @@ admin.site.register( License, LicenseAdmin )
 
 class Document( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )
-    file = models.FileField( _( 'File' ), upload_to = 'docs/', core = True )
+    file = models.FileField( _( 'File' ), upload_to = 'docs/' )
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ), blank = True, null = True, edit_inline = models.TABULAR, num_in_admin = 3 )
 
     created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
