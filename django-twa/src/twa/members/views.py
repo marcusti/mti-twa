@@ -597,32 +597,56 @@ def __get_export_headers():
 def __get_export_content( person ):
     return [
             str( person.id ),
-            person.firstname,
-            person.lastname,
-            person.street,
-            person.zip,
-            person.city,
+            __get_null_safe( person.firstname ),
+            __get_null_safe( person.lastname ),
+            __get_null_safe( person.street ),
+            __get_null_safe( person.zip ),
+            __get_null_safe( person.city ),
             __get_name( person.country ),
-            person.phone,
-            person.fax,
-            person.mobile,
-            person.email,
-            person.website,
-            person.get_current_rank_display(),
-            person.get_gender_display(),
-            str( person.birth ),
-            person.photo,
-            person.text,
+            __get_null_safe( person.phone ),
+            __get_null_safe( person.fax ),
+            __get_null_safe( person.mobile ),
+            __get_null_safe( person.email ),
+            __get_null_safe( person.website ),
+            __get_rank( person ),
+            __get_gender( person ),
+            __get_date( person.birth ),
+            __get_path( person.photo ),
+            __get_null_safe( person.text ),
             ]
 
+def __get_rank( p ):
+    if p and p.current_rank:
+        return p.get_current_rank_display()
+    else:
+        return ''
+    
+def __get_gender( p ):
+    if p and p.gender:
+        return p.get_gender_display()
+    else:
+        return ''
+    
+def __get_null_safe( o ):
+    if o is None:
+        return ''
+    else:
+        return unicode( o )
+    
 def __get_name( o ):
-    if o:
+    if o is not None:
         return o.get_name()
     else:
         return ''
 
 def __get_date( d ):
-    if d:
+    if d is not None:
         return str( d )
     else:
+        return ''
+
+def __get_path( fileobject ):
+    try:
+        return fileobject.path
+    except:
         return ''
