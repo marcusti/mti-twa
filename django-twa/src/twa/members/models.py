@@ -419,7 +419,7 @@ class GraduationManager( models.Manager ):
 
     def get_current( self, person ):
         try:
-            return max( Graduation.objects.filter( person__id = person.id, is_active = True, is_nomination = False ).iterator() )
+            return max( Graduation.objects.filter( person__id = person.id, is_active = True, is_nomination = False ).iterator() ).rank
         except:
             return None
 
