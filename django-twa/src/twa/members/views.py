@@ -511,12 +511,12 @@ def licenses_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'BELEG'] ):
+    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'LIZENZ', 'ANTRAG', 'BELEG'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, license in enumerate( License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' ) ):
         person = license.person
-        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request ), __get_date( license.receipt )]
+        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.date ), __get_date( license.request ), __get_date( license.receipt )]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
