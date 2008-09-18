@@ -120,13 +120,6 @@ class Country( models.Model ):
         verbose_name = _( 'Country' )
         verbose_name_plural = _( 'Countries' )
 
-class CountryAdmin( admin.ModelAdmin ):
-    ordering = [ 'name' ]
-    list_display = ( 'name', 'name_de', 'name_ja' )
-    list_display_links = ( 'name', 'name_de', 'name_ja' )
-
-admin.site.register( Country, CountryAdmin )
-
 class PersonManager( models.Manager ):
     def get_query_set( self ):
         #if Person.objects.all().count() == 0:
@@ -293,16 +286,6 @@ class Person( models.Model ):
         verbose_name = _( 'Person' )
         verbose_name_plural = _( 'Persons' )
 
-class PersonAdmin( admin.ModelAdmin ):
-    ordering = [ 'firstname', 'lastname' ]
-    list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'age', 'gender', 'photo', 'is_active', 'admin_thumb' )
-    list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
-    list_filter = ( 'current_rank', 'is_active', 'twa_membership' )
-    search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
-    filter_vertical = ( 'dojos', )
-
-admin.site.register( Person, PersonAdmin )
-
 class DojoManager( models.Manager ):
     def get_query_set( self ):
         return super( DojoManager, self ).get_query_set().filter( is_active = True )
@@ -357,15 +340,6 @@ class Dojo( models.Model ):
         verbose_name = _( 'Dojo' )
         verbose_name_plural = _( 'Dojos' )
 
-class DojoAdmin( admin.ModelAdmin ):
-    ordering = [ 'city', 'name' ]
-    list_display = ( 'id', 'city', 'name', 'leader', 'is_active', 'is_twa_member' )
-    list_display_links = ( 'name', )
-    list_filter = ( 'is_active', 'country', )
-    search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
-
-admin.site.register( Dojo, DojoAdmin )
-
 class Association( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
     shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -399,15 +373,6 @@ class Association( models.Model ):
         ordering = [ 'country', 'province', 'name' ]
         verbose_name = _( 'Association' )
         verbose_name_plural = _( 'Associations' )
-
-class AssociationAdmin( admin.ModelAdmin ):
-    ordering = [ 'country', 'province', 'name' ]
-    list_display = ( 'id', 'name', 'contact', 'is_active' )
-    list_display_links = ( 'name', )
-    list_filter = ( 'is_active', 'country', )
-    search_fields = [ 'id', 'name', 'shortname', 'city', 'text' ]
-
-admin.site.register( Association, AssociationAdmin )
 
 class SuggestionsManager( models.Manager ):
     def get_query_set( self ):
@@ -465,15 +430,6 @@ class Graduation( models.Model ):
         verbose_name = _( 'Graduation' )
         verbose_name_plural = _( 'Graduations' )
 
-class GraduationAdmin( admin.ModelAdmin ):
-    ordering = [ '-date', '-rank' ]
-    list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'nominated_by', 'is_active' )
-    list_display_links = ( 'person', 'rank', )
-    list_filter = ( 'is_active', 'is_nomination', 'rank', 'person' )
-    search_fields = [ 'id', 'text' ]
-
-admin.site.register( Graduation, GraduationAdmin )
-
 class LicenseManager( models.Manager ):
     def get_requested_licenses( self ):
         #for lic in License.objects.all():
@@ -522,15 +478,6 @@ class License( models.Model ):
         verbose_name = _( 'License' )
         verbose_name_plural = _( 'Licenses' )
 
-class LicenseAdmin( admin.ModelAdmin ):
-    ordering = [ '-id' ]
-    list_display = ( 'id', 'status', 'person', 'date', 'request', 'receipt', 'rejected', 'is_active' )
-    list_display_links = ( 'status', 'person' )
-    list_filter = [ 'status', 'is_active' ]
-    search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
-
-admin.site.register( License, LicenseAdmin )
-
 class Document( models.Model ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )
     file = models.FileField( _( 'File' ), upload_to = 'docs/' )
@@ -546,10 +493,3 @@ class Document( models.Model ):
         ordering = [ 'name' ]
         verbose_name = _( 'Document' )
         verbose_name_plural = _( 'Documents' )
-
-class DocumentAdmin( admin.ModelAdmin ):
-    ordering = [ 'name' ]
-    list_display = ( 'id', 'name', 'file', 'person' )
-    list_display_links = ( 'name', 'file', )
-
-admin.site.register( Document, DocumentAdmin )
