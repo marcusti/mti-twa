@@ -3,6 +3,9 @@
 from django.contrib import admin
 from twa.members.models import *
 
+class TranslationAdmin( admin.ModelAdmin):
+    ordering = [ 'name' ]
+    
 class CountryAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
     list_display = ( 'name', 'name_de', 'name_ja' )
@@ -56,3 +59,4 @@ admin.site.register( Association, AssociationAdmin )
 admin.site.register( Dojo, DojoAdmin )
 admin.site.register( Person, PersonAdmin )
 admin.site.register( Country, CountryAdmin )
+#admin.site.register( Translation, TranslationAdmin )

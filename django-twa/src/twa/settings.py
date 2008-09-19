@@ -58,4 +58,5 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 #    'rosetta',
     'twa.members',
+    'twa.requests',
  )
