@@ -55,51 +55,20 @@ LICENSE_STATUS = [
     ( LICENSE_STATUS_LICENSED, _( 'licensed' ) ),
 ]
 
-class RequestManager( models.Manager ):
-    def get_query_set( self ):
-        return super( RequestManager, self ).get_query_set()
-
-    def get_user_agents( self ):
-        return self.get_query_set().values( 'user_agent' ).distinct()
-
-    def get_user_agents_by_requests( self ):
-        agents = []
-        for ua in self.get_user_agents():
-            agents.append( { 'count': self.get_query_set().filter( user_agent = ua['user_agent'] ).count(), 'user_agent': ua['user_agent'] } )
-        #agents.append( { 'user_agent': '[all requests]', 'count': self.get_query_set().count() } )
-        return agents
-
-class Request( models.Model ):
-    user = models.CharField( 'User', max_length = DEFAULT_MAX_LENGTH, blank = True )
-    user_agent = models.CharField( 'User Agent', max_length = 500, blank = True )
-    path = models.CharField( 'Path', max_length = DEFAULT_MAX_LENGTH, blank = True )
-    remote = models.CharField( 'Remote', max_length = DEFAULT_MAX_LENGTH, blank = True )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
-
-    objects = RequestManager()
-
-    #class Admin:
-    #    ordering = [ '-created' ]
-    #    list_display = ( 'id', 'created', 'user', 'path', 'user_agent', 'remote' )
-    #    #list_display_links = ( 'created', 'user' )
-    #    list_filter = [ 'user' ]
-
-class Translation( models.Model ):
-    name = models.CharField( 'Name', max_length = DEFAULT_MAX_LENGTH, unique = True )
-    entry = models.CharField( 'Entry (en)', max_length = DEFAULT_MAX_LENGTH )
-    entry_de = models.CharField( 'Entry (de)', max_length = DEFAULT_MAX_LENGTH, blank = True )
-    entry_ja = models.CharField( 'Entry (ja)', max_length = DEFAULT_MAX_LENGTH, blank = True )
-
-    created = models.DateTimeField( 'Created', auto_now_add = True )
-    last_modified = models.DateTimeField( 'Last Modified', auto_now = True )
-
-    def get_entry( self, language = None ):
-        return getattr( self, "entry_%s" % ( language or translation.get_language()[:2] ), "" ) or self.entry
-
-    def __unicode__( self ):
-        return self.get_entry()
+#class Translation( models.Model ):
+#    name = models.CharField( 'Name', max_length = DEFAULT_MAX_LENGTH, unique = True )
+#    entry = models.CharField( 'Entry (en)', max_length = DEFAULT_MAX_LENGTH )
+#    entry_de = models.CharField( 'Entry (de)', max_length = DEFAULT_MAX_LENGTH, blank = True )
+#    entry_ja = models.CharField( 'Entry (ja)', max_length = DEFAULT_MAX_LENGTH, blank = True )
+#
+#    created = models.DateTimeField( 'Created', auto_now_add = True )
+#    last_modified = models.DateTimeField( 'Last Modified', auto_now = True )
+#
+#    def get_entry( self, language = None ):
+#        return getattr( self, "entry_%s" % ( language or translation.get_language()[:2] ), "" ) or self.entry
+#
+#    def __unicode__( self ):
+#        return self.get_entry()
 
 class Country( models.Model ):
     name = models.CharField( _( 'Name (en)' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
