@@ -54,9 +54,6 @@ def get_context( request ):
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
 
-    ctx['db_version'] = db_version
-    ctx['db_link'] = db_link
-
     return ctx
 
 def twa_login( request ):
@@ -116,6 +113,8 @@ def info( request ):
     ctx = get_context( request )
     ctx['menu'] = 'info'
 
+    ctx['db_version'] = db_version
+    ctx['db_link'] = db_link
     ctx['os_version'] = platform.node()
     ctx['os_link'] = 'http://www.ubuntu.com/'
     ctx['django_version'] = get_version()
