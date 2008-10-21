@@ -3,6 +3,7 @@
 from PIL import Image
 from datetime import date, datetime
 from django import get_version
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -16,9 +17,23 @@ from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
 from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK
-from twa.requests.models import Request, RequestManager
+from twa.requests.models import Request
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, SEND_MAIL_ON_LOGIN
 import os, platform, sys
+
+try:
+    from django.db import connection
+    cursor = connection.cursor()
+    cursor.execute("SELECT version()")
+    version = cursor.fetchone()[0]
+    if version.lower().startswith('postgresql'):
+        db_version = version[:version.find( ' ', 12 )]
+        db_link = 'http://www.postgresql.org/'
+    else:
+        db_version = 'MySQL %s' % version
+        db_link = 'http://www.mysql.de/'
+except:
+    db_version = ''
 
 def __get_rank_display( rank ):
     for id, name in RANK:
@@ -29,16 +44,20 @@ def __get_rank_display( rank ):
 def get_context( request ):
     ua = request.META['HTTP_USER_AGENT']
     if ua.find( 'dummy connection' ) == -1:
-        r = Request( user = request.user )
+        r = Request( user = request.user.username )
         r.user_agent = ua
         r.remote = request.META['REMOTE_ADDR']
         r.path = request.get_full_path()
         r.save()
 
-    my_context = {}
-    my_context['LANGUAGES'] = LANGUAGES
-    my_context['language'] = request.LANGUAGE_CODE
-    return my_context
+    ctx = {}
+    ctx['LANGUAGES'] = LANGUAGES
+    ctx['language'] = request.LANGUAGE_CODE
+
+    ctx['db_version'] = db_version
+    ctx['db_link'] = db_link
+
+    return ctx
 
 def twa_login( request ):
     ctx = get_context( request )
@@ -56,9 +75,12 @@ def twa_login( request ):
             if SEND_MAIL_ON_LOGIN and not user.is_superuser:
                 from django.core.mail import mail_admins, send_mail
                 name = user.get_full_name()
-                msg = '%s: %s hat sich eingeloggt.\n' % ( datetime.now(), name )
-                msg += 'https://marcusti.dyndns.org/'
-                mail_admins( 'Login', msg, fail_silently = True )
+                msg = '%s: %s hat sich eingeloggt.\n\n' % ( datetime.now(), name )
+                msg += 'User agent:\n%s\n\n' % request.META['HTTP_USER_AGENT']
+                msg += 'Remote Address:\n%s\n\n' % request.META['REMOTE_ADDR']
+                msg += '\nhttps://www.tendo-world-aikido.de/\n'
+
+                mail_admins( 'Login %s' % name, msg, fail_silently = True )
 
             next = request.REQUEST.get( 'next', LOGIN_REDIRECT_URL )
 #            if request.REQUEST.has_key( 'next' ):
@@ -93,20 +115,24 @@ def info( request ):
 
     ctx = get_context( request )
     ctx['menu'] = 'info'
-    try:
-        from django import db
-        ctx['mysql_version'] = '%s %s' % ( db.settings.DATABASE_ENGINE, db.backend.Database.get_client_info() )
-    except:
-        pass
+
+    ctx['os_version'] = platform.node()
+    ctx['os_link'] = 'http://www.ubuntu.com/'
     ctx['django_version'] = get_version()
+    ctx['django_link'] = 'http://www.djangoproject.com/'
     ctx['python_version'] = sys.version
-    ctx['os_version'] = platform.platform()
+    ctx['python_link'] = 'http://www.python.org/'
     ctx['users'] = User.objects.all().order_by( '-last_login' )
     ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( 'expire_date' )
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
     ctx['requests'] = Request.objects.all().order_by( '-id' )[:200]
     ctx['agents'] = Request.objects.get_user_agents_by_requests()
     ctx['hits'] = Request.objects.all().count()
+
+    if request.user.is_authenticated():
+        ctx['logentries'] = LogEntry.objects.all().order_by( '-action_time' )
+    else:
+        ctx['logentries'] = LogEntry.objects.none()
 
     return direct_to_template( request,
         template = 'info.html',
@@ -124,17 +150,13 @@ def index( request ):
     #            l.request_doc = doc.file
     #        l.save()
 
-    #for person in Person.objects.all():
-    #    if person.country_id is None:
-    #        person.country_id = 1
-    #        person.save()
-
     today = date.today()
     ctx = get_context( request )
     ctx['menu'] = 'home'
     if request.user.is_authenticated():
         ctx['requested_licenses'] = License.objects.get_requested_licenses().count()
         ctx['membership_requests'] = Person.persons.get_by_requested_membership().count()
+        ctx['countries'] = Country.objects.all().count()
         ctx['associations'] = Association.objects.all().count()
         ctx['dojos'] = Dojo.dojos.count()
         ctx['members'] = Person.persons.count()
@@ -632,7 +654,7 @@ def __get_null_safe( o ):
     if o is None:
         return ''
     else:
-        return unicode( o )
+        return unicode( ' '.join( o.splitlines() ) )
     
 def __get_name( o ):
     if o is not None:
@@ -648,6 +670,7 @@ def __get_date( d ):
 
 def __get_path( fileobject ):
     try:
-        return fileobject.path
+        head, tail = os.path.split( fileobject.path )
+        return tail
     except:
         return ''

@@ -2,8 +2,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
-DEFAULT_MAX_LENGTH = 200
+from twa.utils import DEFAULT_MAX_LENGTH, AbstractModel
 
 class RequestManager( models.Manager ):
     def get_query_set( self ):
@@ -19,14 +18,13 @@ class RequestManager( models.Manager ):
         #agents.append( { 'user_agent': '[all requests]', 'count': self.get_query_set().count() } )
         return agents
 
-class Request( models.Model ):
-    user = models.CharField( 'User', max_length = DEFAULT_MAX_LENGTH, blank = True )
-    user_agent = models.CharField( 'User Agent', max_length = 500, blank = True )
-    path = models.CharField( 'Path', max_length = DEFAULT_MAX_LENGTH, blank = True )
-    remote = models.CharField( 'Remote', max_length = DEFAULT_MAX_LENGTH, blank = True )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+class Request( AbstractModel ):
+    user = models.CharField( _( 'User' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    user_agent = models.CharField( _( 'User Agent' ), max_length = 500, blank = True )
+    path = models.CharField( _( 'Path' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    remote = models.CharField( _( 'Remote' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
 
     objects = RequestManager()
 
+    def __unicode__( self ):
+        return self.user_agent

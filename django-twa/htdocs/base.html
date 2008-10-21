@@ -41,10 +41,7 @@
             <li><a href="/logout/" class="edit">{% trans "Logout" %}</a></li>
 
             {% if user.is_staff %}
-              <li><a href="/admin/" target="_blank"{% ifequal menu "admin" %} class="active"{% endifequal %}>{% trans "Admin" %}</a></li>
-            {% endif %}
-
-            {% if perms.members %}
+              <li><a href="/admin/" {% ifequal menu "admin" %} class="active"{% endifequal %}>{% trans "Admin" %}</a></li>
               <li><a href="/info/"{% ifequal menu "info" %} class="active"{% endifequal %}>{% trans "Info" %}</a></li>
             {% endif %}
 
@@ -112,6 +109,11 @@
 
   <tr>
     <th colspan="2">&nbsp;</th>
+  </tr>
+
+  <tr>
+    <td>{% trans "Countries" %}</td>
+    <td>{{ countries|default:"-" }}</td>
   </tr>
 
   <tr>

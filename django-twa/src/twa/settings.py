@@ -25,13 +25,18 @@ LANGUAGES = (
         ('ja', u'日本語'),
         )
 
-#SEND_MAIL_ON_LOGIN = True
-SEND_MAIL_ON_LOGIN = False
+SEND_MAIL_ON_LOGIN = True
+#SEND_MAIL_ON_LOGIN = False
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Alle URLs an SSL weiterleiten
+SSL_URLS = (
+    r'.*',
+)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -46,17 +51,18 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
+    'twa.members.ssl.SSLRedirect',
  )
 
 ROOT_URLCONF = 'twa.urls'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-#    'rosetta',
     'twa.members',
     'twa.requests',
  )

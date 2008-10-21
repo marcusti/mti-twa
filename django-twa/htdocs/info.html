@@ -8,6 +8,9 @@
     <th>{% trans "ID" %}</th>
     <th>{% trans "Username" %}</th>
     <th>{% trans "Name" %}</th>
+    <th>{% trans "Email" %}
+      <a href="mailto:{% for benutzer in users %}{% if benutzer.is_active %}{{ benutzer.email }}{% if not forloop.last %};{% endif %}{% endif %}{% endfor %}">an alle</a>
+    </th>
     <th>{% trans "Last Login" %}</th>
     <th>{% trans "Active" %}</th>
     <th>{% trans "Admin" %}</th>
@@ -19,6 +22,7 @@
 
   </tr>
   {% for benutzer in users %}
+  {% if benutzer.is_active %}
   <tr>
     <td>{{ benutzer.id }}</td>
     <td>
@@ -29,7 +33,8 @@
       {% endif %}
     </td>
     <td>{{ benutzer.first_name }} {{ benutzer.last_name }}</td>
-    <td>{{ benutzer.last_login }} <span class="meta small nobr">( {{ benutzer.last_login|timesince }} )</span></td>
+    <td><a href="mailto:{{ benutzer.email }}">{{ benutzer.email }}</a></td>
+    <td>{{ benutzer.last_login|date:"D Y-m-d H:i:s" }} <span class="meta small nobr">( {{ benutzer.last_login|timesince }} )</span></td>
     <td>{{ benutzer.is_active|yesno }}</td>
     <td>{{ benutzer.is_staff|yesno }}</td>
     <td>{% for group in benutzer.groups.all %}{{ group.name }} {% endfor %}</td>
@@ -39,9 +44,30 @@
     {% endif %}
 
   </tr>
+  {% endif %}
   {% endfor %}
   <tr>
     <td class="white" colspan="8">&nbsp;</td>
+  </tr>
+</table>
+
+<table id="techinfo">
+  <tr class="">
+    <th>{% trans "Last Changes" %} {% trans "Date" %}</th>
+    <th>{% trans "User" %}</th>
+    <th>{% trans "Object" %}</th>
+    <th>{% trans "Change Message" %}</th>
+  </tr>
+  {% for log in logentries|slice:"10" %}
+  <tr>
+    <td>{{ log.action_time|date:"D Y-m-d H:i:s" }}</td>
+    <td>{{ log.user }}</td>
+    <td>{{ log.content_type }} &raquo;<a href="/admin/{{ log.get_admin_url }}">{{ log.get_edited_object }}</a>&laquo;</td>
+    <td>{{ log.change_message }}</td>
+  </tr>
+  {% endfor %}
+  <tr>
+    <td class="white" colspan="5">&nbsp;</td>
   </tr>
 </table>
 
@@ -55,19 +81,19 @@
   </tr>
   <tr>
     <td>Server OS</td>
-    <td>{{ os_version}}</td>
+    <td><a href="{{ os_link }}" target="_blank">{{ os_version}}</a></td>
   </tr>
   <tr>
     <td>Django Version</td>
-    <td>{{ django_version }}</td>
+    <td><a href="{{ django_link }}" target="_blank">{{ django_version }}</a></td>
   </tr>
   <tr>
     <td>Python Version</td>
-    <td>{{ python_version }}</td>
+    <td><a href="{{ python_link }}" target="_blank">{{ python_version }}</a></td>
   </tr>
   <tr>
     <td>Database Version</td>
-    <td>{{ mysql_version }}</td>
+    <td><a href="{{ db_link }}" target="_blank">{{ db_version }}</a></td>
   </tr>
   <tr>
     <td>Source Code Repository</td>
