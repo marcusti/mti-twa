@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from django.contrib import admin
+from django.contrib.admin.models import LogEntry
 from twa.members.models import *
 
 class TranslationAdmin( admin.ModelAdmin):
@@ -11,13 +12,19 @@ class CountryAdmin( admin.ModelAdmin ):
     list_display = ( 'name', 'name_de', 'name_ja' )
     list_display_links = ( 'name', 'name_de', 'name_ja' )
 
+class GraduationInline( admin.StackedInline ):
+    model = Graduation
+    fk_name = 'person'
+    extra = 1
+
 class PersonAdmin( admin.ModelAdmin ):
     ordering = [ 'firstname', 'lastname' ]
     list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'age', 'gender', 'photo', 'is_active', 'admin_thumb' )
     list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
     list_filter = ( 'current_rank', 'is_active', 'twa_membership' )
     search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
-    filter_vertical = ( 'dojos', )
+    filter_horizontal = ( 'dojos', )
+    inlines = [ GraduationInline, ]
 
 class DojoAdmin( admin.ModelAdmin ):
     ordering = [ 'city', 'name' ]
@@ -52,6 +59,11 @@ class DocumentAdmin( admin.ModelAdmin ):
     list_display = ( 'id', 'name', 'file', 'person' )
     list_display_links = ( 'name', 'file', )
 
+class LogEntryAdmin( admin.ModelAdmin ):
+    ordering = [ '-action_time' ]
+    list_display = ( 'action_time', 'user', 'content_type', 'object_repr', 'change_message', 'is_addition', 'is_change', 'is_deletion' )
+    list_filter = [ 'user' ]
+
 admin.site.register( Document, DocumentAdmin )
 admin.site.register( License, LicenseAdmin )
 admin.site.register( Graduation, GraduationAdmin )
@@ -60,3 +72,4 @@ admin.site.register( Dojo, DojoAdmin )
 admin.site.register( Person, PersonAdmin )
 admin.site.register( Country, CountryAdmin )
 #admin.site.register( Translation, TranslationAdmin )
+admin.site.register( LogEntry, LogEntryAdmin )

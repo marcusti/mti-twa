@@ -8,8 +8,7 @@ from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 import calendar
-
-DEFAULT_MAX_LENGTH = 200
+from twa.utils import DEFAULT_MAX_LENGTH, AbstractModel
 
 GENDER = [
     ( 'm', _( 'male' ) ),
@@ -55,28 +54,10 @@ LICENSE_STATUS = [
     ( LICENSE_STATUS_LICENSED, _( 'licensed' ) ),
 ]
 
-#class Translation( models.Model ):
-#    name = models.CharField( 'Name', max_length = DEFAULT_MAX_LENGTH, unique = True )
-#    entry = models.CharField( 'Entry (en)', max_length = DEFAULT_MAX_LENGTH )
-#    entry_de = models.CharField( 'Entry (de)', max_length = DEFAULT_MAX_LENGTH, blank = True )
-#    entry_ja = models.CharField( 'Entry (ja)', max_length = DEFAULT_MAX_LENGTH, blank = True )
-#
-#    created = models.DateTimeField( 'Created', auto_now_add = True )
-#    last_modified = models.DateTimeField( 'Last Modified', auto_now = True )
-#
-#    def get_entry( self, language = None ):
-#        return getattr( self, "entry_%s" % ( language or translation.get_language()[:2] ), "" ) or self.entry
-#
-#    def __unicode__( self ):
-#        return self.get_entry()
-
-class Country( models.Model ):
+class Country( AbstractModel ):
     name = models.CharField( _( 'Name (en)' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
     name_de = models.CharField( _( 'Name (de)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( 'Name (ja)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     def get_name( self, language = None ):
         return getattr( self, "name_%s" % ( language or translation.get_language()[:2] ), "" ) or self.name
@@ -91,10 +72,7 @@ class Country( models.Model ):
 
 class PersonManager( models.Manager ):
     def get_query_set( self ):
-        #if Person.objects.all().count() == 0:
-        #    from createInitialData import Import
-        #    Import()
-        return super( PersonManager, self ).get_query_set().filter( is_active = True )
+        return super( PersonManager, self ).get_query_set().filter( is_active = True, public = True )
 
     def get_persons_by_rank( self, rank ):
         return self.get_query_set().filter( current_rank = rank )
@@ -120,7 +98,7 @@ class PersonManager( models.Manager ):
         liste.sort()
         return liste
 
-class Person( models.Model ):
+class Person( AbstractModel ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
     lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
     nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -150,10 +128,7 @@ class Person( models.Model ):
     twa_membership = models.DateField( _( 'TWA Member' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), blank = True, null = True )
-    current_rank = models.IntegerField( _( 'Rank' ), choices = RANK, editable = False )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+    current_rank = models.IntegerField( _( 'Rank' ), choices = RANK, editable = False, blank = True, null = True )
 
     objects = models.Manager()
     persons = PersonManager()
@@ -201,32 +176,34 @@ class Person( models.Model ):
     def save( self ):
         if self.birth:
             self.birth_sort_string = self.birth.strftime( '%m%d' )
+        else:
+            self.birth_sort_string = ''
 
         if self.photo:
             THUMBNAIL_SIZE = ( 75, 75 )
             SCALE_SIZE = ( 300, 400 )
 
             if not self.thumbnail:
-                self.save_thumbnail_file( self.get_photo_filename(), '' )
+                self.thumbnail.save( self.photo.path, self.photo, save = True )
 
-            image = Image.open( self.get_photo_filename() )
+            image = Image.open( self.photo.path )
 
             if image.mode not in ( 'L', 'RGB' ):
                 image = image.convert( 'RGB' )
 
             image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
-            image.save( self.get_photo_filename() )
+            image.save( self.photo.path )
 
             image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
-            image.save( self.get_thumbnail_filename() )
+            image.save( self.thumbnail.path )
 
         super( Person, self ).save()
 
     def admin_thumb( self ):
         try:
-            w = self.get_thumbnail_width()
-            h = self.get_thumbnail_height()
-            return u'<img src="%s" width="%s" height="%s" />' % ( self.get_thumbnail_url(), w, h )
+            w = self.thumbnail.width
+            h = self.thumbnail.height
+            return u'<img src="%s" width="%s" height="%s" />' % ( self.thumbnail.url, w, h )
         except:
             return u''
     admin_thumb.short_description = _( 'Photo' )
@@ -248,7 +225,8 @@ class Person( models.Model ):
             prefix = self.get_name_prefix_display()
         else:
             prefix = ''
-        return u'%s %s %s %s'.strip() % ( prefix, self.firstname, nick, self.lastname )
+        name = u'%s %s %s %s' % ( prefix, self.firstname, nick, self.lastname )
+        return name.strip()
 
     class Meta:
         ordering = [ 'firstname', 'lastname' ]
@@ -257,9 +235,9 @@ class Person( models.Model ):
 
 class DojoManager( models.Manager ):
     def get_query_set( self ):
-        return super( DojoManager, self ).get_query_set().filter( is_active = True )
+        return super( DojoManager, self ).get_query_set().filter( is_active = True, public = True )
 
-class Dojo( models.Model ):
+class Dojo( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
     shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
@@ -279,9 +257,6 @@ class Dojo( models.Model ):
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
     leader = models.ForeignKey( Person, verbose_name = _( 'Dojo Leader' ), related_name = 'dojo_leader', blank = True, null = True )
     association = models.ForeignKey( 'Association', verbose_name = _( 'Association' ), blank = True, null = True )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     objects = models.Manager()
     dojos = DojoManager()
@@ -309,7 +284,7 @@ class Dojo( models.Model ):
         verbose_name = _( 'Dojo' )
         verbose_name_plural = _( 'Dojos' )
 
-class Association( models.Model ):
+class Association( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
     shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
@@ -329,9 +304,6 @@ class Association( models.Model ):
     is_active = models.BooleanField( _( 'Active' ), default = True )
     contact = models.ForeignKey( Person, verbose_name = _( 'Contact' ), related_name = 'association', blank = True, null = True )
 
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
-
     def get_absolute_url( self ):
         return '/association/%i/' % self.id
 
@@ -345,22 +317,22 @@ class Association( models.Model ):
 
 class SuggestionsManager( models.Manager ):
     def get_query_set( self ):
-        return super( SuggestionsManager, self ).get_query_set().filter( is_active = True, is_nomination = True )
+        return super( SuggestionsManager, self ).get_query_set().filter( is_active = True, public = True, is_nomination = True )
 
 class GraduationManager( models.Manager ):
     def get_query_set( self ):
-        return super( GraduationManager, self ).get_query_set().filter( is_active = True, is_nomination = False )
+        return super( GraduationManager, self ).get_query_set().filter( is_active = True, public = True, is_nomination = False )
 
     def get_current( self, person ):
         try:
-            return max( Graduation.objects.filter( person__id = person.id, is_active = True, is_nomination = False ).iterator() ).rank
+            return max( Graduation.objects.filter( person__id = person.id, is_active = True, public = True, is_nomination = False ).iterator() ).rank
         except:
             return None
 
     def get_this_years_graduations( self ):
-        return self.get_query_set().filter( is_active = True, date__year = date.today().year )
+        return self.get_query_set().filter( is_active = True, public = True, date__year = date.today().year )
 
-class Graduation( models.Model ):
+class Graduation( AbstractModel ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), related_name = 'person_related' )
     nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominated_by_related', blank = True, null = True )
     rank = models.IntegerField( _( 'Rank' ), choices = RANK )
@@ -371,9 +343,6 @@ class Graduation( models.Model ):
     confirmation_doc = models.FileField( _( 'Confirmation Document' ), upload_to = 'docs/', blank = True, null = True )
     payment_doc = models.FileField( _( 'Payment Document' ), upload_to = 'docs/', blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     objects = models.Manager()
     graduations = GraduationManager()
@@ -401,25 +370,15 @@ class Graduation( models.Model ):
 
 class LicenseManager( models.Manager ):
     def get_requested_licenses( self ):
-        #for lic in License.objects.all():
-        #    if lic.date:
-        #        lic.status = LICENSE_STATUS_LICENSED
-        #    else:
-        #        if lic.is_active:
-        #            lic.status = LICENSE_STATUS_OPEN
-        #        else:
-        #            lic.status = LICENSE_STATUS_REJECTED
-        #    lic.save()
-
-        return License.objects.filter( is_active = True ).exclude( status = LICENSE_STATUS_LICENSED )#.exclude( status = LICENSE_STATUS_REJECTED )
+        return License.objects.filter( is_active = True, public = True ).exclude( status = LICENSE_STATUS_LICENSED )#.exclude( status = LICENSE_STATUS_REJECTED )
 
     def get_granted_licenses( self ):
-        return License.objects.filter( status = LICENSE_STATUS_LICENSED, is_active = True )
+        return License.objects.filter( status = LICENSE_STATUS_LICENSED, is_active = True, public = True )
 
     def get_rejected_licenses( self ):
-        return License.objects.filter( status = LICENSE_STATUS_REJECTED, is_active = True )
+        return License.objects.filter( status = LICENSE_STATUS_REJECTED, is_active = True, public = True )
 
-class License( models.Model ):
+class License( AbstractModel ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
     status = models.IntegerField( _( 'License Status' ), choices = LICENSE_STATUS, default = LICENSE_STATUS_OPEN )
     date = models.DateField( _( 'License Date' ), blank = True, null = True )
@@ -430,9 +389,6 @@ class License( models.Model ):
     receipt_doc = models.FileField( _( 'License Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
 
     objects = LicenseManager()
 
@@ -447,13 +403,10 @@ class License( models.Model ):
         verbose_name = _( 'License' )
         verbose_name_plural = _( 'Licenses' )
 
-class Document( models.Model ):
-    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, core = True )
+class Document( AbstractModel ):
+    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )
     file = models.FileField( _( 'File' ), upload_to = 'docs/' )
-    person = models.ForeignKey( Person, verbose_name = _( 'Person' ), blank = True, null = True, edit_inline = models.TABULAR, num_in_admin = 3 )
-
-    created = models.DateTimeField( _( 'Created' ), auto_now_add = True, default = datetime.now() )
-    last_modified = models.DateTimeField( _( 'Last Modified' ), auto_now = True )
+    person = models.ForeignKey( Person, verbose_name = _( 'Person' ), blank = True, null = True )
 
     def __unicode__( self ):
         return self.name

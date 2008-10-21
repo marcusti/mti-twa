@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns( '',
     # Admin
+    ( r'^admin/doc/', include( 'django.contrib.admindocs.urls' ) ),
     ( r'^admin/(.*)', admin.site.root ),
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     #( r'^logout/$', 'django.contrib.auth.views.logout_then_login' ),
@@ -14,7 +15,7 @@ urlpatterns = patterns( '',
 
 if settings.DEBUG:
     urlpatterns += patterns( '',
-        ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/max/eclipse/workspace/django-twa/htdocs/static'} ),
+        ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/marcus/www/twa/htdocs/static'} ),
      )
 
 urlpatterns += patterns( 'twa.members.views',
