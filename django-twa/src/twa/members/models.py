@@ -139,11 +139,8 @@ class Person( AbstractModel ):
     gender = models.CharField( _( 'Gender' ), max_length = 1, choices = GENDER, blank = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
-#    twa_membership_requested = models.DateField( _( 'TWA Membership Request' ), blank = True, null = True )
-#    twa_membership = models.DateField( _( 'TWA Member' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), blank = True, null = True )
-#    current_rank = models.IntegerField( _( 'Rank' ), choices = RANK, editable = False, blank = True, null = True )
 
     objects = models.Manager()
     persons = PersonManager()

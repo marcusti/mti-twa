@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
 from twa.members.models import DEFAULT_MAX_LENGTH
 
+class TWAMembershipRequestForm( forms.Form ):
+    pass
+
 class LoginForm( forms.Form ):
     username = forms.CharField( max_length = DEFAULT_MAX_LENGTH,
                                 min_length = 4,
