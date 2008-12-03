@@ -33,7 +33,7 @@
 
     <td><ul>{% for dojo in grad.person.dojos.all %}<li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>{% endfor %}</ul></td>
 
-    <td>{% if grad.rank %}{{ grad.get_rank_display }}{% endif %}</td>
+    <td>{{ grad }}</td>
 
     <td>{% if grad.nominated_by %}{{ grad.nominated_by }}{% endif %}</td>
 

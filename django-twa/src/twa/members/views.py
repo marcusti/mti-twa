@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from twa.members.forms import LoginForm
-from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK
+from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership
 from twa.requests.models import Request
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, SEND_MAIL_ON_LOGIN
 import os, platform, sys
@@ -24,9 +24,9 @@ import os, platform, sys
 try:
     from django.db import connection
     cursor = connection.cursor()
-    cursor.execute("SELECT version()")
+    cursor.execute( "SELECT version()" )
     version = cursor.fetchone()[0]
-    if version.lower().startswith('postgresql'):
+    if version.lower().startswith( 'postgresql' ):
         db_version = version[:version.find( ' ', 12 )]
         db_link = 'http://www.postgresql.org/'
     else:
@@ -34,6 +34,7 @@ try:
         db_link = 'http://www.mysql.de/'
 except:
     db_version = ''
+    db_link = ''
 
 def __get_rank_display( rank ):
     for id, name in RANK:
@@ -43,7 +44,7 @@ def __get_rank_display( rank ):
 
 def get_context( request ):
     ua = request.META['HTTP_USER_AGENT']
-    if ua.find( 'dummy connection' ) == -1:
+    if ua.find( 'dummy connection' ) == - 1:
         r = Request( user = request.user.username )
         r.user_agent = ua
         r.remote = request.META['REMOTE_ADDR']
@@ -90,7 +91,7 @@ def twa_login( request ):
         form = LoginForm()
 
     ctx['form'] = form
-    return render_to_response(
+    return render_to_response( 
                'members/login.html',
                ctx,
             )
@@ -181,12 +182,12 @@ def dojos( request ):
         s = request.REQUEST['s']
         ctx['search'] = s
         if s:
-            qs = Dojo.dojos.filter( Q( name__icontains=s ) |
-                    Q( shortname__icontains=s ) |
-                    Q( text__icontains=s ) |
-                    Q( street__icontains=s ) |
-                    Q( zip__icontains=s ) |
-                    Q( city__icontains=s ) )
+            qs = Dojo.dojos.filter( Q( name__icontains = s ) | 
+                    Q( shortname__icontains = s ) | 
+                    Q( text__icontains = s ) | 
+                    Q( street__icontains = s ) | 
+                    Q( zip__icontains = s ) | 
+                    Q( city__icontains = s ) )
         else:
             qs = Dojo.dojos.all()
     else:
@@ -216,7 +217,7 @@ def dojos( request ):
 
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -227,7 +228,7 @@ def dojo( request, did = None ):
     ctx = get_context( request )
     ctx['menu'] = 'dojos'
     ctx['members'] = Person.persons.filter( dojos__id = did )
-    return object_detail(
+    return object_detail( 
         request,
         queryset = Dojo.dojos.filter( id = did ),
         object_id = did,
@@ -242,7 +243,7 @@ def associations( request ):
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -256,7 +257,7 @@ def association( request, aid = None ):
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_detail(
+    return object_detail( 
         request,
         queryset = Association.objects.filter( id = aid ),
         object_id = aid,
@@ -285,9 +286,9 @@ def members( request ):
         member = request.REQUEST['m']
         ctx['m'] = member
         if member == 'yes':
-            qs &= Person.persons.filter( twa_membership__isnull = False )
+            qs &= Person.persons.get_members()
         elif member == 'requested':
-            qs &= Person.persons.filter( twa_membership_requested__isnull = False )
+            qs &= Person.persons.get_by_requested_membership()
         else:
             qs &= Person.persons.all()
 
@@ -295,14 +296,14 @@ def members( request ):
         s = request.REQUEST['s']
         ctx['search'] = s
         if s:
-            qs &= Person.persons.filter( Q( firstname__icontains=s ) |
-                    Q( nickname__icontains=s ) |
-                    Q( lastname__icontains=s ) |
-                    Q( text__icontains=s ) |
-                    Q( email__icontains=s ) |
-                    Q( street__icontains=s ) |
-                    Q( zip__icontains=s ) |
-                    Q( city__icontains=s ) )
+            qs &= Person.persons.filter( Q( firstname__icontains = s ) | 
+                    Q( nickname__icontains = s ) | 
+                    Q( lastname__icontains = s ) | 
+                    Q( text__icontains = s ) | 
+                    Q( email__icontains = s ) | 
+                    Q( street__icontains = s ) | 
+                    Q( zip__icontains = s ) | 
+                    Q( city__icontains = s ) )
 
     if request.REQUEST.has_key( 'sid' ):
         sid = request.REQUEST['sid']
@@ -323,7 +324,7 @@ def members( request ):
 
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -337,7 +338,7 @@ def member( request, mid = None ):
     ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
     ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     ctx['documents'] = Document.objects.filter( person__id = mid )
-    return object_detail(
+    return object_detail( 
         request,
         queryset = Person.persons.filter( id = mid ),
         object_id = mid,
@@ -350,10 +351,10 @@ def member_requests( request ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    qs = Person.persons.get_by_requested_membership().order_by( '-id' )
+    qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -369,7 +370,7 @@ def licenses( request ):
     qs = License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -384,7 +385,7 @@ def license_requests( request ):
     qs = License.objects.get_requested_licenses().order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -400,7 +401,7 @@ def license_rejected( request ):
     qs = License.objects.get_rejected_licenses().order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -415,7 +416,7 @@ def graduations( request ):
     qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 100,
@@ -430,7 +431,7 @@ def suggestions( request ):
     qs = Graduation.suggestions.select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
-    return object_list(
+    return object_list( 
         request,
         queryset = qs,
         paginate_by = 50,
@@ -440,7 +441,7 @@ def suggestions( request ):
 
 @login_required
 def dojos_csv( request ):
-    response = HttpResponse( mimetype='text/csv' )
+    response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=dojos.csv'
 
     from csvutf8 import UnicodeWriter
@@ -487,7 +488,7 @@ def members_xls( request ):
 
     filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
@@ -516,7 +517,7 @@ def license_requests_xls( request ):
 
     filename = 'license-requests-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
@@ -545,7 +546,7 @@ def licenses_xls( request ):
 
     filename = 'licenses-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
@@ -574,14 +575,14 @@ def nominations_xls( request ):
 
     filename = 'nominations-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype='application/ms-excel' )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
 
 @login_required
 def members_csv( request ):
-    response = HttpResponse( mimetype='text/csv' )
+    response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=members.csv'
 
     from csvutf8 import UnicodeWriter

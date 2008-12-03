@@ -32,7 +32,7 @@
 
     <td><ul>{% for dojo in license.person.dojos.all %}<li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>{% endfor %}</ul></td>
 
-    <td>{% if license.person.current_rank %}{{ license.person.get_current_rank_display }}{% endif %}</td>
+    <td>{{ license.person.current_rank }}</td>
 
     <td>{{ license.date }}</td>
 

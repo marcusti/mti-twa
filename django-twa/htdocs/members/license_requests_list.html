@@ -48,7 +48,7 @@
     </td>
 
     <td>
-      {% if license.person.current_rank %}{{ license.person.get_current_rank_display }}{% endif %}
+      {{ license.person.current_rank }}
     </td>
 
     <td>
@@ -65,20 +65,20 @@
 
 {% if object_list|length_is:"0" %}
   <tr>
-    <td class="" colspan="6">
+    <td class="" colspan="7">
       {% trans "None" %}
     </td>
   </tr>
 {% endif %}
 
   <tr>
-    <td class="white" colspan="6">
+    <td class="white" colspan="7">
       {% paginator %}
     </td>
   </tr>
 
   <tr>
-    <td class="white meta" colspan="6">
+    <td class="white meta" colspan="7">
       {% trans "Export to" %} <a href="/license-requests/xls/">xls</a>
     </td>
   </tr>

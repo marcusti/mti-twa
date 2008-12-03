@@ -54,8 +54,23 @@ LICENSE_STATUS = [
     ( LICENSE_STATUS_LICENSED, _( 'licensed' ) ),
 ]
 
+MEMBERSHIP_STATUS_OPEN = 1
+MEMBERSHIP_STATUS_ACCEPTED = 2
+MEMBERSHIP_STATUS_REJECTED = 3
+MEMBERSHIP_STATUS_VERIFY = 4
+MEMBERSHIP_STATUS_MEMBER = 5
+
+MEMBERSHIP_STATUS = [
+    ( MEMBERSHIP_STATUS_OPEN, _( 'open' ) ),
+    ( MEMBERSHIP_STATUS_ACCEPTED, _( 'accepted' ) ),
+    ( MEMBERSHIP_STATUS_REJECTED, _( 'rejected' ) ),
+    ( MEMBERSHIP_STATUS_VERIFY, _( 'verify' ) ),
+    ( MEMBERSHIP_STATUS_MEMBER, _( 'member' ) ),
+]
+
 class Country( AbstractModel ):
     name = models.CharField( _( 'Name (en)' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
+    code = models.CharField( _( 'Code' ), max_length = 2, unique = True )
     name_de = models.CharField( _( 'Name (de)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_ja = models.CharField( _( 'Name (ja)' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
 
@@ -78,16 +93,16 @@ class PersonManager( models.Manager ):
         return self.get_query_set().filter( current_rank = rank )
 
     def get_licensed( self ):
-        return self.get_query_set().filter( license__date__isnull = False )
+        return self.get_query_set().filter( license__status = LICENSE_STATUS_LICENSED )
 
     def get_by_requested_licenses( self ):
         return self.get_query_set().filter( license__request__isnull = False, license__date__isnull = True )
 
     def get_by_requested_membership( self ):
-        return self.get_query_set().filter( twa_membership_requested__isnull = False, twa_membership__isnull = True )
+        return self.get_query_set().filter( twamembership__request__isnull = False, twamembership__date__isnull = True )
 
     def get_members( self ):
-        return self.get_query_set().filter( twa_membership__isnull = False )
+        return self.get_query_set().filter( twamembership__status = MEMBERSHIP_STATUS_MEMBER )
 
     def get_next_birthdays( self ):
         liste = []
@@ -124,11 +139,11 @@ class Person( AbstractModel ):
     gender = models.CharField( _( 'Gender' ), max_length = 1, choices = GENDER, blank = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
-    twa_membership_requested = models.DateField( _( 'TWA Membership Request' ), blank = True, null = True )
-    twa_membership = models.DateField( _( 'TWA Member' ), blank = True, null = True )
+#    twa_membership_requested = models.DateField( _( 'TWA Membership Request' ), blank = True, null = True )
+#    twa_membership = models.DateField( _( 'TWA Member' ), blank = True, null = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), blank = True, null = True )
-    current_rank = models.IntegerField( _( 'Rank' ), choices = RANK, editable = False, blank = True, null = True )
+#    current_rank = models.IntegerField( _( 'Rank' ), choices = RANK, editable = False, blank = True, null = True )
 
     objects = models.Manager()
     persons = PersonManager()
@@ -137,8 +152,19 @@ class Person( AbstractModel ):
         return self.license_set.filter( request__isnull = False, date__isnull = True ).count() > 0
 
     def is_licensed( self ):
-        return self.license_set.filter( date__isnull = False ).count() > 0
+        return self.license_set.filter( status = LICENSE_STATUS_LICENSED ).count() > 0
 
+    def is_twa_membership_requested( self ):
+        return self.twamembership_set.filter( request__isnull = False, date__isnull = True ).count() > 0
+
+    def is_member( self ):
+        return self.twamembership_set.filter( status = MEMBERSHIP_STATUS_MEMBER ).count() > 0
+
+    def current_rank( self ):
+        return self.graduations.latest( 'date' )
+    current_rank.short_description = _( 'Rank' )
+    current_rank.allow_tags = False
+    
     def age( self ):
         if self.birth:
             today = date.today()
@@ -326,8 +352,8 @@ class GraduationManager( models.Manager ):
         return self.get_query_set().filter( is_active = True, public = True, date__year = date.today().year )
 
 class Graduation( AbstractModel ):
-    person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), related_name = 'person_related' )
-    nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominated_by_related', blank = True, null = True )
+    person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), related_name = 'graduations' )
+    nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominations', blank = True, null = True )
     rank = models.IntegerField( _( 'Rank' ), choices = RANK )
     date = models.DateField( _( 'Date' ), blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
@@ -342,18 +368,16 @@ class Graduation( AbstractModel ):
     suggestions = SuggestionsManager()
 
     def __unicode__( self ):
-        return u'%s %s'.strip() % ( self.rank, self.date )
+        try:
+            return self.get_rank_display()
+        except:
+            return ''
 
     def __cmp__( self, other ):
         return cmp( self.rank, other.rank )
 
     def get_absolute_url( self ):
         return '/member/%i/' % self.person.id
-
-    def save( self ):
-        super( Graduation, self ).save()
-        self.person.current_rank = GraduationManager().get_current( self.person )
-        self.person.save()
 
     class Meta:
         ordering = [ '-rank', '-date' ]
@@ -395,6 +419,60 @@ class License( AbstractModel ):
         ordering = [ '-id' ]
         verbose_name = _( 'License' )
         verbose_name_plural = _( 'Licenses' )
+
+class TWAMembershipManager( models.Manager ):
+    def get_query_set( self ):
+        return super( TWAMembershipManager, self ).get_query_set().filter( is_active = True, public = True )
+
+    def get_requested_memberships( self ):
+        return self.get_query_set().all().exclude( status = MEMBERSHIP_STATUS_MEMBER )
+
+class TWAMembership( AbstractModel ):
+    person = models.OneToOneField( Person, verbose_name = _( 'Person' ) )
+    status = models.IntegerField( _( 'Membership Status' ), choices = MEMBERSHIP_STATUS, default = LICENSE_STATUS_OPEN )
+    date = models.DateField( _( 'Membership Date' ), blank = True, null = True )
+    request = models.DateField( _( 'Membership Request' ), blank = True, null = True )
+    receipt = models.DateField( _( 'Membership Receipt' ), blank = True, null = True )
+    rejected = models.DateField( _( 'Membership Rejected' ), blank = True, null = True )
+    request_doc = models.FileField( _( 'Membership Request Document' ), upload_to = 'docs/', blank = True, null = True )
+    receipt_doc = models.FileField( _( 'Membership Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
+    text = models.TextField( _( 'Text' ), blank = True )
+    is_active = models.BooleanField( _( 'Active' ), default = True )
+
+    objects = TWAMembershipManager()
+
+    def get_absolute_url( self ):
+        return '/member/%i/' % self.person.id
+
+    def __unicode__( self ):
+        return u'%s'.strip() % ( self.person )
+
+    class Meta:
+        ordering = [ '-id' ]
+        verbose_name = _( 'TWA Membership' )
+        verbose_name_plural = _( 'TWA Membership' )
+
+class TWAMemberIDManager( models.Manager ):
+    def get_query_set( self ):
+        return super( TWAMemberIDManager, self ).get_query_set().filter( public = True )
+    
+    def create_next_for_country( self, country_code ):
+        try:
+            country = Country.objects.get( code = country_code)
+            try:
+                member_id = max( self.get_query_set().filter( country = country ).values_list( 'member_id', flat = True ) ) + 1
+            except:
+                member_id = 1
+            return TWAMemberID( country = country, member_id = member_id )
+        except:
+            return None
+    
+class TWAMemberID( AbstractModel ):
+    country = models.OneToOneField( Country )
+    member_id = models.IntegerField( _('ID') )
+
+    def __unicode__( self ):
+        return u'%s-%s'.strip() % ( self.country.code, str( self.member_id ).ljust(5, '0') )
 
 class Document( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )

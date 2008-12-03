@@ -57,12 +57,12 @@
     <td>{{ person.id }}</td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}{% if person.nickname %} "{{ person.nickname }}"{% endif %}</a></td>
     <td><a href="{{ person.get_absolute_url }}">{{ person.lastname }}</a></td>
-    <td>{% if person.current_rank %}{{ person.get_current_rank_display }}{% endif %}</td>
+    <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
     <td>
       {% if person.twa_membership %}
         {% trans "Yes" %}
       {% else %}
-        {% if person.twa_membership_requested %}
+        {% if person.is_twa_membership_requested %}
           {% trans "Requested" %}
         {% else %}
           {% trans "No" %}
