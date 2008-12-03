@@ -38,7 +38,7 @@
 
   <tr>
     <td>{% trans "Rank" %}:</td>
-    <td class="big">{{ person.get_current_rank_display }}</td>
+    <td class="big">{{ person.current_rank }}</td>
   </tr>
 
   <tr>
@@ -197,7 +197,7 @@
         {{ person.twa_member_since }}
         <span class="meta">( {{ person.twa_member|timesince }} )</span>
       {% else %}
-        {% if person.twa_membership_requested %}
+        {% if person.is_twa_membership_requested %}
           {% trans "Requested" %}
         {% else %}
           {% trans "No" %}

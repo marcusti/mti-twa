@@ -32,7 +32,7 @@
 
     <td><ul>{% for dojo in graduation.person.dojos.all %}<li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>{% endfor %}</ul></td>
 
-    <td>{% if graduation.rank %}{{ graduation.get_rank_display }}{% endif %}</td>
+    <td>{{ graduation }}</td>
 
     <td>
       {{ graduation.date|default:"" }}

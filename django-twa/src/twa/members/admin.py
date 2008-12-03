@@ -19,9 +19,9 @@ class GraduationInline( admin.StackedInline ):
 
 class PersonAdmin( admin.ModelAdmin ):
     ordering = [ 'firstname', 'lastname' ]
-    list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'twa_membership', 'age', 'gender', 'photo', 'is_active', 'admin_thumb' )
+    list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'age', 'gender', 'photo', 'is_active', 'admin_thumb' )
     list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
-    list_filter = ( 'current_rank', 'is_active', 'twa_membership', 'dojos' )
+    list_filter = ( 'is_active', 'dojos' )
     search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
     filter_horizontal = ( 'dojos', )
     inlines = [ GraduationInline, ]
@@ -54,6 +54,13 @@ class LicenseAdmin( admin.ModelAdmin ):
     list_filter = [ 'status', 'is_active' ]
     search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
 
+class MembershipAdmin( admin.ModelAdmin ):
+    ordering = [ '-id' ]
+    list_display = ( 'id', 'status', 'person', 'date', 'request', 'receipt', 'rejected', 'is_active' )
+    list_display_links = ( 'status', 'person' )
+    list_filter = [ 'status', 'is_active' ]
+    search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
+
 class DocumentAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
     list_display = ( 'id', 'name', 'file', 'person' )
@@ -66,6 +73,7 @@ class LogEntryAdmin( admin.ModelAdmin ):
 
 admin.site.register( Document, DocumentAdmin )
 admin.site.register( License, LicenseAdmin )
+admin.site.register( TWAMembership, MembershipAdmin )
 admin.site.register( Graduation, GraduationAdmin )
 admin.site.register( Association, AssociationAdmin )
 admin.site.register( Dojo, DojoAdmin )

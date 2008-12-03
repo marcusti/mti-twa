@@ -15,7 +15,7 @@ urlpatterns = patterns( '',
 
 if settings.DEBUG:
     urlpatterns += patterns( '',
-        ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/marcus/www/twa/htdocs/static'} ),
+        ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT} ),
      )
 
 urlpatterns += patterns( 'twa.members.views',
