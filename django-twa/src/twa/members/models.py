@@ -164,11 +164,14 @@ class Person( AbstractModel ):
     
     def age( self ):
         if self.birth:
-            today = date.today()
-            this_years_birthday = date( today.year, self.birth.month, self.birth.day )
-            if this_years_birthday <= today:
-                return today.year - self.birth.year
-            return today.year - self.birth.year - 1
+	    try:
+              today = date.today()
+              this_years_birthday = date( today.year, self.birth.month, self.birth.day )
+              if this_years_birthday <= today:
+                  return today.year - self.birth.year
+              return today.year - self.birth.year - 1
+	    except:
+	        return ''
         else:
            return ''
     age.short_description = _( 'Age' )
