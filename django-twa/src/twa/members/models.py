@@ -163,17 +163,13 @@ class Person( AbstractModel ):
     current_rank.allow_tags = False
     
     def age( self ):
-        if self.birth:
-	    try:
-              today = date.today()
-              this_years_birthday = date( today.year, self.birth.month, self.birth.day )
-              if this_years_birthday <= today:
-                  return today.year - self.birth.year
-              return today.year - self.birth.year - 1
-	    except:
-	        return ''
-        else:
-           return ''
+        try:
+            today = date.today()
+            if ( self.birth.month < today.month ) or ( self.birth.month == today.month and self.birth.day <= today.day ):
+                return today.year - self.birth.year
+            return today.year - self.birth.year - 1
+        except:
+            return ''
     age.short_description = _( 'Age' )
     age.allow_tags = False
 
@@ -181,12 +177,13 @@ class Person( AbstractModel ):
         try:
             if self.birth:
                 today = date.today()
-                this_years_birthday = date( today.year, self.birth.month, self.birth.day )
+                year = today.year
+                if self.birth.month == 2 and self.birth.day == 29:
+                    while not calendar.isleap( year ):
+                        year += 1
+                this_years_birthday = date( year, self.birth.month, self.birth.day )
                 if this_years_birthday < today:
                     year = today.year + 1
-                    if self.birth.month == 2 and self.birth.day == 29:
-                        while not calendar.isleap( year ):
-                            year += 1
                     this_years_birthday = date( year, self.birth.month, self.birth.day )
                 return ( this_years_birthday - today ).days
             else:
