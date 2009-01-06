@@ -27,12 +27,14 @@
     <th>{% trans "Last Name" %}</th>
     <th>
         {% trans "Rank" %}
+{% comment %}
         <select class="smaller" id="rank-filter" name="r">
           <option class="smaller" value="all" {% ifequal r "all" %} selected {% endifequal %}>{% trans "all" %}</option>
           {% for rank in ranks %}
             <option class="smaller" value="{{ rank.0 }}" {% ifequal r rank.0 %} selected {% endifequal %}>{{ rank.1 }}</option>
           {% endfor %}
         </select>
+{% endcomment %}
     </th>
     <th>
         {% trans "TWA Member" %}
