@@ -85,12 +85,20 @@ class Country( AbstractModel ):
         verbose_name = _( 'Country' )
         verbose_name_plural = _( 'Countries' )
 
-class PersonManager( models.Manager ):
+class AllPersonsManager( models.Manager ):
+    use_for_related_fields = True
+
+    def get_query_set( self ):
+        SQL_GRAD = "SELECT MAX(rank) FROM members_graduation WHERE members_graduation.is_nomination = false AND members_graduation.person_id=members_person.id"
+        SQL_GRAD_DATUM = "SELECT date FROM members_graduation WHERE members_graduation.person_id=members_person.id AND rank=(%s)" % SQL_GRAD
+        return super( AllPersonsManager, self ).get_query_set().extra( select = { 'crank': SQL_GRAD } )
+
+class PersonManager( AllPersonsManager ):
     def get_query_set( self ):
         return super( PersonManager, self ).get_query_set().filter( is_active = True, public = True )
 
     def get_persons_by_rank( self, rank ):
-        return self.get_query_set().filter( current_rank = rank )
+        return self.get_query_set().filter( crank = rank )
 
     def get_licensed( self ):
         return self.get_query_set().filter( license__status = LICENSE_STATUS_LICENSED )
@@ -142,7 +150,7 @@ class Person( AbstractModel ):
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
     dojos = models.ManyToManyField( 'Dojo', verbose_name = _( 'Dojos' ), blank = True, null = True )
 
-    objects = models.Manager()
+    objects = AllPersonsManager()
     persons = PersonManager()
 
     def is_license_requested( self ):
@@ -158,7 +166,10 @@ class Person( AbstractModel ):
         return self.twamembership_set.filter( status = MEMBERSHIP_STATUS_MEMBER ).count() > 0
 
     def current_rank( self ):
-        return self.graduations.latest( 'date' )
+        try:
+            return self.graduations.get( person__id = self.id, rank = self.crank )
+        except:
+            return ''
     current_rank.short_description = _( 'Rank' )
     current_rank.allow_tags = False
     

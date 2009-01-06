@@ -367,7 +367,7 @@ def licenses( request ):
     ctx = get_context( request )
     ctx['menu'] = 'licenses'
 
-    qs = License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
+    qs = License.objects.get_granted_licenses()#.select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
     return object_list( 
@@ -510,7 +510,7 @@ def license_requests_xls( request ):
 
     for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
         person = license.person
-        content = [str( license.id ), license.get_status_display(), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.request ), __get_date( license.receipt ), license.text]
+        content = [str( license.id ), license.get_status_display(), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( license.request ), __get_date( license.receipt ), license.text]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
@@ -539,7 +539,7 @@ def licenses_xls( request ):
 
     for x, license in enumerate( License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' ) ):
         person = license.person
-        content = [str( license.id ), person.firstname, person.lastname, person.city, person.get_current_rank_display(), __get_date( license.date ), __get_date( license.request ), __get_date( license.receipt )]
+        content = [str( license.id ), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( license.date ), __get_date( license.request ), __get_date( license.receipt )]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
@@ -640,7 +640,7 @@ def __get_export_content( person ):
 
 def __get_rank( p ):
     if p and p.current_rank:
-        return p.get_current_rank_display()
+        return str( p.current_rank() )
     else:
         return ''
     
