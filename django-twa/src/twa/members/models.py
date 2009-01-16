@@ -207,7 +207,7 @@ class Person( AbstractModel ):
     days.short_description = _( 'Days' )
     days.allow_tags = False
 
-    def save( self ):
+    def save( self, force_insert = False ):
         if self.birth:
             self.birth_sort_string = self.birth.strftime( '%m%d' )
         else:
@@ -231,7 +231,7 @@ class Person( AbstractModel ):
             image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
             image.save( self.thumbnail.path )
 
-        super( Person, self ).save()
+        super( Person, self ).save( force_insert)
 
     def admin_thumb( self ):
         try:
@@ -250,16 +250,20 @@ class Person( AbstractModel ):
         return cmp( self.days(), other.days() )
 
     def __unicode__( self ):
-        if self.nickname:
-            nick = '"%s"' % self.nickname
-        else:
-            nick = ''
+        name = ''
 
         if self.name_prefix:
-            prefix = self.get_name_prefix_display()
-        else:
-            prefix = ''
-        name = u'%s %s %s %s' % ( prefix, self.firstname, nick, self.lastname )
+            name = self.get_name_prefix_display()
+
+        if self.firstname:
+            name += ' %s' % self.firstname
+
+        if self.nickname:
+            name += ' "%s"'.strip() % self.nickname
+
+        if self.lastname:
+            name += ' %s' % self.lastname
+
         return name.strip()
 
     class Meta:
@@ -435,16 +439,27 @@ class TWAMembershipManager( models.Manager ):
     def get_requested_memberships( self ):
         return self.get_query_set().all().exclude( status = MEMBERSHIP_STATUS_MEMBER )
 
+    def get_next_id_for_country( self, country_code ):
+        try:
+            country = Country.objects.get( code = country_code)
+            try:
+                member_id = max( self.get_query_set().filter( twa_id_country = country ).values_list( 'twa_id_number', flat = True ) ) + 1
+            except:
+                member_id = 1
+            return member_id
+        except:
+           return None
+    
 class TWAMembership( AbstractModel ):
-    person = models.OneToOneField( Person, verbose_name = _( 'Person' ) )
+    person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
     status = models.IntegerField( _( 'Membership Status' ), choices = MEMBERSHIP_STATUS, default = LICENSE_STATUS_OPEN )
     date = models.DateField( _( 'Membership Date' ), blank = True, null = True )
     request = models.DateField( _( 'Membership Request' ), blank = True, null = True )
-    receipt = models.DateField( _( 'Membership Receipt' ), blank = True, null = True )
     rejected = models.DateField( _( 'Membership Rejected' ), blank = True, null = True )
     request_doc = models.FileField( _( 'Membership Request Document' ), upload_to = 'docs/', blank = True, null = True )
-    receipt_doc = models.FileField( _( 'Membership Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
+    twa_id_country = models.OneToOneField( Country, blank = True, null = True )
+    twa_id_number = models.IntegerField( blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
     objects = TWAMembershipManager()
@@ -452,35 +467,22 @@ class TWAMembership( AbstractModel ):
     def get_absolute_url( self ):
         return '/member/%i/' % self.person.id
 
+    def twa_id( self ):
+        try:
+            return u'%s-%s'.strip() % ( self.twa_id_country.code, str( self.twa_id_number ).rjust(5, '0') )
+        except:
+            return ''
+    twa_id.short_description = _( 'TWA ID' )
+    twa_id.allow_tags = False
+
+
     def __unicode__( self ):
-        return u'%s'.strip() % ( self.person )
+        return u'%s %s'.strip() % ( self.person, self.twa_id() )
 
     class Meta:
         ordering = [ '-id' ]
         verbose_name = _( 'TWA Membership' )
         verbose_name_plural = _( 'TWA Membership' )
-
-class TWAMemberIDManager( models.Manager ):
-    def get_query_set( self ):
-        return super( TWAMemberIDManager, self ).get_query_set().filter( public = True )
-    
-    def create_next_for_country( self, country_code ):
-        try:
-            country = Country.objects.get( code = country_code)
-            try:
-                member_id = max( self.get_query_set().filter( country = country ).values_list( 'member_id', flat = True ) ) + 1
-            except:
-                member_id = 1
-            return TWAMemberID( country = country, member_id = member_id )
-        except:
-            return None
-    
-class TWAMemberID( AbstractModel ):
-    country = models.OneToOneField( Country )
-    member_id = models.IntegerField( _('ID') )
-
-    def __unicode__( self ):
-        return u'%s-%s'.strip() % ( self.country.code, str( self.member_id ).ljust(5, '0') )
 
 class Document( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )
