@@ -2,7 +2,7 @@
 
 import unittest
 from datetime import datetime
-from twa.members.models import Country, Person, TWAMembership
+from twa.members.models import *
 
 class TWATestCase( unittest.TestCase ):
     def setUp( self ):
@@ -15,14 +15,16 @@ class TWATestCase( unittest.TestCase ):
         self.assertEquals( self.heinrich.lastname, "Heine")
         self.assertEquals( self.heinrich.current_rank(), "")
 
-    def testMembership( self ):
-        ms = TWAMembership.objects.create( person = self.heinrich )
+    def testNonMembership( self ):
+        ms = TWAMembership( person = self.heinrich )
         self.failIf( ms is None )
-        self.failIf( self.heinrich.is_member() )
+        self.assertTrue( ms.status == MEMBERSHIP_STATUS_OPEN )
 
-        ms = TWAMembership.objects.create( person = self.heinrich, status = 5, twa_id_country = self.de, twa_id_number = 1 )
+    def testMembership( self ):
+        ms = TWAMembership.objects.create( person = self.heinrich, status = MEMBERSHIP_STATUS_MEMBER, twa_id_country = self.de, twa_id_number = 1 )
         self.failIf( ms is None )
-        self.assertEquals( self.heinrich.twamembership_set.all().count(), 2)
-        self.failUnless( ms.person_id == self.heinrich.id )
-        self.failUnless( self.heinrich.is_member() )
+        self.assertEquals( self.heinrich.twamembership_set.all().count(), 1 )
+        self.assertEquals( TWAMembership.objects.get_next_id_for_country( self.de.code ), 2 )
+        self.assertTrue( ms.person_id == self.heinrich.id )
+        self.assertTrue( self.heinrich.is_member() )
        
