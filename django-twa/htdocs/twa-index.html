@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{% load i18n %}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>tendo world aikido / Deutschland</title>
+<meta name="robots"content="index,follow" />
+<meta name="keywords" content="" />
+<meta name="author" content="tendo world aikido / Deutschland" />
+<meta name="description" content="tendo world aikido / Deutschland" />
+<link rel="stylesheet" href="/static/css/tendokan.css" type="text/css" media="screen,tv" />
+<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
+<script type="text/javascript" src="../common/menu.js"></script>
+<script type="text/javascript" src="../common/javascript.js"></script>
+</head>
+<body onload="MM_preloadImages('images/menu/j_02.jpg','images/menu/e_02.jpg')">
+
+<div id="wrapper">
+	<div id="content">
+		<a href=""><img src="/static/images/head.jpg" width="760" height="50" alt="" /></a>
+		<h2><img src="/static/images/main.jpg" width="760" height="380" alt="" /></h2>
+
+		<img src="/static/images/spacer.gif" width="760" height="10" alt="" /><br />
+		<div id="menu">
+		  <a class="menu-entry" href="/">{% trans "Home" %}</a>
+		  <a class="menu-entry" href="">{% trans "News" %}</a>
+		  <a class="menu-entry" href="">{% trans "Downloads" %}</a>
+
+		  {% if user.is_authenticated %}
+		    <div class="menu-logged-in">
+		    {% trans "Welcome" %},
+		    {% if user.first_name %}
+		      {{ user.first_name }}.
+		    {% else %}
+		      {{ user.username|capfirst }}.
+		    {% endif %}
+		    
+		    <a href="/logout/" class="edit">{% trans "Logout" %}</a>
+
+		    <br/>
+		    <a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a>
+		    <a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a>
+		    <a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a>
+		    <a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a>
+		    <a href="/graduations/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a>
+
+		    <br/>
+		    <a href="/member-requests/"{% ifequal menu "member-requests" %} class="active"{% endifequal %}>{% trans "TWA Requests" %}</a>
+		    <a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License Requests" %}</a>
+		    <a href="/suggestions/"{% ifequal menu "suggestions" %} class="active"{% endifequal %}>{% trans "Suggestions" %}</a>
+
+		    <br/>
+		    {% if user.is_staff %}
+		      <a href="/admin/" {% ifequal menu "admin" %} class="active"{% endifequal %}>{% trans "Admin" %}</a>
+		      <a href="/info/"{% ifequal menu "info" %} class="active"{% endifequal %}>{% trans "Info" %}</a>
+		    {% endif %}
+
+		    </div>
+		  {% endif %}
+		
+		</div>
+		<img src="/static/images/spacer.gif" width="760" height="10" alt="" /><br />
+
+                <h2>Willkommen beim Weltverband für Tendoryu Aikido.</h2>
+                <p>Mehr Informationen in Kürze.</>
+
+		<img src="/static/images/spacer.gif" width="760" height="10" alt="" /><br />
+
+  <div id="footer" class="tx12">
+    {% if user.is_authenticated %}
+      <a href="/logout/">{% trans "Logout" %}</a>
+    {% else %}
+      <a href="/login/">{% trans "Login" %}</a>
+    {% endif %}
+    |
+    <a href="http://www.aiki-tendo.jp/twa/index.html">{% trans "Official TWA Site" %}</a> |
+    <a href="http://www.aiki-tendo.jp/">Tendokan</a> |
+    <a href="http://www.tendoryu-aikido.de/">Tendoryu Aikido Deutschland</a>
+  </div>
+
+  <p>
+    <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
+    <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
+    <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="ææè" /></a>
+  </p>
+  
+  <p class="tx10g">tendo world aikido {% now "Y" %}</p>
+
+<img src="/static/images/spacer.gif" width="1" height="10" alt="" /><br />
+</div><!-- /content -->
+</div><!-- /wrapper -->
+
+</body>
+</html>

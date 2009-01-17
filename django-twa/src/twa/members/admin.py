@@ -45,6 +45,7 @@ class GraduationAdmin( admin.ModelAdmin ):
     list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'nominated_by', 'is_active' )
     list_display_links = ( 'person', 'rank', )
     list_filter = ( 'is_active', 'is_nomination', 'rank', 'person' )
+    date_hierarchy = 'date'
     search_fields = [ 'id', 'text' ]
 
 class LicenseAdmin( admin.ModelAdmin ):

@@ -15,10 +15,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
+from django.views.i18n import set_language
 from twa.members.forms import LoginForm
 from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership
 from twa.requests.models import Request
-from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, SEND_MAIL_ON_LOGIN
+from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, LANGUAGE_CODE, SEND_MAIL_ON_LOGIN
 import os, platform, sys
 
 try:
@@ -41,6 +42,11 @@ def __get_rank_display( rank ):
         if id == rank:
             return name
     return ''
+
+def set_lang( request, code = LANGUAGE_CODE ):
+    if code in dict( LANGUAGES ).keys():
+        request.session['django_language'] = code
+    return set_language( request )
 
 def get_context( request ):
     ua = request.META['HTTP_USER_AGENT']
@@ -139,6 +145,12 @@ def info( request ):
         extra_context = ctx,
     )
 
+def public( request ):
+    return direct_to_template( request,
+        template = 'twa-index.html',
+#        extra_context = ctx,
+    )
+
 def index( request ):
     #if License.ocjects.all().count() == 0:
     #    for person in Person.persons.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( 'twa_license_requested', 'lastname' ):
@@ -169,6 +181,7 @@ def index( request ):
         extra_context = ctx,
     )
 
+@login_required
 def dojos( request ):
     ctx = get_context( request )
     ctx['menu'] = 'dojos'
@@ -224,6 +237,7 @@ def dojos( request ):
         extra_context = ctx,
     )
 
+@login_required
 def dojo( request, did = None ):
     ctx = get_context( request )
     ctx['menu'] = 'dojos'
@@ -236,6 +250,7 @@ def dojo( request, did = None ):
         extra_context = ctx,
     )
 
+@login_required
 def associations( request ):
     ctx = get_context( request )
     ctx['menu'] = 'associations'
@@ -250,6 +265,7 @@ def associations( request ):
         extra_context = ctx,
     )
 
+@login_required
 def association( request, aid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'associations'
@@ -409,6 +425,7 @@ def license_rejected( request ):
         template_name = 'members/license_requests_list.html',
     )
 
+@login_required
 def graduations( request ):
     ctx = get_context( request )
     ctx['menu'] = 'graduations'
