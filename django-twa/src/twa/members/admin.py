@@ -31,7 +31,7 @@ class DojoAdmin( admin.ModelAdmin ):
     list_display = ( 'id', 'city', 'name', 'leader', 'is_active', 'is_twa_member' )
     list_display_links = ( 'name', )
     list_filter = ( 'is_active', 'country', )
-    search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
+    search_fields = [ 'id', 'city', 'name', 'leader__firstname' ]
 
 class AssociationAdmin( admin.ModelAdmin ):
     ordering = [ 'country', 'province', 'name' ]
@@ -53,13 +53,15 @@ class LicenseAdmin( admin.ModelAdmin ):
     list_display = ( 'id', 'status', 'person', 'date', 'request', 'receipt', 'rejected', 'is_active' )
     list_display_links = ( 'status', 'person' )
     list_filter = [ 'status', 'is_active' ]
+    date_hierarchy = 'date'
     search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
 
 class MembershipAdmin( admin.ModelAdmin ):
     ordering = [ '-id' ]
-    list_display = ( 'id', 'status', 'person', 'date', 'request', 'receipt', 'rejected', 'is_active' )
+    list_display = ( 'id', 'twa_id', 'status', 'person', 'date', 'request', 'rejected', 'is_active' )
     list_display_links = ( 'status', 'person' )
     list_filter = [ 'status', 'is_active' ]
+    date_hierarchy = 'date'
     search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
 
 class DocumentAdmin( admin.ModelAdmin ):
