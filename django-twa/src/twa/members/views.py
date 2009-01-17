@@ -586,28 +586,57 @@ def license_requests_xls( request ):
     return response
 
 @login_required
-def licenses_xls( request ):
+def license_requests_xls( request ):
     import pyExcelerator as xl
 
     workbook = xl.Workbook()
-    sheet = workbook.add_sheet( 'Lizenzen' )
+    sheet = workbook.add_sheet( 'Lizenz Anträge' )
     header_font = xl.Font()
     header_font.bold = True
 
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['LID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'LIZENZ', 'ANTRAG', 'BELEG'] ):
+    for y, header in enumerate( ['LID', 'STATUS', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'ZAHLUNG', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
-    for x, license in enumerate( License.objects.get_granted_licenses().select_related().order_by( 'members_person.firstname', 'members_person.lastname' ) ):
+    for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
         person = license.person
-        content = [str( license.id ), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( license.date ), __get_date( license.request ), __get_date( license.receipt )]
+        content = [str( license.id ), license.get_status_display(), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( license.request ), __get_date( license.receipt ), license.text]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
 
-    filename = 'licenses-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    filename = 'license-requests-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    workbook.save( 'tmp/' + filename )
+    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    return response
+
+@login_required
+def membership_requests_xls( request ):
+    import pyExcelerator as xl
+
+    workbook = xl.Workbook()
+    sheet = workbook.add_sheet( 'TWA Anträge' )
+    header_font = xl.Font()
+    header_font.bold = True
+
+    header_style = xl.XFStyle()
+    header_style.font = header_font
+
+    for y, header in enumerate( ['REQUEST-ID', 'TWA-ID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG'] ):
+        sheet.write( 0, y, header, header_style )
+
+    for x, membership in enumerate( TWAMembership.objects.get_requested_memberships().select_related().order_by( '-id' ) ):
+        person = membership.person
+        content = [str( membership.id ), membership.twa_id(), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( membership.request )]
+        col = 0
+        for y, content in enumerate( content ):
+            sheet.write( x + 1, y, content )
+
+    filename = 'membership-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
@@ -702,7 +731,7 @@ def __get_export_content( person ):
             ]
 
 def __get_rank( p ):
-    if p and p.current_rank:
+    if p and p.current_rank():
         return str( p.current_rank() )
     else:
         return ''

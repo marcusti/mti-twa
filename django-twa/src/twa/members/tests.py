@@ -13,7 +13,6 @@ class TWATestCase( unittest.TestCase ):
         self.failIf( self.heinrich is None )
         self.assertEquals( self.heinrich.firstname, "Heinrich")
         self.assertEquals( self.heinrich.lastname, "Heine")
-        self.assertEquals( self.heinrich.current_rank(), "")
 
     def testNonMembership( self ):
         ms = TWAMembership( person = self.heinrich )
@@ -27,4 +26,3 @@ class TWATestCase( unittest.TestCase ):
         self.assertEquals( TWAMembership.objects.get_next_id_for_country( self.de.code ), 2 )
         self.assertTrue( ms.person_id == self.heinrich.id )
         self.assertTrue( self.heinrich.is_member() )
-       
