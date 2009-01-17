@@ -1,0 +1,75 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Members" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<form action="." method="get" id="member_filter">
+  <small><div align="center">{% include "members/search.html" %}</div></small>
+</form>
+
+<table>
+{% for person in object_list %}
+  <tr>
+    <td>
+      <a href="{{ person.get_absolute_url }}">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
+
+      <div class="tx12g">
+	{% trans "ID" %}: {{ person.id }}
+      </div>
+
+      <div class="tx12g">
+	{% trans "Member" %}:
+      {% if person.twa_membership %}
+        {% trans "Yes" %}
+      {% else %}
+        {% if person.is_twa_membership_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+      </div>
+
+      <div class="tx12g">
+	{% trans "License" %}:
+      {% if person.is_licensed %}
+        {% for license in person.license_set.all %}
+          {% trans "License" %} {% trans "ID" %} {{ license.id }}, {{ license.date }}
+        {% endfor %}
+      {% else %}
+        {% if person.is_license_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+      </div>
+    </td>
+
+    <td align="right">
+    {% if person.thumbnail %}
+        <a href="{{ person.get_absolute_url }}">
+          <img src="{{ person.thumbnail.url }}"
+           class="photo"
+           width="{{ person.thumbnail.width }}"
+           height="{{ person.thumbnail.height }}"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}"
+            />
+          </a>
+    {% else %}
+	&nbsp;
+    {% endif %}
+    </td>
+  </tr>
+{% endfor %}
+</table>
+
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endblock %}

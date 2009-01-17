@@ -250,7 +250,7 @@ class Person( AbstractModel ):
         return cmp( self.days(), other.days() )
 
     def __unicode__( self ):
-        name = ''
+        name = u''
 
         if self.name_prefix:
             name = self.get_name_prefix_display()
