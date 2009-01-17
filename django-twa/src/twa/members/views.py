@@ -146,9 +146,11 @@ def info( request ):
     )
 
 def public( request ):
+    ctx = {}
+    ctx['is_homepage'] = True
     return direct_to_template( request,
         template = 'twa-index.html',
-#        extra_context = ctx,
+        extra_context = ctx,
     )
 
 def index( request ):
