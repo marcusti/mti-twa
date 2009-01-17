@@ -37,6 +37,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Alle URLs an SSL weiterleiten
 SSL_URLS = [
     #r'.*',
+    r'/admin/',
     r'/lang/',
     #r'/public/',
     r'/associations/',
