@@ -147,7 +147,7 @@ def info( request ):
 
 def public( request ):
     ctx = {}
-    ctx['is_homepage'] = True
+    ctx['include_main_image'] = True
     return direct_to_template( request,
         template = 'twa-index.html',
         extra_context = ctx,
@@ -347,6 +347,50 @@ def members( request ):
         queryset = qs,
         paginate_by = 50,
         extra_context = ctx,
+    )
+
+@login_required
+def members2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'members'
+
+    ranks = []
+    for r in Graduation.graduations.values( 'rank' ).distinct():
+        ranks.append( ( str( r['rank'] ), __get_rank_display( r['rank'] ) ) )
+    ctx['ranks'] = ranks
+
+    qs = None
+
+    if request.REQUEST.has_key( 's' ):
+        s = request.REQUEST['s']
+        ctx['search'] = s
+        if s:
+            qs = Person.persons.filter( Q( firstname__icontains = s ) | 
+                    Q( nickname__icontains = s ) | 
+                    Q( lastname__icontains = s ) | 
+                    Q( text__icontains = s ) | 
+                    Q( email__icontains = s ) | 
+                    Q( street__icontains = s ) | 
+                    Q( zip__icontains = s ) | 
+                    Q( city__icontains = s ) )
+
+    if request.REQUEST.has_key( 'sid' ):
+        sid = request.REQUEST['sid']
+        ctx['searchid'] = sid
+        if sid:
+            qs = Person.persons.filter( Q( id__exact = sid ) )
+
+    if qs is None:
+        qs = Person.persons.all()
+
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = "twa-members.html",
     )
 
 @login_required
