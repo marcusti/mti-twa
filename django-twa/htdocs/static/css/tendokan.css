@@ -1,0 +1,167 @@
+@charset "UTF-8";
+
+/* base_style
+---------------------------------------------*/
+
+a, a:link, #menu a { color: #02339a; font-weight: bold; text-decoration: none; }
+a:hover, #menu a:hover { color: #ffffff; background-color: #02339a; }
+a:visited { color: #02339a; }
+a:active, #menu a:active { color: red; }
+
+h1 {
+	font-size: 16px;
+	color: #333;
+	text-align: center;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0;
+}
+
+h2 {
+	font-size: 14px;
+	color: #333;
+	text-align: center;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0;
+}
+
+h3 {
+	font-size: 12px;
+	color: #333;
+	text-align: center;
+	margin-top: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+}
+
+.tx16 { font-size: 16px; line-height: 120%; }
+.tx14 { font-size: 14px; line-height: 140%; }
+.tx13 { font-size: 13px; line-height: 140%; }
+.tx12 { font-size: 12px; line-height: 140%; }
+.tx12g { font-size: 12px; line-height: 140%; color: #666; }
+.tx11 { font-size: 11px; line-height: 140%; }
+.tx10 { font-size: 10px; line-height: 160%; }
+.tx10g { font-size: 10px; line-height: 160%; color: #666; }
+
+body {
+	font-family: "Lucida Grande", "Hiragino Kaku Gothic Pro", Osaka, Verdana, sans-serif;
+	background-image: url("/static/images/bg_img.jpg");
+
+	line-height:normal;
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+}
+
+p {
+	color: #333;
+	text-align: center;
+	font-size: 14px;
+	line-height: 18px;
+	margin-bottom: 10px;
+}
+
+img {
+	border: none;
+	virtical-align: middle;
+}
+
+.box {
+	border: solid 1px #ccc;
+}
+
+#wrapper {
+	width: 100%;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#content {
+	width: 760px;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0;
+	background: #fff;
+}
+
+#primary {
+	float: left;
+	width: 360px;
+	margin: 10px 0px 0px 10px;
+	padding: 0;
+}
+
+#secondary {
+	float: right;
+	width: 360px;
+	margin: 10px 10px 0px 0px;
+	padding: 0;
+}
+
+#box2 {
+	width: 700px;
+	border: 1px solid #999;
+	background: #E1DBC1;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#box2 p {
+	color: #333;
+	text-align: left;
+	font-size: 12px;
+	line-height: 18px;
+	padding: 0 20px;
+}
+
+#footer, #footer a {
+	width: 760px;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0;
+	padding: 5px 0;
+	color: #ffffff;
+	background: #999999;
+	text-align: center;
+	text-decoration: none;
+}
+
+#footer a:hover {
+	text-decoration: underline;
+}
+
+#menu {
+	width: 760px;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 0;
+	padding: 5px 0;
+	border: 1px solid #999;
+	background: #E5E5CB;
+	text-align: center;
+}
+
+.menu-entry {
+	padding: 0 10px;
+}
+
+#menu .menu-logged-in a {
+	font-weight: normal;
+	padding: 0 10px;
+}
+
+#menu .menu-logged-in, #menu .menu-logged-in a.edit, .edit {
+ color: red;
+}
+
+.flag {
+ border: 1px solid;
+}

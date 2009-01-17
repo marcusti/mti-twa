@@ -20,6 +20,8 @@ if settings.DEBUG:
 
 urlpatterns += patterns( 'twa.members.views',
     ( r'^$', 'index' ),
+    ( r'^lang/(.*)/$', 'set_lang' ),
+    ( r'^public/$', 'public' ),
     ( r'^associations/$', 'associations' ),
     ( r'^association/(\d+)/$', 'association' ),
     ( r'^dojos/$', 'dojos' ),

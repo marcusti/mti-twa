@@ -24,6 +24,7 @@ LANGUAGES = (
         ('en', u'english'),
         ('ja', u'日本語'),
         )
+LANGUAGE_CODE = 'de-de'
 
 SEND_MAIL_ON_LOGIN = True
 #SEND_MAIL_ON_LOGIN = False
@@ -34,9 +35,27 @@ LOGOUT_URL = '/logout/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Alle URLs an SSL weiterleiten
-SSL_URLS = (
-    r'.*',
-)
+SSL_URLS = [
+    #r'.*',
+    r'/lang/',
+    #r'/public/',
+    r'/associations/',
+    r'/association/',
+    r'/dojos/',
+    r'/dojo/',
+    r'/graduations/',
+    r'/info/',
+    r'/licenses/',
+    r'/license-requests/',
+    r'/license-rejected/',
+    r'/login/',
+    r'/logout/',
+    r'/members/',
+    r'/member/',
+    r'/member-requests/',
+    r'/nominations-xls',
+    r'/suggestions/',
+]
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
