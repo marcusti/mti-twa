@@ -1,0 +1,95 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+    {% if person.photo %}
+        <a href="/member2{{ person.id }}/">
+          <img src="{{ person.photo.url }}"
+           class="photo-margin"
+	   align="right"
+           width="{{ person.photo.width }}"
+           height="{{ person.photo.height }}"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}"
+            />
+          </a>
+    {% else %}
+    {% endif %}
+
+<ul class="">
+  <li>
+    <b>{{ person }}</b><br/>
+    <small>
+    <ul>
+    {% for dojo in dojos %}
+      <li><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></li>
+    {% endfor %}
+    </ul>
+    </small>
+  </li>
+
+  <li>
+    {% for grad in person.graduations.all %}
+      {{ grad }}
+      <ul>
+	{% if grad.date %}<li class="tx12g">{{ grad.date }} ({{ grad.date|timesince }})</li>{% endif %}
+	{% if grad.text %}<li class="tx12g">{{ grad.text }}</li>{% endif %}
+      </ul>
+    {% endfor %}
+  </li>
+
+  <li class="tx12g">
+    {% trans "Aikido" %}
+    <ul><li>{{ person.aikido_since }} ({{ person.aikido_since|timesince }})</li></ul>
+  </li>
+
+  <li class="tx12g">
+    {% trans "TWA ID" %}:
+    <ul>
+    {% for membership in person.twamembership_set.all %}
+      <li>
+	{{ membership.twa_id }} 
+	{% if membership.date %}
+	  {{ membership.date }} 
+	{% else %}
+  	  {{ membership.request }} 
+	{% endif %}
+	({{ membership.get_status_display }})
+      </li>
+    {% endfor %}
+    </ul>
+    {% trans "TWA License" %}:
+    <ul>
+    {% for license in person.license_set.all %}
+      <li>{{ license.date }} ({{ license.get_status_display }})</li>
+    {% endfor %}
+    </ul>
+  </li>
+
+  <li class="tx12g">
+    {{ person.street }}<br/>
+    {{ person.country.code }}-{{ person.zip }} {{ person.city }}<br/>
+    {% if person.phone %}{{ person.phone }}<br/>{% endif %}
+    {% if person.fax %}{{ person.fax }} ({% trans "Fax" %})<br/>{% endif %}
+    {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
+    {% if person.email %}<a href="mailto:{{ person.firstname }} {{ person.lastname }} <{{ person.email }}>">{{ person.email }}</a><br/>{% endif %}
+    {% if person.website %}<a href="{{ person.website }}">{{ person.website }}</a><br/>{% endif %}
+  </li>
+
+  <li class="tx12g">
+    {% trans "Age" %}: {{ person.age }}<br/>
+    {% trans "Birth" %}: {{ person.birth }}<br/>
+    {{ person.get_gender_display }}<br/>
+  </li>
+
+  {% if person.text %}
+  <li class="tx12g">
+    {{ person.text }}<br/>
+  </li>
+  {% endif %}
+</ul>
+
+{% endblock %}

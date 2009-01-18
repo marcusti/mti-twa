@@ -172,6 +172,13 @@ ul {
 
 li {
  border-bottom: 1px solid #E8E7D0;
+ padding: 1em 0;
+}
+
+ul ul, ul li ul li {
+ border: none;
+ margin: 0 0 0 1em;
+ padding: 0;
 }
 
 td, th {
@@ -191,6 +198,13 @@ table {
 }
 
 .photo {
+ padding: 1px;
+ border: 1px solid #C1C0B5;
+ background: #FFF;
+}
+
+.photo-margin {
+ margin: 1em;
  padding: 1px;
  border: 1px solid #C1C0B5;
  background: #FFF;

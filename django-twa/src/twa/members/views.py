@@ -409,6 +409,22 @@ def member( request, mid = None ):
     )
 
 @login_required
+def member2( request, mid = None ):
+    ctx = get_context( request )
+    ctx['menu'] = 'members'
+    ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
+    ctx['graduations'] = Graduation.objects.filter( person__id = mid )
+    ctx['documents'] = Document.objects.filter( person__id = mid )
+    return object_detail( 
+        request,
+        queryset = Person.persons.filter( id = mid ),
+        object_id = mid,
+        template_object_name = 'person',
+        template_name = 'twa-member.html',
+        extra_context = ctx,
+    )
+
+@login_required
 def member_requests( request ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'

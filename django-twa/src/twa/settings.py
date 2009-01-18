@@ -53,6 +53,7 @@ SSL_URLS = [
     r'/logout/',
     r'/members/',
     r'/members2/',
+    r'/member2/',
     r'/member/',
     r'/member-requests/',
     r'/nominations-xls',
