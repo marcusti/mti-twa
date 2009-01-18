@@ -1,0 +1,63 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Requested Licenses" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_license %}<a href="/admin/members/license/add/" class="edit">{% trans "new" %}</a>{% endif %}
+</div>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "LID" %}</th>
+    <th colspan="2">{% trans "Status" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Request" %}</th>
+    <th>{% trans "Receipt" %}</th>
+  </tr>
+
+{% for license in object_list %}
+  <tr>
+    <td class="">
+      {% if perms.members.change_license %}
+        <a href="/admin/members/license/{{ license.id }}/" class="edit">{{ license.id }}</a>
+      {% else %}
+        {{ license.id }}
+      {% endif %}
+    </td>
+
+    <td class="status-{{ license.status }}">
+      &nbsp;&nbsp;
+    </td>
+
+    <td>
+      {{ license.get_status_display }}
+    </td>
+
+    <td>
+      <a href="/member2/{{ license.person.id }}/">{{ license.person }}</a><br/>
+    </td>
+
+    <td class="tx12g">
+      {% if license.request %}{{ license.request }}{% endif %}
+      {% if license.request_doc %}<a href="{{ license.request_doc.url }}">{{ license.request_doc|extension|lower }}</a>{% endif %}
+    </td>
+
+    <td class="tx12g">
+      {% if license.receipt %}{{ license.receipt }}{% endif %}
+      {% if license.receipt_doc %}<a href="{{ license.receipt_doc.url }}">{{ license.receipt_doc|extension|lower }}</a>{% endif %}
+      {% if not license.receipt and not license.receipt_doc %}&nbsp;{% endif %}
+    </td>
+
+  </tr>
+{% endfor %}
+</table>
+
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endblock %}

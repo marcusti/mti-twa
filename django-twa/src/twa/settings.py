@@ -48,6 +48,7 @@ SSL_URLS = [
     r'/info/',
     r'/licenses/',
     r'/license-requests/',
+    r'/license-requests2/',
     r'/license-rejected/',
     r'/login/',
     r'/logout/',
