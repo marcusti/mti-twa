@@ -73,12 +73,17 @@
       {% endif %}
     </div>
 
-    <div class="clear"/>
   </li>
 {% endfor %}
 </ul>
 
 <div class="white" align="center">
   <small>{% paginator %}</small>
+</div>
+
+<div class="white" align="center">
+  <small>
+    <br/>{% trans "Export to" %} <a href="/members/xls/">xls</a>
+  </small>
 </div>
 {% endblock %}

@@ -1,0 +1,62 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Requested TWA Membership" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit">{% trans "new" %}</a>{% endif %}
+</div>
+
+<table class="columnhover">
+  <tr>
+    <th title="Eindeutige ID des Mitgliedschaftsantrags">{% trans "ID" %}</th>
+    <th title="Manuell zu vergebende ID bestehend aus Länder-Code und laufender Nummer">{% trans "TWA ID" %}</th>
+    <th colspan="2">{% trans "Status" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Request" %}</th>
+  </tr>
+
+{% for membership in object_list %}
+  <tr>
+    <td class="tx12g" align="">
+      {% if perms.members.change_twamembership %}
+        <a href="/admin/members/twamembership/{{ membership.id }}/" class="edit">{{ membership.id }}</a>
+      {% else %}
+        {{ membership.id }}
+      {% endif %}
+    </td>
+
+    <td class="tx12g">
+      {% if membership.twa_id %}{{ membership.twa_id }}{% endif %}
+    </td>
+
+    <td class="status-{{ membership.status }}">
+      &nbsp;&nbsp;
+    </td>
+
+    <td class="tx12g">
+      {{ membership.get_status_display }}
+    </td>
+
+    <td>
+      <a href="/member2/{{ membership.person.id }}/">{{ membership.person }}</a><br/>
+    </td>
+
+    <td class="tx12g">
+      {% if membership.request %}{{ membership.request }}{% endif %}
+      {% if membership.request_doc %}<a href="{{ membership.request_doc.url }}">{{ membership.request_doc|extension|lower }}</a>{% endif %}
+    </td>
+
+  </tr>
+{% endfor %}
+</table>
+
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+
+{% endblock %}

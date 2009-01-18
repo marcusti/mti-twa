@@ -1,0 +1,52 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Members" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<form action="." method="get" id="member_filter">
+  <small><div align="center">{% include "members/search.html" %}</div></small>
+</form>
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
+</div>
+
+<table>
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "Dojo" %}</th>
+  </tr>
+{% for person in object_list %}
+  <tr>
+    <td class="tx12g" align="right"><a href="/admin/members/person/{{person.id }}/" class="edit">{{ person.id }}</a></td>
+    <td><a href="/member2/{{ person.id }}/">{{ person }}</a></td>
+    <td class="tx12g">{{ person.current_rank }}</td>
+
+    <td>
+      <small>
+	{% for dojo in person.dojos.all %}
+	  <a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a><br/>
+	{% endfor %}
+      </small>
+    </td>
+
+  </tr>
+{% endfor %}
+</table>
+
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+
+<div class="white" align="center">
+  <small>
+    <br/>{% trans "Export to" %} <a href="/members/xls/">xls</a>
+  </small>
+</div>
+{% endblock %}

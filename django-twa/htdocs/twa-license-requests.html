@@ -13,7 +13,7 @@
 
 <table class="columnhover">
   <tr>
-    <th>{% trans "LID" %}</th>
+    <th title="Eindeutige ID des Lizenzantrags">{% trans "LID" %}</th>
     <th colspan="2">{% trans "Status" %}</th>
     <th>{% trans "Name" %}</th>
     <th>{% trans "Request" %}</th>
@@ -22,7 +22,7 @@
 
 {% for license in object_list %}
   <tr>
-    <td class="">
+    <td class="tx12g" align="">
       {% if perms.members.change_license %}
         <a href="/admin/members/license/{{ license.id }}/" class="edit">{{ license.id }}</a>
       {% else %}
@@ -34,7 +34,7 @@
       &nbsp;&nbsp;
     </td>
 
-    <td>
+    <td class="tx12g">
       {{ license.get_status_display }}
     </td>
 
@@ -60,4 +60,5 @@
 <div class="white" align="center">
   <small>{% paginator %}</small>
 </div>
+
 {% endblock %}
