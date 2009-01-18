@@ -71,6 +71,7 @@ h3 {
 .tx11 { font-size: 11px; line-height: 140%; }
 .tx10 { font-size: 10px; line-height: 160%; }
 .tx10g, { font-size: 10px; line-height: 160%; color: #666; }
+.grau { color: #666; }
 
 body {
 	font-family: "Lucida Grande", "Hiragino Kaku Gothic Pro", Osaka, Verdana, sans-serif;
@@ -215,7 +216,7 @@ ul ul, ul li ul li {
 
 td, th {
  border-bottom: 1px solid #E8E7D0;
- vertical-align: top;
+ vertical-align: bottom;
 }
 
 .columnhover tr:hover {

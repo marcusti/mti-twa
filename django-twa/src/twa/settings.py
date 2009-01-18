@@ -57,8 +57,10 @@ SSL_URLS = [
     r'/member2/',
     r'/member/',
     r'/member-requests/',
+    r'/member-requests2/',
     r'/nominations-xls',
     r'/suggestions/',
+    r'/suggestions2/',
 ]
 
 # List of callables that know how to import templates from various sources.

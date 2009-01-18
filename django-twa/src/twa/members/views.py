@@ -350,15 +350,37 @@ def members( request ):
     )
 
 @login_required
-def members2( request ):
-    ctx = get_context( request )
+def members_all( request ):
+    ctx, qs = __get_members( request )
     ctx['menu'] = 'members'
+    ctx['counter'] = qs.count()
 
-    ranks = []
-    for r in Graduation.graduations.values( 'rank' ).distinct():
-        ranks.append( ( str( r['rank'] ), __get_rank_display( r['rank'] ) ) )
-    ctx['ranks'] = ranks
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 500,
+        extra_context = ctx,
+        template_name = "twa-members-all.html",
+    )
 
+
+@login_required
+def members2( request ):
+    ctx, qs = __get_members( request )
+    ctx['menu'] = 'members'
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = "twa-members.html",
+    )
+
+@login_required
+def __get_members( request ):
+    ctx = get_context( request )
     qs = None
 
     if request.REQUEST.has_key( 's' ):
@@ -383,15 +405,7 @@ def members2( request ):
     if qs is None:
         qs = Person.persons.all()
 
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = "twa-members.html",
-    )
+    return ( ctx, qs )
 
 @login_required
 def member( request, mid = None ):
@@ -438,6 +452,22 @@ def member_requests( request ):
         paginate_by = 50,
         extra_context = ctx,
         template_name = 'members/member_requests_list.html',
+    )
+
+@login_required
+def member_requests2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'member-requests'
+
+    qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-member-requests.html',
     )
 
 @login_required
@@ -532,6 +562,22 @@ def suggestions( request ):
         paginate_by = 50,
         extra_context = ctx,
         template_name = 'members/graduation_suggestion_list.html',
+    )
+
+@login_required
+def suggestions2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'suggestions'
+
+    qs = Graduation.suggestions.select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-suggestions.html',
     )
 
 @login_required

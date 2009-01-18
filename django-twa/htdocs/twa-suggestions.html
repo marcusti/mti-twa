@@ -1,0 +1,62 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Suggestions of Graduation" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_graduation %}<a href="/admin/members/graduation/add/" class="edit">{% trans "new" %}</a>{% endif %}
+</div>
+
+<table class="columnhover">
+  <tr>
+    <th title="Eindeutige ID der Graduierung / des Vorschlags">{% trans "ID" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Nomination" %}</th>
+    <th>{% trans "Nominated By" %}</th>
+    <th>{% trans "Date" %}</th>
+    <th>{% trans "Request" %}</th>
+  </tr>
+
+{% for nomination in object_list %}
+  <tr>
+    <td class="tx12g">
+      {% if perms.members.change_graduation %}
+        <a href="/admin/members/graduation/{{ nomination.id }}/" class="edit">{{ nomination.id }}</a>
+      {% else %}
+        {{ nomination.id }}
+      {% endif %}
+    </td>
+
+    <td>
+      <a href="/member2/{{ nomination.person.id }}/">{{ nomination.person }}</a><br/>
+    </td>
+
+    <td class="">
+      {% if nomination.rank %}{{ nomination.get_rank_display }}{% endif %}
+    </td>
+
+    <td class="tx12g">
+      {% if nomination.nominated_by %}{{ nomination.nominated_by }}{% endif %}
+    </td>
+
+    <td class="tx12g">
+      {% if nomination.date %}{{ nomination.date }}{% endif %}
+    </td>
+
+    <td class="tx12g">
+      {% if nomination.request_doc %}<a href="{{ nomination.request_doc.url }}">{{ nomination.request_doc|extension|lower }}</a>{% endif %}
+    </td>
+
+  </tr>
+{% endfor %}
+</table>
+
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+
+{% endblock %}

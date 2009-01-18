@@ -42,7 +42,7 @@ class AssociationAdmin( admin.ModelAdmin ):
 
 class GraduationAdmin( admin.ModelAdmin ):
     ordering = [ '-date', '-rank' ]
-    list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'nominated_by', 'is_active' )
+    list_display = ( 'id', 'rank', 'person', 'date', 'text', 'is_nomination', 'nominated_by', 'is_active', 'last_modified' )
     list_display_links = ( 'person', 'rank', )
     list_filter = ( 'is_active', 'is_nomination', 'rank', 'person' )
     date_hierarchy = 'date'
