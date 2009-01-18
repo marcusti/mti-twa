@@ -11,18 +11,42 @@
   <small><div align="center">{% include "members/search.html" %}</div></small>
 </form>
 
-<table>
+<div class="tx12g"  align="center">
+  {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
+</div>
+
+<ul>
 {% for person in object_list %}
-  <tr>
-    <td>
-      <a href="/member2/{{ person.id }}/">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
+  <li>
+    {% if person.thumbnail %}
+    <a href="/member2/{{ person.id }}/">
+      <img src="{{ person.thumbnail.url }}"
+           class="photo"
+	   align="right"
+           width="{{ person.thumbnail.width }}"
+           height="{{ person.thumbnail.height }}"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}"
+           />
+    </a>
+    {% endif %}
 
-      <div class="tx12g">
-	{% trans "ID" %}: {{ person.id }}
-      </div>
+    <a href="/member2/{{ person.id }}/">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
 
-      <div class="tx12g">
-	{% trans "Member" %}:
+    <div>
+      <small>
+	{% for dojo in person.dojos.all %}
+	  <a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a><br/>
+	{% endfor %}
+      </small>
+    </div>
+
+    <div class="tx12g">
+      {% trans "ID" %}: {{ person.id }}
+    </div>
+
+    <div class="tx12g">
+      {% trans "Member" %}:
       {% if person.twa_membership %}
         {% trans "Yes" %}
       {% else %}
@@ -32,10 +56,10 @@
           {% trans "No" %}
         {% endif %}
       {% endif %}
-      </div>
+    </div>
 
-      <div class="tx12g">
-	{% trans "License" %}:
+    <div class="tx12g">
+      {% trans "License" %}:
       {% if person.is_licensed %}
         {% for license in person.license_set.all %}
           {% trans "License" %} {% trans "ID" %} {{ license.id }}, {{ license.date }}
@@ -47,27 +71,12 @@
           {% trans "No" %}
         {% endif %}
       {% endif %}
-      </div>
-    </td>
+    </div>
 
-    <td align="right">
-    {% if person.thumbnail %}
-        <a href="/member2/{{ person.id }}/">
-          <img src="{{ person.thumbnail.url }}"
-           class="photo"
-           width="{{ person.thumbnail.width }}"
-           height="{{ person.thumbnail.height }}"
-           alt="[{{ person.firstname }} {{ person.lastname }}]"
-           title="{{ person.firstname }} {{ person.lastname }}"
-            />
-          </a>
-    {% else %}
-	&nbsp;
-    {% endif %}
-    </td>
-  </tr>
+    <div class="clear"/>
+  </li>
 {% endfor %}
-</table>
+</ul>
 
 <div class="white" align="center">
   <small>{% paginator %}</small>

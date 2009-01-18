@@ -472,6 +472,22 @@ def license_requests( request ):
     )
 
 @login_required
+def license_requests2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'license-requests'
+
+    qs = License.objects.get_requested_licenses().order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-license-requests.html',
+    )
+
+@login_required
 def license_rejected( request ):
     ctx = get_context( request )
     ctx['menu'] = 'license-rejected'

@@ -5,23 +5,30 @@
 
 {% block content %}
 
-    {% if person.photo %}
-        <a href="/member2{{ person.id }}/">
-          <img src="{{ person.photo.url }}"
-           class="photo-margin"
-	   align="right"
-           width="{{ person.photo.width }}"
-           height="{{ person.photo.height }}"
-           alt="[{{ person.firstname }} {{ person.lastname }}]"
-           title="{{ person.firstname }} {{ person.lastname }}"
-            />
-          </a>
-    {% else %}
-    {% endif %}
+<div class="tx12g"  align="center">
+  {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
+  {% if perms.members.add_person and perms.members.change_person %} | {% endif %}
+  {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+</div>
+
+{% if person.photo %}
+<a href="/member2{{ person.id }}/">
+  <img src="{{ person.photo.url }}"
+       class="photo-margin"
+       align="right"
+       width="{{ person.photo.width }}"
+       height="{{ person.photo.height }}"
+       alt="[{{ person.firstname }} {{ person.lastname }}]"
+       title="{{ person.firstname }} {{ person.lastname }}"
+       />
+</a>
+{% else %}
+{% endif %}
 
 <ul class="">
   <li>
     <b>{{ person }}</b><br/>
+    <ul><li>{{ person.current_rank }}</li></ul>
     <small>
     <ul>
     {% for dojo in dojos %}
@@ -34,6 +41,17 @@
   <li>
     {% for grad in person.graduations.all %}
       {{ grad }}
+      {% if grad.is_nomination %}
+      <small>
+        (
+	{% if grad.nominated_by %}
+          {% trans "Nominated By" %} {{ grad.nominated_by }}
+        {% else %}
+          {% trans "Nomination" %}
+        {% endif %}
+        )
+      </small>
+      {% endif %}
       <ul>
 	{% if grad.date %}<li class="tx12g">{{ grad.date }} ({{ grad.date|timesince }})</li>{% endif %}
 	{% if grad.text %}<li class="tx12g">{{ grad.text }}</li>{% endif %}
@@ -41,30 +59,56 @@
     {% endfor %}
   </li>
 
+  {% if person.aikido_since %}
   <li class="tx12g">
     {% trans "Aikido" %}
     <ul><li>{{ person.aikido_since }} ({{ person.aikido_since|timesince }})</li></ul>
   </li>
+  {% endif %}
 
   <li class="tx12g">
     {% trans "TWA ID" %}:
     <ul>
     {% for membership in person.twamembership_set.all %}
+      {% if membership.twa_id %}<li>{{ membership.twa_id }}</li>{% endif %}
+
       <li>
-	{{ membership.twa_id }} 
 	{% if membership.date %}
 	  {{ membership.date }} 
 	{% else %}
   	  {{ membership.request }} 
 	{% endif %}
+
 	({{ membership.get_status_display }})
+
+	{% if membership.request_doc %}
+	  <br/><a href="{{ membership.request_doc.url }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
+	{% endif %}
       </li>
     {% endfor %}
     </ul>
+  </li>
+
+  <li class="tx12g">
     {% trans "TWA License" %}:
     <ul>
     {% for license in person.license_set.all %}
-      <li>{{ license.date }} ({{ license.get_status_display }})</li>
+      <li>
+	{% if license.date %}
+	  {{ license.date }} 
+	{% else %}
+  	  {{ license.request }} 
+	{% endif %}
+
+	({{ license.get_status_display }})
+
+	{% if license.request_doc %}
+	  <br/><a href="{{ license.request_doc.url }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a>
+	{% endif %}
+	{% if license.receipt_doc %}
+	  <br/><a href="{{ license.receipt_doc.url }}">{% trans "Receipt" %} ({{ license.receipt_doc|extension|lower }})</a>
+	{% endif %}
+      </li>
     {% endfor %}
     </ul>
   </li>
@@ -72,6 +116,7 @@
   <li class="tx12g">
     {{ person.street }}<br/>
     {{ person.country.code }}-{{ person.zip }} {{ person.city }}<br/>
+    {{ person.country.get_name }}<br/>
     {% if person.phone %}{{ person.phone }}<br/>{% endif %}
     {% if person.fax %}{{ person.fax }} ({% trans "Fax" %})<br/>{% endif %}
     {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
@@ -80,8 +125,8 @@
   </li>
 
   <li class="tx12g">
-    {% trans "Age" %}: {{ person.age }}<br/>
-    {% trans "Birth" %}: {{ person.birth }}<br/>
+    {% trans "Age" %}: {{ person.age|default:"-" }}<br/>
+    {% trans "Birth" %}: {{ person.birth|default:"-" }}<br/>
     {{ person.get_gender_display }}<br/>
   </li>
 
@@ -90,6 +135,17 @@
     {{ person.text }}<br/>
   </li>
   {% endif %}
+
+  {% ifnotequal person.document_set.all.count 0 %}
+  <li class="tx12g">
+    {% trans "Documents" %}
+    <ul>
+    {% for document in person.document_set.all %}
+      <li><a href="{{ document.file.url }}">{{ document.name }}</a></li>
+    {% endfor %}
+    </ul>
+  </li>
+  {% endifnotequal %}
 </ul>
 
 {% endblock %}

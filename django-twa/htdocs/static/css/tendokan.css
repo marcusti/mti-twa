@@ -1,12 +1,37 @@
 @charset "UTF-8";
 
 /* base_style
----------------------------------------------*/
 
 a, a:link, #menu a, td a { color: #02339a; font-weight: bold; text-decoration: none; }
 a:hover, #menu a:hover, td a:hover { color: #ffffff; background-color: #02339a; }
 a:visited { color: #02339a; }
 a:active, #menu a:active { color: red; }
+---------------------------------------------*/
+
+a { color: #02339a; font-weight: bold; text-decoration: none; }
+a:hover { color: #ffffff; background-color: #02339a; }
+a:active { color: #cc0013; }
+
+.edit a {
+ color: white;
+ background-color: #edd400;
+ padding: 0 5px;
+}
+
+.edit a:hover {
+ color: #edd400;
+ background-color: white;
+ padding: 0 5px;
+}
+
+a.edit {
+ color: #cc0013;
+}
+
+a.edit:hover {
+ color: white;
+ background-color: #cc0013;
+}
 
 h1 {
 	font-size: 16px;
@@ -152,12 +177,19 @@ img {
 }
 
 #menu .menu-logged-in a {
-	font-weight: normal;
-	padding: 0 10px;
+ font-weight: normal;
+ padding: 0 10px;
+}
+
+#menu .menu-logged-in a.edit:hover {
+ font-weight: normal;
+ padding: 0 10px;
+ color: white;
+ background-color: #cc0013;
 }
 
 #menu .menu-logged-in, #menu .menu-logged-in a.edit, .edit {
- color: red;
+ color: #cc0013;
 }
 
 .flag {
@@ -186,6 +218,37 @@ td, th {
  vertical-align: top;
 }
 
+.columnhover tr:hover {
+ background-color: #f5f5e7;
+}
+
+/* LICENSE_STATUS_ACCEPTED */
+.status-2 {
+ background-color: #90ff90;
+}
+
+tr:hover .status-2 {
+ background-color: #00ff00;
+}
+
+/* LICENSE_STATUS_REJECTED */
+.status-3 {
+ background-color: #ff9090;
+}
+
+tr:hover .status-3 {
+ background-color: #ff0000;
+}
+
+/* LICENSE_STATUS_VERIFY */
+.status-4 {
+ background-color: #ffff90;
+}
+
+tr:hover .status-4 {
+ background-color: #ffff00;
+}
+
 .clear {
  clear: both;
 }
@@ -211,5 +274,5 @@ table {
 }
 
 form {
- margin: 10px 0;
+ margin: 10px;
 }

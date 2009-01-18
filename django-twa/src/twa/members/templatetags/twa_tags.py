@@ -1,10 +1,26 @@
+import os
 from django import template
+from django.template.defaultfilters import stringfilter
 
 register = template.Library()
 
 @register.simple_tag
 def maximum(a1, a2):
     return max(a1, a2)
+
+@register.filter
+@stringfilter
+def extension( value ):
+    try:
+        root, ext =  os.path.splitext( value )
+        if ext and len( ext ) > 0:
+            if ext.startswith( '.' ):
+                return ext.lower()[1:]
+            else:
+                return ext.lower()
+        return value
+    except:
+        return value
 
 def paginator( context, adjacent_pages = 3 ):
     """
