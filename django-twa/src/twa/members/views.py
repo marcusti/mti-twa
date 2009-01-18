@@ -573,7 +573,7 @@ def members_xls( request ):
     return response
 
 @login_required
-def license_requests_xls( request ):
+def licenses_xls( request ):
     import pyExcelerator as xl
 
     workbook = xl.Workbook()
@@ -587,7 +587,7 @@ def license_requests_xls( request ):
     for y, header in enumerate( ['LID', 'STATUS', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'ZAHLUNG', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
-    for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
+    for x, license in enumerate( License.objects.get_granted_licenses().order_by( '-id' ) ):
         person = license.person
         content = [str( license.id ), license.get_status_display(), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( license.request ), __get_date( license.receipt ), license.text]
         col = 0

@@ -361,7 +361,7 @@ class GraduationManager( models.Manager ):
             return None
 
     def get_this_years_graduations( self ):
-        return self.get_query_set().filter( is_active = True, public = True, date__year = date.today().year )
+        return self.get_query_set().filter( is_active = True, public = True, date__year = date.today().year, rank__gte = 100 )
 
 class Graduation( AbstractModel ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), related_name = 'graduations' )
