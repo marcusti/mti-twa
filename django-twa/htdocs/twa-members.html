@@ -15,22 +15,11 @@
   {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
 </div>
 
-<ul>
+<table>
 {% for person in object_list %}
-  <li>
-    {% if person.thumbnail %}
-    <a href="/member2/{{ person.id }}/">
-      <img src="{{ person.thumbnail.url }}"
-           class="photo"
-	   align="right"
-           width="{{ person.thumbnail.width }}"
-           height="{{ person.thumbnail.height }}"
-           alt="[{{ person.firstname }} {{ person.lastname }}]"
-           title="{{ person.firstname }} {{ person.lastname }}"
-           />
-    </a>
-    {% endif %}
+  <tr>
 
+    <td>
     <a href="/member2/{{ person.id }}/">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
 
     <div>
@@ -45,6 +34,9 @@
       {% trans "ID" %}: {{ person.id }}
     </div>
 
+    </td>
+
+    <td>
     <div class="tx12g">
       {% trans "Member" %}:
       {% if person.twa_membership %}
@@ -72,10 +64,25 @@
         {% endif %}
       {% endif %}
     </div>
+    </td>
 
-  </li>
+    <td>
+    {% if person.thumbnail %}
+    <a href="/member2/{{ person.id }}/">
+      <img src="{{ person.thumbnail.url }}"
+           class="photo"
+	   align="right"
+           width="{{ person.thumbnail.width }}"
+           height="{{ person.thumbnail.height }}"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}"
+           />
+    </a>
+    {% endif %}
+    </td>
+  </tr>
 {% endfor %}
-</ul>
+</table>
 
 <div class="white" align="center">
   <small>{% paginator %}</small>
