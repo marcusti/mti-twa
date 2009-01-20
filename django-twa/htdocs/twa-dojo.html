@@ -1,0 +1,69 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_dojo %}<a href="/admin/members/dojo/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+  {% if perms.members.change_dojo %} | <a href="/admin/members/dojo/{{ dojo.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+</div>
+
+
+<ul class="">
+  <li>
+    <b>{{ dojo.name }}</b>
+  </li>
+
+  <li>
+    {% trans "National Association" %}:
+    <ul>
+      <li>{% if dojo.association %}<a href="{{ dojo.association.get_absolute_url  }}">{{ dojo.association }}</a>{% endif %}</li>
+    </ul>
+  </li>
+
+  <li>
+      {% trans "Dojo Leader" %}:
+    <ul>
+      <li>
+      {% if dojo.leader %}
+        {% if user.is_authenticated %}
+          <a href="/member2/{{ dojo.leader.id }}/">{{ dojo.leader }}</a>
+        {% else %}
+          {{ dojo.leader }}
+        {% endif %}
+      {% endif %}
+      </li>
+    </ul>
+  </li>
+
+  <li class="tx12g">
+    {{ dojo.street }}<br/>
+    {{ dojo.country.code }}-{{ dojo.zip }} {{ dojo.city }}<br/>
+    {{ dojo.country.get_name }}<br/>
+    {% if dojo.phone %}{{ dojo.phone }}<br/>{% endif %}
+    {% if dojo.fax %}{{ dojo.fax }} ({% trans "Fax" %})<br/>{% endif %}
+    {% if dojo.mobile %}{{ dojo.mobile }}<br/>{% endif %}
+    {% if dojo.email %}<a href="mailto:{{ dojo.email }}">{{ dojo.email }}</a><br/>{% endif %}
+    {% if dojo.website %}<a href="{{ dojo.website }}">{{ dojo.website }}</a><br/>{% endif %}
+  </li>
+
+  {% if person.text %}
+  <li class="tx12g">
+    {{ dojo.text|linebreaksbr }}<br/>
+  </li>
+  {% endif %}
+
+  <li class="tx12g">
+  {% if user.is_authenticated %}
+    {% trans "Members" %}
+
+    <ul>
+    {% for person in members %}
+      <li><a href="/member2/{{ person.id }}/">{{ person }}</a></li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </li>
+</ul>
+
+{% endblock %}

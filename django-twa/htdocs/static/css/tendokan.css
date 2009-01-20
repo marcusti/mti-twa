@@ -216,6 +216,11 @@ td, th {
  padding: 3px;
 }
 
+.clean tr td, .clean tr th {
+ vertical-align: top;
+ padding: 3px;
+}
+
 .columnhover tr:hover {
  background-color: #f5f5e7;
 }

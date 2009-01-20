@@ -1,0 +1,45 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Licenses" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "LID" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Dojo" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "License" %}</th>
+  </tr>
+
+{% for license in object_list %}
+  <tr class="">
+
+    <td>{{ license.id }}</td>
+
+    <td><a href="{{ license.person.get_absolute_url }}">{{ license.person }}</a></td>
+
+    <td><small>{% for dojo in license.person.dojos.all %}<a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a><br/>{% endfor %}</small></td>
+
+    <td>{{ license.person.current_rank }}</td>
+
+    <td>{{ license.date }}</td>
+
+  </tr>
+{% endfor %}
+</table>
+
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+
+<div class="white" align="center">
+  <small>
+    <br/>{% trans "Export to" %} <a href="/licenses/xls/">xls</a>
+  </small>
+</div>
+
+{% endblock %}

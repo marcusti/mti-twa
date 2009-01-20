@@ -102,11 +102,42 @@ def twa_login( request ):
                ctx,
             )
 
+def twa_login2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'login'
+    ctx['next'] = request.GET.get( 'next', LOGIN_REDIRECT_URL )
+    ctx['include_main_image'] = True
+
+    if request.method == 'POST':
+        form = LoginForm( request.POST )
+        if form.is_valid():
+            # user authentication is done in LoginForm validation
+            user = form.get_user()
+            login( request, user )
+
+            next = request.REQUEST.get( 'next', LOGIN_REDIRECT_URL )
+
+            return redirect_to( request, next )
+    else:
+        form = LoginForm()
+
+    ctx['form'] = form
+    return render_to_response( 
+               'twa-login.html',
+               ctx,
+            )
+
 def twa_logout( request ):
     ctx = get_context( request )
     ctx['menu'] = 'logout'
     logout( request )
     return redirect_to( request, '/login/' )
+
+def twa_logout2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'logout'
+    logout( request )
+    return redirect_to( request, '/public/' )
 
 @login_required
 def info( request ):
@@ -240,6 +271,51 @@ def dojos( request ):
     )
 
 @login_required
+def dojos2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'dojos'
+
+    countries = []
+    for d in Dojo.dojos.values( 'country' ).order_by( 'country' ).distinct():
+        countries.append( ( str( d['country'] ), Country.objects.get( id = d['country'] ).get_name() ) )
+    ctx['counties'] = countries
+    ctx['cities'] = Dojo.dojos.values( 'city' ).order_by( 'city' ).distinct()
+
+    if request.REQUEST.has_key( 's' ):
+        s = request.REQUEST['s']
+        ctx['search'] = s
+        if s:
+            qs = Dojo.dojos.filter( Q( name__icontains = s ) | 
+                    Q( shortname__icontains = s ) | 
+                    Q( text__icontains = s ) | 
+                    Q( country__name__icontains = s ) | 
+                    Q( country__name_de__icontains = s ) | 
+                    Q( country__name_ja__icontains = s ) | 
+                    Q( street__icontains = s ) | 
+                    Q( zip__icontains = s ) | 
+                    Q( city__icontains = s ) )
+        else:
+            qs = Dojo.dojos.all()
+    else:
+        qs = Dojo.dojos.all()
+
+    if request.REQUEST.has_key( 'sid' ):
+        sid = request.REQUEST['sid']
+        ctx['searchid'] = sid
+        if sid:
+            qs &= Dojo.dojos.filter( Q( id__icontains = sid ) )
+
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 100,
+        extra_context = ctx,
+        template_name = "twa-dojos.html",
+    )
+
+@login_required
 def dojo( request, did = None ):
     ctx = get_context( request )
     ctx['menu'] = 'dojos'
@@ -250,6 +326,20 @@ def dojo( request, did = None ):
         object_id = did,
         template_object_name = 'dojo',
         extra_context = ctx,
+    )
+
+@login_required
+def dojo2( request, did = None ):
+    ctx = get_context( request )
+    ctx['menu'] = 'dojos'
+    ctx['members'] = Person.persons.filter( dojos__id = did )
+    return object_detail( 
+        request,
+        queryset = Dojo.dojos.filter( id = did ),
+        object_id = did,
+        template_object_name = 'dojo',
+        extra_context = ctx,
+        template_name = "twa-dojo.html",
     )
 
 @login_required
@@ -486,6 +576,22 @@ def licenses( request ):
     )
 
 @login_required
+def licenses2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'licenses'
+
+    qs = License.objects.get_granted_licenses()#.select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 100,
+        extra_context = ctx,
+        template_name = 'twa-licenses.html',
+    )
+
+@login_required
 def license_requests( request ):
     ctx = get_context( request )
     ctx['menu'] = 'license-requests'
@@ -546,6 +652,22 @@ def graduations( request ):
         queryset = qs,
         paginate_by = 100,
         extra_context = ctx,
+    )
+
+@login_required
+def graduations2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'graduations'
+
+    qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 100,
+        extra_context = ctx,
+        template_name = 'twa-graduations.html',
     )
 
 @login_required
