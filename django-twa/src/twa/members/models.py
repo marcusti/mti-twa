@@ -311,7 +311,7 @@ class Dojo( AbstractModel ):
             return self.name
 
     class Meta:
-        ordering = [ 'country', 'city', 'name' ]
+        ordering = [ 'city', 'name' ]
         verbose_name = _( 'Dojo' )
         verbose_name_plural = _( 'Dojos' )
 
