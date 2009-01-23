@@ -217,6 +217,7 @@ td, th {
 }
 
 .clean tr td, .clean tr th {
+ border: none;
  vertical-align: top;
  padding: 3px;
 }

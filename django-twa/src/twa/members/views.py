@@ -358,6 +358,22 @@ def associations( request ):
     )
 
 @login_required
+def associations2( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'associations'
+
+    qs = Association.objects.all()
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = "twa-associations.html",
+    )
+
+@login_required
 def association( request, aid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'associations'
