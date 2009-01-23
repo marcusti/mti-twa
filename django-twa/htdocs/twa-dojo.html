@@ -44,7 +44,7 @@
     {% if dojo.fax %}{{ dojo.fax }} ({% trans "Fax" %})<br/>{% endif %}
     {% if dojo.mobile %}{{ dojo.mobile }}<br/>{% endif %}
     {% if dojo.email %}<a href="mailto:{{ dojo.email }}">{{ dojo.email }}</a><br/>{% endif %}
-    {% if dojo.website %}<a href="{{ dojo.website }}">{{ dojo.website }}</a><br/>{% endif %}
+    {% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a><br/>{% endif %}
   </li>
 
   {% if person.text %}

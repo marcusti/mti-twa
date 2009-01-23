@@ -41,6 +41,7 @@ SSL_URLS = [
     r'/lang/',
     #r'/public/',
     r'/associations/',
+    r'/associations2/',
     r'/association/',
     r'/dojos/',
     r'/dojos2/',

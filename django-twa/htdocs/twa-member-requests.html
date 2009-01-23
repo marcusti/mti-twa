@@ -17,6 +17,7 @@
     <th title="Manuell zu vergebende ID bestehend aus Länder-Code und laufender Nummer">{% trans "TWA ID" %}</th>
     <th colspan="2">{% trans "Status" %}</th>
     <th>{% trans "Name" %}</th>
+    <th>{% trans "Name" %}</th>
     <th>{% trans "Request" %}</th>
   </tr>
 
@@ -43,7 +44,13 @@
     </td>
 
     <td>
-      <a href="/member2/{{ membership.person.id }}/">{{ membership.person }}</a><br/>
+      <a href="/member2/{{ membership.person.id }}/">{{ membership.person }}</a>
+    </td>
+
+    <td class="tx12g">
+      {% for dojo in membership.person.dojos.all %}
+        <a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a><br/>
+      {% endfor %}
     </td>
 
     <td class="tx12g">
