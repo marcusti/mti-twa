@@ -1,0 +1,61 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_association %}<a href="/admin/members/association/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+  {% if perms.members.change_association %} | <a href="/admin/members/association/{{ association.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+</div>
+
+<ul class="">
+  <li>
+    <b>{{ association.name }}</b>
+  </li>
+
+  <li>
+    {% trans "Contact" %}:
+      {% if association.contact %}
+      <ul>
+	<li>
+        {% if user.is_authenticated %}
+          <a href="{{ association.contact.get_absolute_url }}">{{ association.contact }}</a>
+        {% else %}
+          {{ association.contact }}
+        {% endif %}
+	</li>
+      </ul>
+      {% endif %}
+  </li>
+
+  <li class="tx12g">
+    {% if association.street %}{{ association.street }}<br/>{% endif %}
+    {% if association.zip or association.city %}{{ association.country.code }}-{{ association.zip }} {{ association.city }}<br/>{% endif %}
+    {% if association.country %}{{ association.country.get_name }}<br/>{% endif %}
+    {% if association.phone %}{{ association.phone }}<br/>{% endif %}
+    {% if association.fax %}{{ association.fax }} ({% trans "Fax" %})<br/>{% endif %}
+    {% if association.mobile %}{{ association.mobile }}<br/>{% endif %}
+    {% if association.email %}<a href="mailto:{{ association.email }}">{{ association.email }}</a><br/>{% endif %}
+    {% if association.website %}<a href="{{ association.website }}" target="_blank">{{ association.website }}</a><br/>{% endif %}
+  </li>
+
+  {% if association.text %}
+  <li class="tx12g">
+    {{ association.text|linebreaksbr }}<br/>
+  </li>
+  {% endif %}
+
+  <li class="tx12g">
+  {% if user.is_authenticated %}
+    {% trans "Dojos" %}
+
+    <ul>
+    {% for dojo in association.dojo_set.all %}
+      <li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </li>
+</ul>
+
+{% endblock %}

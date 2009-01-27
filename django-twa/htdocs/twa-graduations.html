@@ -43,8 +43,10 @@
 </table>
 
 
+{% if is_paginated %}
 <div class="white" align="center">
   <small>{% paginator %}</small>
 </div>
+{% endif %}
 
 {% endblock %}

@@ -26,7 +26,7 @@
 		{% endif %}
 
 		<div id="menu">
-		  <a class="menu-entry" href="/public/">{% trans "Home" %}</a>
+		  <a class="menu-entry" href="/">{% trans "Home" %}</a>
 		  <a class="menu-entry" href="/news/">{% trans "News" %}</a>
 {#		  <a class="menu-entry" href="">{% trans "Downloads" %}</a> #}
 
@@ -42,17 +42,17 @@
 		    <a href="/logout/" class="edit">{% trans "Logout" %}</a>
 
 		    <br/>
-		    <a href="/associations2/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a>
-		    <a href="/dojos2/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a>
-		    <a href="/members2/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a>
-		    <a href="/members2/all/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "All" %}</a>
-		    <a href="/licenses2/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a>
-		    <a href="/graduations2/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a>
+		    <a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a>
+		    <a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a>
+		    <a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a>
+		    <a href="/members/all/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "All" %}</a>
+		    <a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a>
+		    <a href="/graduations/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a>
 
 		    <br/>
-		    <a href="/member-requests2/"{% ifequal menu "member-requests" %} class="active"{% endifequal %}>{% trans "TWA-Requests" %}</a>
-		    <a href="/license-requests2/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License-Requests" %}</a>
-		    <a href="/suggestions2/"{% ifequal menu "suggestions" %} class="active"{% endifequal %}>{% trans "Suggestions" %}</a>
+		    <a href="/member-requests/"{% ifequal menu "member-requests" %} class="active"{% endifequal %}>{% trans "TWA-Requests" %}</a>
+		    <a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License-Requests" %}</a>
+		    <a href="/suggestions/"{% ifequal menu "suggestions" %} class="active"{% endifequal %}>{% trans "Suggestions" %}</a>
 
 		    <br/>
 		    {% if user.is_staff %}
@@ -120,9 +120,9 @@
 
   <div id="footer" class="tx12">
     {% if user.is_authenticated %}
-      <a href="/logout2/">Logout</a>
+      <a href="/logout/">Logout</a>
     {% else %}
-      <a href="/login2/">Login</a>
+      <a href="/login/">Login</a>
     {% endif %}
     |
     <a href="http://www.aiki-tendo.jp/twa/index.html">{% trans "Official TWA Site" %}</a>
@@ -130,12 +130,14 @@
 {#    <a href="http://www.tendoryu-aikido.de/">Tendoryu Aikido Deutschland</a> #}
   </div>
 
+  {% if user.is_authenticated %}
   <div align="center">
     <br/>
     <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
     <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
     <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
   </div>
+  {% endif %}
   
   <div align="center" class="tx12g"><br/>&copy; tendo world aikido {% now "Y" %}</div>
 
