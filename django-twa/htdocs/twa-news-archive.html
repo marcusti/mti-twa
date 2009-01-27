@@ -1,0 +1,26 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+<h2>News</h2>
+<ul>
+  {% for news in object_list %}
+    <li>
+      <center>
+        <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
+        <br/><span class="tx12g">{{ news.pub_date|date:"d.m.Y" }}</span>
+      </center>
+      {{ news.text|linebreaks|truncatewords:50 }}
+    </li>
+  {% endfor %}
+</ul>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% endblock %}

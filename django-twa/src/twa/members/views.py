@@ -17,7 +17,7 @@ from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
 from twa.members.forms import LoginForm
-from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership
+from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership, News
 from twa.requests.models import Request
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, LANGUAGE_CODE, SEND_MAIL_ON_LOGIN
 import os, platform, sys
@@ -178,7 +178,12 @@ def info( request ):
 
 def public( request ):
     ctx = {}
+    ctx['news'] = News.current_objects.all()[:3]
     ctx['include_main_image'] = True
+
+    if request.user.is_authenticated():
+        ctx['birthdays'] = Person.persons.get_next_birthdays()
+
     return direct_to_template( request,
         template = 'twa-index.html',
         extra_context = ctx,
@@ -982,3 +987,36 @@ def __get_path( fileobject ):
         return tail
     except:
         return ''
+
+def news( request, nid = None ):
+    ctx = get_context( request )
+    ctx['menu'] = 'news'
+
+#    if not nid is None:
+#        try:
+#            ctx['current'] = News.current_objects.get( id = nid )
+#        except:
+#            raise Http404()
+#    else:
+#        ctx['current'] = News.current_objects.latest( 'pub_date' )
+
+    return object_detail( 
+        request,
+        queryset = News.current_objects.filter( id = nid ),
+        object_id = nid,
+        template_object_name = 'news',
+        template_name = 'twa-news.html',
+        extra_context = ctx,
+    )
+
+def news_archive( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'news'
+
+    return object_list( 
+        request,
+        queryset = News.current_objects.all(),
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-news-archive.html',
+    )

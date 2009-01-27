@@ -69,6 +69,13 @@ class DocumentAdmin( admin.ModelAdmin ):
     list_display = ( 'id', 'name', 'file', 'person' )
     list_display_links = ( 'name', 'file', )
 
+class NewsAdmin( admin.ModelAdmin ):
+    ordering = [ '-pub_date', 'title' ]
+    list_display = ( 'id', 'title', 'pub_date', 'last_modified' )
+    list_display_links = ( 'title', )
+    date_hierarchy = 'pub_date'
+    search_fields = [ 'title', 'text' ]
+
 class LogEntryAdmin( admin.ModelAdmin ):
     ordering = [ '-action_time' ]
     list_display = ( 'action_time', 'user', 'content_type', 'object_repr', 'change_message', 'is_addition', 'is_change', 'is_deletion' )
@@ -83,4 +90,5 @@ admin.site.register( Dojo, DojoAdmin )
 admin.site.register( Person, PersonAdmin )
 admin.site.register( Country, CountryAdmin )
 #admin.site.register( Translation, TranslationAdmin )
+admin.site.register( News, NewsAdmin )
 admin.site.register( LogEntry, LogEntryAdmin )
