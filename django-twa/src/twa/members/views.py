@@ -17,7 +17,7 @@ from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
 from twa.members.forms import LoginForm
-from twa.members.models import Association, Country, Document, Dojo, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership, News
+from twa.members.models import Association, Country, Document, Dojo, Download, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership, News
 from twa.requests.models import Request
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, LANGUAGE_CODE, SEND_MAIL_ON_LOGIN
 import os, platform, sys
@@ -940,14 +940,7 @@ def __get_path( fileobject ):
 def news( request, nid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'news'
-
-#    if not nid is None:
-#        try:
-#            ctx['current'] = News.current_objects.get( id = nid )
-#        except:
-#            raise Http404()
-#    else:
-#        ctx['current'] = News.current_objects.latest( 'pub_date' )
+    ctx['include_main_image'] = True
 
     return object_detail( 
         request,
@@ -961,6 +954,7 @@ def news( request, nid = None ):
 def news_archive( request ):
     ctx = get_context( request )
     ctx['menu'] = 'news'
+    ctx['include_main_image'] = True
 
     return object_list( 
         request,
@@ -968,4 +962,17 @@ def news_archive( request ):
         paginate_by = 50,
         extra_context = ctx,
         template_name = 'twa-news-archive.html',
+    )
+
+def downloads( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'downloads'
+    ctx['include_main_image'] = True
+
+    return object_list( 
+        request,
+        queryset = Download.public_objects.all(),
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-downloads.html',
     )

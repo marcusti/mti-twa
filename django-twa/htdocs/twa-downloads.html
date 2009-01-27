@@ -1,0 +1,33 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+<h2>Downloads</h2>
+
+{% if perms.members.add_download %}<p align="center"><a class="edit tx12g" href="/admin/members/download/add">{% trans "new" %}</a></p>{% endif %}
+
+<ul class="">
+{% for download in object_list %}
+  <li>
+    <a href="/static/{{ download.datei.name }}">{{ download.name }}</a>
+    <br/>
+    <div class="tx12g">
+      {{ download.datei.size|filesizeformat }},
+      {{ download.datei|extension|lower }}
+      {% if perms.members.change_download %}<a class="edit tx12g" href="/admin/members/download/{{ download.id }}/">{% trans "edit" %}</a>{% endif %}
+    </div>
+    {% if download.neu %}<span class="edit">{% trans "NEU" %}</span>{% endif %}
+    {% if download.text %}<ul><li>{{ download.text|linebreaksbr }}</li></ul>{% endif %}
+  </li>
+{% endfor %}
+</ul>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% endblock %}
