@@ -496,3 +496,26 @@ class Document( AbstractModel ):
         ordering = [ 'name' ]
         verbose_name = _( 'Document' )
         verbose_name_plural = _( 'Documents' )
+
+class NewsManager( models.Manager ):
+    def get_query_set( self ):
+        return super( NewsManager, self ).get_query_set().filter( public = True, pub_date__lte = datetime.now() )
+
+class News( AbstractModel ):
+    title = models.CharField( _( 'Title' ), max_length = DEFAULT_MAX_LENGTH )
+    text = models.TextField( _( 'Text' ) )
+    pub_date = models.DateTimeField( _( 'Date' ), default = datetime.now() )
+
+    objects = models.Manager()
+    current_objects = NewsManager()
+
+    def __unicode__( self ):
+        return self.title
+
+    def get_absolute_url( self ):
+        return '/news/%i/' % self.id
+
+    class Meta:
+        ordering = [ '-pub_date', 'title' ]
+        verbose_name = _( 'News' )
+        verbose_name_plural = _( 'News' )

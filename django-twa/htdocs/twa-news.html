@@ -1,0 +1,23 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+{% if news %}
+<h2>{{ news.title }}</h2>
+
+<p class="tx12g" align="center">{{ news.pub_date|date:"l, d. F Y" }}</p>
+
+<p class="tx12g"  align="center">
+  {% if perms.members.add_news %}<a href="/admin/members/news/add/" class="edit">{% trans "new" %}</a>{% endif %}
+  {% if perms.members.add_news and perms.members.change_news %} | {% endif %}
+  {% if perms.members.change_news %}<a href="/admin/members/news/{{ news.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+</p>
+
+<p>{{ news.text|linebreaks }}</p>
+
+{% endif %}
+
+{% endblock %}

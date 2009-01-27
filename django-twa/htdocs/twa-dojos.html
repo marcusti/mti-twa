@@ -6,19 +6,19 @@
 
 <h1>{% trans "Dojos" %} <span class="tx12g">({{ counter }})</span></h1>
 
-<p class="tx12g">
+<p class="tx12g" align="center">
 {% for country in counties %}
   <a href="?s={{ country.1|urlencode }}">{{ country.1 }}</a>
 {% endfor %}
 </p>
 
-<p class="tx12g">
+<p class="tx12g" align="center">
 {% for city in cities %}
   <a href="?s={{ city.city }}">{{ city.city }}</a>
 {% endfor %}
 </p>
 
-<p class="tx12g">
+<p class="tx12g" align="center">
   <a href="/dojos2/">{% trans "alle" %}</a>
 </p>
 
