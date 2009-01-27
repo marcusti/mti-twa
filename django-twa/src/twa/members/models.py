@@ -519,3 +519,31 @@ class News( AbstractModel ):
         ordering = [ '-pub_date', 'title' ]
         verbose_name = _( 'News' )
         verbose_name_plural = _( 'News' )
+
+class DownloadManager( models.Manager ):
+    def get_query_set( self ):
+        return super( DownloadManager, self ).get_query_set().filter( public = True )
+
+class Download( AbstractModel ):
+    name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
+    text = models.TextField( _( u'Text' ), blank = True )
+    datei = models.FileField( _( u'Path' ), upload_to = 'downloads/' )
+
+    objects = models.Manager()
+    public_objects = DownloadManager()
+
+    def neu( self ):
+        return ( datetime.now() - self.creation ).days < 14
+    neu.short_description = _( u'New' )
+    neu.allow_tags = False
+
+    def __unicode__( self ):
+        return u'%s %s'.strip() % ( self.name, self.datei )
+
+    def get_absolute_url( self ):
+        return '/downloads/'
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _( u'Download' )
+        verbose_name_plural = _( u'Downloads' )

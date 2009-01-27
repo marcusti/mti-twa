@@ -76,6 +76,12 @@ class NewsAdmin( admin.ModelAdmin ):
     date_hierarchy = 'pub_date'
     search_fields = [ 'title', 'text' ]
 
+class DownloadAdmin( admin.ModelAdmin ):
+    ordering = [ 'name' ]
+    list_display = ( 'id', 'name', 'datei', 'public', 'last_modified' )
+    list_display_links = ( 'name', )
+    search_fields = [ 'name', 'text', 'datei' ]
+
 class LogEntryAdmin( admin.ModelAdmin ):
     ordering = [ '-action_time' ]
     list_display = ( 'action_time', 'user', 'content_type', 'object_repr', 'change_message', 'is_addition', 'is_change', 'is_deletion' )
@@ -91,4 +97,5 @@ admin.site.register( Person, PersonAdmin )
 admin.site.register( Country, CountryAdmin )
 #admin.site.register( Translation, TranslationAdmin )
 admin.site.register( News, NewsAdmin )
+admin.site.register( Download, DownloadAdmin )
 admin.site.register( LogEntry, LogEntryAdmin )
