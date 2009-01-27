@@ -44,7 +44,7 @@
     </td>
 
     <td>
-      <a href="/member2/{{ membership.person.id }}/">{{ membership.person }}</a>
+      <a href="{{ membership.person.get_absolute_url }}">{{ membership.person }}</a>
     </td>
 
     <td class="tx12g">
@@ -62,8 +62,10 @@
 {% endfor %}
 </table>
 
+{% if is_paginated %}
 <div class="white" align="center">
   <small>{% paginator %}</small>
 </div>
+{% endif %}
 
 {% endblock %}

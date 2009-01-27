@@ -12,7 +12,6 @@
 </div>
 
 {% if person.photo %}
-<a href="/member2{{ person.id }}/">
   <img src="{{ person.photo.url }}"
        class="photo-margin"
        align="right"
@@ -21,7 +20,6 @@
        alt="[{{ person.firstname }} {{ person.lastname }}]"
        title="{{ person.firstname }} {{ person.lastname }}"
        />
-</a>
 {% else %}
 {% endif %}
 

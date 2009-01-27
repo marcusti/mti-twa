@@ -19,7 +19,7 @@
 </p>
 
 <p class="tx12g" align="center">
-  <a href="/dojos2/">{% trans "alle" %}</a>
+  <a href="/dojos/">{% trans "alle" %}</a>
 </p>
 
 <form action="." method="get" id="member_filter">
@@ -36,15 +36,17 @@
 {% for dojo in object_list %}
   <tr>
     <td class="tx12g">{{ dojo.id }}</td>
-    <td class=""><a href="/dojo2/{{ dojo.id }}/">{{ dojo.name }}</a></td>
+    <td class=""><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></td>
     <td class="tx12g">{{ dojo.city }}</td>
     <td class="tx12g">{{ dojo.country.get_name }}</td>
   </tr>
 {% endfor %}
 </table>
 
+{% if is_paginated %}
 <div class="white" align="center">
   <small>{% paginator %}</small>
 </div>
+{% endif %}
 
 {% endblock %}

@@ -66,6 +66,7 @@ def get_context( request ):
 def twa_login( request ):
     ctx = get_context( request )
     ctx['menu'] = 'login'
+    ctx['include_main_image'] = True
     ctx['next'] = request.GET.get( 'next', LOGIN_REDIRECT_URL )
 
     if request.method == 'POST':
@@ -87,35 +88,6 @@ def twa_login( request ):
                 mail_admins( 'Login %s' % name, msg, fail_silently = True )
 
             next = request.REQUEST.get( 'next', LOGIN_REDIRECT_URL )
-#            if request.REQUEST.has_key( 'next' ):
-#                next = request.REQUEST['next']
-#            else:
-#                next = LOGIN_REDIRECT_URL
-
-            return redirect_to( request, next )
-    else:
-        form = LoginForm()
-
-    ctx['form'] = form
-    return render_to_response( 
-               'members/login.html',
-               ctx,
-            )
-
-def twa_login2( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'login'
-    ctx['next'] = request.GET.get( 'next', LOGIN_REDIRECT_URL )
-    ctx['include_main_image'] = True
-
-    if request.method == 'POST':
-        form = LoginForm( request.POST )
-        if form.is_valid():
-            # user authentication is done in LoginForm validation
-            user = form.get_user()
-            login( request, user )
-
-            next = request.REQUEST.get( 'next', LOGIN_REDIRECT_URL )
 
             return redirect_to( request, next )
     else:
@@ -131,29 +103,21 @@ def twa_logout( request ):
     ctx = get_context( request )
     ctx['menu'] = 'logout'
     logout( request )
-    return redirect_to( request, '/login/' )
-
-def twa_logout2( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'logout'
-    logout( request )
-    return redirect_to( request, '/public/' )
+    return redirect_to( request, '/' )
 
 @login_required
 def info( request ):
     now = datetime.now()
-
-    if request.user.is_authenticated() and request.user.is_superuser:
-        if request.POST.has_key( 'clean_up_expired_sessions' ):
-            Session.objects.filter( expire_date__lt = now ).delete()
-            transaction.commit_unless_managed()
 
     ctx = get_context( request )
     ctx['menu'] = 'info'
 
     ctx['db_version'] = db_version
     ctx['db_link'] = db_link
-    ctx['os_version'] = platform.node()
+    try:
+        ctx['os_version'] = open( '/etc/issue.net', 'r' ).read().strip()
+    except:
+        pass
     ctx['os_link'] = 'http://www.ubuntu.com/'
     ctx['django_version'] = get_version()
     ctx['django_link'] = 'http://www.djangoproject.com/'
@@ -162,12 +126,11 @@ def info( request ):
     ctx['users'] = User.objects.all().order_by( '-last_login' )
     ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( 'expire_date' )
     ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
-    ctx['requests'] = Request.objects.all().order_by( '-id' )[:200]
     ctx['agents'] = Request.objects.get_user_agents_by_requests()
     ctx['hits'] = Request.objects.all().count()
 
     if request.user.is_authenticated():
-        ctx['logentries'] = LogEntry.objects.all().order_by( '-action_time' )
+        ctx['logentries'] = LogEntry.objects.all().order_by( '-action_time' )[:20]
     else:
         ctx['logentries'] = LogEntry.objects.none()
 
@@ -360,21 +323,6 @@ def associations( request ):
         queryset = qs,
         paginate_by = 50,
         extra_context = ctx,
-    )
-
-@login_required
-def associations2( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'associations'
-
-    qs = Association.objects.all()
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
         template_name = "twa-associations.html",
     )
 
@@ -391,6 +339,7 @@ def association( request, aid = None ):
         queryset = Association.objects.filter( id = aid ),
         object_id = aid,
         template_object_name = 'association',
+        template_name = "twa-association.html",
         extra_context = ctx,
     )
 
