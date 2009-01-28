@@ -947,7 +947,7 @@ def __get_path( fileobject ):
 def news( request, nid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'news'
-    ctx['include_main_image'] = True
+    ctx['include_main_image'] = False
 
     return object_detail( 
         request,
