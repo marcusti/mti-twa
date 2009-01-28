@@ -1,0 +1,53 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<form id="membership-form" method="post" action=".">
+  <table class="clean">
+
+  <colgroup>
+    <col width="25%">
+    <col width="*">
+  </colgroup>
+
+  <tr>
+    <th colspan="2">{% trans "Online TWA Membership Request" %}</th>
+  </tr>
+
+ {% for field in form %}
+ {% if field.is_hidden %}
+   {{ field }}
+ {% else %}
+   <tr>
+     <td class="tx12g">
+       {% if field.field.required %}
+         <b>{{ field.label_tag }}</b>:
+       {% else %}
+         {{ field.label_tag }}:
+       {% endif %}
+     </td>
+     <td>
+       {{ field }}
+       {% if field.help_text %}<span class="tx12g">{{ field.help_text }}</span>{% endif %}
+       {% if field.errors %}<span class="edit tx12g">{{ field.errors }}</span>{% endif %}
+     </td>
+   </tr>
+ {% endif %}
+ {% endfor %}
+
+  <tr>
+   <td></td>
+   <td><input type="submit" id="send-button" value="{% trans "Send" %}" /></td>
+  </tr>
+
+ </table>
+ <input type="hidden" name="language" value="{{ language }}" />
+
+</form>
+
+{% if form.errors %}
+{% endif %}
+
+{% endblock %}

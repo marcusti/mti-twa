@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
-from twa.members.forms import LoginForm
+from twa.members.forms import LoginForm, TWAMembershipRequestForm
 from twa.members.models import Association, Country, Document, Dojo, Download, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership, News
 from twa.requests.models import Request
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, LANGUAGE_CODE, SEND_MAIL_ON_LOGIN
@@ -96,6 +96,25 @@ def twa_login( request ):
     ctx['form'] = form
     return render_to_response( 
                'twa-login.html',
+               ctx,
+            )
+
+@login_required
+def membership_online_request( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'login'
+    ctx['include_main_image'] = True
+
+    if request.method == 'POST':
+        form = TWAMembershipRequestForm( request.POST )
+        if form.is_valid():
+            return redirect_to( request, '/' )
+    else:
+        form = TWAMembershipRequestForm()
+
+    ctx['form'] = form
+    return render_to_response( 
+               'twa-membership-online-request.html',
                ctx,
             )
 

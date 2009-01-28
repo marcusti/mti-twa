@@ -9,7 +9,7 @@ class TranslationAdmin( admin.ModelAdmin):
     
 class CountryAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
-    list_display = ( 'name', 'name_de', 'name_ja', 'code' )
+    list_display = ( 'id', 'name', 'name_de', 'name_ja', 'code' )
     list_display_links = ( 'name', 'name_de', 'name_ja' )
 
 class GraduationInline( admin.StackedInline ):

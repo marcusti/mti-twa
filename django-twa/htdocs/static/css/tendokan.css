@@ -207,7 +207,7 @@ li {
  padding: 5px 0;
 }
 
-ul ul, ul li ul li {
+ul ul, ul li ul li, td ul li {
  border: none;
  margin: 0 0 0 1em;
  padding: 0;
