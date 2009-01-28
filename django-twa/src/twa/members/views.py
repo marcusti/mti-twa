@@ -140,7 +140,7 @@ def info( request ):
     )
 
 def public( request ):
-    ctx = {}
+    ctx = get_context( request )
     ctx['news'] = News.current_objects.all()[:3]
     ctx['include_main_image'] = True
 
@@ -674,6 +674,7 @@ def suggestions2( request ):
 
 @login_required
 def dojos_csv( request ):
+    ctx = get_context( request )
     response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=dojos.csv'
 
@@ -689,6 +690,7 @@ def dojos_csv( request ):
 
 @login_required
 def members_xls( request ):
+    ctx = get_context( request )
     import pyExcelerator as xl
 
     workbook = xl.Workbook()
@@ -728,6 +730,7 @@ def members_xls( request ):
 
 @login_required
 def licenses_xls( request ):
+    ctx = get_context( request )
     import pyExcelerator as xl
 
     workbook = xl.Workbook()
@@ -757,6 +760,7 @@ def licenses_xls( request ):
 
 @login_required
 def license_requests_xls( request ):
+    ctx = get_context( request )
     import pyExcelerator as xl
 
     workbook = xl.Workbook()
@@ -786,6 +790,7 @@ def license_requests_xls( request ):
 
 @login_required
 def membership_requests_xls( request ):
+    ctx = get_context( request )
     import pyExcelerator as xl
 
     workbook = xl.Workbook()
@@ -815,6 +820,7 @@ def membership_requests_xls( request ):
 
 @login_required
 def nominations_xls( request ):
+    ctx = get_context( request )
     import pyExcelerator as xl
 
     workbook = xl.Workbook()
@@ -844,6 +850,7 @@ def nominations_xls( request ):
 
 @login_required
 def members_csv( request ):
+    ctx = get_context( request )
     response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=members.csv'
 
