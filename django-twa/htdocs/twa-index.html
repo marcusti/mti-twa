@@ -92,6 +92,7 @@
         <td>
           <a href="{{ person.get_absolute_url }}">{{ person }}</a>
         </td>
+        <td>{% for dojo in person.dojos.all %}{{ dojo }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
         <td>{{ person.birth }}</td>
         <td>{{ person.age }}</td>
       </tr>
