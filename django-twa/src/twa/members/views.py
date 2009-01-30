@@ -83,7 +83,7 @@ def twa_login( request ):
                 msg = '%s: %s hat sich eingeloggt.\n\n' % ( datetime.now(), name )
                 msg += 'User agent:\n%s\n\n' % request.META['HTTP_USER_AGENT']
                 msg += 'Remote Address:\n%s\n\n' % request.META['REMOTE_ADDR']
-                msg += '\nhttps://www.tendo-world-aikido.de/\n'
+                msg += '\nhttp://www.tendo-world-aikido.de/\n'
 
                 mail_admins( 'Login %s' % name, msg, fail_silently = True )
 
@@ -963,6 +963,21 @@ def __get_path( fileobject ):
     except:
         return ''
 
+@login_required
+def news_preview( request, nid = None ):
+    ctx = get_context( request )
+    ctx['menu'] = 'news'
+    ctx['include_main_image'] = False
+
+    return object_detail( 
+        request,
+        queryset = News.objects.filter( id = nid ),
+        object_id = nid,
+        template_object_name = 'news',
+        template_name = 'twa-news.html',
+        extra_context = ctx,
+    )
+
 def news( request, nid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'news'
@@ -1002,3 +1017,13 @@ def downloads( request ):
         extra_context = ctx,
         template_name = 'twa-downloads.html',
     )
+
+def antrag( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'anmeldung'
+    ctx['include_main_image'] = True
+
+    return direct_to_template( request,
+                               template = 'twa-anmeldung.html',
+                               extra_context = ctx,
+                               )

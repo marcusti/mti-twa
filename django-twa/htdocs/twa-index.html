@@ -29,6 +29,7 @@
 		  <a class="menu-entry" href="/">{% trans "Home" %}</a>
 		  <a class="menu-entry" href="/news/">{% trans "News" %}</a>
 		  <a class="menu-entry" href="/downloads/">{% trans "Downloads" %}</a>
+		  <a class="menu-entry" href="/antrag/">Anträge</a>
 
 		  {% if user.is_authenticated %}
 		    <div class="menu-logged-in">
@@ -111,7 +112,9 @@
     <li>
       <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
       <br/><span class="tx12g">{{ news.pub_date|date:"d.m.Y" }}</span>
+      {% autoescape off %}
       {{ news.text|linebreaks|truncatewords:50 }}
+      {% endautoescape %}
     </li>
   {% endfor %}
 </ul>

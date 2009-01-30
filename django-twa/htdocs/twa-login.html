@@ -21,7 +21,7 @@
  {% else %}
    <tr>
      <td>{{ field.label_tag }}:</td>
-     <td>{{ field }}{% if field.errors %}<span class="error">{{ field.errors }}</span>{% endif %}</td>
+     <td>{{ field }}{% if field.errors %}<span class="edit tx12g">{{ field.errors }}</span>{% endif %}</td>
    </tr>
  {% endif %}
  {% endfor %}
@@ -38,7 +38,7 @@
 </form>
 
 {% if form.errors %}
-<p class="error">{% trans "Wrong username or password." %}</p>
+<p class="edit tx12g">{% trans "Wrong username or password." %}</p>
 {% endif %}
 
 {% endblock %}

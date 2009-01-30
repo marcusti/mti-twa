@@ -371,7 +371,7 @@ msgstr "Tage"
 
 #: htdocs/twa-index.html:128
 msgid "Official TWA Site"
-msgstr ""
+msgstr "Zur offiziellen TWA Seite"
 
 #: htdocs/twa-license-requests.html:16 htdocs/twa-licenses.html:11
 #: htdocs/members/license_list.html:19
