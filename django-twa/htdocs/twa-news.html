@@ -16,7 +16,9 @@
   {% if perms.members.change_news %}<a href="/admin/members/news/{{ news.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 </p>
 
+{% autoescape off %}
 <p>{{ news.text|linebreaks }}</p>
+{% endautoescape %}
 
 {% endif %}
 

@@ -71,7 +71,7 @@ class DocumentAdmin( admin.ModelAdmin ):
 
 class NewsAdmin( admin.ModelAdmin ):
     ordering = [ '-pub_date', 'title' ]
-    list_display = ( 'id', 'title', 'pub_date', 'last_modified' )
+    list_display = ( 'id', 'title', 'pub_date', 'last_modified', 'public' )
     list_display_links = ( 'title', )
     date_hierarchy = 'pub_date'
     search_fields = [ 'title', 'text' ]
