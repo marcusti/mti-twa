@@ -458,7 +458,7 @@ class TWAMembership( AbstractModel ):
     rejected = models.DateField( _( 'Membership Rejected' ), blank = True, null = True )
     request_doc = models.FileField( _( 'Membership Request Document' ), upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
-    twa_id_country = models.OneToOneField( Country, blank = True, null = True )
+    twa_id_country = models.ForeignKey( Country, blank = True, null = True )
     twa_id_number = models.IntegerField( blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 

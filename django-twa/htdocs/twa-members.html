@@ -7,10 +7,6 @@
 
 <h1>{% trans "Members" %} <span class="tx12g">({{ counter }})</span></h1>
 
-<form action="." method="get" id="member_filter">
-  <small><div align="center">{% include "members/search.html" %}</div></small>
-</form>
-
 <div class="tx12g"  align="center">
   {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
 </div>
