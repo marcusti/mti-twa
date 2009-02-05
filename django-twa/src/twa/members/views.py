@@ -49,13 +49,16 @@ def set_lang( request, code = LANGUAGE_CODE ):
     return set_language( request )
 
 def get_context( request ):
-    ua = request.META['HTTP_USER_AGENT']
-    if ua.find( 'dummy connection' ) == - 1:
-        r = Request( user = request.user.username )
-        r.user_agent = ua
-        r.remote = request.META['REMOTE_ADDR']
-        r.path = request.get_full_path()
-        r.save()
+    try:
+        ua = request.META['HTTP_USER_AGENT']
+        if ua.find( 'dummy connection' ) == - 1:
+            r = Request( user = request.user.username )
+            r.user_agent = ua
+            r.remote = request.META['REMOTE_ADDR']
+            r.path = request.get_full_path()
+            r.save()
+    except:
+        pass
 
     ctx = {}
     ctx['LANGUAGES'] = LANGUAGES
@@ -460,7 +463,7 @@ def members2( request ):
 @login_required
 def __get_members( request ):
     ctx = get_context( request )
-    qs = None
+    qs = Person.persons.all()
 
     if request.REQUEST.has_key( 's' ):
         s = request.REQUEST['s']
@@ -475,6 +478,15 @@ def __get_members( request ):
                 Q( street__icontains = s ) | 
                 Q( zip__icontains = s ) | 
                 Q( city__icontains = s ) )
+
+    if request.REQUEST.has_key( 'sort' ):
+        sort = request.REQUEST['sort']
+        ctx['search'] = sort
+        if sort:
+            if sort == 'f':
+                qs = qs.order_by( 'firstname' )
+            if sort == 'l':
+                qs = qs.order_by( 'lastname' )
 
     if request.REQUEST.has_key( 'sid' ):
         sid = request.REQUEST['sid']

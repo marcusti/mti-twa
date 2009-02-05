@@ -134,7 +134,7 @@ class Person( AbstractModel ):
     street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    country = models.ForeignKey( Country, verbose_name = _( 'Country' ), blank = True, null = True )
+    country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
 
     phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -466,6 +466,16 @@ class TWAMembership( AbstractModel ):
 
     def get_absolute_url( self ):
         return '/member/%i/' % self.person.id
+
+    def save( self, force_insert = False ):
+        if self.twa_id_country is None and self.twa_id_number is None:
+            if self.status == MEMBERSHIP_STATUS_ACCEPTED or self.status == MEMBERSHIP_STATUS_MEMBER:
+                try:
+                    self.twa_id_country = self.person.country
+                    self.twa_id_number = TWAMembershipManager().get_next_id_for_country( self.person.country.code )
+                except:
+                    pass
+        super( TWAMembership, self ).save( force_insert )
 
     def twa_id( self ):
         try:

@@ -7,7 +7,8 @@ from twa.members.models import *
 class TWATestCase( unittest.TestCase ):
     def setUp( self ):
         self.de, created = Country.objects.get_or_create( name = "Deutschland", code = "DE")
-        self.heinrich, created = Person.objects.get_or_create( firstname = "Heinrich", lastname = "Heine" )
+        self.heinrich, created = Person.objects.get_or_create( firstname = "Heinrich", lastname = "Heine", country = self.de )
+        self.akz, created = Person.objects.get_or_create( firstname = "Alfons", lastname = "Akzeptiert", country = self.de )
 
     def testPerson( self ):
         self.failIf( self.heinrich is None )
@@ -20,9 +21,9 @@ class TWATestCase( unittest.TestCase ):
         self.assertTrue( ms.status == MEMBERSHIP_STATUS_OPEN )
 
     def testMembership( self ):
-        ms = TWAMembership.objects.create( person = self.heinrich, status = MEMBERSHIP_STATUS_MEMBER, twa_id_country = self.de, twa_id_number = 1 )
-        self.failIf( ms is None )
+        ms1 = TWAMembership.objects.create( person = self.heinrich, status = MEMBERSHIP_STATUS_MEMBER )
+        self.failIf( ms1 is None )
         self.assertEquals( self.heinrich.twamembership_set.all().count(), 1 )
-        self.assertEquals( TWAMembership.objects.get_next_id_for_country( self.de.code ), 2 )
-        self.assertTrue( ms.person_id == self.heinrich.id )
+        self.assertEquals( ms1.twa_id_number, 1 )
+        self.assertTrue( ms1.person_id == self.heinrich.id )
         self.assertTrue( self.heinrich.is_member() )
