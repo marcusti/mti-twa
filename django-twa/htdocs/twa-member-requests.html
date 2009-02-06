@@ -8,6 +8,10 @@
 <h1>{% trans "Requested TWA Membership" %} <span class="tx12g">({{ counter }})</span></h1>
 
 <div class="tx12g"  align="center">
+  <a href="/member-requests/" class="">{% trans "all" %}</a>
+  <a href="/member-requests/open/" class="">{% trans "open" %}</a>
+  <a href="/member-requests/accepted/" class="">{% trans "accepted" %}</a>
+  <a href="/member-requests/confirmed/" class="">{% trans "confirmed" %}</a>
   {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit">{% trans "new" %}</a>{% endif %}
 </div>
 
@@ -68,4 +72,9 @@
 </div>
 {% endif %}
 
+<div class="tx12g" align="">
+  <p class="tx12g"><b>{% trans "open" %}</b>: offene Anträge</p>
+  <p class="tx12g"><b>{% trans "accepted" %}</b>: von Shimizu Sensei akzeptierte Anträge</p>
+  <p class="tx12g"><b>{% trans "confirmed" %}</b>: Bestätigung und Zahlungsaufforderung sind erfolgt</p>
+</div>
 {% endblock %}
