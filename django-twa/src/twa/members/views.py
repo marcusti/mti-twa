@@ -17,7 +17,7 @@ from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
 from twa.members.forms import LoginForm, TWAMembershipRequestForm
-from twa.members.models import Association, Country, Document, Dojo, Download, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership, News
+from twa.members.models import Association, Country, Document, Dojo, Download, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership, News, MEMBERSHIP_STATUS_ACCEPTED
 from twa.requests.models import Request
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, LANGUAGE_CODE, SEND_MAIL_ON_LOGIN
 import os, platform, sys
@@ -1040,3 +1040,14 @@ def antrag( request ):
                                template = 'twa-anmeldung.html',
                                extra_context = ctx,
                                )
+
+@login_required
+def create_twa_ids( request ):
+    if request.user.is_superuser:
+        antraege = TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_ACCEPTED, twa_id_number = None ).order_by( 'id' )
+        for antrag in antraege:
+            antrag.twa_id_country = antrag.person.country
+            antrag.twa_id_number = TWAMembership.objects.get_next_id_for_country( antrag.person.country )
+            antrag.save()
+
+    return public( request )

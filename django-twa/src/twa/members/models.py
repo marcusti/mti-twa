@@ -467,16 +467,6 @@ class TWAMembership( AbstractModel ):
     def get_absolute_url( self ):
         return '/member/%i/' % self.person.id
 
-    def save( self, force_insert = False ):
-        if self.twa_id_country is None and self.twa_id_number is None:
-            if self.status == MEMBERSHIP_STATUS_ACCEPTED or self.status == MEMBERSHIP_STATUS_MEMBER:
-                try:
-                    self.twa_id_country = self.person.country
-                    self.twa_id_number = TWAMembershipManager().get_next_id_for_country( self.person.country.code )
-                except:
-                    pass
-        super( TWAMembership, self ).save( force_insert )
-
     def twa_id( self ):
         try:
             return u'%s-%s'.strip() % ( self.twa_id_country.code, str( self.twa_id_number ).rjust(5, '0') )

@@ -24,6 +24,6 @@ class TWATestCase( unittest.TestCase ):
         ms1 = TWAMembership.objects.create( person = self.heinrich, status = MEMBERSHIP_STATUS_MEMBER )
         self.failIf( ms1 is None )
         self.assertEquals( self.heinrich.twamembership_set.all().count(), 1 )
-        self.assertEquals( ms1.twa_id_number, 1 )
         self.assertTrue( ms1.person_id == self.heinrich.id )
         self.assertTrue( self.heinrich.is_member() )
+

@@ -51,4 +51,5 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^news/preview/(\d+)/$', 'news_preview' ),
     ( r'^nominations-xls$', 'nominations_xls' ),
     ( r'^suggestions/$', 'suggestions2' ),
+    ( r'^twa-ids/$', 'create_twa_ids' ),
  )
