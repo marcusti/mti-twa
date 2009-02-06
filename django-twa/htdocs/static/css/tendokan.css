@@ -229,13 +229,22 @@ td, th {
  background-color: #f5f5e7;
 }
 
-/* LICENSE_STATUS_ACCEPTED */
+/* STATUS_ACCEPTED */
 .status-2 {
  background-color: #90ff90;
 }
 
 .columnhover tr:hover .status-2 {
  background-color: #00ff00;
+}
+
+/* STATUS_CONFIRMED */
+.status-5 {
+ background-color: #9090ff;
+}
+
+.columnhover tr:hover .status-5 {
+ background-color: #0000ff;
 }
 
 /* LICENSE_STATUS_REJECTED */

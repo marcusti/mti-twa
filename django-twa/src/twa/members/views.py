@@ -17,7 +17,7 @@ from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
 from twa.members.forms import LoginForm, TWAMembershipRequestForm
-from twa.members.models import Association, Country, Document, Dojo, Download, Graduation, License, LicenseManager, Person, PersonManager, RANK, TWAMembership, News, MEMBERSHIP_STATUS_ACCEPTED
+from twa.members.models import *
 from twa.requests.models import Request
 from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, LANGUAGE_CODE, SEND_MAIL_ON_LOGIN
 import os, platform, sys
@@ -552,6 +552,54 @@ def member_requests2( request ):
     ctx['menu'] = 'member-requests'
 
     qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-member-requests.html',
+    )
+
+@login_required
+def member_requests2_accepted( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'member-requests'
+
+    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_ACCEPTED ).order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-member-requests.html',
+    )
+
+@login_required
+def member_requests2_confirmed( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'member-requests'
+
+    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_CONFIRMED ).order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-member-requests.html',
+    )
+
+@login_required
+def member_requests2_open( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'member-requests'
+
+    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_OPEN ).order_by( '-id' )
     ctx['counter'] = qs.count()
 
     return object_list( 
