@@ -169,7 +169,8 @@ class Person( AbstractModel ):
 
     def current_rank( self ):
         try:
-            return self.graduations.get( person__id = self.id, rank = self.crank )
+            #return self.graduations.get( person__id = self.id, rank = self.crank )
+            return Graduation.graduations.filter( person__id = self.id ).latest( 'date' )
         except:
             return ''
     current_rank.short_description = _( 'Rank' )
@@ -369,7 +370,7 @@ class Graduation( AbstractModel ):
     person = models.ForeignKey( 'Person', verbose_name = _( 'Person' ), related_name = 'graduations' )
     nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominations', blank = True, null = True )
     rank = models.IntegerField( _( 'Rank' ), choices = RANK )
-    date = models.DateField( _( 'Date' ), blank = True, null = True )
+    date = models.DateField( _( 'Date' ) )
     text = models.TextField( _( 'Text' ), blank = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
