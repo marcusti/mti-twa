@@ -1092,10 +1092,42 @@ def antrag( request ):
 @login_required
 def create_twa_ids( request ):
     if request.user.is_superuser:
-        antraege = TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_ACCEPTED, twa_id_number = None ).order_by( 'id' )
+        antraege = TWAMembership.objects.filter( twa_id_number = None )
+        antraege = antraege.filter( Q( status = MEMBERSHIP_STATUS_ACCEPTED ) |
+                                    Q( status = MEMBERSHIP_STATUS_CONFIRMED ) 
+                                    ).order_by( 'id' )
         for antrag in antraege:
             antrag.twa_id_country = antrag.person.country
-            antrag.twa_id_number = TWAMembership.objects.get_next_id_for_country( antrag.person.country )
-            antrag.save()
+            twa_id_number = TWAMembership.objects.get_next_id_for_country( antrag.person.country.code )
+            if twa_id_number is not None:
+                antrag.twa_id_number = twa_id_number
+                antrag.save()
 
-    return public( request )
+    return member_requests2( request )
+
+@login_required
+def confirmation_email( request ):
+    if request.user.is_superuser:
+        from django.core.mail import mail_admins, send_mail
+        from twa.settings import EMAIL_HOST_USER, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION
+
+        antraege = TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_ACCEPTED )
+
+        for antrag in antraege:
+            try:
+                if antrag.person.email:
+                    subject = 'Aufnahme in den TWA bestätigt'
+                    message = EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname
+                    from_email = EMAIL_HOST_USER
+                    recipient_list = []
+                    recipient_list.append( antrag.person.email )
+                    recipient_list.append( EMAIL_HOST_USER )
+                    send_mail( subject = subject, message = message, from_email = from_email, recipient_list = recipient_list, fail_silently = True )
+                    antrag.status = MEMBERSHIP_STATUS_CONFIRMED
+                    antrag.save()
+            except:
+                mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
+    else:
+        raise Http404
+    
+    return member_requests2( request )

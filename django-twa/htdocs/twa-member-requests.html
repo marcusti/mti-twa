@@ -13,6 +13,11 @@
   <a href="/member-requests/accepted/" class="">{% trans "accepted" %}</a>
   <a href="/member-requests/confirmed/" class="">{% trans "confirmed" %}</a>
   {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit">{% trans "new" %}</a>{% endif %}
+  {% if user.is_superuser %}
+    <br/>
+    <a href="/member-requests/confirmation-email/" class="edit">Bestätigungsemail</a>
+    <a href="/member-requests/twa-ids/" class="edit">TWA IDs erzeugen</a>
+  {% endif %}
 </div>
 
 <table class="columnhover">
