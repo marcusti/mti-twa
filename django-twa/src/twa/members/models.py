@@ -471,6 +471,8 @@ class TWAMembership( AbstractModel ):
         return '/member/%i/' % self.person.id
 
     def twa_id( self ):
+        if self.twa_id_country is None or self.twa_id_number is None:
+            return ''
         try:
             return u'%s-%s'.strip() % ( self.twa_id_country.code, str( self.twa_id_number ).rjust(5, '0') )
         except:
