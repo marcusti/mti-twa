@@ -8,13 +8,13 @@
 
 <p class="tx12g" align="center">
 {% for country in counties %}
-  <a href="?s={{ country.1|urlencode }}">{{ country.1 }}</a>
+  <a href="?s={{ country.1|urlencode }}" class="menu-entry">{{ country.1 }}</a>
 {% endfor %}
 </p>
 
 <p class="tx12g" align="center">
 {% for city in cities %}
-  <a href="?s={{ city.city }}">{{ city.city }}</a>
+  <a href="?s={{ city.city }}" class="menu-entry">{{ city.city }}</a>
 {% endfor %}
 </p>
 
