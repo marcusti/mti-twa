@@ -84,6 +84,10 @@
 	{% if membership.request_doc %}
 	  <br/><a href="{{ membership.request_doc.url }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
 	{% endif %}
+	
+	{% if membership.text %}
+	  <br/>{{ membership.text|linebreaksbr }}
+	{% endif %}
       </li>
     {% endfor %}
     </ul>
