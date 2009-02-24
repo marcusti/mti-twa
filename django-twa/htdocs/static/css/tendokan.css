@@ -230,11 +230,11 @@ td, th {
 }
 
 /* STATUS_ACCEPTED */
-.status-2 {
+.status-2, .status-6 {
  background-color: #90ff90;
 }
 
-.columnhover tr:hover .status-2 {
+.columnhover tr:hover .status-2, .columnhover tr:hover .status-6 {
  background-color: #00ff00;
 }
 

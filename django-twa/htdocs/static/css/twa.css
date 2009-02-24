@@ -217,11 +217,11 @@ img.logo {
 }
 
 /* LICENSE_STATUS_ACCEPTED */
-.status-2 {
+.status-2, .status-6 {
   background-color: #aaffaa;
 }
 
-tr:hover .status-2 {
+tr:hover .status-2, tr:hover .status-6 {
   background-color: #55ff55;
 }
 
