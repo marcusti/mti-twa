@@ -49,17 +49,21 @@
 
 <table class="tx12g">
   <tr class="">
-    <th>{% trans "Last Changes" %} {% trans "Date" %}</th>
+    <th>{% trans "Date" %}</th>
     <th>{% trans "User" %}</th>
-    <th>{% trans "Object" %}</th>
-    <th>{% trans "Change Message" %}</th>
+    <th colspan="3">{% trans "Change Message" %}</th>
   </tr>
   {% for log in logentries %}
   <tr>
-    <td>{{ log.action_time|date:"D Y-m-d H:i:s" }}</td>
+    <td>{% if log.action_time %}{{ log.action_time|date:"D Y-m-d H:i:s" }}{% endif %}</td>
     <td>{{ log.user }}</td>
-    <td>{{ log.content_type }} &raquo;<a href="/admin/{{ log.get_admin_url }}">{{ log.get_edited_object }}</a>&laquo;</td>
-    <td>{{ log.change_message }}</td>
+    <td>{{ log.content_type }}</td>
+    <td>{{ log.object_repr }}</td>
+    <td>
+      {% if log.is_addition %}{% trans "added" %}{% endif %}
+      {% if log.is_deletion %}{% trans "deleted" %}{% endif %}
+      {{ log.change_message }}
+    </td>
   </tr>
   {% endfor %}
 </table>
