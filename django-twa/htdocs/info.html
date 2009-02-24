@@ -3,8 +3,6 @@
 
 {% block content %}
 
-<p class="tx12g" align="center"><a class="edit" href="mailto:{% for benutzer in users %}{% if benutzer.is_active %}{{ benutzer.email }}{% if not forloop.last %};{% endif %}{% endif %}{% endfor %}">Email an alle</a></p>
-
 <table class="tx12g">
   <tr>
     <th>{% trans "ID" %}</th>
@@ -45,6 +43,9 @@
   </tr>
   {% endif %}
   {% endfor %}
+
+  <tr><td></td><td class="tx12g" colspan="6"><a class="edit" href="mailto:{% for benutzer in users %}{% if benutzer.is_active %}{{ benutzer.email }}{% if not forloop.last %};{% endif %}{% endif %}{% endfor %}">Email an alle</a></td></tr>
+
 </table>
 
 <table class="tx12g">
@@ -53,6 +54,7 @@
     <th>{% trans "User" %}</th>
     <th colspan="3">{% trans "Change Message" %}</th>
   </tr>
+
   {% for log in logentries %}
   <tr>
     <td>{% if log.action_time %}{{ log.action_time|date:"D Y-m-d H:i:s" }}{% endif %}</td>
