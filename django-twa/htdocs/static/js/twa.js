@@ -1,3 +1,10 @@
+function confirmationemail() {
+    c = confirm('Bestätigungsemail senden?');
+    if (c == true) {
+	window.location.href='/member-requests/confirmation-email/';
+    }
+}
+
 $(document).ready(function(){
   $(":text").focus(function() {
     $(this).select();
