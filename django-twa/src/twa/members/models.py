@@ -59,12 +59,14 @@ MEMBERSHIP_STATUS_ACCEPTED = 2
 MEMBERSHIP_STATUS_REJECTED = 3
 MEMBERSHIP_STATUS_VERIFY = 4
 MEMBERSHIP_STATUS_CONFIRMED = 5
+MEMBERSHIP_STATUS_TO_BE_CONFIRMED = 6
 MEMBERSHIP_STATUS_MEMBER = 10
 
 MEMBERSHIP_STATUS = [
     ( MEMBERSHIP_STATUS_OPEN, _( 'open' ) ),
     ( MEMBERSHIP_STATUS_ACCEPTED, _( 'accepted' ) ),
     ( MEMBERSHIP_STATUS_CONFIRMED, _( 'confirmed' ) ),
+    ( MEMBERSHIP_STATUS_TO_BE_CONFIRMED, _( 'to be confirmed' ) ),
     ( MEMBERSHIP_STATUS_REJECTED, _( 'rejected' ) ),
     ( MEMBERSHIP_STATUS_VERIFY, _( 'verify' ) ),
     ( MEMBERSHIP_STATUS_MEMBER, _( 'member' ) ),
@@ -262,7 +264,7 @@ class Person( AbstractModel ):
             name += ' %s' % self.firstname
 
         if self.nickname:
-            name += ' "%s"'.strip() % self.nickname
+            name += ' "%s"' % self.nickname
 
         if self.lastname:
             name += ' %s' % self.lastname

@@ -579,6 +579,22 @@ def member_requests2_accepted( request ):
     )
 
 @login_required
+def member_requests2_to_be_confirmed( request ):
+    ctx = get_context( request )
+    ctx['menu'] = 'member-requests'
+
+    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ).order_by( '-id' )
+    ctx['counter'] = qs.count()
+
+    return object_list( 
+        request,
+        queryset = qs,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-member-requests.html',
+    )
+
+@login_required
 def member_requests2_confirmed( request ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
@@ -1096,7 +1112,8 @@ def create_twa_ids( request ):
     if request.user.is_superuser:
         antraege = TWAMembership.objects.filter( twa_id_number = None )
         antraege = antraege.filter( Q( status = MEMBERSHIP_STATUS_ACCEPTED ) |
-                                    Q( status = MEMBERSHIP_STATUS_CONFIRMED ) 
+                                    Q( status = MEMBERSHIP_STATUS_CONFIRMED ) |
+                                    Q( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ) 
                                     ).order_by( 'id' )
         for antrag in antraege:
             antrag.twa_id_country = antrag.person.country
