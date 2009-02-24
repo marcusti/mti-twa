@@ -15,13 +15,11 @@
 
   {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
 
-{% comment %}
   {% if user.is_superuser %}
     <br/>
-    <a href="/member-requests/confirmation-email/" class="edit menu-entry">Bestätigungsemail versenden</a>
+    <a href="javascript:confirmationemail()" class="edit menu-entry">Bestätigungsemail versenden</a>
     <a href="/member-requests/twa-ids/" class="edit menu-entry">TWA IDs erzeugen</a>
   {% endif %}
-{% endcomment %}
 </div>
 
 <table class="columnhover">
