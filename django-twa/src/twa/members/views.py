@@ -899,17 +899,22 @@ def membership_requests_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['REQUEST-ID', 'TWA-ID', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG'] ):
+    for y, header in enumerate( ['REQUEST-ID', 'STATUS', 'TWA-ID', 'VORNAME', 'NACHNAME', 'EMAIL', 'DOJO', 'GRAD', 'ANTRAG', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, membership in enumerate( TWAMembership.objects.get_requested_memberships().select_related().order_by( '-id' ) ):
         person = membership.person
-        content = [str( membership.id ), membership.twa_id(), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( membership.request )]
+        dojo = person.dojos.all()[:1]
+        if dojo and len( dojo ) > 0:
+            dojo = unicode( dojo[0] )
+        else:
+            dojo = ''
+        content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, dojo, str( person.current_rank() ), __get_date( membership.request ), membership.text]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
 
-    filename = 'membership-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
+    filename = 'membership-requests-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H-%M-%S' )
     workbook.save( 'tmp/' + filename )
     response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename

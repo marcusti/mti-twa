@@ -76,7 +76,8 @@
 
 {% if is_paginated %}
 <div class="white" align="center">
-  <small>{% paginator %}</small>
+  <small>{% paginator %}</small><br/>
+  <small>{% trans "Export to" %} <a href="/member-requests/xls/">xls</a></small>
 </div>
 {% endif %}
 
