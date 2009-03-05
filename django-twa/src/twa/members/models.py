@@ -460,7 +460,6 @@ class TWAMembership( AbstractModel ):
     status = models.IntegerField( _( 'Membership Status' ), choices = MEMBERSHIP_STATUS, default = LICENSE_STATUS_OPEN )
     date = models.DateField( _( 'Membership Date' ), blank = True, null = True )
     request = models.DateField( _( 'Membership Request' ), blank = True, null = True )
-    rejected = models.DateField( _( 'Membership Rejected' ), blank = True, null = True )
     request_doc = models.FileField( _( 'Membership Request Document' ), upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     twa_id_country = models.ForeignKey( Country, blank = True, null = True )

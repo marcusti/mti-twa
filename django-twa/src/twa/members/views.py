@@ -1155,3 +1155,14 @@ def confirmation_email( request ):
         raise Http404
     
     return member_requests2( request )
+
+@login_required
+def accept_open_requests( request ):
+    if request.user.is_superuser:
+        antraege = TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_OPEN )
+        for antrag in antraege:
+            antrag.status = MEMBERSHIP_STATUS_ACCEPTED
+            antrag.save()
+    else:
+        raise Http404
+    return member_requests2( request )

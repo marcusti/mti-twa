@@ -18,6 +18,7 @@
 
   {% if user.is_superuser %}
     <br/>
+    <a href="javascript:acceptopen()" class="edit menu-entry">offene akzeptieren</a>
     <a href="javascript:confirmationemail()" class="edit menu-entry">Bestätigungsemail versenden</a>
     <a href="/member-requests/twa-ids/" class="edit menu-entry">TWA IDs erzeugen</a>
   {% endif %}
@@ -29,7 +30,7 @@
     <th title="Manuell zu vergebende ID bestehend aus Länder-Code und laufender Nummer">{% trans "TWA ID" %}</th>
     <th colspan="2">{% trans "Status" %}</th>
     <th>{% trans "Name" %}</th>
-    <th>{% trans "Name" %}</th>
+    <th>{% trans "Dojo" %}</th>
     <th>{% trans "Request" %}</th>
   </tr>
 
@@ -85,5 +86,6 @@
   <p class="tx12g"><b>{% trans "open" %}</b>: offene Anträge</p>
   <p class="tx12g"><b>{% trans "accepted" %}</b>: von Shimizu Sensei akzeptierte Anträge</p>
   <p class="tx12g"><b>{% trans "confirmed" %}</b>: Bestätigungsmail und Zahlungsaufforderung sind versandt</p>
+  <p class="tx12g">Nach Aushändigung des TWA-Passes Status auf <b>Mitglied</b> setzen</p>
 </div>
 {% endblock %}

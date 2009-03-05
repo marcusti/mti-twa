@@ -38,7 +38,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SSL_URLS = [
     #r'.*',
     r'/admin/',
-    r'/antrag/',
+    #r'/antrag/',
     r'/lang/',
     #r'/public/',
     r'/associations/',

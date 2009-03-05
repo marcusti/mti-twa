@@ -58,7 +58,7 @@ class LicenseAdmin( admin.ModelAdmin ):
 
 class MembershipAdmin( admin.ModelAdmin ):
     ordering = [ '-id' ]
-    list_display = ( 'id', 'twa_id', 'status', 'person', 'date', 'request', 'request_doc', 'rejected', 'is_active' )
+    list_display = ( 'id', 'twa_id', 'status', 'person', 'date', 'request', 'request_doc', 'is_active' )
     list_display_links = ( 'status', 'person' )
     list_filter = [ 'status', 'is_active' ]
     date_hierarchy = 'date'
