@@ -5,6 +5,13 @@ function confirmationemail() {
     }
 }
 
+function acceptopen() {
+    c = confirm('Alle offenen Anträge akzeptieren?');
+    if (c == true) {
+	window.location.href='/member-requests/accept_open_requests/';
+    }
+}
+
 $(document).ready(function(){
   $(":text").focus(function() {
     $(this).select();
