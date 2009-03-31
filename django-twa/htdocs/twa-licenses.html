@@ -13,6 +13,7 @@
     <th>{% trans "Dojo" %}</th>
     <th>{% trans "Rank" %}</th>
     <th>{% trans "License" %}</th>
+    <th>{% trans "TWA" %}</th>
   </tr>
 
 {% for license in object_list %}
@@ -24,10 +25,11 @@
 
     <td><small>{% for dojo in license.person.dojos.all %}<a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a><br/>{% endfor %}</small></td>
 
-    <td>{{ license.person.current_rank }}</td>
+    <td class="tx12g">{{ license.person.current_rank }}</td>
 
-    <td>{{ license.date }}</td>
+    <td class="tx12g">{{ license.date }}</td>
 
+    <td class="tx12g">{{ license.person.twa_status }}</td>
   </tr>
 {% endfor %}
 </table>

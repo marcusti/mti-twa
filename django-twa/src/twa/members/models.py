@@ -178,6 +178,14 @@ class Person( AbstractModel ):
     current_rank.short_description = _( 'Rank' )
     current_rank.allow_tags = False
     
+    def twa_status( self ):
+        try:
+            return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).get_status_display()
+        except:
+            return ''
+    twa_status.short_description = _( 'TWA Status' )
+    twa_status.allow_tags = False
+    
     def age( self ):
         try:
             today = date.today()
