@@ -36,6 +36,7 @@
     </small>
   </li>
 
+  {% if person.graduations.all %}
   <li>
     {% for grad in person.graduations.all %}
       {{ grad }}
@@ -58,6 +59,7 @@
       </ul>
     {% endfor %}
   </li>
+  {% endif %}
 
   {% if person.aikido_since %}
   <li class="tx12g">
