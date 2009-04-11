@@ -1149,6 +1149,9 @@ def confirmation_email( request ):
                     send_mail( subject = subject, message = message, from_email = from_email, recipient_list = recipient_list, fail_silently = True )
                     antrag.status = MEMBERSHIP_STATUS_CONFIRMED
                     antrag.save()
+                else:
+                    antrag.status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED
+                    antrag.save()
             except:
                 mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
     else:
