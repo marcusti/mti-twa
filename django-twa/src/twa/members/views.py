@@ -205,62 +205,6 @@ def index( request ):
     )
 
 @login_required
-def dojos( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'dojos'
-
-    countries = []
-    for d in Dojo.dojos.values( 'country' ).order_by( 'country' ).distinct():
-        countries.append( ( str( d['country'] ), Country.objects.get( id = d['country'] ).get_name() ) )
-    ctx['counties'] = countries
-
-    if request.REQUEST.has_key( 's' ):
-        s = request.REQUEST['s']
-        ctx['search'] = s
-        if s:
-            qs = Dojo.dojos.filter( Q( name__icontains = s ) | 
-                    Q( shortname__icontains = s ) | 
-                    Q( text__icontains = s ) | 
-                    Q( street__icontains = s ) | 
-                    Q( zip__icontains = s ) | 
-                    Q( city__icontains = s ) )
-        else:
-            qs = Dojo.dojos.all()
-    else:
-        qs = Dojo.dojos.all()
-
-    if request.REQUEST.has_key( 'sid' ):
-        sid = request.REQUEST['sid']
-        ctx['searchid'] = sid
-        if sid:
-            qs &= Dojo.dojos.filter( Q( id__icontains = sid ) )
-
-    ctx['cities'] = Dojo.dojos.values( 'city' ).order_by( 'city' ).distinct()
-    if request.REQUEST.has_key( 'ci' ):
-        city = request.REQUEST['ci']
-        ctx['ci'] = city
-        if city <> 'all':
-            qs &= Dojo.dojos.filter( city = city )
-
-    if request.REQUEST.has_key( 'co' ):
-        co = request.REQUEST['co']
-        ctx['co'] = co
-        if co <> 'all':
-            ctx['cities'] = Dojo.dojos.values( 'city' ).filter( country = co ).order_by( 'city' ).distinct()
-            qs &= Dojo.dojos.filter( country = co )
-        else:
-            ctx['cities'] = Dojo.dojos.values( 'city' ).order_by( 'city' ).distinct()
-
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-    )
-
-@login_required
 def dojos2( request ):
     ctx = get_context( request )
     ctx['menu'] = 'dojos'
@@ -303,19 +247,6 @@ def dojos2( request ):
         paginate_by = 100,
         extra_context = ctx,
         template_name = "twa-dojos.html",
-    )
-
-@login_required
-def dojo( request, did = None ):
-    ctx = get_context( request )
-    ctx['menu'] = 'dojos'
-    ctx['members'] = Person.persons.filter( dojos__id = did )
-    return object_detail( 
-        request,
-        queryset = Dojo.dojos.filter( id = did ),
-        object_id = did,
-        template_object_name = 'dojo',
-        extra_context = ctx,
     )
 
 @login_required
@@ -362,72 +293,6 @@ def association( request, aid = None ):
         object_id = aid,
         template_object_name = 'association',
         template_name = "twa-association.html",
-        extra_context = ctx,
-    )
-
-@login_required
-def members( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'members'
-
-    if request.REQUEST.has_key( 'l' ):
-        license = request.REQUEST['l']
-        ctx['l'] = license
-        if license == 'yes':
-            qs = Person.persons.get_licensed()
-        elif license == 'requested':
-            qs = Person.persons.get_by_requested_licenses()
-        else:
-            qs = Person.persons.all()
-    else:
-        qs = Person.persons.all()
-
-    if request.REQUEST.has_key( 'm' ):
-        member = request.REQUEST['m']
-        ctx['m'] = member
-        if member == 'yes':
-            qs &= Person.persons.get_members()
-        elif member == 'requested':
-            qs &= Person.persons.get_by_requested_membership()
-        else:
-            qs &= Person.persons.all()
-
-    if request.REQUEST.has_key( 's' ):
-        s = request.REQUEST['s']
-        ctx['search'] = s
-        if s:
-            qs &= Person.persons.filter( Q( firstname__icontains = s ) | 
-                    Q( nickname__icontains = s ) | 
-                    Q( lastname__icontains = s ) | 
-                    Q( text__icontains = s ) | 
-                    Q( email__icontains = s ) | 
-                    Q( street__icontains = s ) | 
-                    Q( zip__icontains = s ) | 
-                    Q( city__icontains = s ) )
-
-    if request.REQUEST.has_key( 'sid' ):
-        sid = request.REQUEST['sid']
-        ctx['searchid'] = sid
-        if sid:
-            qs &= Person.persons.filter( Q( id__exact = sid ) )
-
-    ranks = []
-    for r in Graduation.graduations.values( 'rank' ).distinct():
-        ranks.append( ( str( r['rank'] ), __get_rank_display( r['rank'] ) ) )
-    ctx['ranks'] = ranks
-
-    if request.REQUEST.has_key( 'r' ):
-        rank = request.REQUEST['r']
-        ctx['r'] = rank
-        if rank <> 'all':
-            qs &= Person.persons.get_persons_by_rank( rank )
-
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
         extra_context = ctx,
     )
 
@@ -500,21 +365,6 @@ def __get_members( request ):
     return ( ctx, qs )
 
 @login_required
-def member( request, mid = None ):
-    ctx = get_context( request )
-    ctx['menu'] = 'members'
-    ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
-    ctx['graduations'] = Graduation.objects.filter( person__id = mid )
-    ctx['documents'] = Document.objects.filter( person__id = mid )
-    return object_detail( 
-        request,
-        queryset = Person.persons.filter( id = mid ),
-        object_id = mid,
-        template_object_name = 'person',
-        extra_context = ctx,
-    )
-
-@login_required
 def member2( request, mid = None ):
     ctx = get_context( request )
     ctx['menu'] = 'members'
@@ -531,27 +381,17 @@ def member2( request, mid = None ):
     )
 
 @login_required
-def member_requests( request ):
+def member_requests2( request, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
-    ctx['counter'] = qs.count()
+    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
 
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = 'members/member_requests_list.html',
-    )
+    if dojo_id is None:
+        qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
+    else:
+        qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__id = dojo_id ).order_by( '-id' )
 
-@login_required
-def member_requests2( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'member-requests'
-
-    qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
     ctx['counter'] = qs.count()
 
     return object_list( 
@@ -563,11 +403,17 @@ def member_requests2( request ):
     )
 
 @login_required
-def member_requests2_accepted( request ):
+def member_requests2_accepted( request, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_ACCEPTED ).order_by( '-id' )
+    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
+
+    if dojo_id is None:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_ACCEPTED ).order_by( '-id' )
+    else:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_ACCEPTED ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
+
     ctx['counter'] = qs.count()
 
     return object_list( 
@@ -579,11 +425,17 @@ def member_requests2_accepted( request ):
     )
 
 @login_required
-def member_requests2_to_be_confirmed( request ):
+def member_requests2_to_be_confirmed( request, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ).order_by( '-id' )
+    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
+
+    if dojo_id is None:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ).order_by( '-id' )
+    else:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
+
     ctx['counter'] = qs.count()
 
     return object_list( 
@@ -595,11 +447,17 @@ def member_requests2_to_be_confirmed( request ):
     )
 
 @login_required
-def member_requests2_confirmed( request ):
+def member_requests2_confirmed( request, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_CONFIRMED ).order_by( '-id' )
+    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
+
+    if dojo_id is None:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_CONFIRMED ).order_by( '-id' )
+    else:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_CONFIRMED ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
+
     ctx['counter'] = qs.count()
 
     return object_list( 
@@ -611,11 +469,17 @@ def member_requests2_confirmed( request ):
     )
 
 @login_required
-def member_requests2_open( request ):
+def member_requests2_open( request, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_OPEN ).order_by( '-id' )
+    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
+
+    if dojo_id is None:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_OPEN ).order_by( '-id' )
+    else:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_OPEN ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
+
     ctx['counter'] = qs.count()
 
     return object_list( 
@@ -624,21 +488,6 @@ def member_requests2_open( request ):
         paginate_by = 50,
         extra_context = ctx,
         template_name = 'twa-member-requests.html',
-    )
-
-@login_required
-def licenses( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'licenses'
-
-    qs = License.objects.get_granted_licenses()#.select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
     )
 
 @login_required
@@ -655,22 +504,6 @@ def licenses2( request ):
         paginate_by = 100,
         extra_context = ctx,
         template_name = 'twa-licenses.html',
-    )
-
-@login_required
-def license_requests( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'license-requests'
-
-    qs = License.objects.get_requested_licenses().order_by( '-id' )
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = 'members/license_requests_list.html',
     )
 
 @login_required
@@ -706,21 +539,6 @@ def license_rejected( request ):
     )
 
 @login_required
-def graduations( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'graduations'
-
-    qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 100,
-        extra_context = ctx,
-    )
-
-@login_required
 def graduations2( request ):
     ctx = get_context( request )
     ctx['menu'] = 'graduations'
@@ -734,23 +552,6 @@ def graduations2( request ):
         paginate_by = 100,
         extra_context = ctx,
         template_name = 'twa-graduations.html',
-    )
-
-@login_required
-def suggestions( request ):
-    ctx = get_context( request )
-    ctx['menu'] = 'suggestions'
-
-    #qs = Graduation.suggestions.select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
-    qs = Graduation.suggestions.order_by( '-id' )
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = 'members/graduation_suggestion_list.html',
     )
 
 @login_required
