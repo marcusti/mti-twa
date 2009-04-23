@@ -14,14 +14,8 @@
     <a href="/member-requests/accepted/" class="menu-entry">{% trans "accepted" %}</a>
     <a href="/member-requests/to-be-confirmed/" class="menu-entry">{% trans "to be confirmed" %}</a>
     <a href="/member-requests/confirmed/" class="menu-entry">{% trans "confirmed" %}</a>
+    <a href="/member-requests/member/" class="menu-entry">{% trans "Member" %}</a>
   {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
-
-  {% if user.is_superuser %}
-    <br/>
-    <a href="javascript:acceptopen()" class="edit menu-entry">offene akzeptieren</a>
-    <a href="javascript:confirmationemail()" class="edit menu-entry">Bestätigungsemail versenden</a>
-    <a href="/member-requests/twa-ids/" class="edit menu-entry">TWA IDs erzeugen</a>
-  {% endif %}
   </p>
 
   <p class="tx12g" align="center">
@@ -30,6 +24,14 @@
     <a href="/member-requests/dojo/{{ dojo.id }}/" class="menu-entry">{{ dojo.shortname }}</a>
   {% endfor %}
   </p>
+
+  {% if user.is_superuser %}
+  <p class="tx12g" align="center">
+    <a href="javascript:acceptopen()" class="edit menu-entry">offene akzeptieren</a>
+    <a href="javascript:confirmationemail()" class="edit menu-entry">Bestätigungsemail versenden</a>
+    <a href="/member-requests/twa-ids/" class="edit menu-entry">TWA IDs erzeugen</a>
+  </p>
+  {% endif %}
 
 </div>
 

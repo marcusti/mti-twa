@@ -381,104 +381,20 @@ def member2( request, mid = None ):
     )
 
 @login_required
-def member_requests2( request, dojo_id = None ):
+def member_requests( request, status = None, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
     ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
 
-    if dojo_id is None:
+    if dojo_id is None and status is None:
         qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
-    else:
+    elif dojo_id is None:
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).order_by( '-id' )
+    elif status is None:
         qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__id = dojo_id ).order_by( '-id' )
-
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = 'twa-member-requests.html',
-    )
-
-@login_required
-def member_requests2_accepted( request, dojo_id = None ):
-    ctx = get_context( request )
-    ctx['menu'] = 'member-requests'
-
-    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
-
-    if dojo_id is None:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_ACCEPTED ).order_by( '-id' )
     else:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_ACCEPTED ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
-
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = 'twa-member-requests.html',
-    )
-
-@login_required
-def member_requests2_to_be_confirmed( request, dojo_id = None ):
-    ctx = get_context( request )
-    ctx['menu'] = 'member-requests'
-
-    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
-
-    if dojo_id is None:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ).order_by( '-id' )
-    else:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
-
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = 'twa-member-requests.html',
-    )
-
-@login_required
-def member_requests2_confirmed( request, dojo_id = None ):
-    ctx = get_context( request )
-    ctx['menu'] = 'member-requests'
-
-    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
-
-    if dojo_id is None:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_CONFIRMED ).order_by( '-id' )
-    else:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_CONFIRMED ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
-
-    ctx['counter'] = qs.count()
-
-    return object_list( 
-        request,
-        queryset = qs,
-        paginate_by = 50,
-        extra_context = ctx,
-        template_name = 'twa-member-requests.html',
-    )
-
-@login_required
-def member_requests2_open( request, dojo_id = None ):
-    ctx = get_context( request )
-    ctx['menu'] = 'member-requests'
-
-    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
-
-    if dojo_id is None:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_OPEN ).order_by( '-id' )
-    else:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = MEMBERSHIP_STATUS_OPEN ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
+        qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
 
     ctx['counter'] = qs.count()
 
