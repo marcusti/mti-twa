@@ -844,7 +844,7 @@ def create_twa_ids( request ):
                 antrag.twa_id_number = twa_id_number
                 antrag.save()
 
-    return member_requests2( request )
+    return member_requests( request )
 
 @login_required
 def confirmation_email( request ):
@@ -874,7 +874,7 @@ def confirmation_email( request ):
     else:
         raise Http404
     
-    return member_requests2( request )
+    return member_requests( request )
 
 @login_required
 def accept_open_requests( request ):
@@ -885,4 +885,4 @@ def accept_open_requests( request ):
             antrag.save()
     else:
         raise Http404
-    return member_requests2( request )
+    return member_requests( request )
