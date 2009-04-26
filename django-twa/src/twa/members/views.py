@@ -385,7 +385,7 @@ def member_requests( request, status = None, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct()
+    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct().order_by('city', 'shortname', 'name')
 
     if dojo_id is None and status is None:
         qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )

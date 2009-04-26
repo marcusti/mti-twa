@@ -9,6 +9,7 @@
 
 <div class="tx12g"  align="center">
   <p class="tx12g" align="center">
+  {% trans "Filter" %}:<br/>
     <a href="/member-requests/" class="menu-entry">{% trans "all" %}</a>
     <a href="/member-requests/open/" class="menu-entry">{% trans "open" %}</a>
     <a href="/member-requests/accepted/" class="menu-entry">{% trans "accepted" %}</a>
@@ -19,9 +20,9 @@
   </p>
 
   <p class="tx12g" align="center">
-  {% trans "Dojos" %}:<br/>
+  {% trans "Dojos" %} ({{ dojos|length }}):<br/>
   {% for dojo in dojos %}
-    <a href="/member-requests/dojo/{{ dojo.id }}/" class="menu-entry">{{ dojo.shortname }}</a>
+    <a href="/member-requests/dojo/{{ dojo.id }}/" class="menu-entry">{{ dojo }}</a>
   {% endfor %}
   </p>
 
@@ -94,9 +95,13 @@
 {% endif %}
 
 <div class="tx12g" align="">
-  <p class="tx12g"><b>{% trans "open" %}</b>: offene Anträge</p>
-  <p class="tx12g"><b>{% trans "accepted" %}</b>: von Shimizu Sensei akzeptierte Anträge</p>
-  <p class="tx12g"><b>{% trans "confirmed" %}</b>: Bestätigungsmail und Zahlungsaufforderung sind versandt</p>
-  <p class="tx12g">Nach Aushändigung des TWA-Passes Status auf <b>Mitglied</b> setzen</p>
+<table class="clean">
+  <tr><th>Status</th><th>Kommentar</th></tr>
+  <tr><td class="tx12g"><b>{% trans "open" %}</b></td><td> offene Anträge</td></tr>
+  <tr><td class="tx12g"><b>{% trans "accepted" %}</b></td><td> von Shimizu Sensei akzeptierte Anträge</td></tr>
+  <tr><td class="tx12g"><b>{% trans "confirmed" %}</b></td><td> Bestätigungsmail und Zahlungsaufforderung sind versandt.</td></tr>
+  <tr><td class="tx12g"><b>{% trans "to be confirmed" %}</b></td><td> Bestätigungsmail konnte nicht zugestellt werden. Manuelle Bestätigung erforderlich.</td></tr>
+  <tr><td class="tx12g"><b>{% trans "member" %}</b></td><td>Nach Aushändigung des TWA-Passes.</td></tr>
+</table>
 </div>
 {% endblock %}
