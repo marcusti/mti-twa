@@ -61,7 +61,7 @@ class MembershipAdmin( admin.ModelAdmin ):
     list_display = ( 'id', 'twa_id', 'status', 'person', 'date', 'request', 'request_doc', 'is_active' )
     list_display_links = ( 'status', 'person' )
     list_filter = [ 'status', 'is_active' ]
-    date_hierarchy = 'date'
+    date_hierarchy = 'request'
     search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
 
 class DocumentAdmin( admin.ModelAdmin ):
