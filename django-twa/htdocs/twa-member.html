@@ -82,6 +82,7 @@
 	{% endif %}
 
 	({{ membership.get_status_display }})
+        {% if perms.members.change_twamembership %}<a href="/admin/members/twamembership/{{ membership.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 
 	{% if membership.request_doc %}
 	  <br/><a href="{{ membership.request_doc.url }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
@@ -107,6 +108,7 @@
 	{% endif %}
 
 	({{ license.get_status_display }})
+        {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 
 	{% if license.request_doc %}
 	  <br/><a href="{{ license.request_doc.url }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a>
