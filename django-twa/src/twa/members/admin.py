@@ -4,9 +4,9 @@ from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from twa.members.models import *
 
-class TranslationAdmin( admin.ModelAdmin):
+class TranslationAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
-    
+
 class CountryAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
     list_display = ( 'id', 'name', 'name_de', 'name_ja', 'code' )

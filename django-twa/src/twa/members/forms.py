@@ -49,7 +49,7 @@ class TWAMembershipRequestForm( forms.Form ):
                                               'min_length': _( 'City is too short.' ),
                                               },
                             )
-    country = forms.ChoiceField( choices = Country.objects.values_list('id', 'name'),
+    country = forms.ChoiceField( choices = Country.objects.values_list( 'id', 'name' ),
                                  initial = 1, # Germany
                                  label = _( 'Country' ),
                                  required = True,
