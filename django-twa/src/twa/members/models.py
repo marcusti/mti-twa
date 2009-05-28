@@ -177,7 +177,7 @@ class Person( AbstractModel ):
             return ''
     current_rank.short_description = _( 'Rank' )
     current_rank.allow_tags = False
-    
+
     def twa_status( self ):
         try:
             return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).get_status_display()
@@ -185,7 +185,7 @@ class Person( AbstractModel ):
             return ''
     twa_status.short_description = _( 'TWA Status' )
     twa_status.allow_tags = False
-    
+
     def age( self ):
         try:
             today = date.today()
@@ -244,7 +244,7 @@ class Person( AbstractModel ):
             image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
             image.save( self.thumbnail.path )
 
-        super( Person, self ).save( force_insert)
+        super( Person, self ).save( force_insert )
 
     def admin_thumb( self ):
         try:
@@ -454,7 +454,7 @@ class TWAMembershipManager( models.Manager ):
 
     def get_next_id_for_country( self, country_code ):
         try:
-            country = Country.objects.get( code = country_code)
+            country = Country.objects.get( code = country_code )
             try:
                 member_id = max( self.get_query_set().filter( twa_id_country = country ).values_list( 'twa_id_number', flat = True ) ) + 1
             except:
@@ -462,7 +462,7 @@ class TWAMembershipManager( models.Manager ):
             return member_id
         except:
            return None
-    
+
 class TWAMembership( AbstractModel ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
     status = models.IntegerField( _( 'Membership Status' ), choices = MEMBERSHIP_STATUS, default = LICENSE_STATUS_OPEN )
@@ -483,7 +483,7 @@ class TWAMembership( AbstractModel ):
         if self.twa_id_country is None or self.twa_id_number is None:
             return ''
         try:
-            return u'%s-%s'.strip() % ( self.twa_id_country.code, str( self.twa_id_number ).rjust(5, '0') )
+            return u'%s-%s'.strip() % ( self.twa_id_country.code, str( self.twa_id_number ).rjust( 5, '0' ) )
         except:
             return ''
     twa_id.short_description = _( 'TWA ID' )

@@ -51,7 +51,7 @@ def set_lang( request, code = LANGUAGE_CODE ):
 def get_context( request ):
     try:
         ua = request.META['HTTP_USER_AGENT']
-        if ua.find( 'dummy connection' ) == - 1:
+        if ua.find( 'dummy connection' ) == -1:
             r = Request( user = request.user.username )
             r.user_agent = ua
             r.remote = request.META['REMOTE_ADDR']
@@ -219,14 +219,14 @@ def dojos2( request ):
         s = request.REQUEST['s']
         ctx['search'] = s
         if s:
-            qs = Dojo.dojos.filter( Q( name__icontains = s ) | 
-                    Q( shortname__icontains = s ) | 
-                    Q( text__icontains = s ) | 
-                    Q( country__name__icontains = s ) | 
-                    Q( country__name_de__icontains = s ) | 
-                    Q( country__name_ja__icontains = s ) | 
-                    Q( street__icontains = s ) | 
-                    Q( zip__icontains = s ) | 
+            qs = Dojo.dojos.filter( Q( name__icontains = s ) |
+                    Q( shortname__icontains = s ) |
+                    Q( text__icontains = s ) |
+                    Q( country__name__icontains = s ) |
+                    Q( country__name_de__icontains = s ) |
+                    Q( country__name_ja__icontains = s ) |
+                    Q( street__icontains = s ) |
+                    Q( zip__icontains = s ) |
                     Q( city__icontains = s ) )
         else:
             qs = Dojo.dojos.all()
@@ -335,13 +335,13 @@ def __get_members( request ):
         ctx['search'] = s
         if s:
             qs = Person.persons.filter( 
-                Q( firstname__icontains = s ) | 
-                Q( nickname__icontains = s ) | 
-                Q( lastname__icontains = s ) | 
-                Q( text__icontains = s ) | 
-                Q( email__icontains = s ) | 
-                Q( street__icontains = s ) | 
-                Q( zip__icontains = s ) | 
+                Q( firstname__icontains = s ) |
+                Q( nickname__icontains = s ) |
+                Q( lastname__icontains = s ) |
+                Q( text__icontains = s ) |
+                Q( email__icontains = s ) |
+                Q( street__icontains = s ) |
+                Q( zip__icontains = s ) |
                 Q( city__icontains = s ) )
 
     if request.REQUEST.has_key( 'sort' ):
@@ -385,7 +385,7 @@ def member_requests( request, status = None, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
-    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct().order_by('city', 'shortname', 'name')
+    ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct().order_by( 'city', 'shortname', 'name' )
 
     if dojo_id is None and status is None:
         qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
@@ -411,7 +411,7 @@ def licenses( request, twa_status = None, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'licenses'
 
-    ctx['dojos'] = Dojo.dojos.filter( person__license__isnull = False, person__license__status = 5 ).distinct().order_by('city', 'shortname', 'name')
+    ctx['dojos'] = Dojo.dojos.filter( person__license__isnull = False, person__license__status = 5 ).distinct().order_by( 'city', 'shortname', 'name' )
 
     qs = License.objects.get_granted_licenses()#.select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
 
@@ -744,19 +744,19 @@ def __get_rank( p ):
         return str( p.current_rank() )
     else:
         return ''
-    
+
 def __get_gender( p ):
     if p and p.gender:
         return p.get_gender_display()
     else:
         return ''
-    
+
 def __get_null_safe( o ):
     if o is None:
         return ''
     else:
         return unicode( ' '.join( o.splitlines() ) )
-    
+
 def __get_name( o ):
     if o is not None:
         return o.get_name()
@@ -847,7 +847,7 @@ def create_twa_ids( request ):
         antraege = TWAMembership.objects.filter( twa_id_number = None )
         antraege = antraege.filter( Q( status = MEMBERSHIP_STATUS_ACCEPTED ) |
                                     Q( status = MEMBERSHIP_STATUS_CONFIRMED ) |
-                                    Q( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED ) 
+                                    Q( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED )
                                     ).order_by( 'id' )
         for antrag in antraege:
             antrag.twa_id_country = antrag.person.country
@@ -885,7 +885,7 @@ def confirmation_email( request ):
                 mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
     else:
         raise Http404
-    
+
     return member_requests( request )
 
 @login_required
