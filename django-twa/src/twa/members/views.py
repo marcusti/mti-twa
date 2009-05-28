@@ -407,11 +407,23 @@ def member_requests( request, status = None, dojo_id = None ):
     )
 
 @login_required
-def licenses2( request ):
+def licenses( request, twa_status = None, dojo_id = None ):
     ctx = get_context( request )
     ctx['menu'] = 'licenses'
 
+    ctx['dojos'] = Dojo.dojos.filter( person__license__isnull = False, person__license__status = 5 ).distinct().order_by('city', 'shortname', 'name')
+
     qs = License.objects.get_granted_licenses()#.select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
+
+    if twa_status == True:
+        qs = qs.filter( person__twamembership__isnull = False )
+
+    if twa_status == False:
+        qs = qs.filter( person__twamembership__isnull = True )
+
+    if dojo_id is not None:
+        qs = qs.filter( person__dojos__id = dojo_id )
+
     ctx['counter'] = qs.count()
 
     return object_list( 
@@ -423,7 +435,7 @@ def licenses2( request ):
     )
 
 @login_required
-def license_requests2( request ):
+def license_requests( request ):
     ctx = get_context( request )
     ctx['menu'] = 'license-requests'
 
