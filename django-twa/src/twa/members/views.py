@@ -628,7 +628,7 @@ def membership_requests_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['REQUEST-ID', 'STATUS', 'TWA-ID', 'VORNAME', 'NACHNAME', 'EMAIL', 'DOJO', 'GRAD', 'ANTRAG', 'TEXT'] ):
+    for y, header in enumerate( ['REQUEST-ID', 'STATUS', 'TWA-ID', 'VORNAME', 'NACHNAME', 'EMAIL', 'GEBURT', 'DOJO', 'GRAD', 'ANTRAG', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, membership in enumerate( TWAMembership.objects.get_requested_memberships().select_related().order_by( '-id' ) ):
@@ -638,7 +638,7 @@ def membership_requests_xls( request ):
             dojo = unicode( dojo[0] )
         else:
             dojo = ''
-        content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, dojo, str( person.current_rank() ), __get_date( membership.request ), membership.text]
+        content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, __get_date( person.birth ), dojo, str( person.current_rank() ), __get_date( membership.request ), membership.text]
         col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
