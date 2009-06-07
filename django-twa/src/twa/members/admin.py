@@ -71,12 +71,12 @@ class MembershipAdmin( admin.ModelAdmin ):
     inlines = [ TWAPaymentInline, ]
 
 class TWAPaymentAdmin( admin.ModelAdmin ):
-    ordering = [ '-id' ]
-    list_display = ( 'id', 'twa', 'date' )
+    ordering = [ '-date' ]
+    list_display = ( 'id', 'twa', 'date', 'cash', 'text' )
     list_display_links = ( 'twa', 'date' )
     list_filter = [ 'date' ]
     date_hierarchy = 'date'
-    search_fields = [ 'twa__person__firstname', 'twa__person__nickname', 'twa__person__lastname' ]
+    search_fields = [ 'twa__twa_id_number', 'twa__person__firstname', 'twa__person__nickname', 'twa__person__lastname', 'text' ]
 
 class DocumentAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
