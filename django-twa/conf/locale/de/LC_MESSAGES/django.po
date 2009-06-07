@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-07 19:15+0200\n"
+"POT-Creation-Date: 2009-06-07 21:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,7 @@ msgstr "Verbände"
 
 #: htdocs/base.html:83 htdocs/base.html.py:125 htdocs/twa-association.html:50
 #: htdocs/twa-dojos.html:7 htdocs/twa-index.html:48
-#: htdocs/twa-licenses.html:19 htdocs/twa-member-requests.html:23
+#: htdocs/twa-licenses.html:19 htdocs/twa-member-requests.html:24
 #: htdocs/members/association_detail.html:105
 #: htdocs/members/dojo_counter.html:8 src/twa/members/models.py:153
 #: src/twa/members/models.py:327
@@ -124,7 +124,7 @@ msgstr "Die nächsten Geburtstage"
 #: htdocs/base.html:169 htdocs/info.html:9 htdocs/twa-associations.html:15
 #: htdocs/twa-dojos.html:34 htdocs/twa-graduations.html:12
 #: htdocs/twa-index.html:68 htdocs/twa-license-requests.html:19
-#: htdocs/twa-licenses.html:30 htdocs/twa-member-requests.html:45
+#: htdocs/twa-licenses.html:30 htdocs/twa-member-requests.html:46
 #: htdocs/twa-members-all.html:21 htdocs/twa-suggestions.html:17
 #: htdocs/members/association_detail.html:19
 #: htdocs/members/association_list.html:21 htdocs/members/dojo_detail.html:20
@@ -134,14 +134,14 @@ msgstr "Die nächsten Geburtstage"
 #: htdocs/members/license_requests_list.html:21
 #: htdocs/members/member_requests_list.html:22
 #: htdocs/members/person_detail.html:22 src/twa/members/models.py:290
-#: src/twa/members/models.py:330 src/twa/members/models.py:521
-#: src/twa/members/models.py:561
+#: src/twa/members/models.py:330 src/twa/members/models.py:527
+#: src/twa/members/models.py:567
 msgid "Name"
 msgstr ""
 
 #: htdocs/base.html:170 htdocs/twa-graduations.html:13
 #: htdocs/twa-license-requests.html:20 htdocs/twa-licenses.html:31
-#: htdocs/twa-member-requests.html:46 htdocs/twa-members-all.html:23
+#: htdocs/twa-member-requests.html:47 htdocs/twa-members-all.html:23
 #: htdocs/members/dojo_counter.html:6 htdocs/members/dojo_detail.html:13
 #: htdocs/members/graduation_list.html:21
 #: htdocs/members/graduation_suggestion_list.html:21
@@ -178,7 +178,7 @@ msgid "None"
 msgstr "Keine"
 
 #: htdocs/info.html:8 htdocs/twa-associations.html:9 htdocs/twa-dojos.html:33
-#: htdocs/twa-graduations.html:11 htdocs/twa-member-requests.html:41
+#: htdocs/twa-graduations.html:11 htdocs/twa-member-requests.html:42
 #: htdocs/twa-members-all.html:20 htdocs/twa-members.html:28
 #: htdocs/twa-members.html.py:51 htdocs/twa-suggestions.html:16
 #: htdocs/members/association_detail.html:23
@@ -211,7 +211,7 @@ msgstr ""
 #: htdocs/info.html:53 htdocs/twa-graduations.html:15
 #: htdocs/twa-suggestions.html:20 htdocs/members/graduation_list.html:23
 #: htdocs/members/graduation_suggestion_list.html:24
-#: src/twa/members/models.py:381 src/twa/members/models.py:540
+#: src/twa/members/models.py:381 src/twa/members/models.py:546
 msgid "Date"
 msgstr "Datum"
 
@@ -258,7 +258,7 @@ msgstr "weiter"
 
 #: htdocs/twa-association.html:7 htdocs/twa-dojo.html:7
 #: htdocs/twa-downloads.html:9 htdocs/twa-license-requests.html:11
-#: htdocs/twa-licenses.html:15 htdocs/twa-member-requests.html:19
+#: htdocs/twa-licenses.html:15 htdocs/twa-member-requests.html:20
 #: htdocs/twa-member.html:9 htdocs/twa-members-all.html:15
 #: htdocs/twa-members.html:11 htdocs/twa-news.html:14
 #: htdocs/twa-suggestions.html:11 htdocs/members/dojo_detail.html:14
@@ -269,7 +269,7 @@ msgstr "neu"
 
 #: htdocs/twa-association.html:8 htdocs/twa-dojo.html:8
 #: htdocs/twa-downloads.html:19 htdocs/twa-member.html:11
-#: htdocs/twa-member.html.py:108 htdocs/twa-member.html:140
+#: htdocs/twa-member.html.py:108 htdocs/twa-member.html:144
 #: htdocs/twa-news.html:16 htdocs/members/association_detail.html:14
 #: htdocs/members/dojo_detail.html:15 htdocs/members/person_detail.html:17
 #: htdocs/members/person_detail.html:219
@@ -342,12 +342,12 @@ msgstr ""
 msgid "Rank"
 msgstr "Graduierung"
 
-#: htdocs/twa-index.html:31 src/twa/members/models.py:553
-#: src/twa/members/models.py:554
+#: htdocs/twa-index.html:31 src/twa/members/models.py:559
+#: src/twa/members/models.py:560
 msgid "News"
 msgstr ""
 
-#: htdocs/twa-index.html:32 src/twa/members/models.py:582
+#: htdocs/twa-index.html:32 src/twa/members/models.py:588
 msgid "Downloads"
 msgstr ""
 
@@ -385,22 +385,22 @@ msgstr "Zur offiziellen TWA Seite"
 msgid "LID"
 msgstr ""
 
-#: htdocs/twa-license-requests.html:17 htdocs/twa-member-requests.html:43
+#: htdocs/twa-license-requests.html:17 htdocs/twa-member-requests.html:44
 #: htdocs/members/license_requests_list.html:20
 #: htdocs/members/member_requests_list.html:21
 msgid "Status"
 msgstr ""
 
-#: htdocs/twa-license-requests.html:22 htdocs/twa-member-requests.html:48
+#: htdocs/twa-license-requests.html:22 htdocs/twa-member-requests.html:49
 #: htdocs/twa-member.html:57 htdocs/twa-member.html.py:111
-#: htdocs/twa-member.html:143 htdocs/twa-suggestions.html:21
+#: htdocs/twa-member.html:147 htdocs/twa-suggestions.html:21
 #: htdocs/members/license_requests_list.html:24
 #: htdocs/members/member_requests_list.html:26
 #: htdocs/members/person_detail.html:234
 msgid "Request"
 msgstr "Antrag"
 
-#: htdocs/twa-license-requests.html:23 htdocs/twa-member.html:146
+#: htdocs/twa-license-requests.html:23 htdocs/twa-member.html:150
 #: htdocs/members/license_requests_list.html:25
 #: htdocs/members/person_detail.html:257
 msgid "Receipt"
@@ -436,7 +436,7 @@ msgstr "Lizenz"
 msgid "TWA"
 msgstr ""
 
-#: htdocs/twa-licenses.html:71 htdocs/twa-member-requests.html:105
+#: htdocs/twa-licenses.html:71 htdocs/twa-member-requests.html:106
 #: htdocs/twa-members-all.html:51 htdocs/twa-members.html:89
 #: htdocs/members/graduation_list.html:61
 #: htdocs/members/graduation_suggestion_list.html:65
@@ -452,22 +452,22 @@ msgstr "Exportieren als"
 msgid "Wrong username or password."
 msgstr "Benutzername oder Passwort ist falsch."
 
-#: htdocs/twa-member-requests.html:14 htdocs/twa-member-requests.html:112
+#: htdocs/twa-member-requests.html:14 htdocs/twa-member-requests.html:113
 #: src/twa/members/models.py:48 src/twa/members/models.py:64
 msgid "open"
 msgstr "offen"
 
-#: htdocs/twa-member-requests.html:15 htdocs/twa-member-requests.html:113
+#: htdocs/twa-member-requests.html:15 htdocs/twa-member-requests.html:114
 #: src/twa/members/models.py:49 src/twa/members/models.py:65
 msgid "accepted"
 msgstr "akzeptiert"
 
-#: htdocs/twa-member-requests.html:16 htdocs/twa-member-requests.html:115
+#: htdocs/twa-member-requests.html:16 htdocs/twa-member-requests.html:116
 #: src/twa/members/models.py:67
 msgid "to be confirmed"
 msgstr "zu bestätigen"
 
-#: htdocs/twa-member-requests.html:17 htdocs/twa-member-requests.html:114
+#: htdocs/twa-member-requests.html:17 htdocs/twa-member-requests.html:115
 #: src/twa/members/models.py:66
 msgid "confirmed"
 msgstr "bestätigt"
@@ -477,17 +477,21 @@ msgstr "bestätigt"
 msgid "Member"
 msgstr "Mitglied"
 
-#: htdocs/twa-member-requests.html:42 htdocs/twa-member.html:95
+#: htdocs/twa-member-requests.html:19
+msgid "Open Payment"
+msgstr "offene Zahlung"
+
+#: htdocs/twa-member-requests.html:43 htdocs/twa-member.html:95
 #: htdocs/members/member_requests_list.html:20 src/twa/members/models.py:495
 msgid "TWA ID"
 msgstr ""
 
-#: htdocs/twa-member-requests.html:49 htdocs/twa-member.html:58
-#: htdocs/twa-member.html.py:120 src/twa/members/models.py:485
+#: htdocs/twa-member-requests.html:50 htdocs/twa-member.html:58
+#: htdocs/twa-member.html.py:122 src/twa/members/models.py:485
 msgid "Payment"
 msgstr "Zahlung"
 
-#: htdocs/twa-member-requests.html:116 src/twa/members/models.py:70
+#: htdocs/twa-member-requests.html:117 src/twa/members/models.py:70
 msgid "member"
 msgstr "Mitglied"
 
@@ -508,13 +512,17 @@ msgstr "Vorschlag"
 msgid "Aikido"
 msgstr ""
 
-#: htdocs/twa-member.html:129 htdocs/members/person_detail.html:210
+#: htdocs/twa-member.html:122 src/twa/members/models.py:513
+msgid "Cash"
+msgstr "Barzahlung"
+
+#: htdocs/twa-member.html:133 htdocs/members/person_detail.html:210
 #: htdocs/members/person_list.html:48
 msgid "TWA License"
 msgstr "TWA Lizenz"
 
-#: htdocs/twa-member.html:155 htdocs/members/person_detail.html:314
-#: src/twa/members/models.py:531
+#: htdocs/twa-member.html:159 htdocs/members/person_detail.html:314
+#: src/twa/members/models.py:537
 msgid "Documents"
 msgstr "Dokumente"
 
@@ -593,8 +601,8 @@ msgstr "Webseite"
 #: src/twa/members/models.py:131 src/twa/members/models.py:292
 #: src/twa/members/models.py:332 src/twa/members/models.py:382
 #: src/twa/members/models.py:430 src/twa/members/models.py:470
-#: src/twa/members/models.py:510 src/twa/members/models.py:539
-#: src/twa/members/models.py:562
+#: src/twa/members/models.py:514 src/twa/members/models.py:545
+#: src/twa/members/models.py:568
 msgid "Text"
 msgstr ""
 
@@ -610,7 +618,7 @@ msgstr "Antrag ID"
 
 #: htdocs/members/person_detail.html:15 src/twa/members/models.py:282
 #: src/twa/members/models.py:378 src/twa/members/models.py:422
-#: src/twa/members/models.py:465 src/twa/members/models.py:523
+#: src/twa/members/models.py:465 src/twa/members/models.py:529
 msgid "Person"
 msgstr ""
 
@@ -1051,43 +1059,39 @@ msgid "Membership Request Document"
 msgstr "Antrag Dokument"
 
 #: src/twa/members/models.py:503 src/twa/members/models.py:504
-#: src/twa/members/models.py:507
+#: src/twa/members/models.py:511
 msgid "TWA Membership"
 msgstr "TWA Mitgliedschaft"
 
-#: src/twa/members/models.py:508
+#: src/twa/members/models.py:512
 msgid "Payment Date"
 msgstr "Eingang der Zahlung"
 
-#: src/twa/members/models.py:509
-msgid "Cash"
-msgstr "Barzahlung"
-
-#: src/twa/members/models.py:517 src/twa/members/models.py:518
+#: src/twa/members/models.py:523 src/twa/members/models.py:524
 msgid "TWA Payment"
 msgstr "TWA Zahlung"
 
-#: src/twa/members/models.py:522
+#: src/twa/members/models.py:528
 msgid "File"
 msgstr "Datei"
 
-#: src/twa/members/models.py:530
+#: src/twa/members/models.py:536
 msgid "Document"
 msgstr "Dokument"
 
-#: src/twa/members/models.py:538
+#: src/twa/members/models.py:544
 msgid "Title"
 msgstr "Titel"
 
-#: src/twa/members/models.py:563 src/twa/requests/models.py:24
+#: src/twa/members/models.py:569 src/twa/requests/models.py:24
 msgid "Path"
 msgstr "Pfad"
 
-#: src/twa/members/models.py:570
+#: src/twa/members/models.py:576
 msgid "New"
 msgstr "Neu"
 
-#: src/twa/members/models.py:581
+#: src/twa/members/models.py:587
 msgid "Download"
 msgstr ""
 

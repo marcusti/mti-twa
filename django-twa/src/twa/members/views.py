@@ -372,7 +372,7 @@ def member2( request, mid = None ):
     )
 
 @login_required
-def member_requests( request, status = None, dojo_id = None ):
+def member_requests( request, status = None, dojo_id = None, no_payment_filter = False ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
@@ -386,6 +386,9 @@ def member_requests( request, status = None, dojo_id = None ):
         qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__id = dojo_id ).order_by( '-id' )
     else:
         qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
+
+    if no_payment_filter == True:
+        qs = qs.filter( twapayment__isnull = True )
 
     ctx['counter'] = qs.count()
 
