@@ -17,6 +17,11 @@ class GraduationInline( admin.StackedInline ):
     fk_name = 'person'
     extra = 1
 
+class TWAPaymentInline( admin.StackedInline ):
+    model = TWAPayment
+    fk_name = 'twa'
+    extra = 1
+
 class PersonAdmin( admin.ModelAdmin ):
     ordering = [ 'firstname', 'lastname' ]
     list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'age', 'days', 'gender', 'photo', 'is_active', 'admin_thumb' )
@@ -63,6 +68,15 @@ class MembershipAdmin( admin.ModelAdmin ):
     list_filter = [ 'status', 'is_active' ]
     date_hierarchy = 'request'
     search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
+    inlines = [ TWAPaymentInline, ]
+
+class TWAPaymentAdmin( admin.ModelAdmin ):
+    ordering = [ '-id' ]
+    list_display = ( 'id', 'twa', 'date' )
+    list_display_links = ( 'twa', 'date' )
+    list_filter = [ 'date' ]
+    date_hierarchy = 'date'
+    search_fields = [ 'twa__person__firstname', 'twa__person__nickname', 'twa__person__lastname' ]
 
 class DocumentAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
@@ -90,6 +104,7 @@ class LogEntryAdmin( admin.ModelAdmin ):
 admin.site.register( Document, DocumentAdmin )
 admin.site.register( License, LicenseAdmin )
 admin.site.register( TWAMembership, MembershipAdmin )
+admin.site.register( TWAPayment, TWAPaymentAdmin )
 admin.site.register( Graduation, GraduationAdmin )
 admin.site.register( Association, AssociationAdmin )
 admin.site.register( Dojo, DojoAdmin )

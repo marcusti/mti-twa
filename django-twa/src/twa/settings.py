@@ -1,8 +1,6 @@
 #-*- coding: utf-8 -*-
 # Django settings for twa project.
 
-from mysettings import *
-
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be avilable on all operating systems.
@@ -33,6 +31,8 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+TMP_DIR = '/tmp/'
 
 # Alle URLs an SSL weiterleiten
 SSL_URLS = [
@@ -87,3 +87,8 @@ INSTALLED_APPS = (
     'twa.members',
     'twa.requests',
  )
+
+try:
+    from mysettings import *
+except ImportError:
+    pass
