@@ -1,10 +1,8 @@
 #-*- coding: utf-8 -*-
 
 from PIL import Image
-from datetime import date, datetime, timedelta
-from django.contrib import admin
+from datetime import date, datetime
 from django.db import models
-from django.db.models import Q
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 import calendar
@@ -461,7 +459,7 @@ class TWAMembershipManager( models.Manager ):
                 member_id = 1
             return member_id
         except:
-           return None
+            return None
 
 class TWAMembership( AbstractModel ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
@@ -479,6 +477,14 @@ class TWAMembership( AbstractModel ):
     def get_absolute_url( self ):
         return '/member/%i/' % self.person.id
 
+    def payment( self ):
+        try:
+            return self.twapayment_set.latest( 'date' )
+        except:
+            return ''
+    payment.short_description = _( 'Payment' )
+    payment.allow_tags = False
+
     def twa_id( self ):
         if self.twa_id_country is None or self.twa_id_number is None:
             return ''
@@ -489,14 +495,33 @@ class TWAMembership( AbstractModel ):
     twa_id.short_description = _( 'TWA ID' )
     twa_id.allow_tags = False
 
-
     def __unicode__( self ):
-        return u'%s %s'.strip() % ( self.person, self.twa_id() )
+        return u'%s %s'.strip() % ( self.twa_id(), self.person )
 
     class Meta:
-        ordering = [ '-id' ]
+        ordering = [ 'person__firstname', 'person__lastname' ]
         verbose_name = _( 'TWA Membership' )
         verbose_name_plural = _( 'TWA Membership' )
+
+class TWAPaymentManager( models.Manager ):
+    def get_query_set( self ):
+        return super( TWAPaymentManager, self ).get_query_set().filter( public = True )
+
+class TWAPayment( AbstractModel ):
+    twa = models.ForeignKey( TWAMembership, verbose_name = _( 'TWA Membership' ) )
+    date = models.DateField( _( 'Payment Date' ) )
+    cash = models.BooleanField( _( 'Cash' ), default = False )
+    text = models.TextField( _( 'Text' ), blank = True )
+
+    objects = TWAPaymentManager()
+
+    def __unicode__( self ):
+        return u'%s %s %s'.strip() % ( self.twa.twa_id(), self.twa.person, self.date )
+
+    class Meta:
+        ordering = [ 'date' ]
+        verbose_name = _( 'TWA Payment' )
+        verbose_name_plural = _( 'TWA Payment' )
 
 class Document( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )

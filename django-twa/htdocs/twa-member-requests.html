@@ -7,8 +7,8 @@
 
 <h1>{% trans "Requested TWA Membership" %} <span class="tx12g">({{ counter }})</span></h1>
 
-<div class="tx12g"  align="center">
-  <p class="tx12g" align="center">
+<div class=""  align="center">
+  <p class="tx10g" align="center">
   {% trans "Filter" %}:<br/>
     <a href="/member-requests/" class="menu-entry">{% trans "all" %}</a>
     <a href="/member-requests/open/" class="menu-entry">{% trans "open" %}</a>
@@ -19,7 +19,7 @@
   {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
   </p>
 
-  <p class="tx12g" align="center">
+  <p class="tx10g" align="center">
   {% trans "Dojos" %} ({{ dojos|length }}):<br/>
   {% for dojo in dojos %}
     <a href="/member-requests/dojo/{{ dojo.id }}/" class="menu-entry">{{ dojo }}</a>
@@ -41,9 +41,12 @@
     <th title="Eindeutige ID des Mitgliedschaftsantrags">{% trans "ID" %}</th>
     <th title="Manuell zu vergebende ID bestehend aus Länder-Code und laufender Nummer">{% trans "TWA ID" %}</th>
     <th colspan="2">{% trans "Status" %}</th>
-    <th>{% trans "Name" %}</th>
-    <th>{% trans "Dojo" %}</th>
+    <th>
+      {% trans "Name" %}
+      <div class="tx10">{% trans "Dojo" %}</div>
+    </th>
     <th>{% trans "Request" %}</th>
+    <th>{% trans "Payment" %}</th>
   </tr>
 
 {% for membership in object_list %}
@@ -56,7 +59,7 @@
       {% endif %}
     </td>
 
-    <td class="tx12g">
+    <td class="tx12">
       {% if membership.twa_id %}{{ membership.twa_id }}{% else %}&nbsp;{% endif %}
     </td>
 
@@ -64,23 +67,32 @@
       &nbsp;&nbsp;
     </td>
 
-    <td class="tx12g">
+    <td class="tx12">
       {{ membership.get_status_display }}
     </td>
 
     <td>
       <a href="{{ membership.person.get_absolute_url }}">{{ membership.person }}</a>
-    </td>
-
-    <td class="tx12g">
+      {% if membership.person.dojos %}
+      <div class="tx10g">
       {% for dojo in membership.person.dojos.all %}
         <a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a><br/>
       {% endfor %}
+      </div>
+      {% endif %}
     </td>
 
-    <td class="tx12g">
+    <td class="tx12">
       {% if membership.request %}{{ membership.request }}{% endif %}
-      {% if membership.request_doc %}<a href="{{ membership.request_doc.url }}">{{ membership.request_doc|extension|lower }}</a>{% endif %}
+      {% if membership.request_doc %}
+      <div class="tx10g">
+        <a href="{{ membership.request_doc.url }}">{{ membership.request_doc|extension|lower }}</a>
+      </div>
+      {% endif %}
+    </td>
+
+    <td class="tx12">
+      {% if membership.payment %}{{ membership.payment.date }}{% endif %}
     </td>
 
   </tr>

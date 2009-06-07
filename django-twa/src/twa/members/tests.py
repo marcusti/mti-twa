@@ -1,7 +1,6 @@
 #-*- coding: utf-8 -*-
 
 import unittest
-from datetime import datetime
 from twa.members.models import *
 
 class TWATestCase( unittest.TestCase ):

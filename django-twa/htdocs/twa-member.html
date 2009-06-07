@@ -69,6 +69,29 @@
   {% endif %}
 
   <li class="tx12g">
+    {{ person.street }}<br/>
+    {{ person.country.code }}-{{ person.zip }} {{ person.city }}<br/>
+    {{ person.country.get_name }}<br/>
+    {% if person.phone %}{{ person.phone }}<br/>{% endif %}
+    {% if person.fax %}{{ person.fax }} ({% trans "Fax" %})<br/>{% endif %}
+    {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
+    {% if person.email %}<a href="mailto:{{ person.firstname }} {{ person.lastname }} <{{ person.email }}>">{{ person.email }}</a><br/>{% endif %}
+    {% if person.website %}<a href="{{ person.website }}">{{ person.website }}</a><br/>{% endif %}
+  </li>
+
+  <li class="tx12g">
+    {% trans "Age" %}: {{ person.age|default:"-" }}<br/>
+    {% trans "Birth" %}: {{ person.birth|default:"-" }}<br/>
+    {{ person.get_gender_display }}<br/>
+  </li>
+
+  {% if person.text %}
+  <li class="tx12g">
+    {{ person.text }}<br/>
+  </li>
+  {% endif %}
+
+  <li class="tx12g">
     {% trans "TWA ID" %}:
     <ul>
     {% for membership in person.twamembership_set.all %}
@@ -92,8 +115,18 @@
 	  <br/>{{ membership.text|linebreaksbr }}
 	{% endif %}
       </li>
+
+    {% if membership.twapayment_set %}
+    <li><ul>
+    {% for payment in membership.twapayment_set.all %}
+      <li>{% trans "Payment" %} {{ payment.date }} {%if payment.cash %}({% trans "Cash" %}){% endif %}</li>
+    {% endfor %}
+    </ul></li>
+    {% endif %}
+
     {% endfor %}
     </ul>
+    
   </li>
 
   <li class="tx12g">
@@ -120,29 +153,6 @@
     {% endfor %}
     </ul>
   </li>
-
-  <li class="tx12g">
-    {{ person.street }}<br/>
-    {{ person.country.code }}-{{ person.zip }} {{ person.city }}<br/>
-    {{ person.country.get_name }}<br/>
-    {% if person.phone %}{{ person.phone }}<br/>{% endif %}
-    {% if person.fax %}{{ person.fax }} ({% trans "Fax" %})<br/>{% endif %}
-    {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
-    {% if person.email %}<a href="mailto:{{ person.firstname }} {{ person.lastname }} <{{ person.email }}>">{{ person.email }}</a><br/>{% endif %}
-    {% if person.website %}<a href="{{ person.website }}">{{ person.website }}</a><br/>{% endif %}
-  </li>
-
-  <li class="tx12g">
-    {% trans "Age" %}: {{ person.age|default:"-" }}<br/>
-    {% trans "Birth" %}: {{ person.birth|default:"-" }}<br/>
-    {{ person.get_gender_display }}<br/>
-  </li>
-
-  {% if person.text %}
-  <li class="tx12g">
-    {{ person.text }}<br/>
-  </li>
-  {% endif %}
 
   {% ifnotequal person.document_set.all.count 0 %}
   <li class="tx12g">

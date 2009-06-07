@@ -1,29 +1,32 @@
 #-*- coding: utf-8 -*-
 
-from PIL import Image
+from csvutf8 import UnicodeWriter
 from datetime import date, datetime
 from django import get_version
 from django.contrib.admin.models import LogEntry
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
-from django.db import transaction
+from django.core.mail import mail_admins, send_mail
+from django.db import connection
 from django.db.models import Q
 from django.http import HttpResponse, Http404
-from django.shortcuts import render_to_response, get_object_or_404
-from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render_to_response
+#from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
 from twa.members.forms import LoginForm, TWAMembershipRequestForm
 from twa.members.models import *
 from twa.requests.models import Request
-from twa.settings import LOGIN_REDIRECT_URL, LANGUAGES, LANGUAGE_CODE, SEND_MAIL_ON_LOGIN
-import os, platform, sys
+from twa.settings import *
+import os
+import platform
+import pyExcelerator as xl
+import sys
 
 try:
-    from django.db import connection
     cursor = connection.cursor()
     cursor.execute( "SELECT version()" )
     version = cursor.fetchone()[0]
@@ -81,7 +84,6 @@ def twa_login( request ):
 
             #send mail
             if SEND_MAIL_ON_LOGIN and not user.is_superuser:
-                from django.core.mail import mail_admins, send_mail
                 name = user.get_full_name()
                 msg = '%s: %s hat sich eingeloggt.\n\n' % ( datetime.now(), name )
                 msg += 'User agent:\n%s\n\n' % request.META['HTTP_USER_AGENT']
@@ -175,17 +177,6 @@ def public( request ):
     )
 
 def index( request ):
-    #if License.ocjects.all().count() == 0:
-    #    for person in Person.persons.filter( twa_license_requested__isnull = False, twa_license__isnull = True ).order_by( 'twa_license_requested', 'lastname' ):
-    #        l = License()
-    #        l.person = person
-    #        l.request = person.twa_license_requested
-    #        l.receipt = person.twa_license_receipt
-    #        for doc in Document.objects.filter( person__id = person.id ):
-    #            l.request_doc = doc.file
-    #        l.save()
-
-    today = date.today()
     ctx = get_context( request )
     ctx['menu'] = 'home'
     if request.user.is_authenticated():
@@ -487,7 +478,6 @@ def suggestions2( request ):
     ctx = get_context( request )
     ctx['menu'] = 'suggestions'
 
-    #qs = Graduation.suggestions.select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
     qs = Graduation.suggestions.order_by( '-id' )
     ctx['counter'] = qs.count()
 
@@ -501,13 +491,11 @@ def suggestions2( request ):
 
 @login_required
 def dojos_csv( request ):
-    ctx = get_context( request )
+    get_context( request )
     response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=dojos.csv'
 
-    from csvutf8 import UnicodeWriter
     writer = UnicodeWriter( response )
-
     writer.writerow( ['id', 'name', 'street', 'zip', 'city', 'country'] )
 
     for d in Dojo.dojos.all():
@@ -517,9 +505,7 @@ def dojos_csv( request ):
 
 @login_required
 def members_xls( request ):
-    ctx = get_context( request )
-    import pyExcelerator as xl
-
+    get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Members' )
     header_font = xl.Font()
@@ -532,34 +518,20 @@ def members_xls( request ):
         sheet.write( 0, y, header, header_style )
 
     for x, person in enumerate( Person.persons.all().order_by( 'firstname', 'lastname' ) ):
-        col = 0
         for y, content in enumerate( __get_export_content( person ) ):
             sheet.write( x + 1, y, content )
-            col = y
-#        if person.thumbnail:
-#            file, ext = os.path.splitext( person.get_thumbnail_filename() )
-#            bmp_name = file + '.bmp'
-#            img = Image.open( person.get_thumbnail_filename() )
-#            img.convert( 'RGB' )
-#            img.save( bmp_name )
-#            try:
-#                sheet.insert_bitmap( bmp_name, x + 1, col + 1 )
-#            except:
-#                pass
-
 
     filename = 'members-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
-    workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    filepath = os.path.join( TMP_DIR, filename )
+    workbook.save( filepath )
+    response = HttpResponse( open( filepath, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
 
 @login_required
 def licenses_xls( request ):
-    ctx = get_context( request )
-    import pyExcelerator as xl
-
+    get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Lizenz Anträge' )
     header_font = xl.Font()
@@ -574,22 +546,20 @@ def licenses_xls( request ):
     for x, license in enumerate( License.objects.get_granted_licenses().order_by( '-id' ) ):
         person = license.person
         content = [str( license.id ), license.get_status_display(), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( license.request ), __get_date( license.receipt ), person.twa_status(), license.text]
-        col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
 
     filename = 'license-requests-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
-    workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    filepath = os.path.join( TMP_DIR, filename )
+    workbook.save( filepath )
+    response = HttpResponse( open( filepath, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
 
 @login_required
 def license_requests_xls( request ):
-    ctx = get_context( request )
-    import pyExcelerator as xl
-
+    get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Lizenz Anträge' )
     header_font = xl.Font()
@@ -604,22 +574,20 @@ def license_requests_xls( request ):
     for x, license in enumerate( License.objects.get_requested_licenses().order_by( '-id' ) ):
         person = license.person
         content = [str( license.id ), license.get_status_display(), person.firstname, person.lastname, person.city, str( person.current_rank() ), __get_date( license.request ), __get_date( license.receipt ), license.text]
-        col = 0
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
 
     filename = 'license-requests-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
-    workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    filepath = os.path.join( TMP_DIR, filename )
+    workbook.save( filepath )
+    response = HttpResponse( open( filepath, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
 
 @login_required
 def membership_requests_xls( request ):
-    ctx = get_context( request )
-    import pyExcelerator as xl
-
+    get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'TWA Anträge' )
     header_font = xl.Font()
@@ -639,21 +607,21 @@ def membership_requests_xls( request ):
         else:
             dojo = ''
         content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, __get_date( person.birth ), dojo, str( person.current_rank() ), __get_date( membership.request ), membership.text]
-        col = 0
+
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
 
     filename = 'membership-requests-%s.xls' % datetime.now().strftime( '%Y-%m-%d-%H-%M-%S' )
-    workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    filepath = os.path.join( TMP_DIR, filename )
+    workbook.save( filepath )
+    response = HttpResponse( open( filepath, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
 
 @login_required
 def nominations_xls( request ):
-    ctx = get_context( request )
-    import pyExcelerator as xl
+    get_context( request )
 
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Graduierungen' )
@@ -669,26 +637,25 @@ def nominations_xls( request ):
     for x, grad in enumerate( Graduation.suggestions.all().order_by( '-date', '-rank' ) ):
         person = grad.person
         content = [str( x + 1 ), str( person.id ), person.firstname, person.lastname, person.city, grad.get_rank_display(), __get_date( grad.date ), grad.text]
-        col = 0
+
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
 
     filename = 'nominations-%s.xls' % datetime.now().strftime( '%Y%m%d-%H%M%S' )
-    workbook.save( 'tmp/' + filename )
-    response = HttpResponse( open( 'tmp/' + filename, 'r' ).read(), mimetype = 'application/ms-excel' )
+    filepath = os.path.join( TMP_DIR, filename )
+    workbook.save( filepath )
+    response = HttpResponse( open( filepath, 'r' ).read(), mimetype = 'application/ms-excel' )
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
 
 @login_required
 def members_csv( request ):
-    ctx = get_context( request )
+    get_context( request )
     response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=members.csv'
 
-    from csvutf8 import UnicodeWriter
     writer = UnicodeWriter( response )
-
     writer.writerow( __get_export_headers() )
 
     for person in Person.persons.all().order_by( 'id' ):
@@ -850,8 +817,13 @@ def create_twa_ids( request ):
                                     Q( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED )
                                     ).order_by( 'id' )
         for antrag in antraege:
-            antrag.twa_id_country = antrag.person.country
-            twa_id_number = TWAMembership.objects.get_next_id_for_country( antrag.person.country.code )
+            dojos = antrag.person.dojos.all()
+            if dojos.count() > 0:
+                country = dojos[0].country
+            else:
+                country = antrag.person.country
+            antrag.twa_id_country = country
+            twa_id_number = TWAMembership.objects.get_next_id_for_country( country.code )
             if twa_id_number is not None:
                 antrag.twa_id_number = twa_id_number
                 antrag.save()
@@ -861,8 +833,6 @@ def create_twa_ids( request ):
 @login_required
 def confirmation_email( request ):
     if request.user.is_superuser:
-        from django.core.mail import mail_admins, send_mail
-        from twa.settings import EMAIL_HOST_USER, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION
 
         antraege = TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_ACCEPTED )
 
@@ -891,10 +861,9 @@ def confirmation_email( request ):
 @login_required
 def accept_open_requests( request ):
     if request.user.is_superuser:
-        antraege = TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_OPEN )
-        for antrag in antraege:
+        for antrag in TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_OPEN ):
             antrag.status = MEMBERSHIP_STATUS_ACCEPTED
             antrag.save()
+        return member_requests( request )
     else:
         raise Http404
-    return member_requests( request )
