@@ -23,7 +23,7 @@
 
 {% for nomination in object_list %}
   <tr>
-    <td class="tx12g">
+    <td class="tx10g">
       {% if perms.members.change_graduation %}
         <a href="/admin/members/graduation/{{ nomination.id }}/" class="edit">{{ nomination.id }}</a>
       {% else %}
@@ -39,8 +39,8 @@
       {% if nomination.rank %}{{ nomination.get_rank_display }}{% endif %}
     </td>
 
-    <td class="tx12g">
-      {% if nomination.nominated_by %}{{ nomination.nominated_by }}{% endif %}
+    <td class="tx10g">
+      {% if nomination.nominated_by %}<a href="{{ nomination.nominated_by.get_absolute_url }}">{{ nomination.nominated_by }}</a>{% endif %}
     </td>
 
     <td class="tx12g">

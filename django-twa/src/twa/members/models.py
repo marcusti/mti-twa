@@ -178,7 +178,8 @@ class Person( AbstractModel ):
 
     def get_rank( self, rank ):
         try:
-            return Graduation.graduations.filter( person__id = self.id, rank = rank ).latest( 'date' )
+            return self.graduations.filter( person__id = self.id, rank = rank ).latest( 'date' )
+            #return Graduation.graduations.filter( person__id = self.id, rank = rank ).latest( 'date' )
         except:
             return ''
 
