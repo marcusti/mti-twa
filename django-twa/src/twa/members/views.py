@@ -680,8 +680,19 @@ def __get_export_headers():
             'FAX',
             'MOBILE',
             'EMAIL',
-            'WEBSITE',
-            'RANK',
+#            'WEBSITE',
+            'DOJO',
+#            'RANK',
+            '5. KYU',
+            '4. KYU',
+            '3. KYU',
+            '2. KYU',
+            '1. KYU',
+            '1. DAN',
+            '2. DAN',
+            '3. DAN',
+            '4. DAN',
+            '5. DAN',
             'GENDER',
             'BIRTH',
             'PHOTO',
@@ -696,20 +707,43 @@ def __get_export_content( person ):
             __get_null_safe( person.street ),
             __get_null_safe( person.zip ),
             __get_null_safe( person.city ),
-            __get_name( person.country ),
+            __get_country( person.country ),
             __get_null_safe( person.phone ),
             __get_null_safe( person.fax ),
             __get_null_safe( person.mobile ),
             __get_null_safe( person.email ),
-            __get_null_safe( person.website ),
-            __get_rank( person ),
+#            __get_null_safe( person.website ),
+            __get_dojo( person ),
+#            __get_currentrank( person ),
+            __get_rank( person.get_rank( 10 ) ),
+            __get_rank( person.get_rank( 20 ) ),
+            __get_rank( person.get_rank( 30 ) ),
+            __get_rank( person.get_rank( 40 ) ),
+            __get_rank( person.get_rank( 50 ) ),
+            __get_rank( person.get_rank( 100 ) ),
+            __get_rank( person.get_rank( 200 ) ),
+            __get_rank( person.get_rank( 300 ) ),
+            __get_rank( person.get_rank( 400 ) ),
+            __get_rank( person.get_rank( 500 ) ),
             __get_gender( person ),
             __get_date( person.birth ),
             __get_path( person.photo ),
             __get_null_safe( person.text ),
             ]
 
-def __get_rank( p ):
+def __get_dojo( p ):
+    try:
+        return unicode( p.dojos.all()[0].name )
+    except:
+        return ''
+
+def __get_rank( g ):
+    if g:
+        return str( g.date )
+    else:
+        return ''
+
+def __get_currentrank( p ):
     if p and p.current_rank():
         return str( p.current_rank() )
     else:
@@ -717,7 +751,7 @@ def __get_rank( p ):
 
 def __get_gender( p ):
     if p and p.gender:
-        return p.get_gender_display()
+        return p.gender
     else:
         return ''
 
@@ -730,6 +764,12 @@ def __get_null_safe( o ):
 def __get_name( o ):
     if o is not None:
         return o.get_name()
+    else:
+        return ''
+
+def __get_country( o ):
+    if o is not None:
+        return o.code
     else:
         return ''
 
