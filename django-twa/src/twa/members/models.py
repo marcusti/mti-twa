@@ -176,6 +176,12 @@ class Person( AbstractModel ):
     current_rank.short_description = _( 'Rank' )
     current_rank.allow_tags = False
 
+    def get_rank( self, rank ):
+        try:
+            return Graduation.graduations.filter( person__id = self.id, rank = rank ).latest( 'date' )
+        except:
+            return ''
+
     def twa_status( self ):
         try:
             return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).get_status_display()
