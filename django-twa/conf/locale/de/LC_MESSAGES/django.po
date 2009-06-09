@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-07 21:35+0200\n"
+"POT-Creation-Date: 2009-06-09 20:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -269,7 +269,7 @@ msgstr "neu"
 
 #: htdocs/twa-association.html:8 htdocs/twa-dojo.html:8
 #: htdocs/twa-downloads.html:19 htdocs/twa-member.html:11
-#: htdocs/twa-member.html.py:108 htdocs/twa-member.html:144
+#: htdocs/twa-member.html.py:108 htdocs/twa-member.html:147
 #: htdocs/twa-news.html:16 htdocs/members/association_detail.html:14
 #: htdocs/members/dojo_detail.html:15 htdocs/members/person_detail.html:17
 #: htdocs/members/person_detail.html:219
@@ -375,6 +375,10 @@ msgstr "morgen"
 msgid "Days"
 msgstr "Tage"
 
+#: htdocs/twa-index.html:109
+msgid "turning"
+msgstr "wird"
+
 #: htdocs/twa-index.html:143
 msgid "Official TWA Site"
 msgstr "Zur offiziellen TWA Seite"
@@ -393,14 +397,14 @@ msgstr ""
 
 #: htdocs/twa-license-requests.html:22 htdocs/twa-member-requests.html:49
 #: htdocs/twa-member.html:57 htdocs/twa-member.html.py:111
-#: htdocs/twa-member.html:147 htdocs/twa-suggestions.html:21
+#: htdocs/twa-member.html:150 htdocs/twa-suggestions.html:21
 #: htdocs/members/license_requests_list.html:24
 #: htdocs/members/member_requests_list.html:26
 #: htdocs/members/person_detail.html:234
 msgid "Request"
 msgstr "Antrag"
 
-#: htdocs/twa-license-requests.html:23 htdocs/twa-member.html:150
+#: htdocs/twa-license-requests.html:23 htdocs/twa-member.html:153
 #: htdocs/members/license_requests_list.html:25
 #: htdocs/members/person_detail.html:257
 msgid "Receipt"
@@ -487,7 +491,7 @@ msgid "TWA ID"
 msgstr ""
 
 #: htdocs/twa-member-requests.html:50 htdocs/twa-member.html:58
-#: htdocs/twa-member.html.py:122 src/twa/members/models.py:485
+#: htdocs/twa-member.html.py:123 src/twa/members/models.py:485
 msgid "Payment"
 msgstr "Zahlung"
 
@@ -512,16 +516,16 @@ msgstr "Vorschlag"
 msgid "Aikido"
 msgstr ""
 
-#: htdocs/twa-member.html:122 src/twa/members/models.py:513
+#: htdocs/twa-member.html:123 src/twa/members/models.py:513
 msgid "Cash"
 msgstr "Barzahlung"
 
-#: htdocs/twa-member.html:133 htdocs/members/person_detail.html:210
+#: htdocs/twa-member.html:136 htdocs/members/person_detail.html:210
 #: htdocs/members/person_list.html:48
 msgid "TWA License"
 msgstr "TWA Lizenz"
 
-#: htdocs/twa-member.html:159 htdocs/members/person_detail.html:314
+#: htdocs/twa-member.html:162 htdocs/members/person_detail.html:314
 #: src/twa/members/models.py:537
 msgid "Documents"
 msgstr "Dokumente"
