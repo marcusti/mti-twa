@@ -104,7 +104,7 @@
         <td>
           <a href="{{ person.get_absolute_url }}">{{ person }}</a>
         </td>
-        <td>{% trans "turning" %} {{ person.age|add:"1" }}</td>
+	<td><span class="tx10g">{% trans "turning" %}</span> {{ person.age|add:"1" }}</td>
         <td>{{ person.birth }}</td>
         <td>{% for dojo in person.dojos.all %}{{ dojo }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
       </tr>
