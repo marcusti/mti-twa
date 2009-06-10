@@ -388,7 +388,8 @@ def member_requests( request, status = None, dojo_id = None, no_payment_filter =
         qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
 
     if no_payment_filter == True:
-        qs = qs.filter( twapayment__isnull = True )
+        qs = qs.filter( twapayment__isnull = True ).exclude( status = MEMBERSHIP_STATUS_OPEN )
+	qs = qs.exclude( status = MEMBERSHIP_STATUS_ACCEPTED )
 
     ctx['counter'] = qs.count()
 
