@@ -138,17 +138,17 @@ def info( request ):
 
     ctx['db_version'] = db_version
     ctx['db_link'] = db_link
+    ctx['users'] = User.objects.all().order_by( '-last_login' )
+    ctx['agents'] = Request.objects.get_user_agents_top_10()
     try:
         ctx['os_version'] = open( '/etc/issue.net', 'r' ).read().strip()
         ctx['os_link'] = 'http://www.ubuntu.com/'
         ctx['django_version'] = get_version()
         ctx['django_link'] = 'http://www.djangoproject.com/'
-        ctx['python_version'] = sys.version
+        ctx['python_version'] = sys.version.split()[0]
         ctx['python_link'] = 'http://www.python.org/'
-        ctx['users'] = User.objects.all().order_by( '-last_login' )
         ctx['active_sessions'] = Session.objects.filter( expire_date__gte = now ).order_by( 'expire_date' )
         ctx['expired_sessions'] = Session.objects.filter( expire_date__lt = now ).order_by( '-expire_date' )
-        ctx['agents'] = Request.objects.get_user_agents_by_requests()
         ctx['hits'] = Request.objects.all().count()
     except:
         pass

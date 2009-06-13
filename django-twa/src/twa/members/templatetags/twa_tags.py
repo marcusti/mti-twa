@@ -1,18 +1,24 @@
-import os
 from django import template
 from django.template.defaultfilters import stringfilter
+import locale
+import os
 
+locale.setlocale( locale.LC_ALL, '' )
 register = template.Library()
 
 @register.simple_tag
-def maximum(a1, a2):
-    return max(a1, a2)
+def maximum( a1, a2 ):
+    return max( a1, a2 )
+
+@register.filter()
+def num_format( value ):
+    return locale.format( "%d", value, grouping = True )
 
 @register.filter
 @stringfilter
 def extension( value ):
     try:
-        root, ext =  os.path.splitext( value )
+        root, ext = os.path.splitext( value )
         if ext and len( ext ) > 0:
             if ext.startswith( '.' ):
                 return ext.lower()[1:]
@@ -48,4 +54,4 @@ def paginator( context, adjacent_pages = 3 ):
         'show_last': context['pages'] not in page_numbers,
     }
 
-register.inclusion_tag( 'paginator.html', takes_context=True )( paginator )
+register.inclusion_tag( 'paginator.html', takes_context = True )( paginator )
