@@ -325,15 +325,18 @@ def __get_members( request ):
         s = request.REQUEST['s']
         ctx['search'] = s
         if s:
-            qs = Person.persons.filter( 
-                Q( firstname__icontains = s ) |
-                Q( nickname__icontains = s ) |
-                Q( lastname__icontains = s ) |
-                Q( text__icontains = s ) |
-                Q( email__icontains = s ) |
-                Q( street__icontains = s ) |
-                Q( zip__icontains = s ) |
-                Q( city__icontains = s ) )
+            try:
+                qs = Person.persons.filter( id = int( s ) )
+            except:
+                qs = Person.persons.filter( 
+                    Q( firstname__icontains = s ) |
+                    Q( nickname__icontains = s ) |
+                    Q( lastname__icontains = s ) |
+                    Q( text__icontains = s ) |
+                    Q( email__icontains = s ) |
+                    Q( street__icontains = s ) |
+                    Q( zip__icontains = s ) |
+                    Q( city__icontains = s ) )
 
     if request.REQUEST.has_key( 'sort' ):
         sort = request.REQUEST['sort']
