@@ -1,9 +1,10 @@
 {% extends "twa-index.html" %}
 {% load i18n %}
+{% load twa_tags %}
 
 {% block content %}
 
-<table class="tx12g">
+<table class="columnhover tx12g">
   <tr>
     <th>{% trans "ID" %}</th>
     <th>{% trans "Name" %}</th>
@@ -48,7 +49,7 @@
 
 </table>
 
-<table class="tx12g">
+<table class="columnhover tx12g">
   <tr class="">
     <th>{% trans "Date" %}</th>
     <th>{% trans "User" %}</th>
@@ -70,7 +71,7 @@
   {% endfor %}
 </table>
 
-<table class="tx12g">
+<table class="columnhover tx12g">
   <tr>
     <th colspan="2">{% trans "Technical Information" %}</th>
   </tr>
@@ -96,30 +97,32 @@
   </tr>
   <tr>
     <td>Source Code Repository</td>
-    <td><a target="_blank" href="http://code.google.com/p/mti-twa/source/browse">Google Code</a></td>
+    <td><a target="_blank" href="http://code.google.com/p/mti-twa/">Google Code</a></td>
   </tr>
 </table>
 
-
-<table class="tx12g">
+{% if agents %}
+<table class="columnhover tx12g">
   <tr>
     <th>#</th>
     <th>{% trans "User Agents Top 10" %}</th>
-    <th>{% trans "Hits" %}</th>
+    <th style="text-align: right;">{% trans "Hits" %}</th>
   </tr>
-  {% for agent in agents|dictsortreversed:"count"|slice:"10" %}
+  {% for agent in agents %}
   <tr>
     <td>{{ forloop.counter }}</td>
     <td>{{ agent.user_agent }}</td>
-    <td style="text-align: right;">{{ agent.count|floatformat }}</td>
+{# Django 1.1    <td style="text-align: right;">{{ agent.agent_count }}</td> #}
+    <td style="text-align: right;">{{ agent.count|num_format }}</td>
   </tr>
   {% endfor %}
   <tr>
     <td></td>
     <td>[all requests]</td>
-    <td style="text-align: right;">{{ hits }}</td>
+    <td style="text-align: right;">{{ hits|num_format }}</td>
   </tr>
 </table>
+{% endif %}
 
 {% if user.is_superuser %}
 <p>{{ expired_sessions|length }} expired sessions, {{ active_sessions|length }} active sessions.</p>
