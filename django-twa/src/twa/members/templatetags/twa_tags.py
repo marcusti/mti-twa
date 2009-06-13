@@ -3,7 +3,7 @@ from django.template.defaultfilters import stringfilter
 import locale
 import os
 
-locale.setlocale( locale.LC_ALL, '' )
+locale.setlocale( locale.LC_ALL, 'de_DE.UTF-8' )
 register = template.Library()
 
 @register.simple_tag
