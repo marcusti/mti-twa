@@ -11,7 +11,7 @@
   {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
 </div>
 
-<table>
+<table class="columnhover">
 {% for person in object_list %}
   <tr>
 
