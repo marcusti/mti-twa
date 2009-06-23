@@ -13,11 +13,12 @@ def convert_date( s ):
 
 def import_payments():
     for line in UnicodeReader( open( 'payment.csv' ) ):
-        twaid, date_string = line[0], line[7]
-        countrycode, tid = twaid.split( '-' )
+        rid, twaid, date_string = line[0], line[1], line[8]
+        #countrycode, tid = twaid.split( '-' )
 
         try:
-            twa = TWAMembership.objects.get( twa_id_country__code = countrycode, twa_id_number = int( tid ) )
+            #twa = TWAMembership.objects.get( twa_id_country__code = countrycode, twa_id_number = int( tid ) )
+            twa = TWAMembership.objects.get( id = int( rid ) )
         except:
             twa = None
             print 'twa id nicht gefunden: %s' % ( twaid )
