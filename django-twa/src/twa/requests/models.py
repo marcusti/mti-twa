@@ -10,12 +10,12 @@ class RequestManager( models.Manager ):
         return super( RequestManager, self ).get_query_set()
 
     def get_user_agents_top_10( self ):
-	fmt = '%Y-%m-%d'
-	enddate = date.today()
-	startdate = enddate - timedelta( 90 )
+        fmt = '%Y-%m-%d'
+        enddate = date.today()
+        startdate = enddate - timedelta( 90 )
         SQL = 'SELECT COUNT(*) AS c, user_agent'
         SQL += ' FROM requests_request'
-	SQL += " WHERE last_modified BETWEEN '%s' AND '%s'" % ( startdate.strftime( fmt ), enddate.strftime( fmt ) )
+        SQL += " WHERE last_modified BETWEEN '%s' AND '%s'" % ( startdate.strftime( fmt ), enddate.strftime( fmt ) )
         SQL += ' GROUP BY user_agent'
         SQL += ' ORDER BY c DESC'
         SQL += ' LIMIT 10'
