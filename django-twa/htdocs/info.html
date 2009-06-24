@@ -4,6 +4,7 @@
 
 {% block content %}
 
+{# USER #}
 <table class="columnhover tx12g">
   <tr>
     <th>{% trans "ID" %}</th>
@@ -46,9 +47,9 @@
   {% endfor %}
 
   <tr><td></td><td class="tx12g" colspan="6"><a class="edit" href="mailto:{% for benutzer in users %}{% if benutzer.is_active %}{{ benutzer.email }}{% if not forloop.last %};{% endif %}{% endif %}{% endfor %}">Email an alle</a></td></tr>
-
 </table>
 
+{# LETZTE AENDERUNGEN #}
 <table class="columnhover tx12g">
   <tr class="">
     <th>{% trans "Date" %}</th>
@@ -71,6 +72,7 @@
   {% endfor %}
 </table>
 
+{# TECHNISCHE INFORMATIONEN #}
 <table class="columnhover tx12g">
   <tr>
     <th colspan="2">{% trans "Technical Information" %}</th>
@@ -101,11 +103,12 @@
   </tr>
 </table>
 
+{# USER AGENTS TOP 10 #}
 {% if agents %}
 <table class="columnhover tx12g">
   <tr>
     <th>#</th>
-    <th>{% trans "User Agents Top 10" %}</th>
+    <th>{% trans "User Agents Top 10" %} <small>{% trans "(last 90 days)" %}</small></th>
     <th style="text-align: right;">{% trans "Hits" %}</th>
   </tr>
   {% for agent in agents %}
