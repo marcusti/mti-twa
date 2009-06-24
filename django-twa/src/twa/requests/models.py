@@ -1,5 +1,6 @@
 #-*- coding: utf-8 -*-
 
+from datetime import date, timedelta
 from django.db import connection, models
 from django.utils.translation import ugettext_lazy as _
 from twa.utils import DEFAULT_MAX_LENGTH, AbstractModel
@@ -9,7 +10,15 @@ class RequestManager( models.Manager ):
         return super( RequestManager, self ).get_query_set()
 
     def get_user_agents_top_10( self ):
-        SQL = 'select count(*) as c, user_agent from requests_request group by user_agent order by c desc limit 10'
+	fmt = '%Y-%m-%d'
+	enddate = date.today()
+	startdate = enddate - timedelta( 90 )
+        SQL = 'SELECT COUNT(*) AS c, user_agent'
+        SQL += ' FROM requests_request'
+	SQL += " WHERE last_modified BETWEEN '%s' AND '%s'" % ( startdate.strftime( fmt ), enddate.strftime( fmt ) )
+        SQL += ' GROUP BY user_agent'
+        SQL += ' ORDER BY c DESC'
+        SQL += ' LIMIT 10'
         cursor = connection.cursor()
         cursor.execute( SQL )
         agents = []
