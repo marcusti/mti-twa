@@ -55,6 +55,7 @@
 	{% if grad.date %}<li class="tx12g">{{ grad.date }} ({{ grad.date|timesince }})</li>{% endif %}
 	{% if grad.text %}<li class="tx12g">{{ grad.text|linebreaksbr }}</li>{% endif %}
 	{% if grad.request_doc %}<li class="tx12g"><a href="{{ grad.request_doc.url }}">{% trans "Request" %}</a> {{ grad.request_doc|extension|lower}}</li>{% endif %}
+	{% if grad.confirmation_doc %}<li class="tx12g"><a href="{{ grad.confirmation_doc.url }}">{% trans "Confirmation" %}</a> {{ grad.confirmation_doc|extension|lower}}</li>{% endif %}
 	{% if grad.payment_doc %}<li class="tx12g"><a href="{{ grad.payment_doc.url }}">{% trans "Payment" %}</a> {{ grad.payment_doc|extension|lower}}</li>{% endif %}
       </ul>
     {% endfor %}
