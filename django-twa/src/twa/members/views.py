@@ -692,8 +692,10 @@ def __get_export_headers():
             'MOBILE',
             'EMAIL',
 #            'WEBSITE',
+            'DOJO-ID',
             'DOJO',
 #            'RANK',
+            'AIKIDO SINCE',
             '5. KYU',
             '4. KYU',
             '3. KYU',
@@ -724,8 +726,10 @@ def __get_export_content( person ):
             __get_null_safe( person.mobile ),
             __get_null_safe( person.email ),
 #            __get_null_safe( person.website ),
-            __get_dojo( person ),
+            __get_dojo_id( person ),
+            __get_dojo_name( person ),
 #            __get_currentrank( person ),
+            __get_date( person.aikido_since ),
             __get_rank( person.get_rank( 10 ) ),
             __get_rank( person.get_rank( 20 ) ),
             __get_rank( person.get_rank( 30 ) ),
@@ -744,7 +748,19 @@ def __get_export_content( person ):
 
 def __get_dojo( p ):
     try:
-        return unicode( p.dojos.all()[0].name )
+        return p.dojos.all()[0]
+    except:
+        return None
+
+def __get_dojo_name( p ):
+    try:
+        return unicode( __get_dojo( p ).name )
+    except:
+        return ''
+
+def __get_dojo_id( p ):
+    try:
+        return __get_dojo( p ).id
     except:
         return ''
 
