@@ -13,6 +13,14 @@ GENDER = [
     ( 'f', _( 'female' ) ),
 ]
 
+TWA_REGION = [
+    ( 1, 'Eckhardt/Marcus' ),
+    ( 2, 'Peter' ),
+    ( 3, 'Volker' ),
+    ( 4, 'Dieter' ),
+    ( 5, 'Milan' ),
+]
+
 NAME_PREFIX = [
     ( 'd', _( 'Dr.' ) ),
     ( 'p', _( 'Prof.' ) ),
@@ -302,6 +310,7 @@ class Dojo( AbstractModel ):
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
+    twa_region = models.IntegerField( _( 'TWA Region' ), choices = TWA_REGION, blank = True )
 
     phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )

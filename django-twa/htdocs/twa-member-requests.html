@@ -5,25 +5,37 @@
 
 {% block content %}
 
-<h1>{% trans "Requested TWA Membership" %} <span class="tx12g">({{ counter }})</span></h1>
+<h1>
+  {% trans "Requested TWA Membership" %}
+  <span class="tx12g">
+    ({% if filter %}{% trans "filtered" %}: {% endif %}{{ counter }})
+  </span>
+</h1>
 
 <div class=""  align="center">
   <p class="tx10g" align="center">
-  {% trans "Filter" %}:<br/>
+  {% trans "filter by status" %}:<br/>
     <a href="/member-requests/" class="menu-entry">{% trans "all" %}</a>
-    <a href="/member-requests/open/" class="menu-entry">{% trans "open" %}</a>
-    <a href="/member-requests/accepted/" class="menu-entry">{% trans "accepted" %}</a>
-    <a href="/member-requests/to-be-confirmed/" class="menu-entry">{% trans "to be confirmed" %}</a>
-    <a href="/member-requests/confirmed/" class="menu-entry">{% trans "confirmed" %}</a>
-    <a href="/member-requests/member/" class="menu-entry">{% trans "Member" %}</a>
-    <a href="/member-requests/nopayment/" class="menu-entry">{% trans "Open Payment" %}</a>
+    <a href="/member-requests/open/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 1 %} filter{% endifequal %}{% endifequal%}">{% trans "open" %}</a>
+    <a href="/member-requests/accepted/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 2 %} filter{% endifequal %}{% endifequal%}">{% trans "accepted" %}</a>
+    <a href="/member-requests/to-be-confirmed/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 6 %} filter{% endifequal %}{% endifequal%}">{% trans "to be confirmed" %}</a>
+    <a href="/member-requests/confirmed/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 5 %} filter{% endifequal %}{% endifequal%}">{% trans "confirmed" %}</a>
+    <a href="/member-requests/member/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 10 %} filter{% endifequal %}{% endifequal%}">{% trans "Member" %}</a>
+    <a href="/member-requests/nopayment/" class="menu-entry{% ifequal filter "no_payment" %} filter{% endifequal%}">{% trans "Open Payment" %}</a>
   {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
   </p>
 
   <p class="tx10g" align="center">
-  {% trans "Dojos" %} ({{ dojos|length }}):<br/>
+  {% trans "filter by twa region" %} ({{ regions|length }}):<br/>
+  {% for region in regions %}
+    <a href="/member-requests/region/{{ region|first }}/" class="menu-entry{% ifequal filter "region" %}{% ifequal region|first filter_value %} filter{% endifequal %}{% endifequal%}">{{ region|last }}</a>
+  {% endfor %}
+  </p>
+
+  <p class="tx10g" align="center">
+  {% trans "filter by dojo" %} ({{ dojos|length }}):<br/>
   {% for dojo in dojos %}
-    <a href="/member-requests/dojo/{{ dojo.id }}/" class="menu-entry">{{ dojo }}</a>
+    <a href="/member-requests/dojo/{{ dojo.id }}/" class="menu-entry{% ifequal filter "dojo" %}{% ifequal dojo.id filter_value %} filter{% endifequal %}{% endifequal%}">{{ dojo }}</a>
   {% endfor %}
   </p>
 
@@ -103,9 +115,12 @@
 {% if is_paginated %}
 <div class="white" align="center">
   <small>{% paginator %}</small><br/>
-  <small>{% trans "Export to" %} <a href="/member-requests/xls/">xls</a></small>
 </div>
 {% endif %}
+
+<div class="white" align="center">
+  <small>{% trans "Export to" %} <a href="/member-requests/xls/">xls</a></small>
+</div>
 
 <div class="tx12g" align="">
 <table class="clean">
