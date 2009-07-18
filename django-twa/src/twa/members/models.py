@@ -118,7 +118,7 @@ class PersonManager( AllPersonsManager ):
         liste = []
         persons = self.get_query_set().filter( birth__isnull = False )
         for person in persons:
-            if person.days() < 8:
+            if person.days() < 4:
                 liste.append( person )
         liste.sort()
         return liste
