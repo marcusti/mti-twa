@@ -8,7 +8,7 @@
 <h1>
   {% trans "Requested TWA Membership" %}
   <span class="tx12g">
-    ({% if filter %}{% trans "filtered" %}: {% endif %}{{ counter }})
+      ({% if filter %}{% trans "filtered" %}: {% endif %}{{ counter }})
   </span>
 </h1>
 
@@ -28,7 +28,7 @@
   <p class="tx10g" align="center">
   {% trans "filter by twa region" %} ({{ regions|length }}):<br/>
   {% for region in regions %}
-    <a href="/member-requests/region/{{ region|first }}/" class="menu-entry{% ifequal filter "region" %}{% ifequal region|first filter_value %} filter{% endifequal %}{% endifequal%}">{{ region|last }}</a>
+  <a href="/member-requests/region/{{ region|first }}/" class="menu-entry{% ifequal filter "region" %}{% ifequal region.0 filter_value %} filter{% endifequal %}{% endifequal%}">{{ region.1 }}</a>
   {% endfor %}
   </p>
 
