@@ -375,22 +375,33 @@ def member2( request, mid = None ):
     )
 
 @login_required
-def member_requests( request, status = None, dojo_id = None, no_payment_filter = False ):
+def member_requests( request, status = None, dojo_id = None, region_id = None, no_payment_filter = False ):
     ctx = get_context( request )
     ctx['menu'] = 'member-requests'
 
     ctx['dojos'] = Dojo.dojos.filter( person__twamembership__isnull = False ).distinct().order_by( 'city', 'shortname', 'name' )
+    #ctx['regions'] = Dojo.dojos.filter( person__twamembership__isnull = False, person__dojos__twa_region__isnull = False ).values_list( 'twa_region' ).distinct().order_by( 'twa_region' )
+    ctx['regions'] = TWA_REGION
 
-    if dojo_id is None and status is None:
+    if dojo_id is None and status is None and region_id is None:
         qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
+    elif region_id is not None:
+        qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__twa_region = region_id ).order_by( '-id' )
+        ctx['filter'] = 'region'
+        ctx['filter_value'] = int( region_id )
     elif dojo_id is None:
         qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).order_by( '-id' )
+        ctx['filter'] = 'status'
+        ctx['filter_value'] = int( status )
     elif status is None:
         qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__id = dojo_id ).order_by( '-id' )
+        ctx['filter'] = 'dojo'
+        ctx['filter_value'] = int( dojo_id )
     else:
         qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
 
     if no_payment_filter == True:
+        ctx['filter'] = 'no_payment'
         qs = qs.filter( twapayment__isnull = True ).exclude( status = MEMBERSHIP_STATUS_OPEN )
 	qs = qs.exclude( status = MEMBERSHIP_STATUS_ACCEPTED )
 
@@ -603,7 +614,7 @@ def membership_requests_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['REQUEST-ID', 'STATUS', 'TWA-ID', 'FIRSTNAME', 'LASTNAME', 'EMAIL', 'BIRTH', 'COUNTRY', 'DOJO', 'RANK', 'REQUEST DATE', 'PAYMENT', 'TEXT'] ):
+    for y, header in enumerate( ['REQUEST-ID', 'STATUS', 'TWA-ID', 'FIRSTNAME', 'LASTNAME', 'EMAIL', 'BIRTH', 'COUNTRY', 'REGION', 'DOJO', 'RANK', 'REQUEST DATE', 'PAYMENT', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, membership in enumerate( TWAMembership.objects.get_requested_memberships().select_related().order_by( '-id' ) ):
@@ -612,9 +623,14 @@ def membership_requests_xls( request ):
         dojo = person.dojos.all()[:1]
         if dojo and len( dojo ) > 0:
             cc = dojo[0].country.code
+            if dojo[0].twa_region:
+                region = dojo[0].get_twa_region_display()
+            else:
+                region = ''
             dojo = unicode( dojo[0] )
         else:
             cc = ''
+            region = ''
             dojo = ''
 
         try:
@@ -622,7 +638,7 @@ def membership_requests_xls( request ):
         except:
             payment = None
 
-        content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, __get_date( person.birth ), cc, dojo, str( person.current_rank() ), __get_date( membership.request ), __get_date( payment ), membership.text]
+        content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, __get_date( person.birth ), cc, region, dojo, str( person.current_rank() ), __get_date( membership.request ), __get_date( payment ), membership.text]
 
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
