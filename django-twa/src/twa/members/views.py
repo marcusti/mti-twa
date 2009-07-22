@@ -614,7 +614,7 @@ def membership_requests_xls( request ):
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate( ['REQUEST-ID', 'STATUS', 'TWA-ID', 'FIRSTNAME', 'LASTNAME', 'EMAIL', 'BIRTH', 'COUNTRY', 'REGION', 'DOJO', 'RANK', 'REQUEST DATE', 'PAYMENT', 'TEXT'] ):
+    for y, header in enumerate( ['REQUEST-ID', 'STATUS', 'TWA-ID', 'FIRSTNAME', 'LASTNAME', 'EMAIL', 'BIRTH', 'COUNTRY', 'REGION', 'DOJO', 'RANK', 'REQUEST DATE', 'MEMBER SINCE', 'PAYMENT', 'TEXT'] ):
         sheet.write( 0, y, header, header_style )
 
     for x, membership in enumerate( TWAMembership.objects.get_requested_memberships().select_related().order_by( '-id' ) ):
@@ -638,7 +638,7 @@ def membership_requests_xls( request ):
         except:
             payment = None
 
-        content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, __get_date( person.birth ), cc, region, dojo, str( person.current_rank() ), __get_date( membership.request ), __get_date( payment ), membership.text]
+        content = [str( membership.id ), membership.get_status_display(), membership.twa_id(), person.firstname, person.lastname, person.email, __get_date( person.birth ), cc, region, dojo, str( person.current_rank() ), __get_date( membership.request ), __get_date( membership.date ), __get_date( payment ), membership.text]
 
         for y, content in enumerate( content ):
             sheet.write( x + 1, y, content )
