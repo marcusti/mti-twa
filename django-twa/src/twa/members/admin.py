@@ -2,7 +2,10 @@
 
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
+from django.utils.translation import ugettext_lazy as _
 from twa.members.models import *
+
+admin.site.disable_action( 'delete_selected' )
 
 class TranslationAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
@@ -69,6 +72,36 @@ class MembershipAdmin( admin.ModelAdmin ):
     date_hierarchy = 'request'
     search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
     inlines = [ TWAPaymentInline, ]
+    actions = [ 'set_status_open','set_status_accepted','set_status_confirmed','set_status_to_be_confirmed','set_status_rejected',
+               'set_status_verify','set_status_member' ]
+
+    def set_status_open( self, request, queryset ):
+        queryset.update( status = MEMBERSHIP_STATUS_OPEN )
+    set_status_open.short_description = _( 'Set selected members to status "open"' )
+
+    def set_status_accepted( self, request, queryset ):
+        queryset.update( status = MEMBERSHIP_STATUS_ACCEPTED )
+    set_status_accepted.short_description = _( 'Set selected members to status "accepted"' )
+
+    def set_status_confirmed( self, request, queryset ):
+        queryset.update( status = MEMBERSHIP_STATUS_CONFIRMED )
+    set_status_confirmed.short_description = _( 'Set selected members to status "confirmed"' )
+
+    def set_status_to_be_confirmed( self, request, queryset ):
+        queryset.update( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED )
+    set_status_to_be_confirmed.short_description = _( 'Set selected members to status "to be confirmed"' )
+
+    def set_status_rejected( self, request, queryset ):
+        queryset.update( status = MEMBERSHIP_STATUS_REJECTED )
+    set_status_rejected.short_description = _( 'Set selected members to status "rejected"' )
+
+    def set_status_verify( self, request, queryset ):
+        queryset.update( status = MEMBERSHIP_STATUS_VERIFY )
+    set_status_verify.short_description = _( 'Set selected members to status "verify"' )
+
+    def set_status_member( self, request, queryset ):
+        queryset.update( status = MEMBERSHIP_STATUS_MEMBER )
+    set_status_member.short_description = _( 'Set selected members to status "member"' )
 
 class TWAPaymentAdmin( admin.ModelAdmin ):
     ordering = [ '-date' ]

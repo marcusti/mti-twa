@@ -135,6 +135,8 @@ class Person( AbstractModel ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
     lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
     nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    firstname_jp = models.CharField( _( 'Japanese First Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    lastname_jp = models.CharField( _( 'Japanese Last Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     name_prefix = models.CharField( _( 'Name Prefix' ), max_length = 5, choices = NAME_PREFIX, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
     text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True )
@@ -281,6 +283,12 @@ class Person( AbstractModel ):
         if self.name_prefix:
             name = self.get_name_prefix_display()
 
+        if self.lastname_jp:
+            name += ' %s' % self.lastname_jp
+
+        if self.firstname_jp:
+            name += ' %s' % self.firstname_jp
+
         if self.firstname:
             name += ' %s' % self.firstname
 
@@ -303,6 +311,7 @@ class DojoManager( models.Manager ):
 
 class Dojo( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
+    name_jp = models.CharField( _( 'Japanese Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
 
@@ -310,7 +319,7 @@ class Dojo( AbstractModel ):
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
-    twa_region = models.IntegerField( _( 'TWA Region' ), choices = TWA_REGION, blank = True )
+    twa_region = models.IntegerField( _( 'TWA Region' ), choices = TWA_REGION, blank = True, null = True )
 
     phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
