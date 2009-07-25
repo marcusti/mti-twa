@@ -38,7 +38,7 @@
 {% for dojo in object_list %}
   <tr>
     <td class="tx12g">{{ dojo.id }}</td>
-    <td class=""><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></td>
+    <td class=""><a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></td>
     <td class="tx12g">{{ dojo.city }}</td>
     <td class="tx12g">{{ dojo.country.get_name }}</td>
   </tr>
