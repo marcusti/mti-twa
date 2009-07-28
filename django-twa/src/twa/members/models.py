@@ -5,8 +5,9 @@ from datetime import date, datetime
 from django.db import models
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
-import calendar
+from twa.members.templatetags.twa_tags import thumbnail
 from twa.utils import DEFAULT_MAX_LENGTH, AbstractModel
+import calendar
 
 GENDER = [
     ( 'm', _( 'male' ) ),
@@ -141,7 +142,6 @@ class Person( AbstractModel ):
     text = models.TextField( _( 'Text' ), blank = True )
     text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True )
     photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', blank = True )
-    thumbnail = models.ImageField( _( 'Thumbnail' ), upload_to = 'photos/thumbs/', blank = True, editable = False )
 
     street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -241,12 +241,10 @@ class Person( AbstractModel ):
         else:
             self.birth_sort_string = ''
 
-        if self.photo:
-            THUMBNAIL_SIZE = ( 75, 75 )
-            SCALE_SIZE = ( 300, 400 )
+        super( Person, self ).save( force_insert )
 
-            if not self.thumbnail:
-                self.thumbnail.save( self.photo.path, self.photo, save = True )
+        if self.photo:
+            SCALE_SIZE = ( 300, 400 )
 
             image = Image.open( self.photo.path )
 
@@ -256,16 +254,9 @@ class Person( AbstractModel ):
             image.thumbnail( SCALE_SIZE, Image.ANTIALIAS )
             image.save( self.photo.path )
 
-            image.thumbnail( THUMBNAIL_SIZE, Image.ANTIALIAS )
-            image.save( self.thumbnail.path )
-
-        super( Person, self ).save( force_insert )
-
     def admin_thumb( self ):
         try:
-            w = self.thumbnail.width
-            h = self.thumbnail.height
-            return u'<img src="%s" width="%s" height="%s" />' % ( self.thumbnail.url, w, h )
+            return u'<img src="%s" />' % ( thumbnail( self.photo ) )
         except:
             return u''
     admin_thumb.short_description = _( 'Photo' )
