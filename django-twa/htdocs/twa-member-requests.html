@@ -89,7 +89,7 @@
       {% if membership.person.dojos %}
       <div class="tx10g">
       {% for dojo in membership.person.dojos.all %}
-        <a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a><br/>
+        <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
       {% endfor %}
       </div>
       {% endif %}
