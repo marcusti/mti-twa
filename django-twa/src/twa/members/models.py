@@ -339,12 +339,16 @@ class Dojo( AbstractModel ):
         return '/dojo/%i/' % self.id
 
     def __unicode__( self ):
+        name = u''
+        if self.name_jp:
+            name = self.name_jp
         if self.shortname:
-            return self.shortname
+            name = "%s %s" % ( name, self.shortname )
         elif self.city:
-            return self.city
+            name = "%s %s" % ( name, self.city )
         else:
-            return self.name
+            name = "%s %s" % ( name, self.name )
+        return name.strip()
 
     class Meta:
         ordering = [ 'city', 'name' ]

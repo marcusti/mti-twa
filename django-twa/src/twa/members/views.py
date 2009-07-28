@@ -726,6 +726,7 @@ def __get_export_headers():
             '3. DAN',
             '4. DAN',
             '5. DAN',
+            '6. DAN',
             'GENDER',
             'BIRTH',
             'PHOTO',
@@ -762,6 +763,7 @@ def __get_export_content( person ):
             __get_rank( person.get_rank( 300 ) ),
             __get_rank( person.get_rank( 400 ) ),
             __get_rank( person.get_rank( 500 ) ),
+            __get_rank( person.get_rank( 600 ) ),
             __get_gender( person ),
             __get_date( person.birth ),
             __get_path( person.photo ),
@@ -776,7 +778,12 @@ def __get_dojo( p ):
 
 def __get_dojo_name( p ):
     try:
-        return unicode( __get_dojo( p ).name )
+        dojo = __get_dojo( p )
+        if dojo.name_jp:
+            name = "%s %s" % ( dojo.name_jp, dojo.name )
+        else:
+            name = dojo.name
+        return unicode( name.strip() )
     except:
         return ''
 
@@ -932,7 +939,7 @@ def confirmation_email( request ):
             try:
                 if antrag.person.email:
                     subject = 'Aufnahme in den TWA bestätigt'
-                    message = EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname
+                    message = EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % ( antrag.person.firstname, antrag.person.firstname )
                     from_email = EMAIL_HOST_USER
                     recipient_list = []
                     recipient_list.append( antrag.person.email )
