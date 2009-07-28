@@ -5,7 +5,7 @@ from members.csvutf8 import UnicodeReader
 from members.models import Country, Dojo, Graduation, Person
 
 COL = ['ID', 'FIRSTNAME', 'LASTNAME', 'FIRSTNAME_JP', 'LASTNAME_JP', 'STREET', 'ZIP', 'CITY', 'COUNTRY', 'PHONE', 'FAX ', 'MOBILE ', 'EMAIL',
-       'DOJO_ID', 'DOJO', 'AIKIDO_SINCE', 'KYU_5', 'KYU_4', 'KYU_3', 'KYU_2', 'KYU_1', 'DAN_1', 'DAN_2', 'DAN_3', 'DAN_4', 'DAN_5',
+       'DOJO_ID', 'DOJO', 'AIKIDO_SINCE', 'KYU_5', 'KYU_4', 'KYU_3', 'KYU_2', 'KYU_1', 'DAN_1', 'DAN_2', 'DAN_3', 'DAN_4', 'DAN_5','DAN_6',
        'GENDER', 'BIRTH', 'PHOTO', 'TEXT']
 
 def convert_date( s ):
@@ -107,6 +107,7 @@ def import_members():
         add_graduation( person, 300, convert_date( line[COL.index( 'DAN_3' )].strip() ) )
         add_graduation( person, 400, convert_date( line[COL.index( 'DAN_4' )].strip() ) )
         add_graduation( person, 500, convert_date( line[COL.index( 'DAN_5' )].strip() ) )
+        add_graduation( person, 600, convert_date( line[COL.index( 'DAN_6' )].strip() ) )
 
         person.gender = line[COL.index( 'GENDER' )].strip()
         person.birth = convert_date( line[COL.index( 'BIRTH' )].strip() )
