@@ -7,7 +7,8 @@ admin.autodiscover()
 urlpatterns = patterns( '',
     # Admin
     ( r'^admin/doc/', include( 'django.contrib.admindocs.urls' ) ),
-    ( r'^admin/(.*)', admin.site.root ),
+    #( r'^admin/(.*)', admin.site.root ),
+    ( r'^admin/', include(admin.site.urls) ),
     ( r'^i18n/', include( 'django.conf.urls.i18n' ) ),
     #( r'^logout/$', 'django.contrib.auth.views.logout_then_login' ),
     #( r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'template_name': 'registration/logout.html'} ),
