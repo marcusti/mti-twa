@@ -468,7 +468,7 @@ class TWAMembershipManager( models.Manager ):
         return super( TWAMembershipManager, self ).get_query_set().filter( is_active = True, public = True )
 
     def get_requested_memberships( self ):
-        return self.get_query_set().all().exclude( status = MEMBERSHIP_STATUS_MEMBER )
+        return self.get_query_set().all()
 
     def get_next_id_for_country( self, country_code ):
         try:

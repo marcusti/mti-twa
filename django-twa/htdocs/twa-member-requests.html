@@ -77,7 +77,11 @@
     </td>
 
     <td class="status-{{ membership.status }}">
+      {% ifequal membership.status 10 %}
+        <img src="/static/images/kamon.png">
+      {% else %}
       &nbsp;&nbsp;
+      {% endifequal %}
     </td>
 
     <td class="tx12">
