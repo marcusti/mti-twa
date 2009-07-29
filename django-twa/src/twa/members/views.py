@@ -406,6 +406,7 @@ def member_requests( request, status = None, dojo_id = None, region_id = None, n
 	qs = qs.exclude( status = MEMBERSHIP_STATUS_ACCEPTED )
 
     ctx['counter'] = qs.count()
+    ctx['queryset'] = qs.exclude( status = MEMBERSHIP_STATUS_OPEN ).order_by( 'person__lastname', 'person__firstname' )
 
     return object_list( 
         request,
