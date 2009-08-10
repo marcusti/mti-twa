@@ -9,11 +9,12 @@ def convert_date( s ):
     if s == 'None' or s == '':
         return None
     else:
-        return datetime.strptime( s, '%d.%m.%Y' )
+        # return datetime.strptime( s, '%d.%m.%Y' )
+        return datetime.strptime( s, '%Y-%m-%d' )
 
 def import_payments():
     for line in UnicodeReader( open( 'payment.csv' ) ):
-        rid, twaid, date_string = line[0], line[1], line[8]
+        rid, twaid, date_string = line[0], line[2], line[13]
         #countrycode, tid = twaid.split( '-' )
 
         try:
