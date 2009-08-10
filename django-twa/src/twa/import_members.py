@@ -109,7 +109,7 @@ def import_members():
         add_graduation( person, 500, convert_date( line[COL.index( 'DAN_5' )].strip() ) )
         add_graduation( person, 600, convert_date( line[COL.index( 'DAN_6' )].strip() ) )
 
-        person.gender = line[COL.index( 'GENDER' )].strip()
+        person.gender = line[COL.index( 'GENDER' )].strip().lower()
         person.birth = convert_date( line[COL.index( 'BIRTH' )].strip() )
 
         foto = line[COL.index( 'PHOTO' )].strip()
