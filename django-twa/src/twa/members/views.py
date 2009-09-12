@@ -290,7 +290,7 @@ def association( request, aid = None ):
 @login_required
 def members_all( request ):
     ctx, qs = __get_members( request )
-    ctx['menu'] = 'members'
+    ctx['menu'] = 'all members'
     ctx['counter'] = qs.count()
 
     return object_list( 
