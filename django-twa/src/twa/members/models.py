@@ -7,6 +7,7 @@ from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from twa.members.templatetags.twa_tags import thumbnail
 from twa.utils import DEFAULT_MAX_LENGTH, AbstractModel
+from django.core.exceptions import MultipleObjectsReturned
 import calendar
 
 GENDER = [
@@ -188,11 +189,12 @@ class Person( AbstractModel ):
 
     def get_rank( self, rank ):
         try:
-            return self.graduations.filter( person__id = self.id, rank = rank ).latest( 'date' )
-            #return Graduation.graduations.filter( person__id = self.id, rank = rank ).latest( 'date' )
+            return self.graduations.get( rank = rank )
+        except MultipleObjectsReturned:
+            return self.graduations.filter( rank = rank ).latest( 'date' )
         except:
             return ''
-
+        
     def twa_status( self ):
         try:
             return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).get_status_display()
