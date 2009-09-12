@@ -307,3 +307,7 @@ form {
 .filter {
  background-color: #ffff00;
 }
+
+.active {
+ background-color: #ffff00;
+}
