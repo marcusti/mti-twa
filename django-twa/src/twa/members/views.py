@@ -384,6 +384,7 @@ def member_requests( request, status = None, dojo_id = None, region_id = None, n
     ctx['regions'] = TWA_REGION
 
     if dojo_id is None and status is None and region_id is None:
+        ctx['filter'] = 'all'
         qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
     elif region_id is not None:
         qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__twa_region = region_id ).order_by( '-id' )
