@@ -536,7 +536,7 @@ def members_xls( request ):
     for y, header in enumerate( __get_export_headers() ):
         sheet.write( 0, y, header, header_style )
 
-    for x, person in enumerate( Person.persons.all().order_by( 'firstname', 'lastname' ) ):
+    for x, person in enumerate( Person.persons.all().select_related('country', 'graduations').order_by( 'dojos', 'firstname', 'lastname' ) ):
         for y, content in enumerate( __get_export_content( person ) ):
             sheet.write( x + 1, y, content )
 
