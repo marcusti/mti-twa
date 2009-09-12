@@ -8,18 +8,19 @@
 <h1>
   {% trans "Requested TWA Membership" %}
   <span class="tx12g">
-      ({% if filter %}{% trans "filtered" %}: {% endif %}{{ counter }})
+      ({% ifnotequal filter "all" %}{% trans "filtered" %}: {% endifnotequal %}{{ counter }})
   </span>
 </h1>
 
 <div class=""  align="center">
   <p class="tx10g" align="center">
   {% trans "filter by status" %}:<br/>
-    <a href="/member-requests/" class="menu-entry">{% trans "all" %}</a>
+    <a href="/member-requests/" class="menu-entry{% ifequal filter "all" %} filter{% endifequal%}">{% trans "all" %}</a>
     <a href="/member-requests/open/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 1 %} filter{% endifequal %}{% endifequal%}">{% trans "open" %}</a>
     <a href="/member-requests/accepted/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 2 %} filter{% endifequal %}{% endifequal%}">{% trans "accepted" %}</a>
     <a href="/member-requests/to-be-confirmed/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 6 %} filter{% endifequal %}{% endifequal%}">{% trans "to be confirmed" %}</a>
     <a href="/member-requests/confirmed/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 5 %} filter{% endifequal %}{% endifequal%}">{% trans "confirmed" %}</a>
+    <a href="/member-requests/verify/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 4 %} filter{% endifequal %}{% endifequal%}">{% trans "verify" %}</a>
     <a href="/member-requests/member/" class="menu-entry{% ifequal filter "status" %}{% ifequal filter_value 10 %} filter{% endifequal %}{% endifequal%}">{% trans "Member" %}</a>
     <a href="/member-requests/nopayment/" class="menu-entry{% ifequal filter "no_payment" %} filter{% endifequal%}">{% trans "Open Payment" %}</a>
   {% if perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
