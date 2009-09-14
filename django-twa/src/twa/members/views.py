@@ -427,12 +427,16 @@ def licenses( request, twa_status = None, dojo_id = None ):
     qs = License.objects.get_granted_licenses()#.select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
 
     if twa_status == True:
+        ctx['filter'] = 'twa'
         qs = qs.filter( person__twamembership__isnull = False )
 
     if twa_status == False:
+        ctx['filter'] = 'nontwa'
         qs = qs.filter( person__twamembership__isnull = True )
 
     if dojo_id is not None:
+        ctx['filter'] = 'dojo'
+        ctx['filtervalue'] = int( dojo_id )
         qs = qs.filter( person__dojos__id = dojo_id )
 
     ctx['counter'] = qs.count()

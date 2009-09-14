@@ -9,19 +9,19 @@
 <p class="tx10g" align="center">
 {% trans "Country" %} ({{ counties|length }}):<br/>
 {% for country in counties %}
-  <a href="?s={{ country.1|urlencode }}" class="menu-entry">{{ country.1 }}</a>
+  <a href="?s={{ country.1|urlencode }}" class="menu-entry{% ifequal search country.1 %} active{% endifequal %}">{{ country.1 }}</a>
 {% endfor %}
 </p>
 
 <p class="tx10g" align="center">
 {% trans "City" %} ({{ cities|length }}):<br/>
 {% for city in cities %}
-  <a href="?s={{ city.city }}" class="menu-entry">{{ city.city }}</a>
+  <a href="?s={{ city.city }}" class="menu-entry{% ifequal search city.city %} active{% endifequal %}">{{ city.city }}</a>
 {% endfor %}
 </p>
 
 <p class="tx12g" align="center">
-  <a href="/dojos/">{% trans "alle" %}</a>
+  <a href="/dojos/" class="menu-entry{% if not search %} active{% endif %}">{% trans "alle" %}</a>
 </p>
 
 <form action="." method="get" id="member_filter">

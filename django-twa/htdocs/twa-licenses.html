@@ -9,16 +9,16 @@
 <div class=""  align="center">
   <p class="tx10g" align="center">
   {% trans "Filter" %}:<br/>
-    <a href="/licenses/" class="menu-entry">{% trans "all" %}</a>
-    <a href="/licenses/twa/" class="menu-entry">{% trans "mit TWA" %}</a>
-    <a href="/licenses/notwa/" class="menu-entry">{% trans "ohne TWA" %}</a>
+    <a href="/licenses/" class="menu-entry{% if not filter %} active{% endif %}">{% trans "all" %}</a>
+    <a href="/licenses/twa/" class="menu-entry{% ifequal filter "twa" %} active{% endifequal %}">{% trans "mit TWA" %}</a>
+    <a href="/licenses/notwa/" class="menu-entry{% ifequal filter "nontwa" %} active{% endifequal %}">{% trans "ohne TWA" %}</a>
   {% if perms.members.add_license %}<a href="/admin/members/license/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
   </p>
 
   <p class="tx10g" align="center">
   {% trans "Dojos" %} ({{ dojos|length }}):<br/>
   {% for dojo in dojos %}
-    <a href="/licenses/dojo/{{ dojo.id }}/" class="menu-entry">{{ dojo }}</a>
+    <a href="/licenses/dojo/{{ dojo.id }}/" class="menu-entry{% ifequal filter "dojo" %}{% ifequal filtervalue dojo.id %} active{% endifequal %}{% endifequal %}">{{ dojo }}</a>
   {% endfor %}
   </p>
 </div>
