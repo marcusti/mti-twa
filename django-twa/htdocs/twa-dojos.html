@@ -42,7 +42,9 @@
     <td class=""><a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></td>
     <td class="tx12g">{{ dojo.city }}</td>
     <td class="tx12g">{{ dojo.country.get_name }}</td>
-    <td align="right" class="tx12g">{{ dojo.person_set.all|length }}</td>
+    {% with dojo.person_set.all|length as dojo_count %}
+    <td align="right" class="tx12g" title="{{ dojo_count }} {% trans "Members" %}">{{ dojo_count }}</td>
+    {% endwith %}
   </tr>
 {% endfor %}
 </table>
