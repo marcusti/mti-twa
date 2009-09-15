@@ -56,6 +56,9 @@
   <li class="tx12g">
   {% if user.is_authenticated %}
     {% trans "Members" %}
+    <span class="tx12g">
+      ({{ members|length }})
+    </span>
 
     <ul>
     {% for person in members %}
