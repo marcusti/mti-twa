@@ -1,0 +1,9 @@
+#Sat Jul 25 11:08:12 CEST 2009
+eclipse.preferences.version=1
+encoding//src/twa/import_members.py=utf-8
+encoding//src/twa/import_payments.py=utf-8
+encoding//src/twa/members/admin.py=utf-8
+encoding//src/twa/members/models.py=utf-8
+encoding//src/twa/members/views.py=utf-8
+encoding//src/twa/mysettings.py=utf-8
+encoding//src/twa/settings.py=utf-8
