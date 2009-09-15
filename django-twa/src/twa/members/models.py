@@ -21,6 +21,7 @@ TWA_REGION = [
     ( 3, 'Volker' ),
     ( 4, 'Dieter' ),
     ( 5, 'Milan' ),
+    ( 6, 'Tendokan' ),
 ]
 
 NAME_PREFIX = [
