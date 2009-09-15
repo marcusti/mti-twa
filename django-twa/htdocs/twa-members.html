@@ -20,7 +20,7 @@
 
     <div class="tx12g">
 	{% for dojo in person.dojos.all %}
-	  <a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a><br/>
+      <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
 	{% endfor %}
     </div>
 

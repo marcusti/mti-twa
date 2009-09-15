@@ -43,7 +43,11 @@
 
     <td>
       <a href="{{ license.person.get_absolute_url }}">{{ license.person }}</a>
-      <div class="tx10g">{% for dojo in license.person.dojos.all %}<a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a><br/>{% endfor %}</div>
+      <div class="tx10g">
+      {% for dojo in license.person.dojos.all %}
+        <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
+      {% endfor %}
+      </div>
     </td>
 
     <td class="tx12g">
