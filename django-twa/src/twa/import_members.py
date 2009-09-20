@@ -4,7 +4,7 @@ from datetime import datetime
 from members.csvutf8 import UnicodeReader
 from members.models import Country, Dojo, Graduation, Person
 
-COL = ['ID', 'FIRSTNAME', 'LASTNAME', 'FIRSTNAME_JP', 'LASTNAME_JP', 'STREET', 'ZIP', 'CITY', 'COUNTRY', 'PHONE', 'FAX', 'MOBILE', 'EMAIL',
+COL = ['ID', 'TWA-ID', 'FIRSTNAME', 'LASTNAME', 'FIRSTNAME_JP', 'LASTNAME_JP', 'STREET', 'ZIP', 'CITY', 'COUNTRY', 'PHONE', 'FAX', 'MOBILE', 'EMAIL',
        'DOJO_ID', 'DOJO', 'AIKIDO_SINCE', 'KYU_5', 'KYU_4', 'KYU_3', 'KYU_2', 'KYU_1', 'DAN_1', 'DAN_2', 'DAN_3', 'DAN_4', 'DAN_5','DAN_6',
        'GENDER', 'BIRTH', 'PHOTO', 'TEXT']
 

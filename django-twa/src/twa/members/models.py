@@ -195,7 +195,7 @@ class Person( AbstractModel ):
             return self.graduations.filter( rank = rank ).latest( 'date' )
         except:
             return ''
-        
+
     def twa_status( self ):
         try:
             return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).get_status_display()
@@ -203,6 +203,14 @@ class Person( AbstractModel ):
             return ''
     twa_status.short_description = _( 'TWA Status' )
     twa_status.allow_tags = False
+
+    def twa_id( self ):
+        try:
+            return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).twa_id()
+        except:
+            return ''
+    twa_id.short_description = _( 'TWA-ID' )
+    twa_id.allow_tags = False
 
     def age( self ):
         try:
