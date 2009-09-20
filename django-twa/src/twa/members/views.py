@@ -99,7 +99,7 @@ def twa_login( request ):
         form = LoginForm()
 
     ctx['form'] = form
-    return render_to_response( 
+    return render_to_response(
                'twa-login.html',
                ctx,
             )
@@ -118,7 +118,7 @@ def membership_online_request( request ):
         form = TWAMembershipRequestForm()
 
     ctx['form'] = form
-    return render_to_response( 
+    return render_to_response(
                'twa-membership-online-request.html',
                ctx,
             )
@@ -232,7 +232,7 @@ def dojos2( request ):
 
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 100,
@@ -245,7 +245,7 @@ def dojo2( request, did = None ):
     ctx = get_context( request )
     ctx['menu'] = 'dojos'
     ctx['members'] = Person.persons.filter( dojos__id = did )
-    return object_detail( 
+    return object_detail(
         request,
         queryset = Dojo.dojos.filter( id = did ),
         object_id = did,
@@ -262,7 +262,7 @@ def associations( request ):
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -278,7 +278,7 @@ def association( request, aid = None ):
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_detail( 
+    return object_detail(
         request,
         queryset = Association.objects.filter( id = aid ),
         object_id = aid,
@@ -293,10 +293,10 @@ def members_all( request ):
     ctx['menu'] = 'all members'
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
-        paginate_by = 500,
+        paginate_by = 1000,
         extra_context = ctx,
         template_name = "twa-members-all.html",
     )
@@ -308,7 +308,7 @@ def members2( request ):
     ctx['menu'] = 'members'
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -328,7 +328,7 @@ def __get_members( request ):
             try:
                 qs = Person.persons.filter( id = int( s ) )
             except:
-                qs = Person.persons.filter( 
+                qs = Person.persons.filter(
                     Q( firstname__icontains = s ) |
                     Q( nickname__icontains = s ) |
                     Q( lastname__icontains = s ) |
@@ -365,7 +365,7 @@ def member2( request, mid = None ):
     ctx['dojos'] = Dojo.dojos.filter( person__id = mid )
     ctx['graduations'] = Graduation.objects.filter( person__id = mid )
     ctx['documents'] = Document.objects.filter( person__id = mid )
-    return object_detail( 
+    return object_detail(
         request,
         queryset = Person.persons.filter( id = mid ),
         object_id = mid,
@@ -383,33 +383,28 @@ def member_requests( request, status = None, dojo_id = None, region_id = None, n
     #ctx['regions'] = Dojo.dojos.filter( person__twamembership__isnull = False, person__dojos__twa_region__isnull = False ).values_list( 'twa_region' ).distinct().order_by( 'twa_region' )
     ctx['regions'] = TWA_REGION
 
-    if dojo_id is None and status is None and region_id is None:
-        ctx['filter'] = 'all'
-        qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
-    elif region_id is not None:
-        qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__twa_region = region_id ).order_by( '-id' )
-        ctx['filter'] = 'region'
-        ctx['filter_value'] = int( region_id )
-    elif dojo_id is None:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).order_by( '-id' )
+    qs = TWAMembership.objects.get_requested_memberships().order_by( '-id' )
+    if status is not None:
         ctx['filter'] = 'status'
         ctx['filter_value'] = int( status )
-    elif status is None:
-        qs = TWAMembership.objects.get_requested_memberships().filter( person__dojos__id = dojo_id ).order_by( '-id' )
+        qs = qs.filter(status = status)
+    if dojo_id is not None:
         ctx['filter'] = 'dojo'
         ctx['filter_value'] = int( dojo_id )
-    else:
-        qs = TWAMembership.objects.get_requested_memberships().filter( status = status ).filter( person__dojos__id = dojo_id ).order_by( '-id' )
-
+        qs = qs.filter(person__dojos__id = dojo_id)
+    if region_id is not None:
+        ctx['filter'] = 'region'
+        ctx['filter_value'] = int( region_id )
+        qs = qs.filter(person__dojos__twa_region = region_id)
     if no_payment_filter == True:
         ctx['filter'] = 'no_payment'
         qs = qs.filter( twapayment__isnull = True ).exclude( status = MEMBERSHIP_STATUS_OPEN )
-	qs = qs.exclude( status = MEMBERSHIP_STATUS_ACCEPTED )
+        qs = qs.exclude( status = MEMBERSHIP_STATUS_ACCEPTED )
 
     ctx['counter'] = qs.count()
     ctx['queryset'] = qs.exclude( status = MEMBERSHIP_STATUS_OPEN ).order_by( 'person__lastname', 'person__firstname' )
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -441,7 +436,7 @@ def licenses( request, twa_status = None, dojo_id = None ):
 
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 100,
@@ -457,7 +452,7 @@ def license_requests( request ):
     qs = License.objects.get_requested_licenses().order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -473,7 +468,7 @@ def license_rejected( request ):
     qs = License.objects.get_rejected_licenses().order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -489,7 +484,7 @@ def graduations2( request ):
     qs = Graduation.graduations.get_this_years_graduations().select_related().order_by( '-date', '-rank', 'members_person.firstname', 'members_person.lastname' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 100,
@@ -505,7 +500,7 @@ def suggestions2( request ):
     qs = Graduation.suggestions.order_by( '-id' )
     ctx['counter'] = qs.count()
 
-    return object_list( 
+    return object_list(
         request,
         queryset = qs,
         paginate_by = 50,
@@ -705,6 +700,7 @@ def __get_export_headers():
     #print Person._meta.fields
     return [
             'ID',
+            'TWA-ID',
             'FIRSTNAME',
             'LASTNAME',
             'FIRSTNAME_JP',
@@ -742,6 +738,7 @@ def __get_export_headers():
 def __get_export_content( person ):
     return [
             str( person.id ),
+            person.twa_id(),
             __get_null_safe( person.firstname ),
             __get_null_safe( person.lastname ),
             __get_null_safe( person.firstname_jp ),
@@ -854,7 +851,7 @@ def news_preview( request, nid = None ):
     ctx['menu'] = 'news'
     ctx['include_main_image'] = False
 
-    return object_detail( 
+    return object_detail(
         request,
         queryset = News.objects.filter( id = nid ),
         object_id = nid,
@@ -868,7 +865,7 @@ def news( request, nid = None ):
     ctx['menu'] = 'news'
     ctx['include_main_image'] = False
 
-    return object_detail( 
+    return object_detail(
         request,
         queryset = News.current_objects.filter( id = nid ),
         object_id = nid,
@@ -882,7 +879,7 @@ def news_archive( request ):
     ctx['menu'] = 'news'
     ctx['include_main_image'] = True
 
-    return object_list( 
+    return object_list(
         request,
         queryset = News.current_objects.all(),
         paginate_by = 50,
@@ -895,7 +892,7 @@ def downloads( request ):
     ctx['menu'] = 'downloads'
     ctx['include_main_image'] = True
 
-    return object_list( 
+    return object_list(
         request,
         queryset = Download.public_objects.all(),
         paginate_by = 50,
@@ -916,7 +913,7 @@ def antrag( request ):
 @login_required
 def create_twa_ids( request ):
     if request.user.is_superuser:
-        antraege = TWAMembership.objects.filter( twa_id_number = None )
+        antraege = TWAMembership.objects.filter( twa_id_number = None).exclude(person__country__code = 'JP' )
         antraege = antraege.filter( Q( status = MEMBERSHIP_STATUS_ACCEPTED ) |
                                     Q( status = MEMBERSHIP_STATUS_CONFIRMED ) |
                                     Q( status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED )
