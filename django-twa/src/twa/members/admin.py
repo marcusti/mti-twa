@@ -68,9 +68,9 @@ class MembershipAdmin( admin.ModelAdmin ):
     ordering = [ '-id' ]
     list_display = ( 'id', 'twa_id', 'status', 'person', 'date', 'request', 'request_doc', 'is_active' )
     list_display_links = ( 'status', 'person' )
-    list_filter = [ 'status', 'is_active' ]
+    list_filter = [ 'status', 'is_active', 'twa_id_country' ]
     date_hierarchy = 'request'
-    search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname' ]
+    search_fields = [ 'person__firstname', 'person__nickname', 'person__lastname', 'person__country__name' ]
     inlines = [ TWAPaymentInline, ]
     actions = [ 'set_status_open','set_status_accepted','set_status_confirmed','set_status_to_be_confirmed','set_status_rejected',
                'set_status_verify','set_status_member' ]
