@@ -28,6 +28,12 @@
       {% trans "ID" %}: {{ person.id }}
     </div>
 
+    <div class="tx12g">
+    {% trans "TWA ID" %}:
+    {% for membership in person.twamembership_set.all %}
+      {% if membership.twa_id %}{{ membership.twa_id }} {% endif %}
+    {% endfor %}
+    </div>
     </td>
 
     <td>
