@@ -954,7 +954,8 @@ def confirmation_email( request ):
                     antrag.status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED
                     antrag.save()
             except:
-                mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
+                #mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
+                raise Http404
     else:
         raise Http404
 
