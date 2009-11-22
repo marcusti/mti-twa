@@ -94,7 +94,7 @@ body {
 	padding: 0px;
 }
 
-p {
+p, div {
 	color: #333;
 	font-size: 14px;
 	line-height: 18px;
