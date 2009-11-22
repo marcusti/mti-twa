@@ -1,0 +1,8 @@
+{% extends "twa-index.html" %}
+
+{% block content %}
+<h2>{{ flatpage.title }}</h2>
+<p>
+  {{ flatpage.content|urlize|linebreaksbr}}
+</p>
+{% endblock %}

@@ -108,7 +108,7 @@ def twa_login( request ):
 def membership_online_request( request ):
     ctx = get_context( request )
     ctx['menu'] = 'login'
-    ctx['include_main_image'] = True
+    ctx['include_main_image'] = False
 
     if request.method == 'POST':
         form = TWAMembershipRequestForm( request.POST )
@@ -877,7 +877,7 @@ def news( request, nid = None ):
 def news_archive( request ):
     ctx = get_context( request )
     ctx['menu'] = 'news'
-    ctx['include_main_image'] = True
+    ctx['include_main_image'] = False
 
     return object_list(
         request,
@@ -890,7 +890,7 @@ def news_archive( request ):
 def downloads( request ):
     ctx = get_context( request )
     ctx['menu'] = 'downloads'
-    ctx['include_main_image'] = True
+    ctx['include_main_image'] = False
 
     return object_list(
         request,
@@ -903,7 +903,7 @@ def downloads( request ):
 def antrag( request ):
     ctx = get_context( request )
     ctx['menu'] = 'anmeldung'
-    ctx['include_main_image'] = True
+    ctx['include_main_image'] = False
 
     return direct_to_template( request,
                                template = 'twa-anmeldung.html',
