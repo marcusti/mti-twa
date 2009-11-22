@@ -27,9 +27,9 @@ class TWAPaymentInline( admin.StackedInline ):
 
 class PersonAdmin( admin.ModelAdmin ):
     ordering = [ 'firstname', 'lastname' ]
-    list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'age', 'days', 'gender', 'photo', 'is_active', 'admin_thumb' )
+    list_display = ( 'id', 'firstname', 'lastname', 'current_rank', 'age', 'days', 'gender', 'photo', 'public', 'is_active', 'admin_thumb' )
     list_display_links = ( 'firstname', 'lastname', 'admin_thumb' )
-    list_filter = ( 'is_active', 'dojos' )
+    list_filter = ( 'public', 'is_active', 'country', 'dojos' )
     search_fields = [ 'id', 'firstname', 'lastname', 'city' ]
     filter_horizontal = ( 'dojos', )
     inlines = [ GraduationInline, ]
