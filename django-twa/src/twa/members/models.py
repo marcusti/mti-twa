@@ -177,7 +177,7 @@ class Person( AbstractModel ):
         return self.twamembership_set.filter( request__isnull = False, date__isnull = True ).count() > 0
 
     def is_member( self ):
-        return self.twamembership_set.filter( status = MEMBERSHIP_STATUS_MEMBER ).count() > 0
+        return self.twamembership_set.filter( status = MEMBERSHIP_STATUS_MEMBER, is_active = True ).count() > 0
 
     def current_rank( self ):
         try:

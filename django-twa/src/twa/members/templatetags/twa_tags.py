@@ -56,6 +56,8 @@ def paginator( context, adjacent_pages = 3 ):
     }
 
 def thumbnail( file, size = '64x64' ):
+    if not os.path.exists(file.path):
+        return ''
     # defining the size
     x, y = [int( x ) for x in size.split( 'x' )]
     # defining the filename and the miniature filename
