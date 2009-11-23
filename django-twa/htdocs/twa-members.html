@@ -19,9 +19,9 @@
     <a href="{{ person.get_absolute_url }}">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
 
     <div class="tx12g">
-	{% for dojo in person.dojos.all %}
+    {% for dojo in person.dojos.all %}
       <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
-	{% endfor %}
+    {% endfor %}
     </div>
 
     <div class="tx12g">
@@ -39,7 +39,7 @@
     <td>
     <div class="tx12g">
       {% trans "Member" %}:
-      {% if person.twa_membership %}
+      {% if person.is_member %}
         {% trans "Yes" %}
       {% else %}
         {% if person.is_twa_membership_requested %}
@@ -71,7 +71,7 @@
     <a href="{{ person.get_absolute_url }}">
       <img src="{{ person.photo|thumbnail }}"
            class="photo"
-	   align="right"
+       align="right"
            alt="[{{ person.firstname }} {{ person.lastname }}]"
            title="{{ person.firstname }} {{ person.lastname }}"
            />
