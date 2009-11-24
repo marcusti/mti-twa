@@ -10,6 +10,7 @@
 
 <ul class="">
 {% for download in object_list %}
+  {% if download.datei|exists %}
   <li>
     <a href="/static/{{ download.datei.name }}">{{ download.name }}</a>
     <br/>
@@ -21,6 +22,7 @@
     {% if download.neu %}<span class="edit">{% trans "NEU" %}</span>{% endif %}
     {% if download.text %}<ul><li>{{ download.text|linebreaksbr }}</li></ul>{% endif %}
   </li>
+  {% endif %}
 {% endfor %}
 </ul>
 

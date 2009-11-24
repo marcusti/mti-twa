@@ -165,7 +165,7 @@ def info( request ):
 
 def public( request ):
     ctx = get_context( request )
-    ctx['news'] = News.current_objects.all()[:3]
+    ctx['current_news'] = News.current_objects.all()[:3]
     ctx['include_main_image'] = True
 
     if request.user.is_authenticated():

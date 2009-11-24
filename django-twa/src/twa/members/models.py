@@ -143,7 +143,7 @@ class Person( AbstractModel ):
     name_prefix = models.CharField( _( 'Name Prefix' ), max_length = 5, choices = NAME_PREFIX, blank = True )
     text = models.TextField( _( 'Text' ), blank = True )
     text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True )
-    photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', blank = True )
+    photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', null = True, blank = True )
 
     street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
@@ -574,6 +574,7 @@ class NewsManager( models.Manager ):
 class News( AbstractModel ):
     title = models.CharField( _( 'Title' ), max_length = DEFAULT_MAX_LENGTH )
     text = models.TextField( _( 'Text' ) )
+    photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', null = True, blank = True )
     pub_date = models.DateTimeField( _( 'Date' ), default = datetime.now() )
 
     objects = models.Manager()

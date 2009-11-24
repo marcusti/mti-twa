@@ -8,11 +8,17 @@
 <ul>
   {% for news in object_list %}
     <li>
+      {% autoescape off %}
       <center>
         <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
         <br/><span class="tx12g">{{ news.pub_date|date:"d.m.Y" }}</span>
       </center>
-      {{ news.text|linebreaks|truncatewords:50 }}
+      {% if news.photo %}
+          <a href="{{ news.get_absolute_url }}"><img align="right" class="photo" src="{{ news.photo|thumbnail:"100x100" }}" title="" alt="[{{ news.photo }}]" /></a>
+      {% endif %}
+      {{ news.text|urlize|linebreaks|truncatewords:100 }} {% if news.text|urlize|linebreaks|wordcount|gt:100 %}<a href="{{ news.get_absolute_url }}" class="tx10">[weiterlesen]</a>{% endif %}
+      <div class="clear"></div>
+      {% endautoescape %}
     </li>
   {% endfor %}
 </ul>
