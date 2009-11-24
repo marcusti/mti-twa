@@ -35,6 +35,7 @@ TMP_DIR = '/tmp/'
 SSL_URLS = [
     #r'.*',
     r'/admin/',
+    r'/pga/',
     #r'/antrag/',
     r'/lang/',
     #r'/public/',

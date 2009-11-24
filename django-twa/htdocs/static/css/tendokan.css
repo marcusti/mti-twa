@@ -94,7 +94,7 @@ body {
 	padding: 0px;
 }
 
-p, div {
+p {
 	color: #333;
 	font-size: 14px;
 	line-height: 18px;
@@ -311,3 +311,8 @@ form {
 .active {
  background-color: #ffff00;
 }
+
+.absatz {
+ margin: 1em;
+}
+
