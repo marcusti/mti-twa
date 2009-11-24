@@ -11,6 +11,10 @@ register = template.Library()
 def maximum( a1, a2 ):
     return max( a1, a2 )
 
+@register.filter
+def gt( a1, a2 ):
+    return a1 > a2
+
 @register.filter()
 def num_format( value ):
     return locale.format( "%d", value, grouping = True )
@@ -80,5 +84,14 @@ def thumbnail( file, size = '64x64' ):
             image.save( miniature_filename, image.format, quality = 90 )
     return miniature_url
 
+
+def exists( file ):
+    try:
+        return os.path.exists(file.path)
+    except:
+        return False
+
+register.filter( gt )
+register.filter( exists )
 register.filter( thumbnail )
 register.inclusion_tag( 'paginator.html', takes_context = True )( paginator )
