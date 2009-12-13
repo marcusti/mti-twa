@@ -1,14 +1,16 @@
 #-*- coding: utf-8 -*-
 
 from PIL import Image
-from datetime import date, datetime
+import calendar
+from datetime import date
+from datetime import datetime
+from django.core.exceptions import MultipleObjectsReturned
 from django.db import models
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from twa.members.templatetags.twa_tags import thumbnail
-from twa.utils import DEFAULT_MAX_LENGTH, AbstractModel
-from django.core.exceptions import MultipleObjectsReturned
-import calendar
+from twa.utils import AbstractModel
+from twa.utils import DEFAULT_MAX_LENGTH
 
 GENDER = [
     ( 'm', _( 'male' ) ),
@@ -137,28 +139,28 @@ class PersonManager( AllPersonsManager ):
 class Person( AbstractModel ):
     firstname = models.CharField( _( 'First Name' ), max_length = DEFAULT_MAX_LENGTH )
     lastname = models.CharField( _( 'Last Name' ), max_length = DEFAULT_MAX_LENGTH )
-    nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    firstname_jp = models.CharField( _( 'Japanese First Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    lastname_jp = models.CharField( _( 'Japanese Last Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    name_prefix = models.CharField( _( 'Name Prefix' ), max_length = 5, choices = NAME_PREFIX, blank = True )
-    text = models.TextField( _( 'Text' ), blank = True )
-    text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True )
+    nickname = models.CharField( _( 'Nickname' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    firstname_jp = models.CharField( _( 'Japanese First Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    lastname_jp = models.CharField( _( 'Japanese Last Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    name_prefix = models.CharField( _( 'Name Prefix' ), max_length = 5, choices = NAME_PREFIX, blank = True, null = True )
+    text = models.TextField( _( 'Text' ), blank = True, null = True )
+    text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True, null = True )
     photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', null = True, blank = True )
 
-    street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
     country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
 
-    phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    mobile = models.CharField( _( 'Mobile' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    email = models.EmailField( _( 'Email' ), blank = True )
-    website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
+    phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    mobile = models.CharField( _( 'Mobile' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    email = models.EmailField( _( 'Email' ), blank = True, null = True )
+    website = models.URLField( _( 'Website' ), verify_exists = False, blank = True, null = True )
 
     birth = models.DateField( _( 'Birth' ), blank = True, null = True )
-    birth_sort_string = models.CharField( max_length = 4, editable = False )
-    gender = models.CharField( _( 'Gender' ), max_length = 1, choices = GENDER, blank = True )
+    birth_sort_string = models.CharField( max_length = 4, editable = False, null = True )
+    gender = models.CharField( _( 'Gender' ), max_length = 1, choices = GENDER, blank = True, null = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
     aikido_since = models.DateField( _( 'Aikido' ), blank = True, null = True )
@@ -237,7 +239,7 @@ class Person( AbstractModel ):
                     this_years_birthday = date( year, self.birth.month, self.birth.day )
                 return ( this_years_birthday - today ).days
             else:
-               return 0
+                return 0
         except:
             from django.core.mail import mail_admins
             msg = 'error resolving days to birth %s for %s. today is %s' % ( self.birth, self, date.today() )
@@ -313,21 +315,21 @@ class DojoManager( models.Manager ):
 
 class Dojo( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
-    name_jp = models.CharField( _( 'Japanese Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    text = models.TextField( _( 'Text' ), blank = True )
+    name_jp = models.CharField( _( 'Japanese Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    text = models.TextField( _( 'Text' ), blank = True, null = True )
 
-    street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
     country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
     twa_region = models.IntegerField( _( 'TWA Region' ), choices = TWA_REGION, blank = True, null = True )
 
-    phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    mobile = models.CharField( _( 'Mobile' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    email = models.EmailField( _( 'Email' ), blank = True )
-    website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
+    phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    mobile = models.CharField( _( 'Mobile' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    email = models.EmailField( _( 'Email' ), blank = True, null = True )
+    website = models.URLField( _( 'Website' ), verify_exists = False, blank = True, null = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
     is_twa_member = models.BooleanField( _( 'TWA Member' ), default = False )
@@ -359,20 +361,20 @@ class Dojo( AbstractModel ):
 
 class Association( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
-    shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    text = models.TextField( _( 'Text' ), blank = True )
+    shortname = models.CharField( _( 'Short Name' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    text = models.TextField( _( 'Text' ), blank = True, null = True )
 
-    street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    province = models.CharField( _( 'Province' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
+    street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    city = models.CharField( _( 'City' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    province = models.CharField( _( 'Province' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
     country = models.ForeignKey( Country, verbose_name = _( 'Country' ) )
 
-    phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    mobile = models.CharField( _( 'Mobile' ), max_length = DEFAULT_MAX_LENGTH, blank = True )
-    email = models.EmailField( _( 'Email' ), blank = True )
-    website = models.URLField( _( 'Website' ), verify_exists = False, blank = True )
+    phone = models.CharField( _( 'Phone' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    fax = models.CharField( _( 'Fax' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    mobile = models.CharField( _( 'Mobile' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
+    email = models.EmailField( _( 'Email' ), blank = True, null = True )
+    website = models.URLField( _( 'Website' ), verify_exists = False, blank = True, null = True )
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
     contact = models.ForeignKey( Person, verbose_name = _( 'Contact' ), related_name = 'association', blank = True, null = True )
@@ -410,7 +412,7 @@ class Graduation( AbstractModel ):
     nominated_by = models.ForeignKey( 'Person', verbose_name = _( 'Nominated By' ), related_name = 'nominations', blank = True, null = True )
     rank = models.IntegerField( _( 'Rank' ), choices = RANK )
     date = models.DateField( _( 'Date' ) )
-    text = models.TextField( _( 'Text' ), blank = True )
+    text = models.TextField( _( 'Text' ), blank = True, null = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
     request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
     confirmation_doc = models.FileField( _( 'Confirmation Document' ), upload_to = 'docs/', blank = True, null = True )
@@ -458,7 +460,7 @@ class License( AbstractModel ):
     rejected = models.DateField( _( 'License Rejected' ), blank = True, null = True )
     request_doc = models.FileField( _( 'License Request Document' ), upload_to = 'docs/', blank = True, null = True )
     receipt_doc = models.FileField( _( 'License Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
-    text = models.TextField( _( 'Text' ), blank = True )
+    text = models.TextField( _( 'Text' ), blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
     objects = LicenseManager()
@@ -542,7 +544,7 @@ class TWAPayment( AbstractModel ):
     twa = models.ForeignKey( TWAMembership, verbose_name = _( 'TWA Membership' ) )
     date = models.DateField( _( 'Payment Date' ) )
     cash = models.BooleanField( _( 'Cash' ), default = False )
-    text = models.TextField( _( 'Text' ), blank = True )
+    text = models.TextField( _( 'Text' ), blank = True, null = True )
 
     objects = TWAPaymentManager()
 
@@ -597,7 +599,7 @@ class DownloadManager( models.Manager ):
 
 class Download( AbstractModel ):
     name = models.CharField( _( u'Name' ), max_length = DEFAULT_MAX_LENGTH, unique = True )
-    text = models.TextField( _( u'Text' ), blank = True )
+    text = models.TextField( _( u'Text' ), blank = True, null = True )
     datei = models.FileField( _( u'Path' ), upload_to = 'downloads/' )
 
     objects = models.Manager()
