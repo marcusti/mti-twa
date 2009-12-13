@@ -11,7 +11,7 @@
   {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 </div>
 
-{% if person.photo %}
+{% if person.photo and person.photo|exists %}
   <img src="{{ person.photo.url }}"
        class="photo-margin"
        align="right"

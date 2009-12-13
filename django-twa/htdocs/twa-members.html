@@ -67,7 +67,7 @@
     </td>
 
     <td>
-    {% if person.photo %}
+    {% if person.photo and person.photo|exists %}
     <a href="{{ person.get_absolute_url }}">
       <img src="{{ person.photo|thumbnail }}"
            class="photo"
