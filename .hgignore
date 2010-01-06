@@ -1,0 +1,15 @@
+syntax: glob
+
+log
+static/docs
+static/downloads
+static/photos
+mysettings.py
+*.pyc
+*.yaml
+*.json
+*.sqlite
+*.dump
+*.csv
+*.tgz
+*~
