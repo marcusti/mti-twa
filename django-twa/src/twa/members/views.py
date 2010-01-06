@@ -52,16 +52,16 @@ def set_lang( request, code = LANGUAGE_CODE ):
     return set_language( request )
 
 def get_context( request ):
-    try:
-        ua = request.META['HTTP_USER_AGENT']
-        if ua.find( 'dummy connection' ) == -1:
-            r = Request( user = request.user.username )
-            r.user_agent = ua
-            r.remote = request.META['REMOTE_ADDR']
-            r.path = request.get_full_path()
-            r.save()
-    except:
-        pass
+    #try:
+    #    ua = request.META['HTTP_USER_AGENT']
+    #    if ua.find( 'dummy connection' ) == -1:
+    #        r = Request( user = request.user.username )
+    #        r.user_agent = ua
+    #        r.remote = request.META['REMOTE_ADDR']
+    #        r.path = request.get_full_path()
+    #        r.save()
+    #except:
+    #    pass
 
     ctx = {}
     ctx['LANGUAGES'] = LANGUAGES
