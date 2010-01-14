@@ -575,7 +575,8 @@ class NewsManager( models.Manager ):
 
 class News( AbstractModel ):
     title = models.CharField( _( 'Title' ), max_length = DEFAULT_MAX_LENGTH )
-    text = models.TextField( _( 'Text' ) )
+    preview = models.TextField( _( 'Preview' ), null = True, blank = True )
+    text = models.TextField( _( 'Text' ), null = True, blank = True )
     photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', null = True, blank = True )
     pub_date = models.DateTimeField( _( 'Date' ), default = datetime.now() )
 

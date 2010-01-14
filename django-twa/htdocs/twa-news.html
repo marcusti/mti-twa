@@ -21,6 +21,7 @@
     {% if news.photo %}
         <a href="{{ news.photo|thumbnail:"600x600" }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo" src="{{ news.photo|thumbnail:"200x200" }}" title="" alt="[{{ news.photo }}]" /></a>
     {% endif %}
+    {{ news.preview|linebreaks }}
     {{ news.text|linebreaks }}
 </p>
 {% endautoescape %}
