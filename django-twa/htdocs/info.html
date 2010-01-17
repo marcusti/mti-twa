@@ -103,6 +103,7 @@
   </tr>
 </table>
 
+{% comment %}
 {# USER AGENTS TOP 10 #}
 {% if agents %}
 <table class="columnhover tx12g">
@@ -126,9 +127,10 @@
   </tr>
 </table>
 {% endif %}
+{% endcomment %}
 
 {% if user.is_superuser %}
-<p>{{ expired_sessions|length }} expired sessions, {{ active_sessions|length }} active sessions.</p>
+<p class="tx12g">{{ expired_sessions|length }} expired sessions, {{ active_sessions|length }} active sessions.</p>
 {% endif %} {# is_superuser #}
 
 {% endblock %}
