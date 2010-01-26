@@ -53,14 +53,14 @@
     <td class="tx12g">
       {% if license.request %}{{ license.request }}{% endif %}
       {% if license.request_doc %}
-        <div class="tx10g"><a href="{{ license.request_doc.url }}">{{ license.request_doc|extension|lower }}</a></div>
+        <div class="tx10g"><a href="/document/{{ license.request_doc.name }}">{{ license.request_doc|extension|lower }}</a></div>
       {% endif %}
     </td>
 
     <td class="tx12g">
       {% if license.receipt %}{{ license.receipt }}{% endif %}
       {% if license.receipt_doc %}
-        <div class="tx10g"><a href="{{ license.receipt_doc.url }}">{{ license.receipt_doc|extension|lower }}</a></div>
+        <div class="tx10g"><a href="/document/{{ license.receipt_doc.name }}">{{ license.receipt_doc|extension|lower }}</a></div>
       {% endif %}
       {% if not license.receipt and not license.receipt_doc %}&nbsp;{% endif %}
     </td>

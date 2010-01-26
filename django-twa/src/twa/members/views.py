@@ -523,6 +523,23 @@ def dojos_csv( request ):
     return response
 
 @login_required
+def documents_handler(request, filename):
+    try:
+        filepath = os.path.join( DOCUMENTS_DIR, filename )
+	if filename.lower().endswith('pdf'):
+	    mimetype = 'application/pdf'
+	elif filename.lower().endswith('jpg'):
+	    mimetype = 'application/jpg'
+	elif filename.lower().endswith('png'):
+	    mimetype = 'application/png'
+        response = HttpResponse( open( filepath, 'r' ).read(), mimetype = mimetype )
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    except:
+        raise Http404
+
+    return response
+
+@login_required
 def members_xls( request ):
     get_context( request )
     workbook = xl.Workbook()

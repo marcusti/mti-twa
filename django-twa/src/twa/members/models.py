@@ -5,12 +5,17 @@ import calendar
 from datetime import date
 from datetime import datetime
 from django.core.exceptions import MultipleObjectsReturned
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
+
 from twa.members.templatetags.twa_tags import thumbnail
 from twa.utils import AbstractModel
 from twa.utils import DEFAULT_MAX_LENGTH
+from twa.settings import DOCUMENTS_DIR
+
+doc_file_system = FileSystemStorage(location=DOCUMENTS_DIR)
 
 GENDER = [
     ( 'm', _( 'male' ) ),
@@ -414,9 +419,9 @@ class Graduation( AbstractModel ):
     date = models.DateField( _( 'Date' ) )
     text = models.TextField( _( 'Text' ), blank = True, null = True )
     is_nomination = models.BooleanField( _( 'Nomination' ), default = False )
-    request_doc = models.FileField( _( 'Request Document' ), upload_to = 'docs/', blank = True, null = True )
-    confirmation_doc = models.FileField( _( 'Confirmation Document' ), upload_to = 'docs/', blank = True, null = True )
-    payment_doc = models.FileField( _( 'Payment Document' ), upload_to = 'docs/', blank = True, null = True )
+    request_doc = models.FileField( _( 'Request Document' ), storage = doc_file_system, upload_to = 'docs/', blank = True, null = True )
+    confirmation_doc = models.FileField( _( 'Confirmation Document' ), storage = doc_file_system, upload_to = 'docs/', blank = True, null = True )
+    payment_doc = models.FileField( _( 'Payment Document' ), storage = doc_file_system, upload_to = 'docs/', blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
     objects = models.Manager()
@@ -458,8 +463,8 @@ class License( AbstractModel ):
     request = models.DateField( _( 'License Request' ), blank = True, null = True )
     receipt = models.DateField( _( 'License Receipt' ), blank = True, null = True )
     rejected = models.DateField( _( 'License Rejected' ), blank = True, null = True )
-    request_doc = models.FileField( _( 'License Request Document' ), upload_to = 'docs/', blank = True, null = True )
-    receipt_doc = models.FileField( _( 'License Receipt Document' ), upload_to = 'docs/', blank = True, null = True )
+    request_doc = models.FileField( _( 'License Request Document' ), storage = doc_file_system, upload_to = 'docs/', blank = True, null = True )
+    receipt_doc = models.FileField( _( 'License Receipt Document' ), storage = doc_file_system, upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True, null = True )
     is_active = models.BooleanField( _( 'Active' ), default = True )
 
@@ -499,7 +504,7 @@ class TWAMembership( AbstractModel ):
     status = models.IntegerField( _( 'Membership Status' ), choices = MEMBERSHIP_STATUS, default = LICENSE_STATUS_OPEN )
     date = models.DateField( _( 'Membership Date' ), blank = True, null = True )
     request = models.DateField( _( 'Membership Request' ), blank = True, null = True )
-    request_doc = models.FileField( _( 'Membership Request Document' ), upload_to = 'docs/', blank = True, null = True )
+    request_doc = models.FileField( _( 'Membership Request Document' ), storage = doc_file_system, upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )
     twa_id_country = models.ForeignKey( Country, blank = True, null = True )
     twa_id_number = models.IntegerField( blank = True, null = True )
@@ -558,7 +563,7 @@ class TWAPayment( AbstractModel ):
 
 class Document( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )
-    file = models.FileField( _( 'File' ), upload_to = 'docs/' )
+    file = models.FileField( _( 'File' ), storage = doc_file_system, upload_to = 'docs/' )
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ), blank = True, null = True )
 
     def __unicode__( self ):

@@ -1,5 +1,6 @@
 syntax: glob
 
+documents
 log
 static/docs
 static/downloads
