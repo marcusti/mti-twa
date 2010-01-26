@@ -30,7 +30,7 @@
     <small>
     <ul>
     {% for dojo in dojos %}
-      <li><a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></li>
+      <li><a href="{{ dojo.get_absolutename }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></li>
     {% endfor %}
     </ul>
     </small>
@@ -54,9 +54,9 @@
       <ul>
 	{% if grad.date %}<li class="tx12g">{{ grad.date }} ({{ grad.date|timesince }})</li>{% endif %}
 	{% if grad.text %}<li class="tx12g">{{ grad.text|linebreaksbr }}</li>{% endif %}
-	{% if grad.request_doc %}<li class="tx12g"><a href="{{ grad.request_doc.url }}">{% trans "Request" %}</a> {{ grad.request_doc|extension|lower}}</li>{% endif %}
-	{% if grad.confirmation_doc %}<li class="tx12g"><a href="{{ grad.confirmation_doc.url }}">{% trans "Confirmation" %}</a> {{ grad.confirmation_doc|extension|lower}}</li>{% endif %}
-	{% if grad.payment_doc %}<li class="tx12g"><a href="{{ grad.payment_doc.url }}">{% trans "Payment" %}</a> {{ grad.payment_doc|extension|lower}}</li>{% endif %}
+	{% if grad.request_doc %}<li class="tx12g"><a href="/document/{{ grad.request_doc.name }}">{% trans "Request" %}</a> {{ grad.request_doc|extension|lower}}</li>{% endif %}
+	{% if grad.confirmation_doc %}<li class="tx12g"><a href="/document/{{ grad.confirmation_doc.name }}">{% trans "Confirmation" %}</a> {{ grad.confirmation_doc|extension|lower}}</li>{% endif %}
+	{% if grad.payment_doc %}<li class="tx12g"><a href="/document/{{ grad.payment_doc.name }}">{% trans "Payment" %}</a> {{ grad.payment_doc|extension|lower}}</li>{% endif %}
       </ul>
     {% endfor %}
   </li>
@@ -109,7 +109,7 @@
         {% if perms.members.change_twamembership %}<a href="/admin/members/twamembership/{{ membership.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 
 	{% if membership.request_doc %}
-	  <br/><a href="{{ membership.request_doc.url }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
+	  <br/><a href="/document/{{ membership.request_doc.name }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
 	{% endif %}
 	
 	{% if membership.text %}
@@ -148,10 +148,10 @@
         {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 
 	{% if license.request_doc %}
-	  <br/><a href="{{ license.request_doc.url }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a>
+	  <br/><a href="/document/{{ license.request_doc.name }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a>
 	{% endif %}
 	{% if license.receipt_doc %}
-	  <br/><a href="{{ license.receipt_doc.url }}">{% trans "Receipt" %} ({{ license.receipt_doc|extension|lower }})</a>
+	  <br/><a href="/document/{{ license.receipt_doc.name }}">{% trans "Receipt" %} ({{ license.receipt_doc|extension|lower }})</a>
 	{% endif %}
       </li>
     {% endfor %}
@@ -163,7 +163,7 @@
     {% trans "Documents" %}
     <ul>
     {% for document in person.document_set.all %}
-      <li><a href="{{ document.file.url }}">{{ document.name }}</a></li>
+      <li><a href="/document/{{ document.file.name }}">{{ document.name }}</a></li>
     {% endfor %}
     </ul>
   </li>
