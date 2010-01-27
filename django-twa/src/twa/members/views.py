@@ -25,6 +25,8 @@ import os
 import platform
 import pyExcelerator as xl
 import sys
+from PIL import Image
+
 
 try:
     cursor = connection.cursor()
@@ -526,14 +528,51 @@ def dojos_csv( request ):
 def documents_handler(request, filename):
     try:
         filepath = os.path.join( DOCUMENTS_DIR, filename )
-	if filename.lower().endswith('pdf'):
-	    mimetype = 'application/pdf'
-	elif filename.lower().endswith('jpg'):
-	    mimetype = 'application/jpg'
-	elif filename.lower().endswith('png'):
-	    mimetype = 'application/png'
+        if filename.lower().endswith('pdf'):
+            mimetype = 'application/pdf'
+        elif filename.lower().endswith('jpg'):
+            mimetype = 'application/jpg'
+        elif filename.lower().endswith('png'):
+            mimetype = 'application/png'
         response = HttpResponse( open( filepath, 'r' ).read(), mimetype = mimetype )
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    except:
+        raise Http404
+
+    return response
+
+@login_required
+def image_handler(request, filename, size='64x64'):
+    try:
+        filepath = os.path.join( DOCUMENTS_DIR, filename )
+
+        if not os.path.exists(filepath):
+            return ''
+        # defining the size
+        x, y = [int( x ) for x in size.split( 'x' )]
+        # defining the filename and the miniature filename
+        filehead, filetail = os.path.split( filepath )
+        basename, format = os.path.splitext( filetail )
+        miniature = basename + '_' + size + format
+        filename = filepath
+        miniature_filename = os.path.join( filehead, miniature )
+        if os.path.exists( miniature_filename ) and os.path.getmtime( filename ) > os.path.getmtime( miniature_filename ):
+            os.unlink( miniature_filename )
+        # if the image wasn't already resized, resize it
+        if not os.path.exists( miniature_filename ):
+            image = Image.open( filename )
+            image.thumbnail( [x, y], Image.ANTIALIAS )
+            try:
+                image.save( miniature_filename, image.format, quality = 90, optimize = 1 )
+            except:
+                image.save( miniature_filename, image.format, quality = 90 )
+
+        if filename.lower().endswith('jpg'):
+            mimetype = 'image/jpeg'
+        elif filename.lower().endswith('png'):
+            mimetype = 'image/png'
+
+        response = HttpResponse( open(miniature_filename, 'r').read(), mimetype = mimetype )
     except:
         raise Http404
 
