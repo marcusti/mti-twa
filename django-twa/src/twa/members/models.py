@@ -150,7 +150,7 @@ class Person( AbstractModel ):
     name_prefix = models.CharField( _( 'Name Prefix' ), max_length = 5, choices = NAME_PREFIX, blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True, null = True )
     text_beirat = models.TextField( _( 'Text (Beirat)' ), editable = False, blank = True, null = True )
-    photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', null = True, blank = True )
+    photo = models.ImageField( _( 'Photo' ), storage = doc_file_system, upload_to = 'photos/', null = True, blank = True )
 
     street = models.CharField( _( 'Street' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
     zip = models.CharField( _( 'Zip' ), max_length = DEFAULT_MAX_LENGTH, blank = True, null = True )
@@ -582,7 +582,7 @@ class News( AbstractModel ):
     title = models.CharField( _( 'Title' ), max_length = DEFAULT_MAX_LENGTH )
     preview = models.TextField( _( 'Preview' ), null = True, blank = True )
     text = models.TextField( _( 'Text' ), null = True, blank = True )
-    photo = models.ImageField( _( 'Photo' ), upload_to = 'photos/', null = True, blank = True )
+    photo = models.ImageField( _( 'Photo' ), upload_to = 'images/', null = True, blank = True )
     pub_date = models.DateTimeField( _( 'Date' ), default = datetime.now() )
 
     objects = models.Manager()

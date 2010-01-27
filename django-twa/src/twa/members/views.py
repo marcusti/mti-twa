@@ -567,7 +567,7 @@ def image_handler(request, filename, size='64x64'):
             except:
                 image.save( miniature_filename, image.format, quality = 90 )
 
-        if filename.lower().endswith('jpg'):
+        if filename.lower().endswith('jpg') or filename.lower().endswith('jpeg'):
             mimetype = 'image/jpeg'
         elif filename.lower().endswith('png'):
             mimetype = 'image/png'
