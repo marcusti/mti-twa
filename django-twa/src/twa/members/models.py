@@ -274,7 +274,7 @@ class Person( AbstractModel ):
 
     def admin_thumb( self ):
         try:
-            return u'<img src="%s" />' % ( thumbnail( self.photo ) )
+            return u'<img src="/image/%s/64x64/" />' % ( self.photo.name )
         except:
             return u''
     admin_thumb.short_description = _( 'Photo' )
