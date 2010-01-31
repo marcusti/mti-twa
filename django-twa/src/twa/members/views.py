@@ -8,7 +8,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
-from django.core.mail import mail_admins, send_mail
+from django.core.mail import mail_admins, send_mail, send_mass_mail
 from django.db import connection
 from django.db.models import Q
 from django.http import HttpResponse, Http404
@@ -994,24 +994,31 @@ def confirmation_email( request ):
 
         antraege = TWAMembership.objects.filter( status = MEMBERSHIP_STATUS_ACCEPTED )
 
-        for antrag in antraege:
-            try:
+        datalist = []
+        try:
+            for antrag in antraege:
                 if antrag.person.email:
                     subject = 'Aufnahme in den TWA bestätigt'
-                    message = EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % ( antrag.person.firstname, antrag.person.firstname )
+                    message = EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % { 'firstname': antrag.person.firstname, 'twaid': antrag.twa_id() }
                     from_email = EMAIL_HOST_USER
                     recipient_list = []
                     recipient_list.append( antrag.person.email )
                     recipient_list.append( EMAIL_HOST_USER )
-                    send_mail( subject = subject, message = message, from_email = from_email, recipient_list = recipient_list, fail_silently = True )
+
+                    datalist.append( (subject, message, from_email, recipient_list) )
+                    #send_mail( subject = subject, message = message, from_email = from_email, recipient_list = recipient_list, fail_silently = True )
+
                     antrag.status = MEMBERSHIP_STATUS_CONFIRMED
                     antrag.save()
                 else:
                     antrag.status = MEMBERSHIP_STATUS_TO_BE_CONFIRMED
                     antrag.save()
-            except:
-                #mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
-                raise Http404
+
+            send_mass_mail( tuple(datalist), fail_silently = True )
+
+        except:
+            #mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
+            raise Http404
     else:
         raise Http404
 
