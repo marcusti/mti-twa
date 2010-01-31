@@ -8,8 +8,6 @@ from django.test.client import Client
 from twa.members.models import *
 
 class TWATestCase( TestCase ):
-    fixtures = ['testdata.yaml']
-
     def setUp( self ):
         self.de, created = Country.objects.get_or_create( name = "Deutschland", code = "DE" )
         self.heinrich, created = Person.objects.get_or_create( firstname = "Heinrich", lastname = "Heine", email='heinrich@example.com', country = self.de )
