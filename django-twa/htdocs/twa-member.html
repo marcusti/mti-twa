@@ -28,7 +28,7 @@
     <small>
     <ul>
     {% for dojo in dojos %}
-      <li><a href="{{ dojo.get_absolutename }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></li>
+      <li><a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></li>
     {% endfor %}
     </ul>
     </small>
