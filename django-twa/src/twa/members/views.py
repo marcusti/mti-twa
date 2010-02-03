@@ -495,7 +495,7 @@ def suggestions2( request ):
     ctx = get_context( request )
     ctx['menu'] = 'suggestions'
 
-    qs = Graduation.suggestions.order_by( '-id' )
+    qs = Graduation.suggestions.order_by( '-rank', '-date' )
     ctx['counter'] = qs.count()
 
     return object_list(
