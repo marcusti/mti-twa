@@ -328,17 +328,13 @@ def __get_members( request ):
         ctx['search'] = s
         if s:
             try:
-                qs = Person.persons.filter( id = int( s ) )
+                qs = Person.persons.filter( twamembership__twa_id_number = int( s ) )
             except:
                 qs = Person.persons.filter(
                     Q( firstname__icontains = s ) |
                     Q( nickname__icontains = s ) |
                     Q( lastname__icontains = s ) |
-                    Q( text__icontains = s ) |
-                    Q( email__icontains = s ) |
-                    Q( street__icontains = s ) |
-                    Q( zip__icontains = s ) |
-                    Q( city__icontains = s ) )
+                    Q( email__icontains = s ))
 
     if request.REQUEST.has_key( 'sort' ):
         sort = request.REQUEST['sort']
