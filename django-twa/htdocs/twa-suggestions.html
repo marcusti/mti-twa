@@ -48,7 +48,7 @@
     </td>
 
     <td class="tx12g">
-      {% if nomination.request_doc %}<a href="{{ nomination.request_doc.url }}">{{ nomination.request_doc|extension|lower }}</a>{% endif %}
+      {% if nomination.request_doc %}<a href="/document/{{ nomination.request_doc.name }}">{{ nomination.request_doc|extension|lower }}</a>{% endif %}
     </td>
 
   </tr>
