@@ -4,6 +4,18 @@
 {% load twa_tags %}
 
 {% block content %}
+<h2>{% trans "Application Forms" %}</h2>
+
+<p>
+  {% trans "Please send your application form to the below mentioned address (email and postal)." %}
+</p>
+{% comment %}
+  Anträge auf TWA-Mitgliedschaft bzw. -Lehrbefugnis bitte ausgefüllt
+  per Email und unterschrieben per Post an die angegebene Adresse senden.
+{% endcomment %}
+
+<p><img src="/static/images/adresse.jpg" /></p>
+
 <h2>Downloads</h2>
 
 {% if perms.members.add_download %}<p align="center"><a class="edit tx12g" href="/admin/members/download/add">{% trans "new" %}</a></p>{% endif %}
