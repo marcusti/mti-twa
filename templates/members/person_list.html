@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<form action="." method="get" id="member_filter">
+
+<table>
+  <tr>
+    <td class="white bottom">
+      {% include "members/person_counter.html" %}
+      {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      <br/>{% paginator %}
+    </td>
+
+    <td class="white bottom right" align="right">
+      {% include "members/search.html" %}
+    </td>
+  </tr>
+</table>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>{% trans "First Name" %}</th>
+    <th>{% trans "Last Name" %}</th>
+    <th>
+        {% trans "Rank" %}
+{% comment %}
+        <select class="smaller" id="rank-filter" name="r">
+          <option class="smaller" value="all" {% ifequal r "all" %} selected {% endifequal %}>{% trans "all" %}</option>
+          {% for rank in ranks %}
+            <option class="smaller" value="{{ rank.0 }}" {% ifequal r rank.0 %} selected {% endifequal %}>{{ rank.1 }}</option>
+          {% endfor %}
+        </select>
+{% endcomment %}
+    </th>
+    <th>
+        {% trans "TWA Member" %}
+        <select class="smaller" id="membership-filter" name="m">
+          <option class="smaller" value="all" {% ifequal m "all" %} selected{% endifequal %}>{% trans "all" %}</option>
+          <option class="smaller" value="yes" {% ifequal m "yes" %} selected{% endifequal %}>{% trans "Member" %}</option>
+          <option class="smaller" value="requested" {% ifequal m "requested" %} selected{% endifequal %}>{% trans "Requested" %}</option>
+        </select>
+    </th>
+    <th>
+        {% trans "TWA License" %}
+        <select class="smaller" id="license-filter" name="l">
+          <option class="smaller" value="all" {% ifequal l "all" %} selected{% endifequal %}>{% trans "all" %}</option>
+          <option class="smaller" value="yes" {% ifequal l "yes" %} selected{% endifequal %}>{% trans "Licensed" %}</option>
+          <option class="smaller" value="requested" {% ifequal l "requested" %} selected{% endifequal %}>{% trans "Requested" %}</option>
+        </select>
+    </th>
+    <th>{% trans "Photo" %}</th>
+  </tr>
+{% for person in object_list %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td>{{ person.id }}</td>
+    <td><a href="{{ person.get_absolute_url }}">{{ person.firstname }}{% if person.nickname %} "{{ person.nickname }}"{% endif %}</a></td>
+    <td><a href="{{ person.get_absolute_url }}">{{ person.lastname }}</a></td>
+    <td>{% if person.current_rank %}{{ person.current_rank }}{% endif %}</td>
+    <td>
+      {% if person.twa_membership %}
+        {% trans "Yes" %}
+      {% else %}
+        {% if person.is_twa_membership_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>
+      {% if person.is_licensed %}
+        {% for license in person.license_set.all %}
+          {% trans "License" %} {% trans "ID" %} {{ license.id }}<br/>
+          {{ license.date }}
+        {% endfor %}
+      {% else %}
+        {% if person.is_license_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+    </td>
+    <td>{% if person.thumbnail %}
+        <a href="{{ person.get_absolute_url }}">
+          <img src="{{ person.thumbnail.url }}"
+           width="{{ person.thumbnail.width }}"
+           height="{{ person.thumbnail.height }}"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}"
+            />
+          </a>
+        {% endif %}</td>
+  </tr>
+{% endfor %}
+  <tr>
+    <td class="white" colspan="7">
+      {% paginator %}
+    </td>
+  </tr>
+  <tr>
+    <td class="white" colspan="7">
+      {% trans "Export to" %} <a href="/members/csv/">csv</a>, <a href="/members/xls/">xls</a>
+    </td>
+  </tr>
+</table>
+</form>
+
+{% endblock %}
