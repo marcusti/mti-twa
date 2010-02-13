@@ -41,8 +41,8 @@
           <a class="menu-entry" href="/">{% trans "Home" %}</a>
           <a class="menu-entry" href="/news/">{% trans "News" %}</a>
           <a class="menu-entry" href="/downloads/">{% trans "Downloads" %}</a>
-          <a class="menu-entry" href="/antrag/">Anträge</a>
-          <a class="menu-entry" href="/kontakt/">Kontakt</a>
+          <a class="menu-entry" href="/antrag/">{% trans "Requests" %}</a>
+          <a class="menu-entry" href="/kontakt/">{% trans "Contact" %}</a>
 
           {% if user.is_authenticated %}
             <div class="menu-logged-in">
@@ -162,14 +162,12 @@
 {#    <a href="http://www.tendoryu-aikido.de/">Tendoryu Aikido Deutschland</a> #}
   </div>
 
-  {% if user.is_authenticated %}
   <div align="center">
     <br/>
     <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
     <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
     <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
   </div>
-  {% endif %}
 
   <div align="center" class="tx12g"><br/>&copy; tendo world aikido {% now "Y" %}</div>
 

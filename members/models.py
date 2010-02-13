@@ -10,6 +10,8 @@ from django.db import models
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
+from datatrans.utils import register
+
 from twa.members.templatetags.twa_tags import thumbnail
 from twa.utils import AbstractModel
 from twa.utils import DEFAULT_MAX_LENGTH
@@ -598,6 +600,10 @@ class News( AbstractModel ):
         ordering = [ '-pub_date', 'title' ]
         verbose_name = _( 'News' )
         verbose_name_plural = _( 'News' )
+
+class NewsTranslation(object):
+    fields = ('title', 'preview', 'text')
+register(News, NewsTranslation)
 
 class DownloadManager( models.Manager ):
     def get_query_set( self ):

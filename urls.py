@@ -70,3 +70,13 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^nominations-xls$', 'nominations_xls' ),
     ( r'^suggestions/$', 'suggestions2' ),
  )
+
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^rosetta/', include('rosetta.urls')),
+    )
+
+if 'datatrans' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^translate/', include('datatrans.urls')),
+    )

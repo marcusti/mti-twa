@@ -31,7 +31,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 TMP_DIR = '/tmp/'
 
-# Alle URLs an SSL weiterleiten
+# Diese URLs an SSL weiterleiten
 SSL_URLS = [
     #r'.*',
     r'/admin/',
@@ -56,13 +56,14 @@ SSL_URLS = [
     r'/member-requests/',
     r'/nominations-xls',
     r'/suggestions/',
+    r'/rosetta/',
+    r'/translate/',
 ]
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
  )
 
 MIDDLEWARE_CLASSES = (
@@ -72,6 +73,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+
     'twa.members.ssl.SSLRedirect',
  )
 
@@ -85,6 +87,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.flatpages',
+
+    'rosetta',    # translating applications
+    'datatrans',  # translating models
+
     'twa.members',
     'twa.requests',
  )
