@@ -41,7 +41,6 @@
           <a class="menu-entry" href="/">{% trans "Home" %}</a>
           <a class="menu-entry" href="/news/">{% trans "News" %}</a>
           <a class="menu-entry" href="/downloads/">{% trans "Downloads" %}</a>
-          <a class="menu-entry" href="/antrag/">{% trans "Requests" %}</a>
           <a class="menu-entry" href="/kontakt/">{% trans "Contact" %}</a>
 
           {% if user.is_authenticated %}
@@ -92,7 +91,7 @@
 
 {% block content %}
 
-<h2>Willkommen beim Weltverband für Tendoryu Aikido.</h2>
+<h2>{% trans "Welcome to the World Association of Tendoryu Aikido." %}</h2>
 
   {% if birthdays %}
   <table class="columnhover tx12g">
