@@ -16,9 +16,10 @@ def import_payments():
     existing_payments = 0
     new_payments = 0
     new_members = 0
+    YEAR = 2010
 
-    for line in UnicodeReader( open( 'payment.csv' ) ):
-        rid, twaid, member_date_string, payment_date_string = line[0], line[2], line[12], line[13]
+    for line in UnicodeReader( open( 'payments2010-1.csv' ) ):
+        rid, twaid, member_date_string, payment_date_string = line[0], line[2], line[12], line[14]
         #countrycode, tid = twaid.split( '-' )
 
         try:
@@ -26,7 +27,8 @@ def import_payments():
             twa = TWAMembership.objects.get( id = int( rid ) )
         except:
             twa = None
-            print 'twa id nicht gefunden: %s' % ( twaid )
+            #print 'twa id nicht gefunden: %s' % ( twaid )
+            print 'rid nicht gefunden: %s' % ( rid )
 
         try:
             payment_date = convert_date( payment_date_string )
@@ -36,7 +38,7 @@ def import_payments():
 
         if twa and payment_date:
             try:
-                TWAPayment.objects.get( twa = twa, date = payment_date )
+                TWAPayment.objects.get( twa = twa, date = payment_date, year = YEAR )
                 existing_payments += 1
                 print '[Zahlung existiert schon: %s %s]' % ( twa, payment_date )
             except MultipleObjectsReturned:
@@ -46,6 +48,7 @@ def import_payments():
                 p = TWAPayment()
                 p.twa = twa
                 p.date = payment_date
+                p.year = YEAR
                 p.save()
                 new_payments += 1
                 print 'Zahlung gespeichert: %s' % p
