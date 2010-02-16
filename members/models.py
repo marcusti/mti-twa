@@ -550,6 +550,7 @@ class TWAPaymentManager( models.Manager ):
 class TWAPayment( AbstractModel ):
     twa = models.ForeignKey( TWAMembership, verbose_name = _( 'TWA Membership' ) )
     date = models.DateField( _( 'Payment Date' ) )
+    year = models.IntegerField(_('Payment for year'), default=datetime.now().year)
     cash = models.BooleanField( _( 'Cash' ), default = False )
     text = models.TextField( _( 'Text' ), blank = True, null = True )
 

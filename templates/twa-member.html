@@ -119,7 +119,7 @@
     <li><ul>
     {% for payment in membership.twapayment_set.all %}
       <li>
-        {% trans "Payment" %} {{ payment.date }} {%if payment.cash %}({% trans "Cash" %}){% endif %}
+        {% trans "Payment" %} ({{ payment.year }}) {{ payment.date }} {%if payment.cash %}({% trans "Cash" %}){% endif %}
         {% if payment.text %}<ul><li>{{ payment.text }}</li></ul>{% endif %}
       </li>
     {% endfor %}
