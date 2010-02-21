@@ -313,6 +313,7 @@ class Person( AbstractModel ):
 
     class Meta:
         ordering = [ 'firstname', 'lastname' ]
+	unique_together = ('firstname', 'lastname')
         verbose_name = _( 'Person' )
         verbose_name_plural = _( 'Persons' )
 
