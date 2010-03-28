@@ -36,6 +36,14 @@
     </div>
     </td>
 
+    <td class="status-{{ membership.status }}">
+      {% if person.is_member %}
+        <img src="/static/images/kamon.png">
+      {% else %}
+      &nbsp;&nbsp;
+      {% endif %}
+    </td>
+
     <td>
     <div class="tx12g">
       {% trans "Member" %}:
