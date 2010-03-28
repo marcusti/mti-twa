@@ -23,7 +23,12 @@
 
 <ul class="">
   <li>
+    {% if person.is_member %}
+    <img src="/static/images/kamon.png" align="right" title="{% trans "TWA Member" %}">
+    {% endif %}
+
     <b>{{ person }}</b><br/>
+
     <ul><li>{{ person.current_rank }}</li></ul>
     <small>
     <ul>
@@ -92,6 +97,7 @@
 
   <li class="tx12g">
     {% trans "TWA ID" %}:
+
     <ul>
     {% for membership in person.twamembership_set.all %}
       {% if membership.twa_id %}<li>{{ membership.twa_id }}</li>{% endif %}
