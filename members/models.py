@@ -10,8 +10,6 @@ from django.db import models
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
-from datatrans.utils import register
-
 from twa.members.templatetags.twa_tags import thumbnail
 from twa.utils import AbstractModel
 from twa.utils import DEFAULT_MAX_LENGTH
@@ -584,13 +582,34 @@ class NewsManager( models.Manager ):
 
 class News( AbstractModel ):
     title = models.CharField( _( 'Title' ), max_length = DEFAULT_MAX_LENGTH )
-    preview = models.TextField( _( 'Preview' ), null = True, blank = True )
-    text = models.TextField( _( 'Text' ), null = True, blank = True )
+    title_en = models.CharField( _( 'Title' ), max_length = DEFAULT_MAX_LENGTH, blank=True )
+    title_ja = models.CharField( _( 'Title' ), max_length = DEFAULT_MAX_LENGTH, blank=True )
+    preview = models.TextField( _( 'Preview' ), blank = True )
+    preview_en = models.TextField( _( 'Preview' ), blank = True )
+    preview_ja = models.TextField( _( 'Preview' ), blank = True )
+    text = models.TextField( _( 'Text' ), blank = True )
+    text_en = models.TextField( _( 'Text' ), blank = True )
+    text_ja = models.TextField( _( 'Text' ), blank = True )
     photo = models.ImageField( _( 'Photo' ), upload_to = 'images/', null = True, blank = True )
     pub_date = models.DateTimeField( _( 'Date' ), default = datetime.now() )
 
     objects = models.Manager()
     current_objects = NewsManager()
+
+    def get_title(self, language=None):
+        return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
+    get_title.short_description = _('Title')
+    get_title.allow_tags = False
+
+    def get_preview(self, language=None):
+        return getattr(self, "preview_%s" % (language or translation.get_language()[:2]), "") or self.preview
+    get_preview.short_description = _('Preview')
+    get_preview.allow_tags = False
+
+    def get_text(self, language=None):
+        return getattr(self, "text_%s" % (language or translation.get_language()[:2]), "") or self.text
+    get_text.short_description = _('Text')
+    get_text.allow_tags = False
 
     def __unicode__( self ):
         return self.title
@@ -602,10 +621,6 @@ class News( AbstractModel ):
         ordering = [ '-pub_date', 'title' ]
         verbose_name = _( 'News' )
         verbose_name_plural = _( 'News' )
-
-class NewsTranslation(object):
-    fields = ('title', 'preview', 'text')
-register(News, NewsTranslation)
 
 class DownloadManager( models.Manager ):
     def get_query_set( self ):
