@@ -47,8 +47,8 @@ td,th{border-bottom:1px solid #e8e7d0;vertical-align:top;padding:5px;}
 .columnhover tr:hover .status-2,.columnhover tr:hover .status-6{background-color:#0f0;}
 .status-5{background-color:#9090ff;}
 .columnhover tr:hover .status-5{background-color:#00f;}
-.status-3{background-color:#ff9090;}
-.columnhover tr:hover .status-3{background-color:#f00;}
+.status-3,.status--1{background-color:#ff9090;}
+.columnhover tr:hover .status-3,.columnhover tr:hover .status--1{background-color:#f00;}
 .status-4{background-color:#ffff90;}
 .columnhover tr:hover .status-4{background-color:#ff0;}
 .clear{clear:both;}
