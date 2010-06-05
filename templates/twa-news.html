@@ -6,7 +6,7 @@
 {% block content %}
 
 {% if news %}
-<h2>{{ news.title }}</h2>
+<h2>{{ news.get_title }}</h2>
 
 <p class="tx12g" align="center">{{ news.pub_date|date:"l, d. F Y" }}</p>
 
@@ -21,8 +21,8 @@
     {% if news.photo %}
         <a href="{{ news.photo|thumbnail:"600x600" }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo" src="{{ news.photo|thumbnail:"200x200" }}" title="" alt="[{{ news.photo }}]" /></a>
     {% endif %}
-    {{ news.preview|linebreaks }}
-    {{ news.text|linebreaks }}
+    {{ news.get_preview|linebreaks }}
+    {{ news.get_text|linebreaks }}
 </p>
 {% endautoescape %}
 

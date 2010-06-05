@@ -132,14 +132,14 @@
   <li class="tx12g"></li>
   {% for news in current_news %}
     <li>
-      <a href="{{ news.get_absolute_url }}">{{ news.title }}</a>
+      <a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a>
       <br/><span class="tx12g">{{ news.pub_date|date:"d.m.Y" }}</span>
       {% autoescape off %}
       {% if news.photo %}
           <a href="{{ news.get_absolute_url }}"><img align="right" class="photo" src='{{ news.photo|thumbnail:"100x100" }}' title="" alt="[{{ news.photo }}]" /></a>
       {% endif %}
-      {{ news.preview|urlize|linebreaks }}
-      {% if news.text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[weiterlesen]</a></p>{% endif %}
+      {{ news.get_preview|urlize|linebreaks }}
+      {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[weiterlesen]</a></p>{% endif %}
       {% endautoescape %}
       <div class="clear"></div>
     </li>

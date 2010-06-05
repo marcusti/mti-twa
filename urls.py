@@ -75,8 +75,3 @@ if 'rosetta' in settings.INSTALLED_APPS:
     urlpatterns += patterns('',
         url(r'^rosetta/', include('rosetta.urls')),
     )
-
-if 'datatrans' in settings.INSTALLED_APPS:
-    urlpatterns += patterns('',
-        url(r'^translate/', include('datatrans.urls')),
-    )

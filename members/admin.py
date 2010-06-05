@@ -122,6 +122,12 @@ class NewsAdmin( admin.ModelAdmin ):
     list_display_links = ( 'title', )
     date_hierarchy = 'pub_date'
     search_fields = [ 'title', 'text' ]
+    fieldsets = (
+        (None, {'fields': ('public', 'photo', 'pub_date')}),
+        ('Deutsch', {'fields': ('title', 'preview', 'text')}),
+        ('English', {'fields': ('title_en', 'preview_en', 'text_en'), 'classes': ('collapse',)}),
+        ('Japanese', {'fields': ('title_ja', 'preview_ja', 'text_ja'), 'classes': ('collapse',)}),
+    )
 
 class DownloadAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]
@@ -143,7 +149,6 @@ admin.site.register( Association, AssociationAdmin )
 admin.site.register( Dojo, DojoAdmin )
 admin.site.register( Person, PersonAdmin )
 admin.site.register( Country, CountryAdmin )
-#admin.site.register( Translation, TranslationAdmin )
 admin.site.register( News, NewsAdmin )
 admin.site.register( Download, DownloadAdmin )
 admin.site.register( LogEntry, LogEntryAdmin )

@@ -89,7 +89,6 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
 
     'rosetta',    # translating applications
-    'datatrans',  # translating models
     'south',      # db migrations
 
     'twa.members',
