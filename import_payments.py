@@ -18,7 +18,7 @@ def import_payments():
     new_members = 0
     YEAR = 2010
 
-    for line in UnicodeReader( open( 'payments2010-1.csv' ) ):
+    for line in UnicodeReader( open( 'payments.csv' ) ):
         rid, twaid, member_date_string, payment_date_string = line[0], line[2], line[12], line[14]
         #countrycode, tid = twaid.split( '-' )
 
