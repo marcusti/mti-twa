@@ -1,0 +1,11 @@
+# robots.txt
+# Verbietet Suchrobotern wie Google, Yahoo, MSN... diese Seite zu indizieren
+
+User-agent: *
+Disallow: /static/
+Disallow: /static/docs/
+Disallow: /static/photos/
+Disallow: /document/
+Disallow: /document/docs/
+Disallow: /document/photos/
+Allow: /

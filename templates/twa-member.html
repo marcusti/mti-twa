@@ -1,0 +1,188 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
+  {% if perms.members.add_person and perms.members.change_person %} | {% endif %}
+  {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+</div>
+
+{% if person.photo %}
+  <img src="/image/{{ person.photo.name }}/300x400/"
+       class="photo-margin"
+       align="right"
+       alt="[{{ person.firstname }} {{ person.lastname }}]"
+       title="{{ person.firstname }} {{ person.lastname }}"
+       />
+{% else %}
+{% endif %}
+
+<ul class="">
+  <li>
+    {% if person.is_member %}
+	  <img src="/static/images/kamon.png" align="right" title="{% trans "TWA Member" %}">
+    {% endif %}
+
+    <b>{{ person }}</b><br/>
+
+    <ul><li>{{ person.current_rank }}</li></ul>
+
+    {% if person.is_member %}
+        <ul><li>{{ person.twa_id }}</li></ul>
+    {% endif %}
+
+    <small>
+    <ul>
+    {% for dojo in dojos %}
+      <li><a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></li>
+    {% endfor %}
+    </ul>
+    </small>
+  </li>
+
+  {% if person.graduations.all %}
+  <li>
+    {% for grad in person.graduations.all %}
+      {{ grad }}
+      {% if grad.is_nomination %}
+      <small>
+        (
+    {% if grad.nominated_by %}
+          {% trans "Nominated By" %} {{ grad.nominated_by }}
+        {% else %}
+          {% trans "Nomination" %}
+        {% endif %}
+        )
+      </small>
+      {% endif %}
+      <ul>
+    {% if grad.date %}<li class="tx12g">{{ grad.date }} ({{ grad.date|timesince }})</li>{% endif %}
+    {% if grad.text %}<li class="tx12g">{{ grad.text|linebreaksbr }}</li>{% endif %}
+    {% if grad.request_doc %}<li class="tx12g"><a href="/document/{{ grad.request_doc.name }}">{% trans "Request" %}</a> {{ grad.request_doc|extension|lower}}</li>{% endif %}
+    {% if grad.confirmation_doc %}<li class="tx12g"><a href="/document/{{ grad.confirmation_doc.name }}">{% trans "Confirmation" %}</a> {{ grad.confirmation_doc|extension|lower}}</li>{% endif %}
+    {% if grad.payment_doc %}<li class="tx12g"><a href="/document/{{ grad.payment_doc.name }}">{% trans "Payment" %}</a> {{ grad.payment_doc|extension|lower}}</li>{% endif %}
+      </ul>
+    {% endfor %}
+  </li>
+  {% endif %}
+
+  {% if person.aikido_since %}
+  <li class="tx12g">
+    {% trans "Aikido" %}
+    <ul><li>{{ person.aikido_since }} ({{ person.aikido_since|timesince }})</li></ul>
+  </li>
+  {% endif %}
+
+  <li class="tx12g">
+    {{ person.street }}<br/>
+    {{ person.country.code }}-{{ person.zip }} {{ person.city }}<br/>
+    {{ person.country.get_name }}<br/>
+    {% if person.phone %}{{ person.phone }}<br/>{% endif %}
+    {% if person.fax %}{{ person.fax }} ({% trans "Fax" %})<br/>{% endif %}
+    {% if person.mobile %}{{ person.mobile }}<br/>{% endif %}
+    {% if person.email %}<a href="mailto:{{ person.firstname }} {{ person.lastname }} <{{ person.email }}>">{{ person.email }}</a><br/>{% endif %}
+    {% if person.website %}<a href="{{ person.website }}">{{ person.website }}</a><br/>{% endif %}
+  </li>
+
+  <li class="tx12g">
+    {% trans "Age" %}: {{ person.age|default:"-" }}<br/>
+    {% trans "Birth" %}: {{ person.birth|default:"-" }}<br/>
+    {{ person.get_gender_display }}<br/>
+  </li>
+
+  {% if person.text %}
+  <li class="tx12g">
+    {{ person.text }}<br/>
+  </li>
+  {% endif %}
+
+  <li class="tx12g">
+    {% trans "TWA Membership" %}:
+    {% if perms.members.change_twamembership %}<a href="/admin/members/twamembership/{{ membership.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+
+    <ul>
+    {% for membership in person.twamembership_set.all %}
+      <li>{% trans "Status" %}: <span class="status-{{ membership.status }}"> {{ membership.get_status_display }} </span></li>
+      {% if membership.twa_id %}<li>TWA ID: {{ membership.twa_id }}</li>{% endif %}
+
+    {% if membership.date %}
+      <li>{% trans "Membership Date" %}: {{ membership.date }}</li>
+    {% endif %}
+
+    {% if membership.request %}
+      <li>
+          {% trans "Membership Request" %}: {{ membership.request }}
+	  {% if membership.request_doc %}
+	      <a href="/document/{{ membership.request_doc.name }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
+	  {% endif %}
+      </li>
+    {% endif %}
+
+    {% if membership.text %}
+      <li>{{ membership.text|linebreaksbr }}</li>
+    {% endif %}
+
+    {% if membership.twapayment_set %}
+    <li>
+    <b>{% trans "Payment" %}</b>
+    <ul>
+    {% for payment in membership.twapayment_set.all %}
+      <li>
+        {{ payment.year }}: {{ payment.date }} {%if payment.cash %}({% trans "Cash" %}){% endif %}
+        {% if payment.text %}<ul><li>{{ payment.text }}</li></ul>{% endif %}
+      </li>
+    {% endfor %}
+    </ul></li>
+    {% endif %}
+
+    {% endfor %}
+    </ul>
+
+  </li>
+
+  <li class="tx12g">
+    {% trans "TWA License" %}:
+    {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+
+    <ul>
+    {% for license in person.license_set.all %}
+      <li>{% trans "Status" %}: <span> {{ license.get_status_display }} </span></li>
+
+    {% if license.date %}
+      <li>{% trans "License Date" %}: {{ license.date }}</li>
+    {% endif %}
+
+    {% if license.request %}
+      <li>
+	{% trans "License Request" %}: {{ license.request }}
+	{% if license.request_doc %}
+            <a href="/document/{{ license.request_doc.name }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a>
+	{% endif %}
+      </li>
+    {% endif %}
+
+    {% if license.receipt_doc %}
+      <li><a href="/document/{{ license.receipt_doc.name }}">{% trans "Receipt" %} ({{ license.receipt_doc|extension|lower }})</a></li>
+    {% endif %}
+
+    {% endfor %}
+    </ul>
+  </li>
+
+  {% ifnotequal person.document_set.all.count 0 %}
+  <li class="tx12g">
+    {% trans "Documents" %}
+    <ul>
+    {% for document in person.document_set.all %}
+      <li><a href="/document/{{ document.file.name }}">{{ document.name }}</a></li>
+    {% endfor %}
+    </ul>
+  </li>
+  {% endifnotequal %}
+</ul>
+
+{% endblock %}
