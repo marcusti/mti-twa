@@ -313,7 +313,7 @@ class Person( AbstractModel ):
 
     class Meta:
         ordering = [ 'firstname', 'lastname' ]
-	unique_together = ('firstname', 'lastname')
+        unique_together = ('firstname', 'lastname')
         verbose_name = _( 'Person' )
         verbose_name_plural = _( 'Persons' )
 
@@ -386,6 +386,9 @@ class Association( AbstractModel ):
 
     is_active = models.BooleanField( _( 'Active' ), default = True )
     contact = models.ForeignKey( Person, verbose_name = _( 'Contact' ), related_name = 'association', blank = True, null = True )
+
+    def get_dojos(self):
+        return self.dojo_set.filter(public=True, is_active=True)
 
     def get_absolute_url( self ):
         return '/association/%i/' % self.id

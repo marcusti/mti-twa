@@ -17,13 +17,13 @@
     {% trans "Contact" %}:
       {% if association.contact %}
       <ul>
-	<li>
+    <li>
         {% if user.is_authenticated %}
           <a href="{{ association.contact.get_absolute_url }}">{{ association.contact }}</a>
         {% else %}
           {{ association.contact }}
         {% endif %}
-	</li>
+    </li>
       </ul>
       {% endif %}
   </li>
@@ -50,7 +50,7 @@
     {% trans "Dojos" %}
 
     <ul>
-    {% for dojo in association.dojo_set.all %}
+    {% for dojo in association.get_dojos %}
       <li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>
     {% endfor %}
     </ul>
