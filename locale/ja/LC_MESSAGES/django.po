@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-05 13:17+0200\n"
+"POT-Creation-Date: 2010-09-17 11:59+0200\n"
 "PO-Revision-Date: 2010-02-13 16:18\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE «LL@li.org»\n"
@@ -307,7 +307,7 @@ msgid "5.Dan is required."
 msgstr ""
 
 #: members/forms.py:178 members/models.py:155 members/models.py:282
-#: members/models.py:595 templates/members/person_list.html:55
+#: members/models.py:598 templates/members/person_list.html:55
 msgid "Photo"
 msgstr "写真"
 
@@ -488,9 +488,9 @@ msgid "Name Prefix"
 msgstr ""
 
 #: members/models.py:153 members/models.py:328 members/models.py:373
-#: members/models.py:423 members/models.py:471 members/models.py:511
-#: members/models.py:556 members/models.py:592 members/models.py:593
-#: members/models.py:594 members/models.py:613 members/models.py:633
+#: members/models.py:426 members/models.py:474 members/models.py:514
+#: members/models.py:559 members/models.py:595 members/models.py:596
+#: members/models.py:597 members/models.py:616 members/models.py:636
 #: templates/members/association_detail.html:95
 #: templates/members/dojo_detail.html:100
 #: templates/members/person_detail.html:280
@@ -514,7 +514,7 @@ msgid "Gender"
 msgstr "性別"
 
 #: members/models.py:172 members/models.py:342 members/models.py:387
-#: members/models.py:428 members/models.py:472 members/models.py:514
+#: members/models.py:431 members/models.py:475 members/models.py:517
 #: templates/info.html:13 templates/members/person_detail.html:189
 msgid "Active"
 msgstr "活動しているメンバー"
@@ -533,7 +533,7 @@ msgstr "合気道"
 msgid "Dojos"
 msgstr "道場"
 
-#: members/models.py:197 members/models.py:421
+#: members/models.py:197 members/models.py:424
 #: templates/twa-graduations.html:14 templates/twa-licenses.html:33
 #: templates/twa-members-all.html:22 templates/members/graduation_list.html:22
 #: templates/members/graduation_suggestion_list.html:22
@@ -564,8 +564,8 @@ msgstr "年齢"
 msgid "Days"
 msgstr ""
 
-#: members/models.py:317 members/models.py:419 members/models.py:463
-#: members/models.py:506 members/models.py:571
+#: members/models.py:317 members/models.py:422 members/models.py:466
+#: members/models.py:509 members/models.py:574
 #: templates/members/person_detail.html:15
 msgid "Person"
 msgstr "メンバー"
@@ -574,8 +574,8 @@ msgstr "メンバー"
 msgid "Persons"
 msgstr "メンバー"
 
-#: members/models.py:325 members/models.py:371 members/models.py:569
-#: members/models.py:632 templates/base.html:170 templates/info.html:11
+#: members/models.py:325 members/models.py:371 members/models.py:572
+#: members/models.py:635 templates/base.html:170 templates/info.html:11
 #: templates/twa-associations.html:15 templates/twa-dojos.html:34
 #: templates/twa-graduations.html:12 templates/twa-index.html:79
 #: templates/twa-license-requests.html:19 templates/twa-licenses.html:30
@@ -618,7 +618,7 @@ msgstr "TWAメンバー"
 msgid "Dojo Leader"
 msgstr "道場責任者"
 
-#: members/models.py:345 members/models.py:398
+#: members/models.py:345 members/models.py:401
 msgid "Association"
 msgstr ""
 
@@ -647,187 +647,187 @@ msgstr ""
 msgid "Contact"
 msgstr "連絡"
 
-#: members/models.py:399 templates/base.html:83 templates/twa-index.html:58
+#: members/models.py:402 templates/base.html:83 templates/twa-index.html:58
 msgid "Associations"
 msgstr "協会"
 
-#: members/models.py:420 templates/twa-member.html:55
+#: members/models.py:423 templates/twa-member.html:55
 #: templates/twa-suggestions.html:19
 #: templates/members/graduation_suggestion_list.html:23
 #: templates/members/person_detail.html:156
 msgid "Nominated By"
 msgstr "推薦者"
 
-#: members/models.py:422 members/models.py:596 templates/info.html:55
+#: members/models.py:425 members/models.py:599 templates/info.html:55
 #: templates/twa-graduations.html:15 templates/twa-suggestions.html:20
 #: templates/members/graduation_list.html:23
 #: templates/members/graduation_suggestion_list.html:24
 msgid "Date"
 msgstr "日付け"
 
-#: members/models.py:424 templates/twa-member.html:57
+#: members/models.py:427 templates/twa-member.html:57
 #: templates/twa-suggestions.html:18
 #: templates/members/graduation_suggestion_list.html:22
 #: templates/members/person_detail.html:145
 msgid "Nomination"
 msgstr "推薦"
 
-#: members/models.py:425
+#: members/models.py:428
 msgid "Request Document"
 msgstr ""
 
-#: members/models.py:426
+#: members/models.py:429
 msgid "Confirmation Document"
 msgstr ""
 
-#: members/models.py:427
+#: members/models.py:430
 msgid "Payment Document"
 msgstr ""
 
-#: members/models.py:449
+#: members/models.py:452
 msgid "Graduation"
 msgstr "昇級昇段"
 
-#: members/models.py:450 templates/base.html:68
+#: members/models.py:453 templates/base.html:68
 #: templates/twa-graduations.html:7 templates/twa-index.html:63
 #: templates/members/graduation_counter.html:5
 #: templates/members/person_detail.html:138
 msgid "Graduations"
 msgstr "昇級昇段"
 
-#: members/models.py:464
+#: members/models.py:467
 msgid "License Status"
 msgstr "状態"
 
-#: members/models.py:465
+#: members/models.py:468 templates/twa-member.html:156
 msgid "License Date"
 msgstr "指導者認定書"
 
-#: members/models.py:466
+#: members/models.py:469 templates/twa-member.html:161
 msgid "License Request"
 msgstr "認定申込"
 
-#: members/models.py:467
+#: members/models.py:470
 msgid "License Receipt"
 msgstr ""
 
-#: members/models.py:468
+#: members/models.py:471
 msgid "License Rejected"
 msgstr ""
 
-#: members/models.py:469
+#: members/models.py:472
 msgid "License Request Document"
 msgstr "認定申込書類"
 
-#: members/models.py:470
+#: members/models.py:473
 msgid "License Receipt Document"
 msgstr "認定支払済書類"
 
-#: members/models.py:484 templates/twa-licenses.html:34
-#: templates/twa-member.html:156 templates/twa-members.html:62
-#: templates/twa-members.html.py:65 templates/members/license_list.html:23
+#: members/models.py:487 templates/twa-licenses.html:34
+#: templates/twa-members.html:62 templates/twa-members.html.py:65
+#: templates/members/license_list.html:23
 #: templates/members/person_detail.html:218
 #: templates/members/person_list.html:77
 msgid "License"
 msgstr "指導者認定書"
 
-#: members/models.py:485 templates/base.html:75 templates/base.html.py:141
+#: members/models.py:488 templates/base.html:75 templates/base.html.py:141
 #: templates/twa-index.html:62 templates/twa-licenses.html:7
 #: templates/members/license_counter.html:5
 msgid "Licenses"
 msgstr "指導者認定書"
 
-#: members/models.py:507
+#: members/models.py:510
 msgid "Membership Status"
 msgstr "状態"
 
-#: members/models.py:508 templates/twa-member.html:113
+#: members/models.py:511 templates/twa-member.html:113
 msgid "Membership Date"
 msgstr "日付け"
 
-#: members/models.py:509
+#: members/models.py:512 templates/twa-member.html:118
 msgid "Membership Request"
 msgstr "申し込み済み"
 
-#: members/models.py:510
+#: members/models.py:513
 msgid "Membership Request Document"
 msgstr ""
 
-#: members/models.py:526 templates/twa-member-requests.html:63
+#: members/models.py:529 templates/twa-member-requests.html:63
 #: templates/twa-member.html:67 templates/twa-member.html.py:131
 msgid "Payment"
 msgstr ""
 
-#: members/models.py:536 templates/twa-member-requests.html:56
+#: members/models.py:539 templates/twa-member-requests.html:56
 #: templates/twa-members.html:32
 #: templates/members/member_requests_list.html:20
 msgid "TWA ID"
 msgstr ""
 
-#: members/models.py:544 members/models.py:545 members/models.py:552
+#: members/models.py:547 members/models.py:548 members/models.py:555
 #: templates/twa-member.html:104
 msgid "TWA Membership"
 msgstr "TWAメンバー"
 
-#: members/models.py:553
+#: members/models.py:556
 msgid "Payment Date"
 msgstr ""
 
-#: members/models.py:554
+#: members/models.py:557
 msgid "Payment for year"
 msgstr ""
 
-#: members/models.py:555 templates/twa-member.html:135
+#: members/models.py:558 templates/twa-member.html:135
 msgid "Cash"
 msgstr ""
 
-#: members/models.py:565 members/models.py:566
+#: members/models.py:568 members/models.py:569
 msgid "TWA Payment"
 msgstr ""
 
-#: members/models.py:570
+#: members/models.py:573
 msgid "File"
 msgstr "ファイル"
 
-#: members/models.py:578
+#: members/models.py:581
 msgid "Document"
 msgstr "書類"
 
-#: members/models.py:579 templates/twa-member.html:178
+#: members/models.py:582 templates/twa-member.html:178
 #: templates/members/person_detail.html:314
 msgid "Documents"
 msgstr "書類"
 
-#: members/models.py:586 members/models.py:587 members/models.py:588
-#: members/models.py:603
+#: members/models.py:589 members/models.py:590 members/models.py:591
+#: members/models.py:606
 #, fuzzy
 msgid "Title"
 msgstr "ファイル"
 
-#: members/models.py:589 members/models.py:590 members/models.py:591
-#: members/models.py:608
+#: members/models.py:592 members/models.py:593 members/models.py:594
+#: members/models.py:611
 msgid "Preview"
 msgstr ""
 
-#: members/models.py:624 members/models.py:625 templates/twa-index.html:42
+#: members/models.py:627 members/models.py:628 templates/twa-index.html:42
 msgid "News"
 msgstr "ニュース"
 
-#: members/models.py:634 requests/models.py:38
+#: members/models.py:637 requests/models.py:38
 msgid "Path"
 msgstr ""
 
-#: members/models.py:641
+#: members/models.py:644
 #, fuzzy
 msgid "New"
 msgstr "ニュース"
 
-#: members/models.py:652
+#: members/models.py:655
 #, fuzzy
 msgid "Download"
 msgstr "ダウンロード"
 
-#: members/models.py:653 templates/twa-index.html:43
+#: members/models.py:656 templates/twa-index.html:43
 msgid "Downloads"
 msgstr "ダウンロード"
 
@@ -1084,6 +1084,10 @@ msgstr ""
 msgid "turning"
 msgstr ""
 
+#: templates/twa-index.html:142 templates/twa-news-archive.html:20
+msgid "read more"
+msgstr ""
+
 #: templates/twa-index.html:159
 msgid "Official TWA Site"
 msgstr ""
@@ -1104,8 +1108,7 @@ msgstr "状態"
 
 #: templates/twa-license-requests.html:22
 #: templates/twa-member-requests.html:62 templates/twa-member.html:65
-#: templates/twa-member.html.py:118 templates/twa-member.html:120
-#: templates/twa-member.html.py:161 templates/twa-member.html:163
+#: templates/twa-member.html.py:120 templates/twa-member.html:163
 #: templates/twa-suggestions.html:21
 #: templates/members/license_requests_list.html:24
 #: templates/members/member_requests_list.html:26
