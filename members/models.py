@@ -4,11 +4,13 @@ from PIL import Image
 import calendar
 from datetime import date
 from datetime import datetime
+from django.contrib.syndication.feeds import Feed
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
+from django.utils.feedgenerator import Atom1Feed
 
 from twa.members.templatetags.twa_tags import thumbnail
 from twa.utils import AbstractModel
@@ -654,3 +656,13 @@ class Download( AbstractModel ):
         ordering = ['name']
         verbose_name = _( u'Download' )
         verbose_name_plural = _( u'Downloads' )
+
+
+class NewsFeed(Feed):
+    title = 'tendo-world-aikido.de'
+    link = '/feed/'
+    feed_type = Atom1Feed
+    description = _(u'Nachrichten vom Weltverband für Tendoryu Aikido')
+
+    def items(self):
+        return News.current_objects.all()[:10]

@@ -1,0 +1,13 @@
+{% autoescape off %}
+<div>{{ obj.pub_date|date:"d.m.Y, H:i" }}</div>
+
+<div>
+  <br/>
+  {% if obj.preview_en %}
+    {{ obj.preview_en|linebreaksbr }}
+  {% else %}
+    {{ obj.preview|linebreaksbr }}
+  {% endif %}
+  {% if obj.text_en or obj.text %}<p><a href="{{ obj.get_absolute_url }}" class="tx10">[read more]</a></p>{% endif %}
+</div>
+{% endautoescape %}

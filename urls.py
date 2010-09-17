@@ -2,6 +2,8 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.contrib import admin
 
+from twa.members.models import NewsFeed
+
 admin.autodiscover()
 
 urlpatterns = patterns( '',
@@ -18,6 +20,15 @@ if settings.DEBUG:
     urlpatterns += patterns( '',
         ( r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT} ),
      )
+
+newsfeed = {
+    'news-de': NewsFeed,
+    'news-en': NewsFeed,
+}
+
+urlpatterns += patterns( '',
+    (r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': newsfeed}),
+)
 
 urlpatterns += patterns( 'twa.members.views',
 #    ( r'^$', 'index' ),
