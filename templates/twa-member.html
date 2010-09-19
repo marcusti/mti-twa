@@ -24,7 +24,7 @@
 <ul class="">
   <li>
     {% if person.is_member %}
-	  <img src="/static/images/kamon.png" align="right" title="{% trans "TWA Member" %}">
+      <img src="/static/images/kamon.png" align="right" title="{% trans 'TWA Member' %}">
     {% endif %}
 
     <b>{{ person }}</b><br/>
@@ -102,12 +102,19 @@
 
   <li class="tx12g">
     {% trans "TWA Membership" %}:
-    {% if perms.members.change_twamembership %}<a href="/admin/members/twamembership/{{ membership.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 
     <ul>
     {% for membership in person.twamembership_set.all %}
-      <li>{% trans "Status" %}: <span class="status-{{ membership.status }}"> {{ membership.get_status_display }} </span></li>
-      {% if membership.twa_id %}<li>TWA ID: {{ membership.twa_id }}</li>{% endif %}
+      <li>
+          {% trans "Status" %}: <span class="status-{{ membership.status }}"> {{ membership.get_status_display }} </span>
+          {% if perms.members.change_twamembership %}<a href="/admin/members/twamembership/{{ membership.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+      </li>
+
+      {% if membership.twa_id %}
+      <li>
+        TWA ID: {{ membership.twa_id }}
+      </li>
+      {% endif %}
 
     {% if membership.date %}
       <li>{% trans "Membership Date" %}: {{ membership.date }}</li>
@@ -116,9 +123,9 @@
     {% if membership.request %}
       <li>
           {% trans "Membership Request" %}: {{ membership.request }}
-	  {% if membership.request_doc %}
-	      <a href="/document/{{ membership.request_doc.name }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
-	  {% endif %}
+      {% if membership.request_doc %}
+          <a href="/document/{{ membership.request_doc.name }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
+      {% endif %}
       </li>
     {% endif %}
 
@@ -146,11 +153,13 @@
 
   <li class="tx12g">
     {% trans "TWA License" %}:
-    {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
 
     <ul>
     {% for license in person.license_set.all %}
-      <li>{% trans "Status" %}: <span> {{ license.get_status_display }} </span></li>
+      <li>
+        {% trans "Status" %}: <span> {{ license.get_status_display }} </span>
+        {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+      </li>
 
     {% if license.date %}
       <li>{% trans "License Date" %}: {{ license.date }}</li>
@@ -158,10 +167,10 @@
 
     {% if license.request %}
       <li>
-	{% trans "License Request" %}: {{ license.request }}
-	{% if license.request_doc %}
+    {% trans "License Request" %}: {{ license.request }}
+    {% if license.request_doc %}
             <a href="/document/{{ license.request_doc.name }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a>
-	{% endif %}
+    {% endif %}
       </li>
     {% endif %}
 
