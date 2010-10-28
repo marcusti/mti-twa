@@ -1,0 +1,38 @@
+{% load i18n %}
+
+{% if has_previous %}
+  <a href="?page={{ previous }}">{% trans "previous" %}</a>
+{% else %}
+  <span class="meta">{% trans "previous" %}</span>
+{% endif %}
+
+<span class="meta">|</span>
+
+{% trans "Page" %}
+
+{% if show_first %}
+  <a href="?page=1">1</a>
+  ..
+{% endif %}
+
+  {% for p in page_numbers %}
+    {% ifequal p page %}
+      <span class="current_page">{{ p }}</span>
+    {% else %}
+      <a href="?page={{ p }}">{{ p }}</a>
+    {% endifequal %}
+  {% endfor %}
+
+
+{% if show_last %}
+  ..
+  <a href="?page={{ pages }}">{{ pages }}</a>
+{% endif %}
+
+<span class="meta">|</span>
+
+{% if has_next %}
+  <a href="?page={{ next }}">{% trans "next" %}</a>
+{% else %}
+  <span class="meta">{% trans "next" %}</span>
+{% endif %}

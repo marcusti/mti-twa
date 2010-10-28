@@ -1,0 +1,58 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Dojos" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<p class="tx10g" align="center">
+{% trans "Country" %} ({{ counties|length }}):<br/>
+{% for country in counties %}
+  <a href="?s={{ country.1|urlencode }}" class="menu-entry{% ifequal search country.1 %} active{% endifequal %}">{{ country.1 }}</a>
+{% endfor %}
+</p>
+
+<p class="tx10g" align="center">
+{% trans "City" %} ({{ cities|length }}):<br/>
+{% for city in cities %}
+  <a href="?s={{ city.city }}" class="menu-entry{% ifequal search city.city %} active{% endifequal %}">{{ city.city }}</a>
+{% endfor %}
+</p>
+
+<p class="tx12g" align="center">
+  <a href="/dojos/" class="menu-entry{% if not search %} active{% endif %}">{% trans "alle" %}</a>
+</p>
+
+<form action="." method="get" id="member_filter">
+  <small><div align="center">{% include "members/search.html" %}</div></small>
+</form>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "City" %}</th>
+    <th>{% trans "Country" %}</th>
+    <th></th>
+  </tr>
+{% for dojo in object_list %}
+  <tr>
+    <td class="tx12g">{{ dojo.id }}</td>
+    <td class=""><a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></td>
+    <td class="tx12g">{{ dojo.city }}</td>
+    <td class="tx12g">{{ dojo.country.get_name }}</td>
+    {% with dojo.person_set.all|length as dojo_count %}
+    <td align="right" class="tx12g" title="{{ dojo_count }} {% trans "Members" %}">{{ dojo_count }}</td>
+    {% endwith %}
+  </tr>
+{% endfor %}
+</table>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<form id="dojo-filter" action="." method="get">
+<table>
+  <tr>
+    <td class="white bottom">
+      {% include "members/dojo_counter.html" %}<br/>{% paginator %}
+    </td>
+
+    <td class="white bottom right" align="right">
+        {% include "members/search.html" %}
+    </td>
+  </tr>
+</table>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>
+        {% trans "Country" %}
+        <select class="smaller" id="country-filter" name="co">
+          <option class="smaller" value="all" {% ifequal co "all" %} selected{% endifequal %}>{% trans "all" %}</option>
+          {% for country in counties %}
+            <option class="smaller" value="{{ country.0 }}" {% ifequal co country.0 %} selected{% endifequal %}>{{ country.1 }}</option>
+          {% endfor %}
+        </select>
+    </th>
+    <th>
+        {% trans "City" %}
+        <select class="smaller" id="city-filter" name="ci">
+          <option class="smaller" value="all" {% ifequal ci "all" %} selected{% endifequal %}>{% trans "all" %}</option>
+          {% for city in cities %}
+            <option class="smaller" value="{{ city.city }}" {% ifequal ci city.city %} selected{% endifequal %}>{{ city.city }}</option>
+          {% endfor %}
+        </select>
+    </th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Website" %}</th>
+  </tr>
+{% for dojo in object_list %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td>{{ dojo.id }}</td>
+    <td>{{ dojo.country.get_name }}</td>
+    <td>{{ dojo.city }}</td>
+    <td><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></td>
+    <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
+  </tr>
+{% endfor %}
+  <tr>
+    <td class="white" colspan="5">
+      {% paginator %}
+    </td>
+  </tr>
+</table>
+</form>
+
+{% endblock %}

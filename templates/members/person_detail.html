@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<table>
+  <colgroup>
+    <col width="25%">
+    <col width="*">
+    <col width="25%">
+  </colgroup>
+
+  <tr>
+    <th colspan="3">
+      {% trans "Person" %}
+      {% if perms.members.add_person %} | <a href="/admin/members/person/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      {% if perms.members.change_person %} | <a href="/admin/members/person/{{ person.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+    </th>
+  </tr>
+
+  <tr>
+    <td>{% trans "Name" %}:</td>
+    <td class="bigger">{{ person }}</td>
+
+    <td rowspan="31" style="text-align: right">
+    {% if person.photo %}
+      <img src="{{ person.photo.url }}"
+           width="{{ person.photo.width }}"
+           height="{{ person.photo.height }}"
+           align="right"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}" />
+    {% else %}
+      {% trans "No picture available." %}
+    {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Rank" %}:</td>
+    <td class="big">{{ person.current_rank }}</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "ID" %}:</td>
+    <td>{{ person.id }}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Dojo" %}:</td>
+    <td>
+    <ul>
+    {% for dojo in dojos %}
+      <li><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></li>
+    {% endfor %}
+    </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Street" %}:</td>
+    <td>{{ person.street }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Zip" %}, {% trans "City" %}:</td>
+    <td>{{ person.zip }} {{ person.city }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Country" %}:</td>
+    <td>{{ person.country.get_name|default:"" }}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Phone" %}:</td>
+    <td>{{ person.phone }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Fax" %}:</td>
+    <td>{{ person.fax }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Mobile" %}:</td>
+    <td>{{ person.mobile }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Email" %}:</td>
+    <td>{% if person.email %}<a href="mailto:{{ person.firstname }} {{ person.lastname }} <{{ person.email }}>">{{ person.email }}</a>{% endif %}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Website" %}:</td>
+    <td>{% if person.website %}<a href="{{ person.website }}" target="_blank">{{ person.website }}</a>{% endif %}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Gender" %}:</td>
+    <td>{{ person.get_gender_display }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Age" %}:</td>
+    <td>{{ person.age }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Birth" %}:</td>
+    <td>{{ person.birth|default:"" }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Aikido" %}:</td>
+    <td>{% if person.aikido_since %}{{ person.aikido_since|default:"" }} ({{ person.aikido_since|timesince }}){% endif %}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>
+      {% trans "Graduations" %}:
+    </td>
+    <td>
+    <ul>
+    {% for grad in graduations %}
+      <li>
+      {% if grad.is_nomination %}
+        {% trans "Nomination" %}:
+      {% endif %}
+      {{ grad.get_rank_display }}
+
+        <span class="meta">
+        <ul>
+          {% if grad.date %}
+          <li>{{ grad.date }} ({{ grad.date|timesince }})</li>
+          {% endif %}
+
+          {% if grad.nominated_by %}
+            <li>{% trans "Nominated By" %} {{ grad.nominated_by }}</li>
+          {% endif %}
+
+          {% if grad.text %}
+            <li>{{ grad.text|linebreaksbr }}</li>
+          {% endif %}
+
+          {% if grad.request_doc %}
+            <li><a href="{{ grad.request_doc.url }}">{{ grad.request_doc }}</a></li>
+          {% endif %}
+
+          {% if grad.confirmation_doc %}
+            <li><a href="{{ grad.confirmation_doc.url }}">{{ grad.confirmation_doc }}</a></li>
+          {% endif %}
+
+          {% if grad.payment_doc %}
+            <li><a href="{{ grad.payment_doc.url }}">{{ grad.payment_doc }}</a></li>
+          {% endif %}
+        </ul>
+        </span>
+
+      </li>
+    {% endfor %}
+    </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Active" %}:</td>
+    <td>{{ person.is_active|yesno }}</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "TWA Member" %}:</td>
+    <td>
+      {% if person.twa_member_since %}
+        {{ person.twa_member_since }}
+        <span class="meta">( {{ person.twa_member|timesince }} )</span>
+      {% else %}
+        {% if person.is_twa_membership_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td>{% trans "TWA License" %}: {% if not person.is_license_requested and not person.is_licensed and perms.members.add_license %}<a href="/admin/members/license/add/" class="edit small">{% trans "new" %}</a>{% endif %}</td>
+    <td>
+    {% if not person.is_license_requested and not person.is_licensed %}
+      {% trans "No" %}
+    {% else %}
+    <ul>
+    {% for license in person.license_set.all %}
+        <li>
+          {% trans "License" %}:
+          {% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+          <ul>
+            <li>{{ license.get_status_display|capfirst }}</li>
+            <li class="meta">
+              {% if license.date %}
+                {{ license.date }}
+                ( {{ license.date|timesince }} )
+              {% else %}
+                {% trans "No" %}
+              {% endif %}
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          {% trans "Request" %}:
+          <span class="meta">
+          <ul>
+            <li>
+              {% if license.request %}
+                {{ license.request }}
+                ( {{ license.request|timesince }} )
+              {% else %}
+                {% trans "No" %}
+              {% endif %}
+            </li>
+
+            {% if license.request_doc %}
+            <li class="small">
+              <a href="{{ license.request_doc.url }}">{{ license.request_doc }}</a>
+            </li>
+            {% endif %}
+
+          </ul>
+          </span>
+        </li>
+
+        <li>
+          {% trans "Receipt" %}:
+          <span class="meta">
+          <ul>
+            <li>
+              {% if license.receipt %}
+                {{ license.receipt }}
+                ( {{ license.receipt|timesince }} )
+              {% else %}
+                {% trans "No" %}
+              {% endif %}
+            </li>
+
+            {% if license.receipt_doc %}
+            <li class="small">
+              <a href="{{ license.receipt_doc.url }}">{{ license.receipt_doc }}</a>
+            </li>
+            {% endif %}
+
+          </ul>
+          </span>
+        </li>
+
+        <li>
+          {% trans "Text" %}:
+          <span class="meta">
+          <ul>
+            <li>
+              {% if license.text %}
+                {{ license.text }}
+              {% endif %}
+            </li>
+          </ul>
+          </span>
+        </li>
+
+    {% endfor %}
+    </ul>
+    {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Text" %}:</td>
+    <td>{{ person.text|linebreaksbr }}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Documents" %}:</td>
+    <td>
+    <ul>
+    {% for doc in documents %}
+      <li title="{{ doc.file }}">
+        <a href="{{ doc.file.url }}">{{ doc.name }}</a> <span class="meta">({{ doc.file }})</span>
+      </li>
+    {% endfor %}
+    </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ person.last_modified }}</small></p>
+{% endblock %}

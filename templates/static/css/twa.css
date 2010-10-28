@@ -1,0 +1,248 @@
+body {
+  margin: 0; padding: 0.2em;
+  font-size: 90%;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, sans-serif;
+}
+
+p {
+  margin: 0; padding: 2em 0.2em 2em 0.2em;
+}
+
+a {
+  cursor: pointer;
+  color: #0066CC;
+  text-decoration: none;
+  margin: 0; padding: 0;
+}
+
+a:hover, a:hover img {
+  color: white;
+  background-color: #0066cc;
+}
+
+a.edit, .edit {
+  color: #cc0000;
+}
+
+a:hover.edit {
+  color: white;
+  background-color: #cc0000;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0.2em 0.2em 0.2em 2em;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+  text-align: left;
+  vertical-align: top;
+  margin: 0; padding: 0.2em;
+}
+
+th {
+  text-align: left;
+  vertical-align: top;
+  margin: 0; padding: 0.2em;
+  color: white;
+  background-color: #9d9ea0;
+}
+
+th.edit {
+  text-align: right;
+}
+
+.tableheader {
+  color: black;
+  background-color: white;
+}
+
+tr {
+  background-color: #eeeeee;
+}
+
+#header {
+  text-align: left;
+  vertical-align: top;
+  padding: 0;
+  margin: 0 0 1em 0;
+}
+
+#header table {
+  style: fixed;
+}
+
+#header form, #header td {
+  clear: both;
+  text-align: right;
+  list-style-type: none;
+}
+
+#footer {
+  text-align: right;
+  vertical-align: bottom;
+  margin: 0;
+  padding: 2em 0.2em 2em 0.2em;
+}
+
+#searchform {
+  text-align: right;
+  font-size: 90%;
+  margin: 0; padding: 0.2em;
+}
+
+.menu {
+  clear: both;
+  border-top: 1px solid #9d9ea0;
+  border-bottom: 1px solid #9d9ea0;
+}
+
+.menu-block {
+  float: right;
+  text-align: right;
+  margin: 0;
+  padding: 1em 0 0 2em;
+}
+
+.right {
+  text-align: right;
+}
+
+.pagination {
+  text-align: left;
+  font-size: 90%;
+  margin: 0; padding: 0.2em;
+}
+
+.bottom {
+  vertical-align: bottom;
+}
+
+.current_page {
+  vertical-align: bottom;
+  font-size: 110%;
+}
+
+#searchform input {
+  font-size: 90%;
+  margin: 0; padding: 0.2em;
+}
+
+#content {
+  clear: both;
+}
+
+.row1 {
+  background-color: #eeeeee;
+}
+
+.row2 {
+  background-color: #eeeeee;
+}
+
+.meta {
+  color: #9d9ea0;
+}
+
+.small {
+  font-size: 90%;
+}
+
+.smaller {
+  font-size: 80%;
+}
+
+.big {
+  font-size: 120%;
+}
+
+.bigger {
+  font-size: 140%;
+}
+
+.leftpad {
+  padding: 0 0 0 1em;
+}
+
+.columnhover tr:hover {
+  background-color: #dddddd;
+}
+
+.white {
+  background-color: white;
+}
+
+img, img.left, img.center, img.right, .photo {
+  padding: 1px;
+  border: 1px solid #a0a0a0;
+}
+
+img.left {
+  float: left;
+  margin: 0 12px 5px 0;
+}
+
+img.center {
+  display: block;
+  margin: 0 auto 5px auto;
+}
+
+img.right {
+  float: right;
+  margin: 0 0 0 12px;
+}
+
+img.logo {
+  padding: 1px;
+  border: none;
+}
+
+.nobr {
+  white-space: nowrap;
+}
+
+.error {
+  color: red;
+}
+
+/* LICENSE_STATUS_ACCEPTED */
+.status-2, .status-6 {
+  background-color: #aaffaa;
+}
+
+tr:hover .status-2, tr:hover .status-6 {
+  background-color: #55ff55;
+}
+
+/* LICENSE_STATUS_REJECTED */
+.status-3 {
+  background-color: #ffaaaa;
+}
+
+tr:hover .status-3 {
+  background-color: #ff5555;
+}
+
+/* LICENSE_STATUS_VERIFY */
+.status-4 {
+  background-color: #ffffaa;
+}
+
+tr:hover .status-4 {
+  background-color: #ffff55;
+}
+
+.active {
+  font-weight: bold;
+}

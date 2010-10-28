@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<form id="dojo-filter" action="." method="get">
+<table>
+  <tr>
+    <td class="white bottom">
+      {% include "members/association_counter.html" %}<br/>{% paginator %}
+    </td>
+  </tr>
+</table>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>{% trans "Country" %}</th>
+    <th>{% trans "Province" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Contact" %}</th>
+  </tr>
+
+{% for association in object_list %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td>{{ association.id }}</td>
+    <td>{{ association.country.get_name }}</td>
+    <td>{{ association.province }}</td>
+    <td><a href="{{ association.get_absolute_url }}">{{ association.name }}</a></td>
+    <td>{% if association.contact %}{{ association.contact.firstname }} {{ association.contact.lastname }}{% endif %}</td>
+  </tr>
+{% endfor %}
+
+  <tr>
+    <td class="white" colspan="5">
+      {% paginator %}
+    </td>
+  </tr>
+</table>
+</form>
+
+{% endblock %}
