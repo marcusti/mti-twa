@@ -405,11 +405,11 @@ class Association( AbstractModel ):
 
 class SuggestionsManager( models.Manager ):
     def get_query_set( self ):
-        return super( SuggestionsManager, self ).get_query_set().filter( is_active = True, public = True, is_nomination = True )
+        return super( SuggestionsManager, self ).get_query_set().filter( is_active = True, public = True, person__is_active = True, person__public = True, is_nomination = True )
 
 class GraduationManager( models.Manager ):
     def get_query_set( self ):
-        return super( GraduationManager, self ).get_query_set().filter( is_active = True, public = True, is_nomination = False )
+        return super( GraduationManager, self ).get_query_set().filter( is_active = True, public = True, person__is_active = True, person__public = True, is_nomination = False )
 
     def get_current( self, person ):
         try:
@@ -455,14 +455,17 @@ class Graduation( AbstractModel ):
         verbose_name_plural = _( 'Graduations' )
 
 class LicenseManager( models.Manager ):
+    def get_query_set( self ):
+        return super( LicenseManager, self ).get_query_set().filter( is_active = True, public = True, person__is_active = True, person__public = True )
+
     def get_requested_licenses( self ):
-        return License.objects.filter( is_active = True, public = True ).exclude( status = LICENSE_STATUS_LICENSED )#.exclude( status = LICENSE_STATUS_REJECTED )
+        return self.get_query_set().filter( is_active = True, public = True ).exclude( status = LICENSE_STATUS_LICENSED )#.exclude( status = LICENSE_STATUS_REJECTED )
 
     def get_granted_licenses( self ):
-        return License.objects.filter( status = LICENSE_STATUS_LICENSED, is_active = True, public = True )
+        return self.get_query_set().filter( status = LICENSE_STATUS_LICENSED, is_active = True, public = True )
 
     def get_rejected_licenses( self ):
-        return License.objects.filter( status = LICENSE_STATUS_REJECTED, is_active = True, public = True )
+        return self.get_query_set().filter( status = LICENSE_STATUS_REJECTED, is_active = True, public = True )
 
 class License( AbstractModel ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
@@ -491,7 +494,7 @@ class License( AbstractModel ):
 
 class TWAMembershipManager( models.Manager ):
     def get_query_set( self ):
-        return super( TWAMembershipManager, self ).get_query_set().filter( is_active = True, public = True )
+        return super( TWAMembershipManager, self ).get_query_set().filter( is_active = True, public = True, person__is_active = True, person__public = True )
 
     def get_requested_memberships( self ):
         return self.get_query_set().all()
