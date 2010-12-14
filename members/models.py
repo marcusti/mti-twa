@@ -28,7 +28,7 @@ TWA_REGION = [
     ( 1, 'Eckhardt/Marcus' ),
     ( 2, 'Peter' ),
     ( 3, 'Volker' ),
-    ( 4, 'Dieter' ),
+    ( 4, 'Robert/Stephan' ),
     ( 5, 'Milan' ),
     ( 6, 'Tendokan' ),
 ]
