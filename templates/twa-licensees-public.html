@@ -1,0 +1,23 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Licensees" %}</h1>
+
+{% for license in object_list %}
+<p class="">
+    <h2>{{ license.person }}, {{ license.person.current_rank }}</h2>
+    <h3>
+        {{ license.person.dojos.all.0.country.code }} -
+        {% if license.person.dojos.all.0.website %}
+            <a href="{{ license.person.dojos.all.0.website }}" target="_blank">{{ license.person.dojos.all.0 }}</a>
+        {% else %}
+            {{ license.person.dojos.all.0 }}
+        {% endif %}
+    </h3>
+</p>
+{% endfor %}
+
+{% endblock %}

@@ -410,6 +410,23 @@ def member_requests( request, status = None, dojo_id = None, region_id = None, n
         template_name = 'twa-member-requests.html',
     )
 
+def licensees(request):
+    ctx = get_context( request )
+    ctx['menu'] = 'licensees'
+    qs = License.objects.get_public_licenses()
+    #~ l = sorted(list(qs), key=lambda x: x.)
+    l= list(qs)
+    l = sorted(l, key=lambda x: x.person.current_rank(), reverse=True)
+    l = sorted(l, key=lambda x: x.person.dojos.all()[0].name)
+    l = sorted(l, key=lambda x: x.person.dojos.all()[0].city)
+    l = sorted(l, key=lambda x: x.person.dojos.all()[0].country.code)
+    ctx['object_list'] = l
+
+    return direct_to_template( request,
+        template = 'twa-licensees-public.html',
+        extra_context = ctx,
+    )
+
 @login_required
 def licenses( request, twa_status = None, dojo_id = None ):
     ctx = get_context( request )
