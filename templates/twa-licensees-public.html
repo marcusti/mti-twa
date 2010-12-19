@@ -11,10 +11,11 @@
     <h2>{{ license.person }}, {{ license.person.current_rank }}</h2>
     <h3>
         {{ license.person.dojos.all.0.country.code }} -
+        {% ifnotequal license.person.dojos.all.0.city license.person.dojos.all.0.name %}{{ license.person.dojos.all.0.city }} - {% endifnotequal %}
         {% if license.person.dojos.all.0.website %}
-            <a href="{{ license.person.dojos.all.0.website }}" target="_blank">{{ license.person.dojos.all.0 }}</a>
+            <a href="{{ license.person.dojos.all.0.website }}" target="_blank">{{ license.person.dojos.all.0.name }}</a>
         {% else %}
-            {{ license.person.dojos.all.0 }}
+            {{ license.person.dojos.all.0.name }}
         {% endif %}
     </h3>
 </p>

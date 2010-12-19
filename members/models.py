@@ -352,6 +352,9 @@ class Dojo( AbstractModel ):
     def get_absolute_url( self ):
         return '/dojo/%i/' % self.id
 
+    def __repr__( self ):
+        return self.__unicode__()
+
     def __unicode__( self ):
         name = u''
         if self.name_jp:
