@@ -31,6 +31,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 TMP_DIR = '/tmp/'
 
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
 # Diese URLs an SSL weiterleiten
 SSL_URLS = [
     #r'.*',

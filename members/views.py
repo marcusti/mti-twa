@@ -14,6 +14,7 @@ from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.shortcuts import render_to_response
 #from django.utils.translation import ugettext_lazy as _
+from django.views.decorators.cache import cache_page
 from django.views.generic.list_detail import object_list, object_detail
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.views.i18n import set_language
@@ -410,6 +411,7 @@ def member_requests( request, status = None, dojo_id = None, region_id = None, n
         template_name = 'twa-member-requests.html',
     )
 
+@cache_page(60 * 60 * 24)
 def licensees(request):
     ctx = get_context( request )
     ctx['menu'] = 'licensees'
