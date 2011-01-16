@@ -527,6 +527,9 @@ def suggestions2( request ):
 
 @login_required
 def dojos_csv( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     get_context( request )
     response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=dojos.csv'
@@ -595,6 +598,9 @@ def image_handler(request, filename, size='64x64'):
 
 @login_required
 def members_xls( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Members' )
@@ -607,7 +613,15 @@ def members_xls( request ):
     for y, header in enumerate( __get_export_headers() ):
         sheet.write( 0, y, header, header_style )
 
-    for x, person in enumerate( Person.persons.all().select_related('country', 'graduations').order_by( 'dojos', 'firstname', 'lastname' ) ):
+    from operator import attrgetter
+    people = Person.persons.all().distinct()
+    people = sorted(people, key=attrgetter('lastname'))
+    people = sorted(people, key=attrgetter('firstname'))
+    people = sorted(people, key=lambda p: __get_dojo_name(__get_dojo(p)))
+    people = sorted(people, key=lambda p: __get_dojo_city(__get_dojo(p)))
+    people = sorted(people, key=lambda p: __get_dojo_country(__get_dojo(p)))
+    #for x, person in enumerate( Person.persons.all().select_related('country', 'graduations').order_by( 'dojos', 'firstname', 'lastname' ) ):
+    for x, person in enumerate( people ):
         for y, content in enumerate( __get_export_content( person ) ):
             sheet.write( x + 1, y, content )
 
@@ -621,6 +635,9 @@ def members_xls( request ):
 
 @login_required
 def licenses_xls( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Lizenz Anträge' )
@@ -649,6 +666,9 @@ def licenses_xls( request ):
 
 @login_required
 def license_requests_xls( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'Lizenz Anträge' )
@@ -677,6 +697,9 @@ def license_requests_xls( request ):
 
 @login_required
 def membership_requests_xls( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     get_context( request )
     workbook = xl.Workbook()
     sheet = workbook.add_sheet( 'TWA Anträge' )
@@ -745,6 +768,9 @@ def membership_requests_xls( request ):
 
 @login_required
 def nominations_xls( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     get_context( request )
 
     workbook = xl.Workbook()
@@ -775,6 +801,9 @@ def nominations_xls( request ):
 
 @login_required
 def members_csv( request ):
+    if not request.user.is_superuser:
+        raise Http404
+
     get_context( request )
     response = HttpResponse( mimetype = 'text/csv' )
     response['Content-Disposition'] = 'attachment; filename=members.csv'
@@ -782,7 +811,8 @@ def members_csv( request ):
     writer = UnicodeWriter( response )
     writer.writerow( __get_export_headers() )
 
-    for person in Person.persons.all().order_by( 'id' ):
+    people = Person.persons.all().select_related().order_by( 'firstname', 'lastname' )
+    for person in people:
         writer.writerow( __get_export_content( person ) )
 
     return response
@@ -790,12 +820,13 @@ def members_csv( request ):
 def __get_export_headers():
     #print Person._meta.fields
     return [
-            'ID',
-            'TWA-ID',
+            'DB-ID',
             'FIRSTNAME',
             'LASTNAME',
+            'NICKNAME',
             'FIRSTNAME_JP',
             'LASTNAME_JP',
+            'TITLE',
             'STREET',
             'ZIP',
             'CITY',
@@ -804,11 +835,11 @@ def __get_export_headers():
             'FAX',
             'MOBILE',
             'EMAIL',
-#            'WEBSITE',
             'DOJO-ID',
+            'DOJO COUNTRY',
+            'DOJO CITY',
             'DOJO',
-#            'RANK',
-            'AIKIDO SINCE',
+            'TENDORYU SINCE',
             '5. KYU',
             '4. KYU',
             '3. KYU',
@@ -824,16 +855,31 @@ def __get_export_headers():
             'BIRTH',
             'PHOTO',
             'TEXT',
+            'LICENSE',
+            'TWA-ID',
+            'TWA MEMBER SINCE',
+            'TWA PASSPORT DATE',
+            'TWA PAYMENT 2009',
+            'TWA PAYMENT 2010',
+            'TWA PAYMENT 2011',
             ]
 
 def __get_export_content( person ):
+    dojo = __get_dojo(person)
+    graduations = person.graduations.filter(is_active=True)
+    membership = __get_twa_membership(person)
+    if membership:
+        payments = membership.twapayment_set.all()
+    else:
+        payments = None
     return [
             str( person.id ),
-            person.twa_id(),
             __get_null_safe( person.firstname ),
             __get_null_safe( person.lastname ),
+            __get_null_safe( person.nickname ),
             __get_null_safe( person.firstname_jp ),
             __get_null_safe( person.lastname_jp ),
+            __get_null_safe( person.get_name_prefix_display() ),
             __get_null_safe( person.street ),
             __get_null_safe( person.zip ),
             __get_null_safe( person.city ),
@@ -842,26 +888,33 @@ def __get_export_content( person ):
             __get_null_safe( person.fax ),
             __get_null_safe( person.mobile ),
             __get_null_safe( person.email ),
-#            __get_null_safe( person.website ),
-            __get_dojo_id( person ),
-            __get_dojo_name( person ),
-#            __get_currentrank( person ),
+            __get_dojo_id( dojo ),
+            __get_dojo_country( dojo ),
+            __get_dojo_city( dojo ),
+            __get_dojo_name( dojo ),
             __get_date( person.aikido_since ),
-            __get_rank( person.get_rank( 10 ) ),
-            __get_rank( person.get_rank( 20 ) ),
-            __get_rank( person.get_rank( 30 ) ),
-            __get_rank( person.get_rank( 40 ) ),
-            __get_rank( person.get_rank( 50 ) ),
-            __get_rank( person.get_rank( 100 ) ),
-            __get_rank( person.get_rank( 200 ) ),
-            __get_rank( person.get_rank( 300 ) ),
-            __get_rank( person.get_rank( 400 ) ),
-            __get_rank( person.get_rank( 500 ) ),
-            __get_rank( person.get_rank( 600 ) ),
+            __get_rank( graduations, 10 ),
+            __get_rank( graduations, 20 ),
+            __get_rank( graduations, 30 ),
+            __get_rank( graduations, 40 ),
+            __get_rank( graduations, 50 ),
+            __get_rank( graduations, 100 ),
+            __get_rank( graduations, 200 ),
+            __get_rank( graduations, 300 ),
+            __get_rank( graduations, 400 ),
+            __get_rank( graduations, 500 ),
+            __get_rank( graduations, 600 ),
             __get_gender( person ),
             __get_date( person.birth ),
             __get_path( person.photo ),
             __get_null_safe( person.text ),
+            __get_license( person ),
+            person.twa_id(),
+            __get_twa_member_since( membership ),
+            '',
+            __get_twa_payment( payments, 2009 ),
+            __get_twa_payment( payments, 2010 ),
+            __get_twa_payment( payments, 2011 ),
             ]
 
 def __get_dojo( p ):
@@ -870,32 +923,70 @@ def __get_dojo( p ):
     except:
         return None
 
-def __get_dojo_name( p ):
-    try:
-        dojo = __get_dojo( p )
+def __get_dojo_name( dojo ):
+    if dojo:
         if dojo.name_jp:
             name = "%s %s" % ( dojo.name_jp, dojo.name )
         else:
             name = dojo.name
         return unicode( name.strip() )
-    except:
-        return ''
-
-def __get_dojo_id( p ):
-    try:
-        return __get_dojo( p ).id
-    except:
-        return ''
-
-def __get_rank( g ):
-    if g:
-        return str( g.date )
     else:
+        return ''
+
+def __get_dojo_country( dojo ):
+    if dojo:
+        return __get_country( dojo.country )
+    else:
+        return ''
+
+def __get_dojo_city( dojo ):
+    if dojo:
+        return dojo.city
+    else:
+        return ''
+
+def __get_dojo_id( dojo ):
+    if dojo:
+        return str(dojo.id)
+    else:
+        return ''
+
+def __get_rank( graduations, rank ):
+    try:
+        return str(graduations.filter( rank=rank ).latest('date').date)
+    except:
         return ''
 
 def __get_currentrank( p ):
     if p and p.current_rank():
         return str( p.current_rank() )
+    else:
+        return ''
+
+def __get_license( p ):
+    if p and p.is_licensed():
+        return __get_date(p.license_set.filter(status=LICENSE_STATUS_LICENSED, is_active=True)[0].date)
+    else:
+        return ''
+
+def __get_twa_membership( p ):
+    if p and p.is_member():
+        return p.twamembership_set.filter(status=MEMBERSHIP_STATUS_MEMBER, is_active=True)[0]
+    else:
+        return None
+
+def __get_twa_member_since( membership ):
+    if membership:
+        return __get_date( membership.date )
+    else:
+        return ''
+
+def __get_twa_payment( payments, year=None ):
+    if payments and year:
+        try:
+            return __get_date(payments.filter(year=year).latest('date').date)
+        except:
+            return ''
     else:
         return ''
 

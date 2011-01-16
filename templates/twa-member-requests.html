@@ -117,19 +117,20 @@
 {% endfor %}
 </table>
 
-<p class="tx12g" align="center">
-  <a href="mailto:{% for membership in queryset %}{% if membership.person.email %}&quot;{{ membership.person.firstname|escape }} {{ membership.person.lastname|escape }}&quot; &lt;{{ membership.person.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}" class="edit menu-entry">Email an diese Auswahl</a>(ohne offene: {{ queryset|length }})
-</p>
-
 {% if is_paginated %}
 <div class="white" align="center">
   <small>{% paginator %}</small><br/>
 </div>
 {% endif %}
 
+{% if user.is_superuser %}
 <div class="white" align="center">
-  <small>{% trans "Export to" %} <a href="/member-requests/xls/">xls</a></small>
+  <small>
+      <a href="mailto:{% for membership in queryset %}{% if membership.person.email %}&quot;{{ membership.person.firstname|escape }} {{ membership.person.lastname|escape }}&quot; &lt;{{ membership.person.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}" class="edit menu-entry">Email an diese Auswahl</a>(ohne offene: {{ queryset|length }})
+     <br/>{% trans "Export to" %} <a href="/member-requests/xls/">xls</a>
+  </small>
 </div>
+{% endif %}
 
 <div class="tx12g" align="">
 <table class="clean">

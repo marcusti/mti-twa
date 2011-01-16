@@ -70,10 +70,12 @@
 </div>
 {% endif %}
 
+{% if user.is_superuser %}
 <div class="white" align="center">
   <small>
     <br/>{% trans "Export to" %} <a href="/licenses/xls/">xls</a>
   </small>
 </div>
+{% endif %}
 
 {% endblock %}
