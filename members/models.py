@@ -182,7 +182,7 @@ class Person( AbstractModel ):
         return self.license_set.filter( request__isnull = False, date__isnull = True ).count() > 0
 
     def is_licensed( self ):
-        return self.license_set.filter( status = LICENSE_STATUS_LICENSED ).count() > 0
+        return self.license_set.filter( status = LICENSE_STATUS_LICENSED, is_active = True ).count() > 0
 
     def is_twa_membership_requested( self ):
         return self.twamembership_set.filter( request__isnull = False, date__isnull = True ).count() > 0
@@ -209,7 +209,7 @@ class Person( AbstractModel ):
 
     def twa_status( self ):
         try:
-            return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).get_status_display()
+            return self.twamembership_set.filter(is_active=True).latest( 'created' ).get_status_display()
         except:
             return ''
     twa_status.short_description = _( 'TWA Status' )
@@ -217,7 +217,7 @@ class Person( AbstractModel ):
 
     def twa_id( self ):
         try:
-            return TWAMembership.objects.filter( person__id = self.id ).latest( 'created' ).twa_id()
+            return self.twamembership_set.filter(is_active=True).latest( 'created' ).twa_id()
         except:
             return ''
     twa_id.short_description = _( 'TWA-ID' )

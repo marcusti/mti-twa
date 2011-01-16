@@ -96,9 +96,12 @@
 </div>
 {% endif %}
 
+{% if user.is_superuser %}
 <div class="white" align="center">
   <small>
-    <br/>{% trans "Export to" %} <a href="/members/xls/">xls</a>
+    <br/>{% trans "Export to" %} <a href="/members/xls/">xls</a>, <a href="/members/csv/">csv</a>
   </small>
 </div>
+{% endif %}
+
 {% endblock %}
