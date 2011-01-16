@@ -23,17 +23,6 @@
       <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
     {% endfor %}
     </div>
-
-    <div class="tx12g">
-      {% trans "ID" %}: {{ person.id }}
-    </div>
-
-    <div class="tx12g">
-    {% trans "TWA ID" %}:
-    {% for membership in person.twamembership_set.all %}
-      {% if membership.twa_id %}{{ membership.twa_id }} {% endif %}
-    {% endfor %}
-    </div>
     </td>
 
     <td class="status-{{ membership.status }}">
@@ -46,23 +35,23 @@
 
     <td>
     <div class="tx12g">
-      {% trans "Member" %}:
-      {% if person.is_member %}
-        {% trans "Yes" %}
-      {% else %}
-        {% if person.is_twa_membership_requested %}
-          {% trans "Requested" %}
-        {% else %}
-          {% trans "No" %}
-        {% endif %}
-      {% endif %}
+      {% for membership in person.twamembership_set.all  %}
+          {% trans "TWA Membership" %}:
+            {{ membership.twa_id }}
+            <br/>
+            {% trans "Status" %}:
+            {{ membership.get_status_display }}
+            <br/>
+            {% trans "Passport Date" %}:
+            {% if membership.passport_date %}{{ membership.passport_date|date:"Y-m-d" }}{% else %} - {% endif %}
+      {% endfor %}
     </div>
 
     <div class="tx12g">
       {% trans "License" %}:
       {% if person.is_licensed %}
         {% for license in person.license_set.all %}
-          {% trans "License" %} {% trans "ID" %} {{ license.id }}, {{ license.date }}
+          ID {{ license.id }}, {{ license.date|date:"Y-m-d" }}
         {% endfor %}
       {% else %}
         {% if person.is_license_requested %}
