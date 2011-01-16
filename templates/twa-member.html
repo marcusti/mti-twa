@@ -60,7 +60,7 @@
       </small>
       {% endif %}
       <ul>
-    {% if grad.date %}<li class="tx12g">{{ grad.date }} ({{ grad.date|timesince }})</li>{% endif %}
+    {% if grad.date %}<li class="tx12g">{{ grad.date|date:"Y-m-d" }} ({{ grad.date|timesince }})</li>{% endif %}
     {% if grad.text %}<li class="tx12g">{{ grad.text|linebreaksbr }}</li>{% endif %}
     {% if grad.request_doc %}<li class="tx12g"><a href="/document/{{ grad.request_doc.name }}">{% trans "Request" %}</a> {{ grad.request_doc|extension|lower}}</li>{% endif %}
     {% if grad.confirmation_doc %}<li class="tx12g"><a href="/document/{{ grad.confirmation_doc.name }}">{% trans "Confirmation" %}</a> {{ grad.confirmation_doc|extension|lower}}</li>{% endif %}
@@ -73,7 +73,7 @@
   {% if person.aikido_since %}
   <li class="tx12g">
     {% trans "Aikido" %}
-    <ul><li>{{ person.aikido_since }} ({{ person.aikido_since|timesince }})</li></ul>
+    <ul><li>{{ person.aikido_since|date:"Y-m-d" }} ({{ person.aikido_since|timesince }})</li></ul>
   </li>
   {% endif %}
 
@@ -90,7 +90,7 @@
 
   <li class="tx12g">
     {% trans "Age" %}: {{ person.age|default:"-" }}<br/>
-    {% trans "Birth" %}: {{ person.birth|default:"-" }}<br/>
+    {% trans "Birth" %}: {{ person.birth|date:"Y-m-d"|default:"-" }}<br/>
     {{ person.get_gender_display }}<br/>
   </li>
 
@@ -122,7 +122,7 @@
 
     {% if membership.request %}
       <li>
-          {% trans "Membership Request" %}: {{ membership.request }}
+          {% trans "Membership Request" %}: {{ membership.request|date:"Y-m-d" }}
       {% if membership.request_doc %}
           <a href="/document/{{ membership.request_doc.name }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
       {% endif %}
@@ -143,7 +143,7 @@
     <ul>
     {% for payment in membership.twapayment_set.all %}
       <li>
-        {{ payment.year }}: {{ payment.date }} {%if payment.cash %}({% trans "Cash" %}){% endif %}
+        {{ payment.year }}: {{ payment.date|date:"Y-m-d" }} {%if payment.cash %}({% trans "Cash" %}){% endif %}
         {% if payment.text %}<ul><li>{{ payment.text }}</li></ul>{% endif %}
       </li>
     {% endfor %}
@@ -166,12 +166,12 @@
       </li>
 
     {% if license.date %}
-      <li>{% trans "License Date" %}: {{ license.date }}</li>
+      <li>{% trans "License Date" %}: {{ license.date|date:"Y-m-d" }}</li>
     {% endif %}
 
     {% if license.request %}
       <li>
-    {% trans "License Request" %}: {{ license.request }}
+    {% trans "License Request" %}: {{ license.request|date:"Y-m-d" }}
     {% if license.request_doc %}
             <a href="/document/{{ license.request_doc.name }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a>
     {% endif %}
