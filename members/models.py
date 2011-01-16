@@ -465,7 +465,7 @@ class LicenseManager( models.Manager ):
         return self.get_query_set().filter( is_active = True, public = True ).exclude( status = LICENSE_STATUS_LICENSED )#.exclude( status = LICENSE_STATUS_REJECTED )
 
     def get_granted_licenses( self ):
-        return self.get_query_set().filter( status = LICENSE_STATUS_LICENSED, is_active = True, public = True )
+        return self.get_query_set().filter( status = LICENSE_STATUS_LICENSED, is_active = True, public = True ).order_by('-date')
 
     def get_public_licenses( self ):
         return self.get_granted_licenses().filter(person__public=True)
@@ -520,6 +520,7 @@ class TWAMembership( AbstractModel ):
     person = models.ForeignKey( Person, verbose_name = _( 'Person' ) )
     status = models.IntegerField( _( 'Membership Status' ), choices = MEMBERSHIP_STATUS, default = LICENSE_STATUS_OPEN )
     date = models.DateField( _( 'Membership Date' ), blank = True, null = True )
+    passport_date = models.DateField( _( 'Passport Date' ), blank = True, null = True )
     request = models.DateField( _( 'Membership Request' ), blank = True, null = True )
     request_doc = models.FileField( _( 'Membership Request Document' ), storage = doc_file_system, upload_to = 'docs/', blank = True, null = True )
     text = models.TextField( _( 'Text' ), blank = True )

@@ -117,7 +117,7 @@
       {% endif %}
 
     {% if membership.date %}
-      <li>{% trans "Membership Date" %}: {{ membership.date }}</li>
+      <li>{% trans "Membership Date" %}: {{ membership.date|date:"Y-m-d" }}</li>
     {% endif %}
 
     {% if membership.request %}
@@ -127,6 +127,10 @@
           <a href="/document/{{ membership.request_doc.name }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a>
       {% endif %}
       </li>
+    {% endif %}
+
+    {% if membership.passport_date %}
+      <li>{% trans "Passport Date" %}: {{ membership.passport_date|date:"Y-m-d" }}</li>
     {% endif %}
 
     {% if membership.text %}

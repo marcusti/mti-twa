@@ -101,7 +101,7 @@
     </td>
 
     <td class="tx12">
-      {% if membership.request %}{{ membership.request }}{% endif %}
+      {% if membership.request %}{{ membership.request|date:"Y-m-d" }}{% endif %}
       {% if membership.request_doc %}
       <div class="tx10g">
         <a href="/document/{{ membership.request_doc.name }}">{{ membership.request_doc|extension|lower }}</a>
@@ -110,7 +110,7 @@
     </td>
 
     <td class="tx12">
-      {% if membership.payment %}{{ membership.payment.date }}{% endif %}
+      {% if membership.payment %}{{ membership.payment.date|date:"Y-m-d" }}{% endif %}
     </td>
 
   </tr>

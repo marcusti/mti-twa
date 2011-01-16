@@ -911,7 +911,7 @@ def __get_export_content( person ):
             __get_license( person ),
             person.twa_id(),
             __get_twa_member_since( membership ),
-            '',
+            __get_twa_passport_date( membership ),
             __get_twa_payment( payments, 2009 ),
             __get_twa_payment( payments, 2010 ),
             __get_twa_payment( payments, 2011 ),
@@ -978,6 +978,12 @@ def __get_twa_membership( p ):
 def __get_twa_member_since( membership ):
     if membership:
         return __get_date( membership.date )
+    else:
+        return ''
+
+def __get_twa_passport_date( membership ):
+    if membership:
+        return __get_date( membership.passport_date )
     else:
         return ''
 
