@@ -20,6 +20,19 @@
       {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
       <div class="clear"></div>
       {% endautoescape %}
+
+    <div>
+    {% for attachment in news.attachment_set.all  %}
+        <p>
+          <a href="/document/{{ attachment.file.name }}">{{ attachment.name }}</a>
+          <span class="small">
+          ({{ attachment.file|extension|lower }},
+          {{ attachment.file.size|filesizeformat }})
+          </span>
+        </p>
+    {% endfor %}
+    </div>
+
     </li>
   {% endfor %}
 </ul>

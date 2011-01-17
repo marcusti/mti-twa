@@ -20,6 +20,11 @@ class GraduationInline( admin.StackedInline ):
     fk_name = 'person'
     extra = 1
 
+class AttachmentInline( admin.StackedInline ):
+    model = Attachment
+    fk_name = 'news'
+    extra = 1
+
 class TWAPaymentInline( admin.StackedInline ):
     model = TWAPayment
     fk_name = 'twa'
@@ -128,6 +133,7 @@ class NewsAdmin( admin.ModelAdmin ):
         ('English', {'fields': ('title_en', 'preview_en', 'text_en'), 'classes': ('collapse',)}),
         ('Japanese', {'fields': ('title_ja', 'preview_ja', 'text_ja'), 'classes': ('collapse',)}),
     )
+    inlines = [ AttachmentInline, ]
 
 class DownloadAdmin( admin.ModelAdmin ):
     ordering = [ 'name' ]

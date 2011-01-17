@@ -639,6 +639,19 @@ class News( AbstractModel ):
         verbose_name = _( 'News' )
         verbose_name_plural = _( 'News' )
 
+class Attachment( AbstractModel ):
+    name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )
+    file = models.FileField( _( 'File' ), storage = doc_file_system, upload_to = 'attachments/' )
+    news = models.ForeignKey( News, verbose_name = _( 'News' ), blank = True, null = True )
+
+    def __unicode__( self ):
+        return self.name
+
+    class Meta:
+        ordering = [ 'name' ]
+        verbose_name = _( 'Attachment' )
+        verbose_name_plural = _( 'Attachments' )
+
 class DownloadManager( models.Manager ):
     def get_query_set( self ):
         return super( DownloadManager, self ).get_query_set().filter( public = True )
