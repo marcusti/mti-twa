@@ -641,7 +641,7 @@ class News( AbstractModel ):
 
 class Attachment( AbstractModel ):
     name = models.CharField( _( 'Name' ), max_length = DEFAULT_MAX_LENGTH )
-    file = models.FileField( _( 'File' ), storage = doc_file_system, upload_to = 'attachments/' )
+    file = models.FileField( _( 'File' ), upload_to = 'attachments/' )
     news = models.ForeignKey( News, verbose_name = _( 'News' ), blank = True, null = True )
 
     def __unicode__( self ):

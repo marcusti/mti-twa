@@ -24,7 +24,7 @@
     <div>
     {% for attachment in news.attachment_set.all  %}
         <p>
-          <a href="/document/{{ attachment.file.name }}">{{ attachment.name }}</a>
+          <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
           <span class="small">
           ({{ attachment.file|extension|lower }},
           {{ attachment.file.size|filesizeformat }})
