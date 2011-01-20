@@ -2,6 +2,7 @@ syntax: glob
 
 documents
 log
+static/attachments
 static/docs
 static/downloads
 static/photos
