@@ -868,9 +868,9 @@ def __get_export_content( person ):
     dojo = __get_dojo(person)
     graduations = person.graduations.filter(is_active=True)
     membership = __get_twa_membership(person)
-    if membership:
-        payments = membership.twapayment_set.all()
-    else:
+    try:
+        payments = TWAPayment.objects.filter(public=True, twa__person__id=person.id)
+    except:
         payments = None
     return [
             str( person.id ),
