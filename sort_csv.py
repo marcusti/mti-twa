@@ -14,6 +14,7 @@ if __name__ == '__main__':
         print 'exit. file does not exist: %s' % filename
         sys.exit(2)
 
+    count = {}
     content = []
     header = None
 
@@ -24,6 +25,12 @@ if __name__ == '__main__':
                 header = line
             else:
                 content.append(line)
+
+                country = line[header.index('DOJO COUNTRY')]
+                if not country in count:
+                    count[country] = 1
+                else:
+                    count[country] = count[country] + 1
 
     print 'sorting'
     content.sort(key=itemgetter(header.index('LASTNAME')))
@@ -42,3 +49,5 @@ if __name__ == '__main__':
         writer.writerow(header)
         for line in content:
             writer.writerow(line)
+
+    print count
