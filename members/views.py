@@ -857,6 +857,7 @@ def __get_export_headers():
             'TEXT',
             'LICENSE',
             'TWA-ID',
+            'TWA REGION',
             'TWA MEMBER SINCE',
             'TWA PASSPORT DATE',
             'TWA PAYMENT 2009',
@@ -910,6 +911,7 @@ def __get_export_content( person ):
             __get_null_safe( person.text ),
             __get_license( person ),
             person.twa_id(),
+            __get_twa_region(dojo),
             __get_twa_member_since( membership ),
             __get_twa_passport_date( membership ),
             __get_twa_payment( payments, 2009 ),
@@ -974,6 +976,12 @@ def __get_twa_membership( p ):
         return p.twamembership_set.filter(status=MEMBERSHIP_STATUS_MEMBER, is_active=True)[0]
     else:
         return None
+
+def __get_twa_region( dojo ):
+    if dojo and dojo.twa_region:
+        return dojo.get_twa_region_display()
+    else:
+        return ''
 
 def __get_twa_member_since( membership ):
     if membership:
