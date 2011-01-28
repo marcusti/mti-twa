@@ -81,6 +81,8 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^news/preview/(\d+)/$', 'news_preview' ),
     ( r'^nominations-xls$', 'nominations_xls' ),
     ( r'^suggestions/$', 'suggestions2' ),
+    ( r'^twa-region/$', 'twa_region' ),
+    ( r'^twa-region/region/(?P<region_id>\d+)/$', 'twa_region' ),
  )
 
 if 'rosetta' in settings.INSTALLED_APPS:

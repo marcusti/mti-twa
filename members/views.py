@@ -411,6 +411,29 @@ def member_requests( request, status = None, dojo_id = None, region_id = None, n
         template_name = 'twa-member-requests.html',
     )
 
+@login_required
+def twa_region(request, region_id = None):
+    ctx = get_context(request)
+    ctx['menu'] = 'twa-region'
+    ctx['filter'] = 'region'
+
+    dojos = Dojo.dojos.none()
+    if region_id:
+        dojos = Dojo.dojos.filter(twa_region=region_id)
+        ctx['filter_value'] = int( region_id )
+    ctx['dojos'] = dojos
+    ctx['regions'] = TWA_REGION
+
+    ctx['counter'] = dojos.count()
+
+    return object_list(
+        request,
+        queryset = dojos,
+        paginate_by = 50,
+        extra_context = ctx,
+        template_name = 'twa-region.html',
+    )
+
 @cache_page(60 * 60 * 24)
 def licensees(request):
     ctx = get_context( request )
