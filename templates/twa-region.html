@@ -25,6 +25,7 @@
     <tr>
         <td>{{ dojo.city }}</td>
         <td><a href="/dojo/{{ dojo.id }}/">{{ dojo.name }}</a></td>
+        <td><a href="/member-requests/dojo/{{ dojo.id }}/">{% trans "Requests" %}</a></td>
     </tr>
 {% endfor %}
 </table>
