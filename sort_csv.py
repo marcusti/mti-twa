@@ -26,11 +26,11 @@ if __name__ == '__main__':
             else:
                 content.append(line)
 
-                country = line[header.index('DOJO COUNTRY')]
-                if not country in count:
-                    count[country] = 1
+                region = line[header.index('TWA REGION')]
+                if not region in count:
+                    count[region] = 1
                 else:
-                    count[country] = count[country] + 1
+                    count[region] = count[region] + 1
 
     print 'sorting'
     content.sort(key=itemgetter(header.index('LASTNAME')))
