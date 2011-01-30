@@ -12,7 +12,7 @@ from django.core.mail import mail_admins, send_mail, send_mass_mail
 from django.db import connection
 from django.db.models import Q
 from django.http import HttpResponse, Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404, render_to_response
 #from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.cache import cache_page
 from django.views.generic.list_detail import object_list, object_detail
@@ -22,6 +22,9 @@ from twa.members.forms import LoginForm, TWAMembershipRequestForm
 from twa.members.models import *
 from twa.requests.models import Request
 from twa.settings import *
+
+import logging
+from operator import attrgetter
 import os
 import platform
 import pyExcelerator as xl
@@ -548,6 +551,59 @@ def suggestions2( request ):
         template_name = 'twa-suggestions.html',
     )
 
+
+@login_required
+def dojo_csv(request, dojo_id):
+    dojo = get_object_or_404(Dojo, id=dojo_id)
+    payments_first_year = 2009
+    current_year = date.today().year
+
+    get_context(request)
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=dojo-%s.csv' % dojo_id
+
+    columns = [
+        'DOJO',
+        'TWA-ID',
+        'FIRSTNAME',
+        'LASTNAME',
+        'MEMBER SINCE',
+        'PASSPORT DATE'
+    ]
+    for year in range(payments_first_year, current_year + 1):
+        columns.append('PAYMENT %s' % year)
+
+    writer = UnicodeWriter(response)
+    writer.writerow(columns)
+
+    people = list(Person.persons.filter(dojos__id = dojo_id))
+    people.sort(key=lambda p: p.twa_id())
+    for p in people:
+        if p.twa_id():
+            try:
+                membership = p.twamembership_set.filter(is_active=True)[0]
+                payments = TWAPayment.objects.filter(public=True, twa__person__id=p.id)
+
+                row = [
+                    dojo.name,
+                    p.twa_id(),
+                    p.firstname,
+                    p.lastname,
+                    __get_date(membership.date),
+                    __get_date(membership.passport_date),
+                ]
+
+                for year in range(payments_first_year, current_year + 1):
+                    row.append(__get_twa_payment(payments, year))
+
+
+                writer.writerow(row)
+            except Exception, ex:
+                logging.error('error writing person: dojo_id=%s, person=%s, %s' % (dojo_id, p, ex))
+
+    return response
+
+
 @login_required
 def dojos_csv( request ):
     if not request.user.is_superuser:
@@ -821,6 +877,7 @@ def nominations_xls( request ):
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
+
 
 @login_required
 def members_csv( request ):
