@@ -60,6 +60,7 @@ SSL_URLS = [
     r'/suggestions/',
     r'/rosetta/',
     r'/translate/',
+    r'/twa-region/',
 ]
 
 # List of callables that know how to import templates from various sources.
