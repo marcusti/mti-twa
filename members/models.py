@@ -58,6 +58,7 @@ RANK = [
     ( 30, _( '3. Kyu' ) ),
     ( 20, _( '4. Kyu' ) ),
     ( 10, _( '5. Kyu' ) ),
+    ( 9, _( '6. Kyu' ) ),
 ]
 
 LICENSE_STATUS_OPEN = 1
