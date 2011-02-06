@@ -102,6 +102,7 @@
 
   <li class="tx12g">
     {% trans "TWA Membership" %}:
+    {% if not person.twamembership_set.all and perms.members.add_twamembership %}<a href="/admin/members/twamembership/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
 
     <ul>
     {% for membership in person.twamembership_set.all %}
