@@ -567,6 +567,7 @@ def dojo_csv(request, dojo_id):
         'TWA-ID',
         'FIRSTNAME',
         'LASTNAME',
+        'RANK',
         'MEMBER SINCE',
         'PASSPORT DATE'
     ]
@@ -589,6 +590,7 @@ def dojo_csv(request, dojo_id):
                     p.twa_id(),
                     p.firstname,
                     p.lastname,
+                    __get_currentrank(p),
                     __get_date(membership.date),
                     __get_date(membership.passport_date),
                 ]
