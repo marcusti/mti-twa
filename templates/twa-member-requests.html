@@ -90,7 +90,7 @@
     </td>
 
     <td>
-      <a href="{{ membership.person.get_absolute_url }}">{{ membership.person }}</a>
+      <a href="{{ membership.person.get_absolute_url }}">{{ membership.person }}</a>{% if membership.person.current_rank %}<span class="tx12">, {{ membership.person.current_rank }}</span>{% endif %}
       {% if membership.person.dojos %}
       <div class="tx10g">
       {% for dojo in membership.person.dojos.all %}
