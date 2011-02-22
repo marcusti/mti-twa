@@ -29,6 +29,10 @@
         <td class="tx12g"><a href="/dojo/{{ dojo.id }}/csv/">csv</a></td>
     </tr>
 {% endfor %}
+    <tr>
+        <td colspan="2"></td>
+        <td colspan="2" class="tx12g"><a href="/region/{{ filter_value }}/csv/">csv ({% trans "all" %})</a></td>
+    </tr>
 </table>
 
 {% if is_paginated %}

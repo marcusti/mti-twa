@@ -607,6 +607,62 @@ def dojo_csv(request, dojo_id):
 
 
 @login_required
+def region_csv(request, region_id):
+    dojos = Dojo.dojos.filter(twa_region=region_id).order_by('country__code', 'name')
+    payments_first_year = 2009
+    current_year = date.today().year
+
+    get_context(request)
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=region-%s.csv' % region_id
+
+    columns = [
+        'DOJO',
+        'TWA-ID',
+        'FIRSTNAME',
+        'LASTNAME',
+        'RANK',
+        'MEMBER SINCE',
+        'PASSPORT DATE'
+    ]
+    for year in range(payments_first_year, current_year + 1):
+        columns.append('PAYMENT %s' % year)
+
+    writer = UnicodeWriter(response)
+    writer.writerow(columns)
+
+    pids = []
+    for dojo in dojos:
+        people = Person.persons.filter(dojos__id = dojo.id).order_by('twamembership__twa_id_number')
+        for p in people:
+            if p.twa_id() and p.id not in pids:
+                try:
+                    membership = p.twamembership_set.filter(is_active=True)[0]
+                    payments = TWAPayment.objects.filter(public=True, twa__person__id=p.id)
+
+                    row = [
+                        dojo.name,
+                        p.twa_id(),
+                        p.firstname,
+                        p.lastname,
+                        __get_currentrank(p),
+                        __get_date(membership.date),
+                        __get_date(membership.passport_date),
+                    ]
+
+                    for year in range(payments_first_year, current_year + 1):
+                        row.append(__get_twa_payment(payments, year))
+
+
+                    writer.writerow(row)
+                    pids.append(p.id)
+                except Exception, ex:
+                    logging.error('error writing person: dojo_id=%s, person=%s, %s' % (dojo.id, p, ex))
+
+    return response
+
+
+@login_required
 def dojos_csv( request ):
     if not request.user.is_superuser:
         raise Http404
