@@ -6,19 +6,35 @@
 
 <h1>{% trans "Licensees" %}</h1>
 
-{% for license in object_list %}
-<p class="">
-    <h2>{{ license.person }}, {{ license.person.current_rank }}</h2>
-    <h3>
-        {{ license.person.dojos.all.0.country.code }} -
-        {% ifnotequal license.person.dojos.all.0.city license.person.dojos.all.0.name %}{{ license.person.dojos.all.0.city }} - {% endifnotequal %}
-        {% if license.person.dojos.all.0.website %}
-            <a href="{{ license.person.dojos.all.0.website }}" target="_blank">{{ license.person.dojos.all.0.name }}</a>
-        {% else %}
-            {{ license.person.dojos.all.0.name }}
-        {% endif %}
-    </h3>
-</p>
+{% regroup object_list by person.dojos.all.0.country as license_list %}
+
+<table class="columnhover">
+{% for items in license_list %}
+    <tr>
+        <th colspan="3"><br/>{{ items.grouper.code }} - {{ items.grouper.get_name }}</th>
+    </tr>
+
+    {% for license in items.list %}
+    <tr>
+        <td class="tx12">
+            {{ license.person.dojos.all.0.city }}
+        </td>
+
+        <td>
+            {{ license.person }},
+            <span class="tx12">{{ license.person.current_rank }}</span>
+        </td>
+
+        <td class="tx12">
+            {% if license.person.dojos.all.0.website %}
+                <a href="{{ license.person.dojos.all.0.website }}" target="_blank">{{ license.person.dojos.all.0.name }}</a>
+            {% else %}
+                {{ license.person.dojos.all.0.name }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
 {% endfor %}
+</table>
 
 {% endblock %}
