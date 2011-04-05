@@ -579,7 +579,7 @@ class TWAPayment( AbstractModel ):
         return u'%s %s %s'.strip() % ( self.twa.twa_id(), self.twa.person, self.date )
 
     class Meta:
-        ordering = [ 'date' ]
+        ordering = [ 'year', 'date' ]
         verbose_name = _( 'TWA Payment' )
         verbose_name_plural = _( 'TWA Payment' )
 
