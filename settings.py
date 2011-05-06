@@ -22,7 +22,7 @@ LANGUAGES = (
         ( 'en', u'english' ),
         ( 'ja', u'日本語' ),
         )
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'de'
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
