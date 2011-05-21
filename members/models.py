@@ -668,7 +668,7 @@ class Download( AbstractModel ):
     public_objects = DownloadManager()
 
     def neu( self ):
-        return ( datetime.now() - self.creation ).days < 14
+        return ( datetime.now() - self.created ).days < 14
     neu.short_description = _( u'New' )
     neu.allow_tags = False
 

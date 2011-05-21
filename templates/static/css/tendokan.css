@@ -59,3 +59,6 @@ form{margin:10px;}
 .filter{background-color:#ff0;}
 .active{background-color:#ff0;}
 .absatz{margin:1em;}
+.plain {text-align:left;}
+.plain ul {list-style-type:circle;margin:0 1em;padding:0 1em;}
+.plain li, .plain td {border: none;line-height:normal;text-align:left;font-size: 14px;color:#333;margin:0;padding:.3em;}
