@@ -19,8 +19,9 @@
 {% autoescape off %}
 <p>
     {% if news.photo %}
-        <a href="{{ news.photo|thumbnail:"600x600" }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo" src="{{ news.photo|thumbnail:"200x200" }}" title="" alt="[{{ news.photo }}]" /></a>
+        <a href="{{ news.photo|thumbnail:'600x600' }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo" src="{{ news.photo|thumbnail:'200x200' }}" title="" alt="[{{ news.photo }}]" /></a>
     {% endif %}
+
     {{ news.get_preview|urlize|linebreaks }}
     {{ news.get_text|urlize|linebreaks }}
 </p>
