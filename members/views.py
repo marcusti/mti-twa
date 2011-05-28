@@ -1311,3 +1311,17 @@ def accept_open_requests( request ):
         return member_requests( request )
     else:
         raise Http404
+
+def dynamic_pages( request, path ):
+    if not path.startswith('/'):
+        path = '/' + path
+
+    try:
+        page = get_object_or_404(Page, url__iexact=path)
+    except Http404:
+        page = get_object_or_404(Page, url__iexact=path + '/')
+
+    return direct_to_template( request,
+        template = 'flatpages/default.html',
+        extra_context = dict(page=page),
+    )

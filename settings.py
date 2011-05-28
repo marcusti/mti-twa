@@ -90,6 +90,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django.contrib.markup',
 
     'rosetta',    # translating applications
     'south',      # db migrations

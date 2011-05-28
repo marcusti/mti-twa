@@ -5,6 +5,7 @@ import calendar
 from datetime import date
 from datetime import datetime
 from django.contrib.syndication.feeds import Feed
+from django.contrib.flatpages.models import FlatPage
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.storage import FileSystemStorage
 from django.db import models
@@ -595,6 +596,41 @@ class Document( AbstractModel ):
         ordering = [ 'name' ]
         verbose_name = _( 'Document' )
         verbose_name_plural = _( 'Documents' )
+
+class PageManager( models.Manager ):
+    def get_query_set( self ):
+        return super( PageManager, self ).get_query_set().filter( pub_date__lte = datetime.now() )
+
+class Page( FlatPage ):
+    title_en = models.CharField( _( 'Title (en)' ), max_length = DEFAULT_MAX_LENGTH, blank=True )
+    title_ja = models.CharField( _( 'Title (ja)' ), max_length = DEFAULT_MAX_LENGTH, blank=True )
+    content_en = models.TextField( _( 'Content (en)' ), blank = True )
+    content_ja = models.TextField( _( 'Content (ja)' ), blank = True )
+    pub_date = models.DateTimeField( _( 'Date' ), default = datetime.now() )
+
+    def get_title(self, language=None):
+        return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
+    get_title.short_description = _('Title')
+    get_title.allow_tags = False
+
+    def get_content(self, language=None):
+        return getattr(self, "content_%s" % (language or translation.get_language()[:2]), "") or self.content
+    get_content.short_description = _('Content')
+    get_content.allow_tags = False
+
+    objects = models.Manager()
+    current_objects = PageManager()
+
+    def __unicode__( self ):
+        return self.title
+
+    def get_absolute_url( self ):
+        return self.url
+
+    class Meta:
+        ordering = [ 'title' ]
+        verbose_name = _( 'Page' )
+        verbose_name_plural = _( 'Pages' )
 
 class NewsManager( models.Manager ):
     def get_query_set( self ):
