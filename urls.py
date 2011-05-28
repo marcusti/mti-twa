@@ -86,6 +86,7 @@ urlpatterns += patterns( 'twa.members.views',
     ( r'^suggestions/$', 'suggestions2' ),
     ( r'^twa-region/$', 'twa_region' ),
     ( r'^twa-region/region/(?P<region_id>\d+)/$', 'twa_region' ),
+    ( r'^(?P<path>.*)$', 'dynamic_pages' ),
  )
 
 if 'rosetta' in settings.INSTALLED_APPS:

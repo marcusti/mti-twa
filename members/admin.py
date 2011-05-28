@@ -1,6 +1,8 @@
 #-*- coding: utf-8 -*-
 
 from django.contrib import admin
+from django.contrib.flatpages.admin import FlatpageForm, FlatPageAdmin
+from django.contrib.flatpages.models import FlatPage
 from django.contrib.admin.models import LogEntry
 from django.utils.translation import ugettext_lazy as _
 from twa.members.models import *
@@ -146,6 +148,19 @@ class LogEntryAdmin( admin.ModelAdmin ):
     list_display = ( 'action_time', 'user', 'content_type', 'object_repr', 'change_message', 'is_addition', 'is_change', 'is_deletion' )
     list_filter = [ 'user' ]
 
+class PageForm(FlatpageForm):
+    class Meta:
+        model = Page
+
+class PageAdmin(FlatPageAdmin):
+    form = PageForm
+    fieldsets = (
+        (None, {'fields': ('url', 'title', 'title_en', 'title_ja', 'content', 'content_en', 'content_ja', 'pub_date')}),
+    )
+
+
+admin.site.unregister(FlatPage)
+
 admin.site.register( Document, DocumentAdmin )
 admin.site.register( License, LicenseAdmin )
 admin.site.register( TWAMembership, MembershipAdmin )
@@ -158,3 +173,4 @@ admin.site.register( Country, CountryAdmin )
 admin.site.register( News, NewsAdmin )
 admin.site.register( Download, DownloadAdmin )
 admin.site.register( LogEntry, LogEntryAdmin )
+admin.site.register( Page, PageAdmin )

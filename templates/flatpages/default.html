@@ -1,8 +1,9 @@
 {% extends "twa-index.html" %}
+{% load markup %}
 
 {% block content %}
-<h2>{{ flatpage.title }}</h2>
-<p>
-  {{ flatpage.content|urlize}}
+<h2>{{ page.get_title }}</h2>
+<p class="plain">
+  {{ page.get_content|safe}}
 </p>
 {% endblock %}

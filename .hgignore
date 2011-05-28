@@ -1,5 +1,6 @@
 syntax: glob
 
+env
 documents
 log
 static/attachments
