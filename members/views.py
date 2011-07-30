@@ -437,7 +437,7 @@ def twa_region(request, region_id = None):
         template_name = 'twa-region.html',
     )
 
-@cache_page(60 * 60 * 24)
+#@cache_page(60 * 60 * 24)
 def licensees(request):
     ctx = get_context( request )
     ctx['menu'] = 'licensees'
