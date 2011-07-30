@@ -462,14 +462,11 @@ class Graduation( AbstractModel ):
         verbose_name_plural = _( 'Graduations' )
 
 class LicenseManager( models.Manager ):
-    def get_query_set( self ):
-        return super( LicenseManager, self ).get_query_set().filter( is_active = True, public = True, person__is_active = True, person__public = True )
-
     def get_requested_licenses( self ):
         return self.get_query_set().filter( is_active = True, public = True ).exclude( status = LICENSE_STATUS_LICENSED )#.exclude( status = LICENSE_STATUS_REJECTED )
 
     def get_granted_licenses( self ):
-        return self.get_query_set().filter( status = LICENSE_STATUS_LICENSED, is_active = True, public = True ).order_by('-date')
+        return self.get_query_set().filter( status = LICENSE_STATUS_LICENSED, is_active = True, public = True ).order_by('-id')
 
     def get_public_licenses( self ):
         return self.get_granted_licenses().filter(person__public=True)
