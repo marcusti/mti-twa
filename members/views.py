@@ -169,7 +169,7 @@ def info( request ):
         extra_context = ctx,
     )
 
-def public( request ):
+def public(request):
     ctx = get_context( request )
     ctx['current_news'] = News.current_objects.all()[:5]
     ctx['include_main_image'] = True
@@ -178,7 +178,7 @@ def public( request ):
         ctx['birthdays'] = Person.persons.get_next_birthdays()
 
     return direct_to_template( request,
-        template = 'twa-index.html',
+        template = 'index.html',
         extra_context = ctx,
     )
 

@@ -1,0 +1,61 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+
+html {font-size:100.01%;}
+body {
+    background:#fff url(../images/sky.png) top center repeat-x;
+    font-family: "Ubuntu", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 70%;
+    margin: 0;}
+
+a, a:visited {color:#06c;text-decoration:underline;}
+a:focus, a:hover {color:#09f;text-decoration:underline;}
+
+dd {margin-left:1em;}
+
+table, th, td {border: none;}
+th, td {padding-left: 0;}
+/* tbody tr:nth-child(even) td, tbody tr.even td {background:#fff;} */
+
+#header {text-align: left; color: white; text-shadow: #333 0.2em 0.2em 0.4em;}
+#header {margin: 20px 0;}
+#header a, #header a:hover {color: white; text-decoration: none;}
+#header .title {font-size:3em; line-height:1; margin-bottom:0.2em;}
+
+.navigation {color: #aaa;}
+.navigation a {color: #aaa; text-decoration: none; display: block;}
+.navigation a:hover, #sidebar a:hover {color: #666; text-decoration: none;}
+.navigation dt {border-top: 1px dotted #ddd;}
+
+#sidebar a {color: #aaa; text-decoration: underline;}
+#sidebar, #sidebar h3 {color: #666;}
+
+#footer {background-color: #fafafa; color:#aaa; margin-top: 40px; font-size:.9em;}
+#footer .copyright {text-align: left; margin-top: 20px;}
+#footer a {color: #aaa; text-decoration: none;}
+#footer a:hover {color: #666;}
+
+#searchform {margin: 0 0 20px 0;}
+
+#tabs {margin-top: 1em;}
+.ui-tabs, .ui-tabs-nav, .ui-tabs-panel {font-size:1em; font-family: "Ubuntu", "Helvetica Neue", Arial, Helvetica, sans-serif;}
+
+.content-header {font-size:2em; margin:1em 0;}
+
+.person-name {font-size:2em; margin:1em 0;}
+.person-rank {font-size:1.5em; margin-bottom:0.5em;}
+
+.post {margin: 0 0 20px 0;}
+.post .title {font-size:1.2em; font-weight: bold;}
+.post .date {color:#aaa;}
+.post .content {margin: 10px 0 0 0;}
+.worldaikido {color: #ddd;}
+.post img.left {float: left; margin: 0 10px 5px 0;}
+.post img.center {display: block; margin: 0 auto 5px auto;}
+.post img.right {float: right; margin: 0 0 0 10px;}
+.post img, .post img.left, .post img.center, .post img.right {
+    padding: 1px;
+    border: 1px solid #aaa;}
+
+.center {text-align: center;}
+.left {text-align: left;}
+.right {text-align: right;}

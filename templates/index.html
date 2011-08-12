@@ -1,0 +1,238 @@
+﻿{% load i18n %}
+{% load twa_tags %}
+
+<html>
+
+<head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+    <title>tendo world aikido</title>
+    <link rel='shortcut icon' href='/static/images/favicon.png' type="image/png" />
+    <link rel="stylesheet" href="/static/css/bluetrip/screen.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="/static/css/bluetrip/print.css" type="text/css" media="print" />
+    <!--[if IE]>
+        <link rel="stylesheet" href="/static/css/bluetrip/ie.css" type="text/css" media="screen, projection" />
+    <![endif]-->
+    <link rel="stylesheet" type="text/css"
+          href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="/static/css/twa2011.css" type="text/css" media="screen, projection" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $( "#tabs" ).tabs();
+    });
+    </script>
+</head>
+
+<body>
+    <div id="container" class="container ">
+        <div id="header" class="span-24">
+            <div class="span-5 suffix-1"><a href=""><img src="/static/images/kamon.png" align="left" height="100" alt="kamon" /></a></div>
+            <div class="span-12">
+                <div class="title"><a href="">tendo <span class="worldaikido">world aikido</span></a></div>
+                <div class="large">{% trans "Welcome to the World Association of Tendoryu Aikido" %}</div>
+            </div>
+            <div class="span-6 last right"><a href=""><img src="/static/images/tendo.png" align="right" height="100" alt="tendo logo"/></a></div>
+        </div>
+
+        <div id="navigation" class="span-5 suffix-1 navigation">
+            <dl class="large">
+                <dt><a href="#">{% trans "Home" %}</a></dt>
+                <dt><a href="#">{% trans "News" %}</a></dt>
+                <dt><a href="#">{% trans "Seminars" %}</a></dt>
+                <dt><a href="#">{% trans "Licensees" %}</a></dt>
+                <dt><a href="#">{% trans "Dojos" %}</a></dt>
+                <dt><a href="#">{% trans "Membership" %}</a></dt>
+                <dt><a href="#">{% trans "Downloads" %}</a></dt>
+            </dl>
+        </div>
+
+        <div id="content" class="span-18 last">
+
+            <div id="messages" class="span-18">
+            <!--
+                <div class="error">Fehler</div>
+                <div class="success">OK</div>
+            -->
+            </div>
+
+            <div id="announcements" class="span-18">
+            <!--
+                <div class="post notice">
+                    <div class="title">Eilmeldung</div>
+                    <div class="date">Freitag, 06. Mai 2011</div>
+                    <div class="content">
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                    </div>
+                </div>
+            -->
+            </div>
+
+            <div id="news" class="span-8 suffix-1">
+                <div class="content-header">{% trans "News" %}</div>
+
+                {% for news in current_news %}
+                <div class="post">
+                    <div class="title"><a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a></div>
+                    <div class="date">{{ news.pub_date|date }}</div>
+                    <div class="content">
+                      {% autoescape off %}
+                      {% if news.photo %}
+                          <a href="{{ news.get_absolute_url }}"><img align="right" class="photo" src='{{ news.photo|thumbnail:"100x100" }}' title="" alt="[{{ news.photo }}]" /></a>
+                      {% endif %}
+                      {{ news.get_preview|urlize|linebreaks }}
+                      {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
+                      {% endautoescape %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="small"><a href="#">alle Nachrichten anzeigen</a></div>
+            </div>
+
+            <div id="events" class="span-8 suffix-1 last">
+                <div class="content-header">{% trans "Seminars" %}</div>
+                <div class="post">
+                    <div class="title"><a href="#">Shimizu Sensei in Mailand</a></div>
+                    <div class="date">Mittwoch, 01. Juni 2011</div>
+                    <div class="content">
+                        Tendoryu Italia lädt ein zum Tendoryu Aikido Lehrgang mit Shimizu Sensei in Mailand<br/>
+                        Samstag, 16.07.2011 15:00 - 18:00<br/>
+                        Sonntag, 17.07.2011 10:00 - 13:00<br/>
+                        Kosten: € 80 gesamter Lehrgang oder € 60 pro Tag
+                    </div>
+                </div>
+
+                <div class="post">
+                    <div class="title"><a href="#">Shimizu Sensei in Mailand</a></div>
+                    <div class="date">Mittwoch, 01. Juni 2011</div>
+                    <div class="content">
+                        Tendoryu Italia lädt ein zum Tendoryu Aikido Lehrgang mit Shimizu Sensei in Mailand<br/>
+                        Samstag, 16.07.2011 15:00 - 18:00<br/>
+                        Sonntag, 17.07.2011 10:00 - 13:00<br/>
+                        Kosten: € 80 gesamter Lehrgang oder € 60 pro Tag
+                    </div>
+                </div>
+                <div class="small"><a href="#">alle Lehrgänge anzeigen</a></div>
+            </div>
+
+            <div id="" class="span-18 last">
+                <div class="person-name">Foo Bar</div>
+                <div class="person-rank">3. Dan</div>
+                <div class="">Email: <a href="#">foo.bar@example.com</a></div>
+
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-dojo">Dojo</a></li>
+                        <li><a href="#tabs-address">Adresse</a></li>
+                        <li><a href="#tabs-ranks">Graduierungen</a></li>
+                        <li><a href="#tabs-license">twa Lizenz</a></li>
+                        <li><a href="#tabs-membership">twa Mitgliedschaft</a></li>
+                        <li><a href="#tabs-text">Bemerkungen</a></li>
+                    </ul>
+
+                    <div id="tabs-dojo">
+                        <a href="#">Aikido Dojo Seishinkan</a>
+                    </div>
+
+                    <div id="tabs-address">
+                        Hauptstraße 1<br/>
+                        Hamburg
+                    </div>
+
+                    <div id="tabs-ranks">
+                        <dl>
+                            <dt>3. Dan</dt>
+                            <dd>2008-07-01</dd>
+                            <dd>Shimizu Sensei, Herzogenhorn</dd>
+                            <dt>2. Dan</dt>
+                            <dd>2004-07-01</dd>
+                            <dt>1. Dan</dt>
+                            <dd>2001-07-01</dd>
+                        </dl>
+                    </div>
+
+                    <div id="tabs-license">
+                        twa Lizenz
+                    </div>
+
+                    <div id="tabs-membership">
+                        twa Mitgliedschaft
+                    </div>
+
+                    <div id="tabs-text">
+                        Bemerkungen
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--
+        <div id="sidebar" class="span-4 last">
+            <h3>Suche</h3>
+
+            <h3>Links</h3>
+            <dl>
+                <dt>Dojos</dt>
+                <dd><a href="#">Bla</a></dd>
+                <dd><a href="#">Bla</a></dd>
+                <dd><a href="#">Bla</a></dd>
+            </dl>
+        </div>
+        -->
+
+        <div id="footer" class="span-24">
+            <div class="span-4 prefix-6">
+                <dl>
+                    <dt class="strong">Sprachen</dt>
+                    <dd><a href="/lang/de/">Deutsch</a></dd>
+                    <dd><a href="/lang/en/">English</a></dd>
+                    <dd><a href="/lang/ja/">日本語</a></dd>
+                </dl>
+            </div>
+
+            <div class="span-5">
+                <dl>
+                    <dt class="strong">Abonnieren</dt>
+                    <dd><a href="/feed/news-de/">Nachrichten (deutsch)</a></dd>
+                    <dd><a href="#">Lehrgänge (deutsch)</a></dd>
+                    <dd><a href="/feed/news-en/">News (english)</a></dd>
+                    <dd><a href="#">Seminars (english)</a></dd>
+                </dl>
+            </div>
+
+            <div class="span-4">
+                <dl>
+                    <dt class="strong">Verwaltung</dt>
+                    <dd><a href="#">Login</a></dd>
+                </dl>
+            </div>
+
+            <div class="span-4 last">
+                <dl>
+                    <dt class="strong">Information</dt>
+                    <dd><a href="#">Kontakt</a></dd>
+                    <dd><a href="#">NPO</a></dd>
+                    <dd><a href="#">Impressum</a></dd>
+                </dl>
+                <!--
+                <form id="searchform" class="small">
+                    <fieldset>
+                        <legend>Suche</legend>
+                        <input id="search" name="search" type="text" />
+                        <input type="submit" value="Suchen" />
+                    </fieldset>
+                </form>
+                -->
+            </div>
+
+            <div class="span-18 prefix-6 last">
+                <div class="copyright">&copy; 2010 - 2011 tendo world aikido</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
