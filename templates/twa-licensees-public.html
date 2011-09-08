@@ -4,7 +4,8 @@
 
 {% block content %}
 
-<h1>{% trans "Licensees" %}</h1>
+<h1>{% trans "Teachers" %}</h1>
+<p>{% trans "Here you can find all officially authorized and licensed teachers of Tendoryu Aikido, sorted by country and city." %}</p>
 
 {% regroup object_list by person.dojos.all.0.country as license_list %}
 

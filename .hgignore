@@ -8,7 +8,7 @@ static/docs
 static/downloads
 static/photos
 mysettings.py
-twa.sublime-project
+twa.sublime-*
 *.pyc
 *.yaml
 *.json
