@@ -26,7 +26,7 @@
     </td>
     <td>
       <a href="{{ association.get_absolute_url }}">{{ association.name }}</a>
-      <div class="tx12g">{% if association.contact %}<a href="/member2/{{ association.contact.id }}/">{{ association.contact.firstname }} {{ association.contact.lastname }}</a>{% endif %}</div>
+      <div class="tx12g">{% if association.contact %}<a href="/member/{{ association.contact.id }}/">{{ association.contact.firstname }} {{ association.contact.lastname }}</a>{% endif %}</div>
     </td>
   </tr>
 {% endfor %}

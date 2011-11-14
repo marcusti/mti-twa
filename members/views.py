@@ -3,6 +3,7 @@
 from datetime import date
 from datetime import datetime
 import logging
+import mimetypes
 import os
 import sys
 
@@ -31,7 +32,6 @@ from django.views.i18n import set_language
 import pyExcelerator as xl
 
 from twa.members.forms import LoginForm
-from twa.members.forms import TWAMembershipRequestForm
 from twa.members.models import *
 from twa.requests.models import Request
 from twa.settings import *
@@ -50,13 +50,6 @@ try:
 except:
     db_version = ''
     db_link = ''
-
-
-def __get_rank_display(rank):
-    for id, name in RANK:
-        if id == rank:
-            return name
-    return ''
 
 
 def set_lang(request, code=LANGUAGE_CODE):
@@ -114,30 +107,7 @@ def twa_login(request):
         form = LoginForm()
 
     ctx['form'] = form
-    return render_to_response(
-                              'twa-login.html',
-                              ctx,
-                              )
-
-
-@login_required
-def membership_online_request(request):
-    ctx = get_context(request)
-    ctx['menu'] = 'login'
-    ctx['include_main_image'] = False
-
-    if request.method == 'POST':
-        form = TWAMembershipRequestForm(request.POST)
-        if form.is_valid():
-            return redirect_to(request, '/')
-    else:
-        form = TWAMembershipRequestForm()
-
-    ctx['form'] = form
-    return render_to_response(
-                              'twa-membership-online-request.html',
-                              ctx,
-                              )
+    return render_to_response('twa-login.html', ctx)
 
 
 def twa_logout(request):
@@ -149,6 +119,8 @@ def twa_logout(request):
 
 @login_required
 def info(request):
+    '''Displays technical information.'''
+
     now = datetime.now()
 
     ctx = get_context(request)
@@ -176,13 +148,12 @@ def info(request):
     else:
         ctx['logentries'] = LogEntry.objects.none()
 
-    return direct_to_template(request,
-                              template='info.html',
-                              extra_context=ctx,
-                              )
+    return direct_to_template(request, template='info.html', extra_context=ctx)
 
 
 def public(request):
+    '''Displays the public home page.'''
+
     ctx = get_context(request)
     ctx['current_news'] = News.current_objects.all()[:5]
     ctx['include_main_image'] = True
@@ -192,13 +163,15 @@ def public(request):
 
     return direct_to_template(request,
                               template='twa-index.html',
-                              extra_context=ctx,
-                              )
+                              extra_context=ctx)
 
 
 def index(request):
+    '''Displays the home page for logged in users.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'home'
+
     if request.user.is_authenticated():
         ctx['requested_licenses'] = License.objects.get_requested_licenses().count()
         ctx['membership_requests'] = Person.persons.get_by_requested_membership().count()
@@ -210,14 +183,16 @@ def index(request):
         ctx['graduations'] = Graduation.graduations.get_this_years_graduations().count()
         ctx['suggestions'] = Graduation.suggestions.count()
         ctx['birthdays'] = Person.persons.get_next_birthdays()
+
     return direct_to_template(request,
                               template='base.html',
-                              extra_context=ctx,
-                              )
+                              extra_context=ctx)
 
 
 @login_required
-def dojos2(request):
+def dojos(request):
+    '''Displays a list of Dojos.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'dojos'
 
@@ -253,97 +228,98 @@ def dojos2(request):
 
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name="twa-dojos.html",
-                       )
+                       template_name="twa-dojos.html")
 
 
 @login_required
-def dojo2(request, did=None):
+def dojo(request, did=None):
+    '''Displays a Dojo with it's members.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'dojos'
     ctx['members'] = Person.persons.filter(dojos__id=did)
-    return object_detail(
-                         request,
+
+    return object_detail(request,
                          queryset=Dojo.dojos.filter(id=did),
                          object_id=did,
                          template_object_name='dojo',
                          extra_context=ctx,
-                         template_name="twa-dojo.html",
-                         )
+                         template_name="twa-dojo.html")
 
 
 @login_required
 def associations(request):
+    '''Displays a list of national associations.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'associations'
 
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name="twa-associations.html",
-                       )
+                       template_name="twa-associations.html")
 
 
 @login_required
 def association(request, aid=None):
+    '''Displays a national association.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'associations'
 
     qs = Association.objects.all()
     ctx['counter'] = qs.count()
 
-    return object_detail(
-                         request,
+    return object_detail(request,
                          queryset=Association.objects.filter(id=aid),
                          object_id=aid,
                          template_object_name='association',
                          template_name="twa-association.html",
-                         extra_context=ctx,
-                         )
+                         extra_context=ctx)
 
 
 @login_required
 def members_all(request):
+    '''Displays a list of all members; no photos; 1000 entries per page.'''
+
     ctx, qs = __get_members(request)
     ctx['menu'] = 'all members'
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=1000,
                        extra_context=ctx,
-                       template_name="twa-members-all.html",
-                       )
+                       template_name="twa-members-all.html")
 
 
 @login_required
-def members2(request):
+def members(request):
+    '''Displays a list of members; photo thumbnails; 50 entries per page.'''
+
     ctx, qs = __get_members(request)
     ctx['menu'] = 'members'
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name="twa-members.html",
-                       )
+                       template_name="twa-members.html")
 
 
 @login_required
 def __get_members(request):
+    '''Returns the default context and a list of members.'''
+
     ctx = get_context(request)
     qs = Person.persons.all()
 
@@ -382,29 +358,31 @@ def __get_members(request):
 
 
 @login_required
-def member2(request, mid=None):
+def member(request, mid=None):
+    '''Displays a member.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'members'
     ctx['dojos'] = Dojo.dojos.filter(person__id=mid)
     ctx['graduations'] = Graduation.objects.filter(person__id=mid)
     ctx['documents'] = Document.objects.filter(person__id=mid)
-    return object_detail(
-                         request,
+
+    return object_detail(request,
                          queryset=Person.persons.filter(id=mid),
                          object_id=mid,
                          template_object_name='person',
                          template_name='twa-member.html',
-                         extra_context=ctx,
-                         )
+                         extra_context=ctx)
 
 
 @login_required
 def member_requests(request, status=None, dojo_id=None, region_id=None, no_payment_filter=False):
+    '''Displays a list of member requests.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'member-requests'
 
     ctx['dojos'] = Dojo.dojos.filter(person__twamembership__isnull=False).distinct().order_by('city', 'shortname', 'name')
-    #ctx['regions'] = Dojo.dojos.filter( person__twamembership__isnull = False, person__dojos__twa_region__isnull = False ).values_list( 'twa_region' ).distinct().order_by( 'twa_region' )
     ctx['regions'] = TWA_REGION
 
     qs = TWAMembership.objects.get_requested_memberships().order_by('-id')
@@ -428,17 +406,17 @@ def member_requests(request, status=None, dojo_id=None, region_id=None, no_payme
     ctx['counter'] = qs.count()
     ctx['queryset'] = qs.exclude(status=MEMBERSHIP_STATUS_OPEN).order_by('person__lastname', 'person__firstname')
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-member-requests.html',
-                       )
+                       template_name='twa-member-requests.html')
 
 
 @login_required
 def twa_region(request, region_id=None):
+    '''Displays a list of dojos for the selected twa region.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'twa-region'
     ctx['filter'] = 'region'
@@ -452,41 +430,42 @@ def twa_region(request, region_id=None):
 
     ctx['counter'] = dojos.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=dojos,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-region.html',
-                       )
+                       template_name='twa-region.html')
 
 
 def licensees(request):
+    '''Displays a public list of licensed twa teachers.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'licensees'
     qs = License.objects.get_public_licenses()
-    #~ l = sorted(list(qs), key=lambda x: x.)
+
     l = list(qs)
     l = sorted(l, key=lambda x: x.person.current_rank(), reverse=True)
     l = sorted(l, key=lambda x: x.person.dojos.all()[0].name)
     l = sorted(l, key=lambda x: x.person.dojos.all()[0].city)
     l = sorted(l, key=lambda x: x.person.dojos.all()[0].country.code)
+
     ctx['object_list'] = l
 
     return direct_to_template(request,
                               template='twa-licensees-public.html',
-                              extra_context=ctx,
-                              )
+                              extra_context=ctx)
 
 
 @login_required
 def licenses(request, twa_status=None, dojo_id=None):
+    '''Displays a list of licensed twa teachers for logged in users.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'licenses'
-
     ctx['dojos'] = Dojo.dojos.filter(person__license__isnull=False, person__license__status=5).distinct().order_by('city', 'shortname', 'name')
 
-    qs = License.objects.get_granted_licenses()  # .select_related().order_by( 'members_person.firstname', 'members_person.lastname' )
+    qs = License.objects.get_granted_licenses()
 
     if twa_status == True:
         ctx['filter'] = 'twa'
@@ -503,85 +482,85 @@ def licenses(request, twa_status=None, dojo_id=None):
 
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name='twa-licenses.html',
-                       )
+                       template_name='twa-licenses.html')
 
 
 @login_required
 def license_requests(request):
+    '''Displays a list of applications for twa license.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'license-requests'
 
     qs = License.objects.get_requested_licenses().order_by('-id')
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-license-requests.html',
-                       )
+                       template_name='twa-license-requests.html')
 
 
 @login_required
 def license_rejected(request):
+    '''Displays a list of rejected license applications.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'license-rejected'
 
     qs = License.objects.get_rejected_licenses().order_by('-id')
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='members/license_requests_list.html',
-                       )
+                       template_name='members/license_requests_list.html')
 
 
 @login_required
-def graduations2(request):
+def graduations(request):
+    '''Displays a list of graduations.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'graduations'
 
     qs = Graduation.graduations.get_this_years_graduations().select_related().order_by('-date', '-rank', 'members_person.firstname', 'members_person.lastname')
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name='twa-graduations.html',
-                       )
+                       template_name='twa-graduations.html')
 
 
 @login_required
-def suggestions2(request):
+def suggestions(request):
+    '''Displays a list of graduation suggestions.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'suggestions'
 
     qs = Graduation.suggestions.order_by('-rank', '-date')
     ctx['counter'] = qs.count()
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-suggestions.html',
-                       )
+                       template_name='twa-suggestions.html')
 
 
 @login_required
 def dojo_csv(request, dojo_id):
+    '''Returns a csv file containing a list of members for this dojo.'''
+
     dojo = get_object_or_404(Dojo, id=dojo_id)
     payments_first_year = 2009
     current_year = date.today().year
@@ -635,6 +614,8 @@ def dojo_csv(request, dojo_id):
 
 @login_required
 def region_csv(request, region_id):
+    '''Returns a csv file containing a list of members for this twa region.'''
+
     dojos = Dojo.dojos.filter(twa_region=region_id).order_by('country__code', 'name')
     payments_first_year = 2009
     current_year = date.today().year
@@ -690,6 +671,8 @@ def region_csv(request, region_id):
 
 @login_required
 def dojos_csv(request):
+    '''Returns a csv file containing a list of dojos.'''
+
     if not request.user.is_superuser:
         raise Http404
 
@@ -708,24 +691,22 @@ def dojos_csv(request):
 
 @login_required
 def documents_handler(request, filename):
+    '''Returns a document for download.'''
+
     try:
         filepath = os.path.join(DOCUMENTS_DIR, filename)
-        if filename.lower().endswith('pdf'):
-            mimetype = 'application/pdf'
-        elif filename.lower().endswith('jpg'):
-            mimetype = 'application/jpg'
-        elif filename.lower().endswith('png'):
-            mimetype = 'application/png'
+        mimetype = mimetypes.guess_type(filename)
         response = HttpResponse(open(filepath, 'r').read(), mimetype=mimetype)
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        return response
     except:
         raise Http404
-
-    return response
 
 
 @login_required
 def image_handler(request, filename, size='64x64'):
+    '''Returns an image, scaled to the given dimensions.'''
+
     try:
         filepath = os.path.join(DOCUMENTS_DIR, filename)
 
@@ -750,20 +731,19 @@ def image_handler(request, filename, size='64x64'):
             except:
                 image.save(miniature_filename, image.format, quality=90)
 
-        if filename.lower().endswith('jpg') or filename.lower().endswith('jpeg'):
-            mimetype = 'image/jpeg'
-        elif filename.lower().endswith('png'):
-            mimetype = 'image/png'
+        mimetype = mimetypes.guess_type(filename)
 
         response = HttpResponse(open(miniature_filename, 'r').read(), mimetype=mimetype)
+
+        return response
     except:
         raise Http404
-
-    return response
 
 
 @login_required
 def members_xls(request):
+    '''Returns an excel sheet including all members.'''
+
     if not request.user.is_superuser:
         raise Http404
 
@@ -786,7 +766,7 @@ def members_xls(request):
     people = sorted(people, key=lambda p: __get_dojo_name(__get_dojo(p)))
     people = sorted(people, key=lambda p: __get_dojo_city(__get_dojo(p)))
     people = sorted(people, key=lambda p: __get_dojo_country(__get_dojo(p)))
-    #for x, person in enumerate( Person.persons.all().select_related('country', 'graduations').order_by( 'dojos', 'firstname', 'lastname' ) ):
+
     for x, person in enumerate(people):
         for y, content in enumerate(__get_export_content(person)):
             sheet.write(x + 1, y, content)
@@ -802,19 +782,21 @@ def members_xls(request):
 
 @login_required
 def licenses_xls(request):
+    '''Returns an excel sheet including all licensed twa teachers.'''
+
     if not request.user.is_superuser:
         raise Http404
 
     get_context(request)
     workbook = xl.Workbook()
-    sheet = workbook.add_sheet('Lizenz Anträge')
+    sheet = workbook.add_sheet('Licences')
     header_font = xl.Font()
     header_font.bold = True
 
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate(['LID', 'STATUS', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'ZAHLUNG', 'TWA STATUS', 'TEXT']):
+    for y, header in enumerate(['LID', 'STATUS', 'FIRSTNAME', 'LASTNAME', 'CITY', 'GRADE', 'REQUEST', 'PAYMENT', 'TWA STATUS', 'TEXT']):
         sheet.write(0, y, header, header_style)
 
     for x, license in enumerate(License.objects.get_granted_licenses().order_by('-id')):
@@ -834,19 +816,21 @@ def licenses_xls(request):
 
 @login_required
 def license_requests_xls(request):
+    '''Returns an excel sheet including all requested licenses.'''
+
     if not request.user.is_superuser:
         raise Http404
 
     get_context(request)
     workbook = xl.Workbook()
-    sheet = workbook.add_sheet('Lizenz Anträge')
+    sheet = workbook.add_sheet('Licences Requests')
     header_font = xl.Font()
     header_font.bold = True
 
     header_style = xl.XFStyle()
     header_style.font = header_font
 
-    for y, header in enumerate(['LID', 'STATUS', 'VORNAME', 'NACHNAME', 'ORT', 'GRAD', 'ANTRAG', 'ZAHLUNG', 'TEXT']):
+    for y, header in enumerate(['LID', 'STATUS', 'FIRSTNAME', 'LASTNAME', 'CITY', 'GRADE', 'REQUEST', 'PAYMENT', 'TEXT']):
         sheet.write(0, y, header, header_style)
 
     for x, license in enumerate(License.objects.get_requested_licenses().order_by('-id')):
@@ -866,12 +850,14 @@ def license_requests_xls(request):
 
 @login_required
 def membership_requests_xls(request):
+    '''Returns an excel sheet including all membership requests.'''
+
     if not request.user.is_superuser:
         raise Http404
 
     get_context(request)
     workbook = xl.Workbook()
-    sheet = workbook.add_sheet('TWA Anträge')
+    sheet = workbook.add_sheet('TWA Requests')
     header_font = xl.Font()
     header_font.bold = True
 
@@ -938,6 +924,8 @@ def membership_requests_xls(request):
 
 @login_required
 def nominations_xls(request):
+    '''Returns an excel sheet including all suggested graduations.'''
+
     if not request.user.is_superuser:
         raise Http404
 
@@ -972,6 +960,8 @@ def nominations_xls(request):
 
 @login_required
 def members_csv(request):
+    '''Returns a csv file including all members.'''
+
     if not request.user.is_superuser:
         raise Http404
 
@@ -1236,50 +1226,54 @@ def __get_path(fileobject):
 
 @login_required
 def news_preview(request, nid=None):
+    '''Display a news article.
+    If there is a logged in user, a preview of non-published news is shown.
+    '''
+
     ctx = get_context(request)
     ctx['menu'] = 'news'
     ctx['include_main_image'] = False
 
-    return object_detail(
-                         request,
+    return object_detail(request,
                          queryset=News.objects.filter(id=nid),
                          object_id=nid,
                          template_object_name='news',
                          template_name='twa-news.html',
-                         extra_context=ctx,
-                         )
+                         extra_context=ctx)
 
 
 def news(request, nid=None):
+    '''Display a public news article.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'news'
     ctx['include_main_image'] = False
 
-    return object_detail(
-                         request,
+    return object_detail(request,
                          queryset=News.current_objects.filter(id=nid),
                          object_id=nid,
                          template_object_name='news',
                          template_name='twa-news.html',
-                         extra_context=ctx,
-                         )
+                         extra_context=ctx)
 
 
 def news_archive(request):
+    '''Displays the news archive.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'news'
     ctx['include_main_image'] = False
 
-    return object_list(
-                       request,
+    return object_list(request,
                        queryset=News.current_objects.all(),
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-news-archive.html',
-                       )
+                       template_name='twa-news-archive.html')
 
 
 def downloads(request):
+    '''Displays the public downloads site.'''
+
     ctx = get_context(request)
     ctx['menu'] = 'downloads'
     ctx['include_main_image'] = False
@@ -1293,19 +1287,10 @@ def downloads(request):
                        )
 
 
-def antrag(request):
-    ctx = get_context(request)
-    ctx['menu'] = 'anmeldung'
-    ctx['include_main_image'] = False
-
-    return direct_to_template(request,
-                              template='twa-anmeldung.html',
-                              extra_context=ctx,
-                              )
-
-
 @login_required
 def create_twa_ids(request):
+    '''Create twa IDs and redirect to open member requests.'''
+
     if request.user.is_superuser:
         antraege = TWAMembership.objects.filter(twa_id_number=None).exclude(person__country__code='JP')
         antraege = antraege.filter(Q(status=MEMBERSHIP_STATUS_ACCEPTED) |
@@ -1324,11 +1309,13 @@ def create_twa_ids(request):
                 antrag.twa_id_number = twa_id_number
                 antrag.save()
 
-    return member_requests(request)
+    return member_requests(request, status=LICENSE_STATUS_OPEN)
 
 
 @login_required
 def confirmation_email(request):
+    '''Sends confirmation by email and redirect to open member requests.'''
+
     if request.user.is_superuser:
 
         antraege = TWAMembership.objects.filter(status=MEMBERSHIP_STATUS_ACCEPTED)
@@ -1345,7 +1332,6 @@ def confirmation_email(request):
                     recipient_list.append(EMAIL_HOST_USER)
 
                     datalist.append((subject, message, from_email, recipient_list))
-                    #send_mail( subject = subject, message = message, from_email = from_email, recipient_list = recipient_list, fail_silently = True )
 
                     antrag.status = MEMBERSHIP_STATUS_CONFIRMED
                     antrag.save()
@@ -1356,26 +1342,29 @@ def confirmation_email(request):
             send_mass_mail(tuple(datalist), fail_silently=True)
 
         except:
-            #mail_admins( 'Konnte Email nicht senden: %s' % antrag.person.email, EMAIL_TEMPLATE_MEMBERSHIP_CONFIRMATION % antrag.person.firstname )
             raise Http404
     else:
         raise Http404
 
-    return member_requests(request)
+    return member_requests(request, status=LICENSE_STATUS_OPEN)
 
 
 @login_required
 def accept_open_requests(request):
+    '''Sets all open membership requests to status "accepted".'''
+
     if request.user.is_superuser:
         for antrag in TWAMembership.objects.filter(status=MEMBERSHIP_STATUS_OPEN):
             antrag.status = MEMBERSHIP_STATUS_ACCEPTED
             antrag.save()
-        return member_requests(request)
+        return member_requests(request, status=LICENSE_STATUS_OPEN)
     else:
         raise Http404
 
 
 def dynamic_pages(request, path):
+    '''Displays a static page stored in the database.'''
+
     if not path.startswith('/'):
         path = '/' + path
 
@@ -1386,5 +1375,4 @@ def dynamic_pages(request, path):
 
     return direct_to_template(request,
                               template='flatpages/default.html',
-                              extra_context=dict(page=page),
-                              )
+                              extra_context=dict(page=page))
