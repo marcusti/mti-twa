@@ -18,9 +18,9 @@ USE_I18N = True
 # http://www.i18nguy.com/unicode/language-identifiers.html
 ugettext = lambda s: s
 LANGUAGES = (
-        ( 'de', u'deutsch' ),
-        ( 'en', u'english' ),
-        ( 'ja', u'日本語' ),
+        ('de', u'deutsch'),
+        ('en', u'english'),
+        ('ja', u'日本語'),
         )
 LANGUAGE_CODE = 'de'
 
