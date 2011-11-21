@@ -73,6 +73,7 @@ def get_context(request):
     ctx = {}
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
+    ctx['request'] = request
 
     return ctx
 
