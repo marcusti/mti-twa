@@ -34,16 +34,21 @@
 <head>
 <body>
     <div class="container_16">
+
+        <!-- HEADER -->
+
         <div id="header" class="grid_16 middle">
             <!--[if lt IE 7]>  <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
             <a href="/"><img src="/static/images/kamon-trans.png" align="left" class="img-left"> <span class="tendo">tendo</span> <span class="worldaikido">world aikido</span></a>
         </div>
 
+        <!-- MENU -->
+
         <div id="menu" class="grid_16">
             <ul>
-                <li><a class="menu-entry selected" href="/">{% trans "Home" %}</a></li>
+                <li><a class='menu-entry{% ifequal menu "home" %} selected{% endifequal %}' href="/">{% trans "Home" %}</a></li>
+                <li><a class='menu-entry{% ifequal menu "seminars" %} selected{% endifequal %}' href="/seminars/current/">{% trans "Seminars" %}</a></li>
                 <li><a class="menu-entry" href="/news/">{% trans "News" %}</a></li>
-                {% comment %}<li><a class="menu-entry" href="/licensees/">{% trans "Licensees" %}</a></li>{% endcomment %}
                 <li><a class="menu-entry" href="/downloads/">{% trans "Downloads" %}</a></li>
                 <li><a class="menu-entry" href="/teachers/">{% trans "Teachers" %}</a></li>
                 <li><a class="menu-entry" href="/membership/">{% trans "Membership" %}</a></li>
@@ -84,7 +89,7 @@
                     <li><a href="/logout/" class="edit">{% trans "Logout" %}</a></li>
 
                     <li>
-                      <form action="/members/" method="get" id="member_filter">
+                      <form action="/members/" method="get" id="member_filter" class="">
                         {% trans "Name" %} / {% trans "ID" %}:
                         <input type="text" id="s" name="s" value="{{ search }}" size="15" />
                         <input type="submit" id="search-go" value="{% trans "Search" %}" />
@@ -94,8 +99,13 @@
           {% endif %}
         </div>
 
+        <!-- CONTENT -->
+
         <div id="content" class="grid_16">
             {% block content %}
+
+            <!-- SEMINARS -->
+
             <div class="grid_8 alpha">
                 <div class="section-header">
                     {{ _('Seminars') }}
@@ -104,14 +114,16 @@
                     {% endif %}
                 </div>
                 <div class="section-meta">
-                    <a href="/seminars/">{{ _('All Seminars') }}</a>
+                    <a href="/seminars/">{{ _('all seminars') }}</a>
                 </div>
                 {% for seminar in current_seminars %}
-                    {% include "2011/seminar.html" %}
+                    {% include "2011/seminar-snippet.html" %}
                 {% empty %}
                     <div>{{ _('No upcoming seminars.') }}</div>
                 {% endfor %}
             </div>
+
+            <!-- NEWS -->
 
             <div class="grid_8 omega">
                 <div class="section-header">
@@ -124,7 +136,7 @@
                     <a href="#">{{ _('All News') }}</a>
                 </div>
                 {% for news in current_news %}
-                    {% include "2011/news.html" %}
+                    {% include "2011/news-snippet.html" %}
                 {% empty %}
                     <div>{{ _('No news, sorry.') }}</div>
                 {% endfor %}
@@ -132,6 +144,8 @@
             {% endblock %}
         </div>
         <div class="clear"></div>
+
+        <!-- FOOTER -->
 
         <div id="footer" class="grid_16">
             <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
