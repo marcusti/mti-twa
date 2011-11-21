@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.contrib import admin
 
-from twa.members.models import NewsFeed
+from twa.members.models import NewsFeed, SeminarFeed
 
 admin.autodiscover()
 
@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     #( r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'template_name': 'registration/logout.html'} ),
     )
 
-if True:  # settings.DEBUG:
+if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
         )
@@ -26,6 +26,7 @@ if True:  # settings.DEBUG:
 newsfeed = {
     'news-de': NewsFeed,
     'news-en': NewsFeed,
+    'seminars': SeminarFeed,
 }
 
 urlpatterns += patterns('',

@@ -829,10 +829,20 @@ class Download(AbstractModel):
 
 
 class NewsFeed(Feed):
-    title = 'tendo-world-aikido.de'
+    title = 'tendo world aikido News'
     link = '/feed/'
     feed_type = Atom1Feed
     description = _(u'Nachrichten vom Weltverband für Tendoryu Aikido')
 
     def items(self):
         return News.current_objects.all()[:10]
+
+
+class SeminarFeed(Feed):
+    title = 'tendo world aikido Seminars'
+    link = '/feed/'
+    feed_type = Atom1Feed
+    description = _(u'Seminare des Weltverband für Tendoryu Aikido')
+
+    def items(self):
+        return Seminar.public_objects.get_current()
