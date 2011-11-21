@@ -636,20 +636,29 @@ class Document(AbstractModel):
 
 class PageManager(models.Manager):
     def get_query_set(self):
-        return super(PageManager, self).get_query_set().filter(pub_date__lte=datetime.now())
+        return super(PageManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
 
 
 class Page(FlatPage):
-    title_en = models.CharField(_('Title (en)'), max_length=DEFAULT_MAX_LENGTH, blank=True)
-    title_ja = models.CharField(_('Title (ja)'), max_length=DEFAULT_MAX_LENGTH, blank=True)
-    content_en = models.TextField(_('Content (en)'), blank=True)
-    content_ja = models.TextField(_('Content (ja)'), blank=True)
+    title_en = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    title_ja = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    content_en = models.TextField(_('Content'), blank=True)
+    content_ja = models.TextField(_('Content'), blank=True)
     pub_date = models.DateTimeField(_('Date'), default=datetime.now())
+    public = models.BooleanField(_(u'Public'), default=False)
+    menu = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH)
+    menu_en = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    menu_ja = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
 
     def get_title(self, language=None):
         return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
     get_title.short_description = _('Title')
     get_title.allow_tags = False
+
+    def get_menu(self, language=None):
+        return getattr(self, "menu_%s" % (language or translation.get_language()[:2]), "") or self.menu
+    get_menu.short_description = _('Menu')
+    get_menu.allow_tags = False
 
     def get_content(self, language=None):
         return getattr(self, "content_%s" % (language or translation.get_language()[:2]), "") or self.content
@@ -719,6 +728,11 @@ class Seminar(AbstractModel):
             fields.append(self.city.strip())
         fields.append(self.title.strip())
         return ': '.join(fields)
+
+    class Meta:
+        ordering = ['start_date', 'end_date']
+        verbose_name = _('Seminar')
+        verbose_name_plural = _('Seminars')
 
 
 class NewsManager(models.Manager):
