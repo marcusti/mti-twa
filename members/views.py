@@ -74,6 +74,7 @@ def get_context(request):
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
     ctx['request'] = request
+    ctx['flatpages'] = Page.current_objects.all()
 
     return ctx
 
@@ -1408,10 +1409,14 @@ def dynamic_pages(request, path):
         path = '/' + path
 
     try:
-        page = get_object_or_404(Page, url__iexact=path)
+        page = get_object_or_404(Page, public=True, url__iexact=path)
     except Http404:
-        page = get_object_or_404(Page, url__iexact=path + '/')
+        page = get_object_or_404(Page, public=True, url__iexact=path + '/')
+
+    ctx = get_context(request)
+    ctx['menu'] = page.get_menu()
+    ctx['page'] = page
 
     return direct_to_template(request,
                               template='2011/flatpage.html',
-                              extra_context=dict(page=page))
+                              extra_context=ctx)
