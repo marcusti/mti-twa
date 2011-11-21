@@ -1,4 +1,4 @@
-{% extends "2011/twa.html" %}
+{% extends "2011/index.html" %}
 
 {% block content %}
     <div class="section-header">
@@ -8,6 +8,6 @@
         {% endif %}
     </div>
     {% for seminar in seminars %}
-        {% include "2011/seminar.html" %}
+        {% include "2011/seminar-snippet.html" %}
     {% endfor %}
 {% endblock %}

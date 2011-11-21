@@ -155,6 +155,7 @@ def public(request):
     '''Displays the public home page.'''
 
     ctx = get_context(request)
+    ctx['menu'] = 'home'
     ctx['current_news'] = News.current_objects.all()[:5]
     ctx['current_seminars'] = Seminar.public_objects.get_current()
     ctx['include_main_image'] = True
@@ -163,7 +164,7 @@ def public(request):
         ctx['birthdays'] = Person.persons.get_next_birthdays()
 
     return direct_to_template(request,
-                              template='2011/twa.html',
+                              template='2011/index.html',
                               extra_context=ctx)
 
 
@@ -1274,23 +1275,37 @@ def news_archive(request):
 
 def seminar(request, sid=None):
     ctx = get_context(request)
+    ctx['menu'] = 'seminars'
     ctx['seminars'] = Seminar.public_objects.filter(id=sid)
     return direct_to_template(request,
-                              template='2011/twa-seminar.html',
+                              template='2011/seminar-view.html',
+                              extra_context=ctx)
+
+
+def seminars_current(request):
+    ctx = get_context(request)
+    ctx['menu'] = 'seminars'
+    ctx['seminars'] = Seminar.public_objects.get_current()
+    return direct_to_template(request,
+                              template='2011/seminar-current.html',
                               extra_context=ctx)
 
 
 def seminar_archive(request, year=date.today().year):
     ctx = get_context(request)
+    ctx['menu'] = 'seminars'
     city = request.GET.get('city', None)
+
     if city:
         ctx['seminars'] = Seminar.public_objects.filter(city__icontains=city)
     else:
         ctx['seminars'] = Seminar.public_objects.filter(start_date__year=year)
+
     ctx['years'] = reversed(Seminar.public_objects.dates('start_date', 'year'))
     ctx['cities'] = Seminar.public_objects.values_list('city', flat=True).distinct().order_by('city')
     ctx['city'] = city
     ctx['year'] = year
+
     return direct_to_template(request,
                               template='2011/seminar-archive.html',
                               extra_context=ctx)
