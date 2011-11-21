@@ -1,0 +1,38 @@
+{% load i18n %}
+{% load twa_tags %}
+
+<div class="news-header">
+    <a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a>
+</div>
+
+<div class="news-meta">
+    {{ news.pub_date|date:"l, d. F Y" }}
+
+    {% if user.is_authenticated %}
+        <div>
+            <a href="/admin/members/news/{{ news.id }}/" class="edit">{{ _('edit') }}</a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="news-content">
+{% autoescape off %}
+    {% if news.photo %}
+        <a href="{{ news.photo|thumbnail:'800x800' }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo-right" src="{{ news.photo|thumbnail:'200x200' }}" title="" alt="[{{ news.photo }}]" /></a>
+    {% endif %}
+    {{ news.get_preview|urlize|linebreaks }}
+    {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
+{% endautoescape %}
+</div>
+
+<div class="news-footer">
+  {% for attachment in news.attachment_set.all  %}
+      <p>
+        <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
+        <span class="small">
+        ({{ attachment.file|extension|lower }},
+        {{ attachment.file.size|filesizeformat }})
+        </span>
+      </p>
+  {% endfor %}
+</div>
