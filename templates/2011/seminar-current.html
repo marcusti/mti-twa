@@ -21,6 +21,7 @@
     <br/>
 
     <ul>
+        <li class="border"></li>
     {% for seminar in seminars %}
         <li class="border"><a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a></li>
     {% endfor %}
