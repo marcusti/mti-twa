@@ -50,7 +50,7 @@
                 <li><a class='menu-entry{% ifequal menu "seminars" %} selected{% endifequal %}' href="/seminars/current/">{% trans "Seminars" %}</a></li>
                 <li><a class='menu-entry{% ifequal menu "news" %} selected{% endifequal %}' href="/news/">{% trans "News" %}</a></li>
                 <li><a class="menu-entry" href="/teachers/">{% trans "Teachers" %}</a></li>
-                <li><a class="menu-entry" href="/downloads/">{% trans "Downloads" %}</a></li>
+                <li><a class='menu-entry{% ifequal menu "downloads" %} selected{% endifequal %}' href="/downloads/">{% trans "Downloads" %}</a></li>
                 {% for page in flatpages %}
                     <li><a class='menu-entry{% ifequal menu page.get_menu %} selected{% endifequal %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
                 {% endfor %}

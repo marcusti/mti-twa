@@ -14,7 +14,7 @@ h6 {font-size: .8em;}
 #header {text-align: left; font-size: 3em; text-shadow: #444 3px 3px 3px;}
 #menu {font-size:1.2em; text-align: left;}
 #menu ul, ul {list-style-type:none; margin: 0; padding: 0;}
-#menu li {display: inline; color: #444; margin: 0; padding: .2em; text-shadow: #aaa 3px 3px 3px;}
+#menu li {display: inline; color: #444; margin: 0; padding: .2em; /*text-shadow: #aaa 3px 3px 3px;*/}
 #menu li a {padding: .2em;}
 #menu li a:hover {background-color: PowderBlue; border-bottom: 0px;}
 .menu-logged-in li {font-size: .8em;}
