@@ -1,0 +1,13 @@
+{% extends "2011/twa.html" %}
+
+{% block content %}
+    <div class="section-header">
+        {{ _('Seminar') }}
+        {% if user.is_authenticated %}
+            <a href="/admin/members/seminar/add/" class="new small">{{ _('new') }}</a>
+        {% endif %}
+    </div>
+    {% for seminar in seminars %}
+        {% include "2011/seminar.html" %}
+    {% endfor %}
+{% endblock %}

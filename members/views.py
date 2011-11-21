@@ -156,13 +156,14 @@ def public(request):
 
     ctx = get_context(request)
     ctx['current_news'] = News.current_objects.all()[:5]
+    ctx['current_seminars'] = Seminar.public_objects.get_current()
     ctx['include_main_image'] = True
 
     if request.user.is_authenticated():
         ctx['birthdays'] = Person.persons.get_next_birthdays()
 
     return direct_to_template(request,
-                              template='twa-index.html',
+                              template='2011/twa.html',
                               extra_context=ctx)
 
 
@@ -1269,6 +1270,30 @@ def news_archive(request):
                        paginate_by=50,
                        extra_context=ctx,
                        template_name='twa-news-archive.html')
+
+
+def seminar(request, sid=None):
+    ctx = get_context(request)
+    ctx['seminars'] = Seminar.public_objects.filter(id=sid)
+    return direct_to_template(request,
+                              template='2011/twa-seminar.html',
+                              extra_context=ctx)
+
+
+def seminar_archive(request, year=date.today().year):
+    ctx = get_context(request)
+    city = request.GET.get('city', None)
+    if city:
+        ctx['seminars'] = Seminar.public_objects.filter(city__icontains=city)
+    else:
+        ctx['seminars'] = Seminar.public_objects.filter(start_date__year=year)
+    ctx['years'] = reversed(Seminar.public_objects.dates('start_date', 'year'))
+    ctx['cities'] = Seminar.public_objects.values_list('city', flat=True).distinct().order_by('city')
+    ctx['city'] = city
+    ctx['year'] = year
+    return direct_to_template(request,
+                              template='2011/seminar-archive.html',
+                              extra_context=ctx)
 
 
 def downloads(request):

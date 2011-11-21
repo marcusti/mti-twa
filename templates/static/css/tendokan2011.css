@@ -1,0 +1,40 @@
+@import url(http://fonts.googleapis.com/css?family=Merriweather:light&v1);
+html, body {font-family: "Merriweather", "Liberation Sans", Helvetica, Arial, sans-serif;}
+body {background-image: url("/static/images/bg-blue-grad.png"); background-repeat: repeat-x;}
+a {text-decoration: none; color: RoyalBlue;}
+a:hover {text-decoration: none; color: RoyalBlue; border-bottom: 1px dotted;}
+td, th {padding: 0 .2em;}
+li {margin: 0; padding: .2em;}
+#header {text-align: left; font-size: 3em; text-shadow: #444 3px 3px 3px;}
+#menu {font-size:1.2em; text-align: left;}
+#menu ul, ul {list-style-type:none; margin: 0; padding: 0;}
+#menu li {display: inline; color: #444; margin: 0; padding: .2em; text-shadow: #aaa 3px 3px 3px;}
+#menu li a {padding: .2em;}
+#menu li a:hover {background-color: PowderBlue; border-bottom: 0px;}
+.menu-logged-in li {font-size: .8em;}
+#header, #content, #footer {margin-top: 1em;}
+/*#content, #menu, #footer {background-color: white;}*/
+#menu {margin: 1.5em 0 1.5em 0;}
+#menu .selected {background-color: PowderBlue;}
+#menu .selected:hover {/*background-color: white; color: RoyalBlue;*/ border-bottom: 1px dotted;}
+#footer {font-size: .8em; text-align: center; margin-bottom: 1em;}
+.section-header {font-size: 1.8em; margin-bottom: 0;}
+.section-meta {margin-bottom: 1.5em; color: #888;}
+.news-header {font-size: 1.2em;}
+.news-meta {color: #888;}
+.news-content {margin-top: 1em;}
+.news-footer {margin-bottom: 2em; border-bottom: 1px dotted #aaa;}
+.right {text-align: right;}
+.left {text-align: left;}
+.center {text-align: center;}
+.bottom {vertical-align: bottom;}
+.middle {vertical-align: middle;}
+.photo-right {margin-left: 3px; padding: 1px; background: #FFF;}
+.img-left {margin-right: 3px;}
+.tendo {color: white;}
+.worldaikido {color: #ccc;}
+.flag{border:1px solid;}
+.new, .new:hover {color: green;}
+.edit, .edit:hover {color: orange;}
+.delete, .delete:hover {color: red;}
+.small {font-size: .5em;}

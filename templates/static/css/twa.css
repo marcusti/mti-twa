@@ -115,6 +115,20 @@ tr {
   padding: 1em 0 0 2em;
 }
 
+#news-block {
+  float: right;
+  text-align: right;
+}
+
+#seminars-block {
+  float: left;
+  text-align: left;
+}
+
+.clear {
+  clear: both;
+}
+
 .right {
   text-align: right;
 }

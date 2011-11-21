@@ -10,6 +10,7 @@ from django.contrib.syndication.feeds import Feed
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.storage import FileSystemStorage
 from django.db import models
+from django.db.models import Q
 from django.utils import translation
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
@@ -186,6 +187,26 @@ class Person(AbstractModel):
     objects = AllPersonsManager()
     persons = PersonManager()
 
+    def get_name(self, language=None):
+        lang = language or translation.get_language()[:2]
+        name = u''
+        if self.name_prefix:
+            name = self.get_name_prefix_display()
+        if lang == 'ja':
+            if self.lastname_jp:
+                name += ' %s' % self.lastname_jp
+            if self.firstname_jp:
+                name += ' %s' % self.firstname_jp
+        if self.firstname:
+            name += ' %s' % self.firstname
+        if self.nickname:
+            name += ' "%s"' % self.nickname
+        if self.lastname:
+            name += ' %s' % self.lastname
+        return name.strip()
+    get_name.short_description = _('Name')
+    get_name.allow_tags = False
+
     def is_license_requested(self):
         return self.license_set.filter(request__isnull=False, date__isnull=True).count() > 0
 
@@ -299,27 +320,28 @@ class Person(AbstractModel):
         return cmp(self.days(), other.days())
 
     def __unicode__(self):
-        name = u''
+        return self.get_name()
+        # name = u''
 
-        if self.name_prefix:
-            name = self.get_name_prefix_display()
+        # if self.name_prefix:
+        #     name = self.get_name_prefix_display()
 
-        if self.lastname_jp:
-            name += ' %s' % self.lastname_jp
+        # if self.lastname_jp:
+        #     name += ' %s' % self.lastname_jp
 
-        if self.firstname_jp:
-            name += ' %s' % self.firstname_jp
+        # if self.firstname_jp:
+        #     name += ' %s' % self.firstname_jp
 
-        if self.firstname:
-            name += ' %s' % self.firstname
+        # if self.firstname:
+        #     name += ' %s' % self.firstname
 
-        if self.nickname:
-            name += ' "%s"' % self.nickname
+        # if self.nickname:
+        #     name += ' "%s"' % self.nickname
 
-        if self.lastname:
-            name += ' %s' % self.lastname
+        # if self.lastname:
+        #     name += ' %s' % self.lastname
 
-        return name.strip()
+        # return name.strip()
 
     class Meta:
         ordering = ['firstname', 'lastname']
@@ -649,6 +671,56 @@ class Page(FlatPage):
         verbose_name_plural = _('Pages')
 
 
+class SeminarManager(models.Manager):
+    def get_query_set(self):
+        return super(SeminarManager, self).get_query_set().filter(public=True).order_by('start_date', 'end_date')
+
+    def get_current(self):
+        return self.get_query_set().filter(
+            (Q(start_date__gte=datetime.now()) & Q(end_date__exact=None))
+            | Q(end_date__gte=datetime.now()))
+
+
+class Seminar(AbstractModel):
+    title = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH)
+    title_en = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    title_ja = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    text = models.TextField(_('Text'), blank=True)
+    text_en = models.TextField(_('Text'), blank=True)
+    text_ja = models.TextField(_('Text'), blank=True)
+    photo = models.ImageField(_('Photo'), upload_to='images/', null=True, blank=True)
+    venue = models.CharField(_('Venue'), max_length=DEFAULT_MAX_LENGTH, default='')
+    city = models.CharField(_('City'), max_length=DEFAULT_MAX_LENGTH, default='')
+    country = models.ForeignKey(Country, verbose_name=_('Country'), default=1)
+    teacher = models.ForeignKey(Person, verbose_name=_('Teacher'), related_name='teacher', blank=True, null=True)
+
+    start_date = models.DateField(_('Start Date'), default=date.today())
+    end_date = models.DateField(_('End Date'), blank=True, null=True, default=date.today())
+
+    objects = models.Manager()
+    public_objects = SeminarManager()
+
+    def get_title(self, language=None):
+        return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
+    get_title.short_description = _('Title')
+    get_title.allow_tags = False
+
+    def get_text(self, language=None):
+        return getattr(self, "text_%s" % (language or translation.get_language()[:2]), "") or self.text
+    get_text.short_description = _('Text')
+    get_text.allow_tags = False
+
+    def get_absolute_url(self):
+        return '/seminar/%i/' % self.id
+
+    def __unicode__(self):
+        fields = []
+        if self.city:
+            fields.append(self.city.strip())
+        fields.append(self.title.strip())
+        return ': '.join(fields)
+
+
 class NewsManager(models.Manager):
     def get_query_set(self):
         return super(NewsManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
@@ -701,6 +773,7 @@ class Attachment(AbstractModel):
     name = models.CharField(_('Name'), max_length=DEFAULT_MAX_LENGTH)
     file = models.FileField(_('File'), upload_to='attachments/')
     news = models.ForeignKey(News, verbose_name=_('News'), blank=True, null=True)
+    seminar = models.ForeignKey(Seminar, verbose_name=_('Seminar'), blank=True, null=True)
 
     def __unicode__(self):
         return self.name
