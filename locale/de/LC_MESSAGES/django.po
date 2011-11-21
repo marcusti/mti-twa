@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 05:05+0100\n"
+"POT-Creation-Date: 2011-11-21 05:57+0100\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -869,7 +869,7 @@ msgstr "Vorschau"
 msgid "News"
 msgstr ""
 
-#: members/models.py:776 templates/2011/seminar-view.html:5
+#: members/models.py:776
 msgid "Seminar"
 msgstr "Lehrgang"
 
@@ -1082,8 +1082,9 @@ msgstr ""
 #: templates/twa-members-all.html:15 templates/twa-members.html:11
 #: templates/twa-news.html:14 templates/twa-suggestions.html:11
 #: templates/2011/index.html:113 templates/2011/index.html.py:132
+#: templates/2011/news-archive.html:9 templates/2011/news-view.html:6
 #: templates/2011/seminar-archive.html:9 templates/2011/seminar-current.html:9
-#: templates/2011/seminar-view.html:7 templates/members/dojo_detail.html:14
+#: templates/2011/seminar-view.html:6 templates/members/dojo_detail.html:14
 #: templates/members/person_detail.html:16
 #: templates/members/person_detail.html:210
 #: templates/members/person_list.html:13
@@ -1162,7 +1163,7 @@ msgid "turning"
 msgstr "wird"
 
 #: templates/twa-index.html:154 templates/twa-news-archive.html:20
-#: templates/2011/news-snippet.html:24
+#: templates/2011/news-snippet.html:28
 msgid "read more"
 msgstr "weiterlesen"
 
@@ -1307,29 +1308,41 @@ msgstr "Abschicken"
 msgid "Seminars"
 msgstr "Lehrgänge"
 
-#: templates/2011/index.html:117 templates/2011/seminar-archive.html:6
-msgid "All Seminars"
-msgstr "Alle Lehrgänge"
+#: templates/2011/index.html:117 templates/2011/seminar-current.html:17
+msgid "all seminars"
+msgstr "alle Lehrgänge"
 
 #: templates/2011/index.html:122
 msgid "No upcoming seminars."
 msgstr "Keine Lehrgänge in nächster Zeit."
 
 #: templates/2011/index.html:136
-msgid "All News"
-msgstr "Alle News"
+msgid "all news"
+msgstr "alle News"
 
 #: templates/2011/index.html:141
 msgid "No news, sorry."
 msgstr "Keine News zur Zeit."
 
+#: templates/2011/news-archive.html:6
+msgid "All News"
+msgstr "Alle News"
+
+#: templates/2011/news-archive.html:18 templates/2011/seminar-archive.html:23
+msgid "by year"
+msgstr "nach Jahren"
+
+#: templates/2011/news-archive.html:29
+msgid "headlines"
+msgstr "Schlagzeilen"
+
+#: templates/2011/seminar-archive.html:6
+msgid "All Seminars"
+msgstr "Alle Lehrgänge"
+
 #: templates/2011/seminar-archive.html:18
 msgid "current seminars"
 msgstr "aktuelle Lehrgänge"
-
-#: templates/2011/seminar-archive.html:23
-msgid "by year"
-msgstr "nach Jahren"
 
 #: templates/2011/seminar-archive.html:34
 msgid "by city"
@@ -1338,10 +1351,6 @@ msgstr "nach Städten"
 #: templates/2011/seminar-current.html:6
 msgid "Current Seminars"
 msgstr "Aktuelle Lehrgänge"
-
-#: templates/2011/seminar-current.html:17
-msgid "all seminars"
-msgstr "alle Lehrgänge"
 
 #: templates/members/association_detail.html:122
 #: templates/members/dojo_detail.html:127

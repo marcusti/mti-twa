@@ -3,7 +3,7 @@ html, body {font-family: "Merriweather", "Liberation Sans", Helvetica, Arial, sa
 body {background-image: url("/static/images/bg-blue-grad.png"); background-repeat: repeat-x;}
 a {text-decoration: none; color: RoyalBlue;}
 a:hover {text-decoration: none; color: RoyalBlue; border-bottom: 1px dotted;}
-td, th {padding: 0 .2em;}
+td, th {padding: 0 1em 0 0;}
 li {margin: 0; padding: .2em;}
 #header {text-align: left; font-size: 3em; text-shadow: #444 3px 3px 3px;}
 #menu {font-size:1.2em; text-align: left;}
@@ -21,6 +21,8 @@ li {margin: 0; padding: .2em;}
 .section-header {font-size: 1.8em; margin-bottom: 0;}
 .section-meta {margin-bottom: 1.5em; color: #888;}
 .news-header {font-size: 1.2em;}
+.border {border-bottom: 1px dotted #aaa;}
+.detailed {font-size: 1.8em;}
 .news-meta {color: #888;}
 .news-content {margin-top: 1em;}
 .news-footer {margin-bottom: 2em; border-bottom: 1px dotted #aaa;}

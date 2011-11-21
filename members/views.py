@@ -1246,36 +1246,45 @@ def news_preview(request, nid=None):
 
 def news(request, nid=None):
     '''Display a public news article.'''
-
     ctx = get_context(request)
     ctx['menu'] = 'news'
-    ctx['include_main_image'] = False
+    ctx['detailed'] = True
+    ctx['all_news'] = News.current_objects.filter(id=nid)
+    return direct_to_template(request,
+                              template='2011/news-view.html',
+                              extra_context=ctx)
 
-    return object_detail(request,
-                         queryset=News.current_objects.filter(id=nid),
-                         object_id=nid,
-                         template_object_name='news',
-                         template_name='twa-news.html',
-                         extra_context=ctx)
+    # ctx = get_context(request)
+    # ctx['menu'] = 'news'
+    # ctx['include_main_image'] = False
+
+    # return object_detail(request,
+    #                      queryset=News.current_objects.filter(id=nid),
+    #                      object_id=nid,
+    #                      template_object_name='news',
+    #                      template_name='twa-news.html',
+    #                      extra_context=ctx)
 
 
-def news_archive(request):
+def news_archive(request, year=date.today().year):
     '''Displays the news archive.'''
 
     ctx = get_context(request)
     ctx['menu'] = 'news'
     ctx['include_main_image'] = False
+    ctx['all_news'] = News.current_objects.filter(pub_date__year=year)
+    ctx['years'] = reversed(News.current_objects.dates('pub_date', 'year'))
+    ctx['year'] = year
 
-    return object_list(request,
-                       queryset=News.current_objects.all(),
-                       paginate_by=50,
-                       extra_context=ctx,
-                       template_name='twa-news-archive.html')
+    return direct_to_template(request,
+                              template='2011/news-archive.html',
+                              extra_context=ctx)
 
 
 def seminar(request, sid=None):
     ctx = get_context(request)
     ctx['menu'] = 'seminars'
+    ctx['detailed'] = True
     ctx['seminars'] = Seminar.public_objects.filter(id=sid)
     return direct_to_template(request,
                               template='2011/seminar-view.html',
