@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load twa_tags %}
 
-<div class="news-header">
+<div class="news-header{% if detailed %} detailed{% endif %}">
     <a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a>
 </div>
 
@@ -11,6 +11,7 @@
 
     {% if user.is_authenticated %}
         <div>
+            <a href="/admin/members/seminar/add/" class="new">{{ _('new') }}</a> //
             <a href="/admin/members/seminar/{{ seminar.id }}/" class="edit">{{ _('edit') }}</a>
         </div>
     {% endif %}

@@ -1,0 +1,44 @@
+{% extends "2011/index.html" %}
+
+{% block content %}
+<div class="grid_16 alpha">
+    <div class="section-header">
+        {{ _('All News') }} {{ year }}
+
+        {% if user.is_authenticated %}
+            <a href="/admin/members/news/add/" class="new small">{{ _('new') }}</a>
+        {% endif %}
+    </div>
+    <div class="section-meta">
+    </div>
+</div>
+
+<div class="grid_4 alpha">
+    <div>
+        {{ _('by year') }}
+    </div>
+
+    <ul>
+    {% for year in years %}
+        <li><a href="/news/archive/{{ year.year }}/">{{ year.year }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <br/>
+    <div>
+        {{ _('headlines') }}
+    </div>
+
+    <ul>
+    {% for news in all_news %}
+        <li class="border"><a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="grid_12 omega">
+    {% for news in all_news %}
+        {% include "2011/news-snippet.html" %}
+    {% endfor %}
+</div>
+{% endblock %}
