@@ -24,7 +24,7 @@ h6 {font-size: .8em;}
 #menu {margin: 1.5em 0 1.5em 0;}
 #menu .selected {background-color: PowderBlue;}
 #menu .selected:hover {/*background-color: white; color: RoyalBlue;*/ border-bottom: 1px dotted;}
-#footer {font-size: .8em; text-align: center; margin-bottom: 1em;}
+#footer {font-size: .8em; text-align: center; margin-bottom: 1em; color: #888;}
 .section-header {font-size: 1.8em; margin-bottom: 0;}
 .section-meta {margin-bottom: 1.5em; color: #888;}
 .news-header {font-size: 1.2em;}
