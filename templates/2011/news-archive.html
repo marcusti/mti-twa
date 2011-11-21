@@ -27,6 +27,7 @@
     <br/>
 
     <ul>
+        <li class="border"></li>
     {% for news in all_news %}
         <li class="border"><a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a></li>
     {% endfor %}
