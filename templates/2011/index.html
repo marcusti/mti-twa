@@ -150,7 +150,11 @@
             {% if user.is_authenticated %}
               <a href="/logout/">Logout</a>
             {% else %}
-              <a href="/login/">Login</a>
+                {% if request.META.PATH_INFO %}
+                    <a href="/login/?next={{ request.META.PATH_INFO }}">Login</a>
+                {% else %}
+                    <a href="/login/">Login</a>
+                {% endif %}
             {% endif %}
         </div>
     </div>
