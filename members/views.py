@@ -457,7 +457,7 @@ def licensees(request):
     ctx['object_list'] = l
 
     return direct_to_template(request,
-                              template='twa-licensees-public.html',
+                              template='2011/teachers.html',
                               extra_context=ctx)
 
 

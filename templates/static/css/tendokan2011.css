@@ -3,7 +3,8 @@ html, body {font-family: "Merriweather", "Liberation Sans", Helvetica, Arial, sa
 body {background-image: url("/static/images/bg-blue-grad.png"); background-repeat: repeat-x;}
 a {text-decoration: none; color: RoyalBlue;}
 a:hover {text-decoration: none; color: RoyalBlue; border-bottom: 1px dotted;}
-td, th {padding: 0 1em 0 0;}
+td, th {padding: 0 1em 0 0; text-align: left;}
+th {font-size: 1.2em; font-weight: normal; padding-bottom: 1em;}
 li {margin: 0; padding: .2em;}
 h1 {font-size: 1.8em;}
 h2 {font-size: 1.6em;}
@@ -49,3 +50,4 @@ h6 {font-size: .8em;}
 .flatpage ul {list-style-type: circle;}
 .flatpage ul, .flatpage ol, .flatpage table {margin-left: 1em; padding-left: 1em;}
 .flatpage li {margin-left: 1em; padding-left: 1em;}
+.columnhover:hover {background-color:#f5f5e7;}
