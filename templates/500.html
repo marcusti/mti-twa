@@ -1,11 +1,8 @@
-{% extends "twa-index.html" %}
+{% extends "2011/index.html" %}
 {% load i18n %}
 
 {% block content %}
-<table>
-      <tr>
-        <th>500</th>
-      </tr>
-</table>
-<p>{% trans "Server Error. Please try again later." %}</p>
+<div class="section-header">500</div>
+<div class="section-meta"></div>
+<div>{% trans "Server Error. Please try again later." %}</div>
 {% endblock %}

@@ -1323,7 +1323,7 @@ def downloads(request):
                        queryset=Download.public_objects.all(),
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-downloads.html',
+                       template_name='2011/downloads.html',
                        )
 
 
