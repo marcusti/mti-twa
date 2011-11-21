@@ -5,6 +5,12 @@ a {text-decoration: none; color: RoyalBlue;}
 a:hover {text-decoration: none; color: RoyalBlue; border-bottom: 1px dotted;}
 td, th {padding: 0 1em 0 0;}
 li {margin: 0; padding: .2em;}
+h1 {font-size: 1.8em;}
+h2 {font-size: 1.6em;}
+h3 {font-size: 1.4em;}
+h4 {font-size: 1.2em;}
+h5 {font-size: 1em;}
+h6 {font-size: .8em;}
 #header {text-align: left; font-size: 3em; text-shadow: #444 3px 3px 3px;}
 #menu {font-size:1.2em; text-align: left;}
 #menu ul, ul {list-style-type:none; margin: 0; padding: 0;}
@@ -40,3 +46,6 @@ li {margin: 0; padding: .2em;}
 .edit, .edit:hover {color: orange;}
 .delete, .delete:hover {color: red;}
 .small {font-size: .5em;}
+.flatpage ul {list-style-type: circle;}
+.flatpage ul, .flatpage ol, .flatpage table {margin-left: 1em; padding-left: 1em;}
+.flatpage li {margin-left: 1em; padding-left: 1em;}

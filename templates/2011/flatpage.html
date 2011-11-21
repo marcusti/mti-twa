@@ -1,0 +1,23 @@
+{% extends "2011/index.html" %}
+{% load markup %}
+
+{% block content %}
+<div class="flatpage">
+    <div class="news-header detailed">
+        {{ page.get_title }}
+    </div>
+
+    <div class="news-meta">
+        {% if user.is_authenticated %}
+            <div>
+                <a href="/admin/members/page/add/" class="new">{{ _('new') }}</a> //
+                <a href="/admin/members/page/{{ page.id }}/" class="edit">{{ _('edit') }}</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="news-content">
+      {{ page.get_content|markdown}}
+    </div>
+</div>
+{% endblock %}

@@ -14,7 +14,17 @@
 </div>
 
 <div class="grid_4 alpha">
-    <a href="/seminars/">{{ _('all seminars') }}</a>
+    <div>
+        <a href="/seminars/">{{ _('all seminars') }}</a>
+    </div>
+
+    <br/>
+
+    <ul>
+    {% for seminar in seminars %}
+        <li class="border"><a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a></li>
+    {% endfor %}
+    </ul>
 </div>
 
 <div class="grid_12 omega">
