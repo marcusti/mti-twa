@@ -1254,17 +1254,6 @@ def news(request, nid=None):
                               template='2011/news-view.html',
                               extra_context=ctx)
 
-    # ctx = get_context(request)
-    # ctx['menu'] = 'news'
-    # ctx['include_main_image'] = False
-
-    # return object_detail(request,
-    #                      queryset=News.current_objects.filter(id=nid),
-    #                      object_id=nid,
-    #                      template_object_name='news',
-    #                      template_name='twa-news.html',
-    #                      extra_context=ctx)
-
 
 def news_archive(request, year=date.today().year):
     '''Displays the news archive.'''
@@ -1423,5 +1412,5 @@ def dynamic_pages(request, path):
         page = get_object_or_404(Page, url__iexact=path + '/')
 
     return direct_to_template(request,
-                              template='flatpages/default.html',
+                              template='2011/flatpage.html',
                               extra_context=dict(page=page))

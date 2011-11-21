@@ -39,6 +39,14 @@
         <li><a href="/seminars/?city={{ city }}">{{ city }}</a></li>
     {% endfor %}
     </ul>
+
+    <br/>
+
+    <ul>
+    {% for seminar in seminars %}
+        <li class="border"><a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a></li>
+    {% endfor %}
+    </ul>
 </div>
 
 <div class="grid_12 omega">

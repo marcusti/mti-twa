@@ -12,6 +12,7 @@ twa.sublime-*
 *.pyc
 *.yaml
 *.json
+*.markdown
 *.sqlite
 *.dump
 *.csv
