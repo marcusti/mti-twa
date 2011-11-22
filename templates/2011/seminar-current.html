@@ -31,6 +31,8 @@
 <div class="grid_12 omega">
     {% for seminar in seminars %}
         {% include "2011/seminar-snippet.html" %}
+    {% empty %}
+        <div>{{ _('No upcoming seminars.') }}</div>
     {% endfor %}
 </div>
 {% endblock %}

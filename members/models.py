@@ -698,7 +698,7 @@ class Seminar(AbstractModel):
     text_en = models.TextField(_('Text'), blank=True)
     text_ja = models.TextField(_('Text'), blank=True)
     photo = models.ImageField(_('Photo'), upload_to='images/', null=True, blank=True)
-    venue = models.CharField(_('Venue'), max_length=DEFAULT_MAX_LENGTH, default='')
+    venue = models.CharField(_('Venue'), max_length=DEFAULT_MAX_LENGTH, default='', null=True, blank=True)
     city = models.CharField(_('City'), max_length=DEFAULT_MAX_LENGTH, default='')
     country = models.ForeignKey(Country, verbose_name=_('Country'), default=1)
     teacher = models.ForeignKey(Person, verbose_name=_('Teacher'), related_name='teacher', blank=True, null=True)

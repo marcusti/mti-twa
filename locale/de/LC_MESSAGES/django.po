@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-22 15:37+0100\n"
+"POT-Creation-Date: 2011-11-22 16:53+0100\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1180,7 +1180,7 @@ msgstr "wird"
 msgid "read more"
 msgstr "weiterlesen"
 
-#: templates/twa-index.html:191
+#: templates/twa-index.html:191 templates/2011/index.html:182
 msgid "Official TWA Site"
 msgstr "Zur offiziellen TWA Seite"
 
@@ -1325,7 +1325,7 @@ msgstr "Bilder aus den News"
 msgid "all seminars"
 msgstr "alle Lehrgänge"
 
-#: templates/2011/index.html:140
+#: templates/2011/index.html:140 templates/2011/seminar-current.html:35
 msgid "No upcoming seminars."
 msgstr "Keine Lehrgänge in nächster Zeit."
 
@@ -1336,10 +1336,6 @@ msgstr "alle News"
 #: templates/2011/index.html:159
 msgid "No news, sorry."
 msgstr "Keine News zur Zeit."
-
-#: templates/2011/index.html:170
-msgid "Language"
-msgstr "Sprache"
 
 #: templates/2011/news-archive.html:6
 msgid "All News"
@@ -1357,9 +1353,13 @@ msgstr "Alle Lehrgänge"
 msgid "current seminars"
 msgstr "aktuelle Lehrgänge"
 
-#: templates/2011/seminar-archive.html:34
+#: templates/2011/seminar-archive.html:45
 msgid "by city"
 msgstr "nach Städten"
+
+#: templates/2011/seminar-archive.html:64
+msgid "No seminars."
+msgstr "Keine Lehrgänge gefunden."
 
 #: templates/2011/seminar-current.html:6
 msgid "Current Seminars"
@@ -1394,6 +1394,9 @@ msgstr "Erfolgreich abgemeldet."
 #: utils/__init__.py:10
 msgid "Created"
 msgstr "Erstellt"
+
+#~ msgid "Language"
+#~ msgstr "Sprache"
 
 #~ msgid "Title (en)"
 #~ msgstr "Titel"

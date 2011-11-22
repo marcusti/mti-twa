@@ -147,7 +147,7 @@ class DocumentAdmin(admin.ModelAdmin):
 
 
 class SeminarAdmin(admin.ModelAdmin):
-    ordering = ['start_date', 'end_date', 'title']
+    ordering = ['-start_date', '-end_date', 'title']
     list_display = ('id', 'title', 'start_date', 'end_date', 'public')
     list_display_links = ('title',)
     date_hierarchy = 'start_date'
@@ -155,8 +155,8 @@ class SeminarAdmin(admin.ModelAdmin):
     fieldsets = (
                  (None, {'fields': ('public', 'venue', 'city', 'country', 'teacher', 'start_date', 'end_date', 'photo')}),
                  ('Deutsch', {'fields': ('title', 'text')}),
-                 ('English', {'fields': ('title_en', 'text_en'), 'classes': ('collapse', )}),
-                 ('Japanese', {'fields': ('title_ja', 'text_ja'), 'classes': ('collapse', )}),
+                 ('English', {'fields': ('title_en', 'text_en')}),
+                 ('Japanese', {'fields': ('title_ja', 'text_ja')}),
                  )
     inlines = [SeminarAttachmentInline, ]
 
