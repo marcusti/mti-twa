@@ -52,7 +52,10 @@
 
 <div class="grid_12 omega">
     {% for seminar in seminars %}
-        {% include "2011/seminar-snippet.html" %}
+        <div class="bottom-space">
+            {% include "2011/seminar-snippet.html" %}
+            {% if not forloop.last %}<div class="border"></div>{% endif %}
+        </div>
     {% endfor %}
 </div>
 {% endblock %}

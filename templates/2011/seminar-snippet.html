@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load twa_tags %}
 
-<div class="news-header{% if detailed %} detailed{% endif %}">
+<div class="{% if detailed %} detailed{% else %}news-header{% endif %}">
     <a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a>
 </div>
 
@@ -66,11 +66,14 @@
         {% endif %}
 
     </table>
-{% autoescape off %}
-    {{ seminar.get_text|urlize|linebreaks }}
-{% endautoescape %}
+    {% if seminar.get_text %}
+        {% autoescape off %}
+            {{ seminar.get_text|urlize|linebreaks }}
+        {% endautoescape %}
+    {% endif %}
 </div>
 
+{% if seminar.attachment_set.all %}
 <div class="news-footer">
   {% for attachment in seminar.attachment_set.all  %}
       <p>
@@ -82,3 +85,4 @@
       </p>
   {% endfor %}
 </div>
+{% endif %}
