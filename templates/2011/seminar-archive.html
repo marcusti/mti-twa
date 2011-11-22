@@ -26,17 +26,8 @@
     <ul>
     {% for year in years %}
         <li><a href="/seminars/{{ year.year }}/">{{ year.year }}</a></li>
-    {% endfor %}
-    </ul>
-
-    <br/>
-    <div>
-        {{ _('by city') }}
-    </div>
-
-    <ul>
-    {% for city in cities %}
-        <li><a href="/seminars/?city={{ city }}">{{ city }}</a></li>
+    {% empty %}
+        <li>-</li>
     {% endfor %}
     </ul>
 
@@ -48,6 +39,19 @@
         <li class="border"><a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a></li>
     {% endfor %}
     </ul>
+
+    <br/>
+    <div>
+        {{ _('by city') }}
+    </div>
+
+    <ul>
+    {% for city in cities %}
+        <li><a href="/seminars/?city={{ city }}">{{ city }}</a></li>
+    {% empty %}
+        <li>-</li>
+    {% endfor %}
+    </ul>
 </div>
 
 <div class="grid_12 omega">
@@ -56,6 +60,8 @@
             {% include "2011/seminar-snippet.html" %}
             {% if not forloop.last %}<div class="border"></div>{% endif %}
         </div>
+    {% empty %}
+        <div>{{ _('No seminars.') }}</div>
     {% endfor %}
 </div>
 {% endblock %}
