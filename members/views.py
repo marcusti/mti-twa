@@ -153,12 +153,19 @@ def info(request):
     return direct_to_template(request, template='info.html', extra_context=ctx)
 
 
+def _get_photos():
+    return [news for news in News.current_objects.all() if news.photo][:8]
+
+
 def public(request):
     '''Displays the public home page.'''
 
+    news = News.current_objects.all()
+
     ctx = get_context(request)
     ctx['menu'] = 'home'
-    ctx['current_news'] = News.current_objects.all()[:5]
+    ctx['current_news'] = news[:5]
+    ctx['photo_news'] = _get_photos()
     ctx['current_seminars'] = Seminar.public_objects.get_current()
     ctx['include_main_image'] = True
 
@@ -1252,6 +1259,7 @@ def news(request, nid=None):
     ctx['menu'] = 'news'
     ctx['detailed'] = True
     ctx['all_news'] = News.current_objects.filter(id=nid)
+    ctx['photo_news'] = _get_photos()
     return direct_to_template(request,
                               template='2011/news-view.html',
                               extra_context=ctx)
@@ -1261,10 +1269,17 @@ def news_archive(request, year=date.today().year):
     '''Displays the news archive.'''
 
     ctx = get_context(request)
+    ctx['years'] = reversed(News.current_objects.dates('pub_date', 'year'))
+    # if year is None:
+    #     last_date = max(ctx['years'])
+    #     if last_date is not None:
+    #         year = last_date.year
+    #     else:
+    #         year = date.today().year
     ctx['menu'] = 'news'
     ctx['include_main_image'] = False
     ctx['all_news'] = News.current_objects.filter(pub_date__year=year)
-    ctx['years'] = reversed(News.current_objects.dates('pub_date', 'year'))
+    ctx['photo_news'] = _get_photos()
     ctx['year'] = year
 
     return direct_to_template(request,
