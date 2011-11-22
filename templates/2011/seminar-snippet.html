@@ -73,7 +73,6 @@
     {% endif %}
 </div>
 
-{% if seminar.attachment_set.all %}
 <div class="news-footer">
   {% for attachment in seminar.attachment_set.all  %}
       <p>
@@ -85,4 +84,3 @@
       </p>
   {% endfor %}
 </div>
-{% endif %}

@@ -37,7 +37,6 @@
 {% endautoescape %}
 </div>
 
-{% if news.attachment_set.all %}
 <div class="news-footer">
   {% for attachment in news.attachment_set.all  %}
       <p>
@@ -49,4 +48,3 @@
       </p>
   {% endfor %}
 </div>
-{% endif %}

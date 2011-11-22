@@ -55,13 +55,13 @@
 
         <div id="menu" class="grid_16">
             <ul>
-                <li><a class='menu-entry{% ifequal menu "home" %} selected{% endifequal %}' href="/">{% trans "Home" %}</a></li>
-                <li><a class='menu-entry{% ifequal menu "seminars" %} selected{% endifequal %}' href="/seminars/current/">{% trans "Seminars" %}</a></li>
-                <li><a class='menu-entry{% ifequal menu "news" %} selected{% endifequal %}' href="/news/">{% trans "News" %}</a></li>
-                <li><a class='menu-entry{% ifequal menu "licensees" %} selected{% endifequal %}' href="/teachers/">{% trans "Teachers" %}</a></li>
-                <li><a class='menu-entry{% ifequal menu "downloads" %} selected{% endifequal %}' href="/downloads/">{% trans "Downloads" %}</a></li>
+                <li><a class='menu-entry{% if menu == "home" %} selected{% endif %}' href="/">{% trans "Home" %}</a></li>
+                <li><a class='menu-entry{% if menu == "news" %} selected{% endif %}' href="/news/">{% trans "News" %}</a></li>
+                <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/current/">{% trans "Seminars" %}</a></li>
+                <li><a class='menu-entry{% if menu == "licensees" %} selected{% endif %}' href="/teachers/">{% trans "Teachers" %}</a></li>
+                <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/downloads/">{% trans "Downloads" %}</a></li>
                 {% for page in flatpages %}
-                    <li><a class='menu-entry{% ifequal menu page.get_menu %} selected{% endifequal %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
+                    <li><a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
                 {% endfor %}
             </ul>
 
@@ -105,6 +105,16 @@
                 </ul>
           {% endif %}
         </div>
+
+        <!-- PHOTOS -->
+
+        {% if menu == "home" or menu == "news" %}
+        <div class="grid_16 center alpha">
+        {% for news in photo_news %}
+            <a href="{{ news.get_absolute_url }}" class=""><img align="" class="photo middle" src="{{ news.photo|thumbnail:'100x100' }}" title="{{ news.get_title }}" alt="[{{ news.photo }}]" /></a>
+        {% endfor %}
+        </div>
+        {% endif %}
 
         <!-- CONTENT -->
 
