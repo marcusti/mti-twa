@@ -43,7 +43,7 @@ th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 .delete, .delete:hover {color: red;}
 .detailed {font-size: 1.8em;}
 .edit, .edit:hover {color: orange;}
-.flag{border:1px solid;}
+.flag{border:1px solid RoyalBlue;}
 .flatpage ul {list-style-type: circle;}
 .flatpage ul, .flatpage ol, .flatpage table {margin-left: 10px; padding-left: 10px;}
 .flatpage li {margin-left: 10px; padding-left: 10px;}
