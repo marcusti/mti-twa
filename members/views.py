@@ -109,7 +109,7 @@ def twa_login(request):
         form = LoginForm()
 
     ctx['form'] = form
-    return render_to_response('twa-login.html', ctx)
+    return render_to_response('2011/login.html', ctx)
 
 
 def twa_logout(request):
