@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" media="all" href="/static/css/960gs/text.css" />
     <link rel="stylesheet" type="text/css" media="all" href="/static/css/960gs/960.css" />
     <link rel="stylesheet" href="/static/css/highslide.css" type="text/css" media="screen" />
+    <!-- <link rel="stylesheet" type="text/css" media="all" href="/static/css/layout.css" /> -->
     <link rel="stylesheet" href="/static/css/tendokan2011.css" type="text/css" />
 
     <link rel="alternate" type="application/atom+xml" title="tendo world aikido News (deutsch)" href="/feed/news-de/" />
@@ -38,9 +39,16 @@
 
         <!-- HEADER -->
 
-        <div id="header" class="grid_16 middle">
+        <div id="header" class="grid_16">
             <!--[if lt IE 7]>  <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
-            <a href="/"><img src="/static/images/kamon-trans.png" align="left" class="img-left"> <span class="tendo">tendo</span> <span class="worldaikido">world aikido</span></a>
+            <a href="/">
+                <table class="logo">
+                    <tr>
+                        <td class="middle"><img src="/static/images/kamon-trans.png" align="" class="img-left"></td>
+                        <td class="middle"><span class="tendo">tendo</span> <span class="worldaikido">world aikido</span></td>
+                    </tr>
+                </table>
+            </a>
         </div>
 
         <!-- MENU -->
@@ -50,16 +58,14 @@
                 <li><a class='menu-entry{% ifequal menu "home" %} selected{% endifequal %}' href="/">{% trans "Home" %}</a></li>
                 <li><a class='menu-entry{% ifequal menu "seminars" %} selected{% endifequal %}' href="/seminars/current/">{% trans "Seminars" %}</a></li>
                 <li><a class='menu-entry{% ifequal menu "news" %} selected{% endifequal %}' href="/news/">{% trans "News" %}</a></li>
-                <li><a class="menu-entry" href="/teachers/">{% trans "Teachers" %}</a></li>
+                <li><a class='menu-entry{% ifequal menu "licensees" %} selected{% endifequal %}' href="/teachers/">{% trans "Teachers" %}</a></li>
                 <li><a class='menu-entry{% ifequal menu "downloads" %} selected{% endifequal %}' href="/downloads/">{% trans "Downloads" %}</a></li>
                 {% for page in flatpages %}
                     <li><a class='menu-entry{% ifequal menu page.get_menu %} selected{% endifequal %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
                 {% endfor %}
-                <li></li>
             </ul>
 
             {% if user.is_authenticated %}
-                <br/>
                 <ul class="menu-logged-in">
                     <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a></li>
                     <li><a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a></li>
@@ -115,7 +121,10 @@
                     <a href="/seminars/">{{ _('all seminars') }}</a>
                 </div>
                 {% for seminar in current_seminars %}
-                    {% include "2011/seminar-snippet.html" %}
+                    <div class="bottom-space">
+                        {% include "2011/seminar-snippet.html" %}
+                        {% if not forloop.last %}<div class="border"></div>{% endif %}
+                    </div>
                 {% empty %}
                     <div>{{ _('No upcoming seminars.') }}</div>
                 {% endfor %}
@@ -131,7 +140,10 @@
                     <a href="/news/archive/">{{ _('all news') }}</a>
                 </div>
                 {% for news in current_news %}
-                    {% include "2011/news-snippet.html" %}
+                    <div class="bottom-space">
+                        {% include "2011/news-snippet.html" %}
+                        {% if not forloop.last %}<div class="border"></div>{% endif %}
+                    </div>
                 {% empty %}
                     <div>{{ _('No news, sorry.') }}</div>
                 {% endfor %}
@@ -143,10 +155,11 @@
         <!-- FOOTER -->
 
         <div id="footer" class="grid_16">
-            <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
-            <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
-            <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
-            <br/>
+            <div>
+                <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
+                <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
+                <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
+            </div>
 
             {% if user.is_authenticated %}
               <a href="/logout/">Logout</a>
@@ -158,7 +171,7 @@
                 {% endif %}
             {% endif %}
 
-            <div><br/>&copy; tendo world aikido 2009 - {% now "Y" %}</div>
+            <div>&copy; tendo world aikido 2009 - {% now "Y" %}</div>
         </div>
     </div>
 </body>

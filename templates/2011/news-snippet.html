@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load twa_tags %}
 
-<div class="news-header{% if detailed %} detailed{% endif %}">
+<div class="{% if detailed %} detailed{% else %}news-header{% endif %}">
     <a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a>
 </div>
 
@@ -21,17 +21,23 @@
     {% if news.photo %}
         <a href="{{ news.photo|thumbnail:'800x800' }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo-right" src="{{ news.photo|thumbnail:'200x200' }}" title="" alt="[{{ news.photo }}]" /></a>
     {% endif %}
-    {{ news.get_preview|urlize|linebreaks }}
 
-    {% if detailed %}
-        {% if news.get_text %}{{ news.get_text|urlize|linebreaks }}{% endif %}
-    {% else %}
-        {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
+    {% if news.get_preview %}
+        {{ news.get_preview|urlize|linebreaks }}
+    {% endif %}
+
+    {% if news.get_text %}
+        {% if detailed %}
+            {% if news.get_text %}{{ news.get_text|urlize|linebreaks }}{% endif %}
+        {% else %}
+            {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
+        {% endif %}
     {% endif %}
 
 {% endautoescape %}
 </div>
 
+{% if news.attachment_set.all %}
 <div class="news-footer">
   {% for attachment in news.attachment_set.all  %}
       <p>
@@ -43,3 +49,4 @@
       </p>
   {% endfor %}
 </div>
+{% endif %}

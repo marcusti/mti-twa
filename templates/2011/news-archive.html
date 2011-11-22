@@ -36,7 +36,10 @@
 
 <div class="grid_12 omega">
     {% for news in all_news %}
-        {% include "2011/news-snippet.html" %}
+        <div class="bottom-space">
+            {% include "2011/news-snippet.html" %}
+            {% if not forloop.last %}<div class="border"></div>{% endif %}
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
