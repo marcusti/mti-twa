@@ -448,6 +448,7 @@ def twa_region(request, region_id=None):
                        template_name='twa-region.html')
 
 
+@login_required
 def licensees(request):
     '''Displays a public list of licensed twa teachers.'''
 
