@@ -197,13 +197,13 @@ class PageForm(FlatpageForm):
 class PageAdmin(FlatPageAdmin):
     form = PageForm
     ordering = ['menu', 'title']
-    list_display = ('id', 'get_title', 'get_menu', 'url', 'pub_date', 'public')
+    list_display = ('id', 'get_title', 'get_menu', 'url', 'pub_date', 'public', 'show_in_menu', 'menu_order')
     list_display_links = ('get_title',)
     list_filter = []
     date_hierarchy = 'pub_date'
     search_fields = ['title', 'content', 'title_en', 'content_en', 'title_ja', 'content_ja']
     fieldsets = (
-                 (None, {'fields': ('public', 'url', 'pub_date')}),
+                 (None, {'fields': ('public', 'show_in_menu', 'menu_order', 'url', 'pub_date')}),
                  ('Deutsch', {'fields': ('menu', 'title', 'content')}),
                  ('English', {'fields': ('menu_en', 'title_en', 'content_en')}),
                  ('Japanese', {'fields': ('menu_ja', 'title_ja', 'content_ja')}),
