@@ -74,7 +74,7 @@ def get_context(request):
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
     ctx['request'] = request
-    ctx['flatpages'] = Page.current_objects.all()
+    ctx['flatpages'] = Page.current_objects.filter(show_in_menu=True).order_by('menu_order')
 
     return ctx
 
@@ -1349,17 +1349,19 @@ def seminar(request, year=None, seminar_id=None):
 def downloads(request):
     '''Displays the public downloads site.'''
 
-    ctx = get_context(request)
-    ctx['menu'] = 'downloads'
-    ctx['include_main_image'] = False
+    try:
+        membership = Page.current_objects.get(url='/membership/')
+    except:
+        membership = Page.objects.none()
 
-    return object_list(
-                       request,
-                       queryset=Download.public_objects.all(),
-                       paginate_by=50,
-                       extra_context=ctx,
-                       template_name='2011/downloads.html',
-                       )
+    ctx = get_context(request)
+    ctx['downloads'] = Download.public_objects.all()
+    ctx['membership'] = membership
+    ctx['menu'] = 'downloads'
+
+    return direct_to_template(request,
+                              template='2011/downloads.html',
+                              extra_context=ctx)
 
 
 @login_required

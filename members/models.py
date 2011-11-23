@@ -646,6 +646,8 @@ class Page(FlatPage):
     content_ja = models.TextField(_('Content'), blank=True)
     pub_date = models.DateTimeField(_('Date'), default=datetime.now())
     public = models.BooleanField(_(u'Public'), default=False)
+    show_in_menu = models.BooleanField(_(u'Show in Menu'), default=True)
+    menu_order = models.IntegerField(_('Menu Order'), default=0)
     menu = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH)
     menu_en = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
     menu_ja = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)

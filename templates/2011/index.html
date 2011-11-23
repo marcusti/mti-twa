@@ -54,27 +54,29 @@
 
         <div id="menu" class="grid_24">
             <ul>
-                <li><a class='menu-entry{% if menu == "home" %} selected{% endif %}' href="/">{% trans "Home" %}</a></li>
-                <li><a class='menu-entry{% if menu == "news" %} selected{% endif %}' href="/news/">{% trans "News" %}</a></li>
-                <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/">{% trans "Seminars" %}</a></li>
-                <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/downloads/">{% trans "Downloads" %}</a></li>
+                <li><a class='menu-entry{% if menu == "home" %} selected{% endif %}' href="/">{% trans "Home" %}</a></li> |
+                <li><a class='menu-entry{% if menu == "news" %} selected{% endif %}' href="/news/">{% trans "News" %}</a></li> |
+                <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/">{% trans "Seminars" %}</a></li> |
+                <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/membership/">{% trans "Become a Member" %}</a></li> |
                 {% for page in flatpages %}
                     <li><a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
+                    {% if not forloop.last %}|{% endif %}
                 {% endfor %}
             </ul>
 
             {% if user.is_authenticated %}
                 <ul class="menu-logged-in">
-                    <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a></li>
-                    <li><a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a></li>
-                    <li><a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a></li>
-                    <li><a href="/members/all/"{% ifequal menu "all members" %} class="active"{% endifequal %}>{% trans "All" %}</a></li>
-                    <li><a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a></li>
+                    <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a></li> |
+                    <li><a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a></li> |
+                    <li><a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a></li> |
+                    <li><a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a></li> |
                     <li><a href="/graduations/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a></li>
+                </ul>
 
-                    <li><a href="/twa-region/"{% ifequal menu "twa-region" %} class="active"{% endifequal %}>{% trans "TWA-Region" %}</a></li>
-                    <li><a href="/member-requests/open/"{% ifequal menu "member-requests" %} class="active"{% endifequal %}>{% trans "TWA-Requests" %}</a></li>
-                    <li><a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License-Requests" %}</a></li>
+                <ul class="menu-logged-in">
+                    <li><a href="/twa-region/"{% ifequal menu "twa-region" %} class="active"{% endifequal %}>{% trans "TWA-Region" %}</a></li> |
+                    <li><a href="/member-requests/open/"{% ifequal menu "member-requests" %} class="active"{% endifequal %}>{% trans "TWA-Requests" %}</a></li> |
+                    <li><a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License-Requests" %}</a></li> |
                     <li><a href="/suggestions/"{% ifequal menu "suggestions" %} class="active"{% endifequal %}>{% trans "Suggestions" %}</a></li>
                 </ul>
 
