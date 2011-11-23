@@ -57,7 +57,6 @@
                 <li><a class='menu-entry{% if menu == "home" %} selected{% endif %}' href="/">{% trans "Home" %}</a></li>
                 <li><a class='menu-entry{% if menu == "news" %} selected{% endif %}' href="/news/">{% trans "News" %}</a></li>
                 <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/">{% trans "Seminars" %}</a></li>
-                <li><a class='menu-entry{% if menu == "licensees" %} selected{% endif %}' href="/teachers/">{% trans "Teachers" %}</a></li>
                 <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/downloads/">{% trans "Downloads" %}</a></li>
                 {% for page in flatpages %}
                     <li><a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
@@ -78,6 +77,12 @@
                     <li><a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License-Requests" %}</a></li>
                     <li><a href="/suggestions/"{% ifequal menu "suggestions" %} class="active"{% endifequal %}>{% trans "Suggestions" %}</a></li>
                 </ul>
+
+                {% if user.is_superuser %}
+                    <ul class="menu-logged-in">
+                        <li><a class='menu-entry delete {% if menu == "licensees" %} selected{% endif %}' href="/create-teachers-page/">{% trans "Create Teachers Page" %}</a></li>
+                    </ul>
+                {% endif %}
 
                 <ul class="menu-logged-in">
                     <li>
