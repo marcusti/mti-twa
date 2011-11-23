@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-22 16:53+0100\n"
+"POT-Creation-Date: 2011-11-23 05:26+0100\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -534,7 +534,7 @@ msgstr ""
 #: members/models.py:185 members/models.py:405 templates/base.html:84
 #: templates/base.html.py:126 templates/twa-association.html:50
 #: templates/twa-dojos.html:7 templates/twa-index.html:68
-#: templates/twa-licenses.html:19 templates/2011/index.html:71
+#: templates/twa-licenses.html:19 templates/2011/index.html:70
 #: templates/members/association_detail.html:105
 #: templates/members/dojo_counter.html:8
 msgid "Dojos"
@@ -547,7 +547,7 @@ msgstr ""
 #: templates/twa-graduations.html:12 templates/twa-index.html:89
 #: templates/twa-license-requests.html:19 templates/twa-licenses.html:30
 #: templates/twa-member-requests.html:59 templates/twa-members-all.html:21
-#: templates/twa-suggestions.html:17 templates/2011/index.html:100
+#: templates/twa-suggestions.html:17 templates/2011/index.html:99
 #: templates/members/association_detail.html:19
 #: templates/members/association_list.html:21
 #: templates/members/dojo_detail.html:20 templates/members/dojo_list.html:41
@@ -654,7 +654,7 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: members/models.py:440 templates/base.html:83 templates/twa-index.html:67
-#: templates/2011/index.html:70
+#: templates/2011/index.html:69
 msgid "Associations"
 msgstr "Verbände"
 
@@ -699,7 +699,7 @@ msgstr "Graduierung"
 
 #: members/models.py:494 templates/base.html:68
 #: templates/twa-graduations.html:7 templates/twa-index.html:72
-#: templates/2011/index.html:75 templates/members/graduation_counter.html:5
+#: templates/2011/index.html:74 templates/members/graduation_counter.html:5
 #: templates/members/person_detail.html:138
 msgid "Graduations"
 msgstr "Graduierungen"
@@ -741,7 +741,7 @@ msgstr "Lizenz"
 
 #: members/models.py:534 templates/base.html:75 templates/base.html.py:141
 #: templates/twa-index.html:71 templates/twa-licenses.html:7
-#: templates/2011/index.html:74 templates/members/license_counter.html:5
+#: templates/2011/index.html:73 templates/members/license_counter.html:5
 msgid "Licenses"
 msgstr "Lizenzen"
 
@@ -863,8 +863,8 @@ msgstr "Ende Datum"
 msgid "Seminar"
 msgstr "Lehrgang"
 
-#: members/models.py:735 templates/2011/index.html:60
-#: templates/2011/index.html.py:129
+#: members/models.py:735 templates/2011/index.html:59
+#: templates/2011/index.html.py:128
 msgid "Seminars"
 msgstr "Lehrgänge"
 
@@ -874,8 +874,8 @@ msgid "Preview"
 msgstr "Vorschau"
 
 #: members/models.py:782 members/models.py:783 members/models.py:789
-#: templates/twa-index.html:44 templates/2011/index.html:59
-#: templates/2011/index.html.py:148
+#: templates/twa-index.html:44 templates/2011/index.html:58
+#: templates/2011/index.html.py:147
 msgid "News"
 msgstr ""
 
@@ -900,7 +900,7 @@ msgid "Download"
 msgstr ""
 
 #: members/models.py:828 templates/twa-index.html:49
-#: templates/2011/downloads.html:8 templates/2011/index.html:62
+#: templates/2011/downloads.html:8 templates/2011/index.html:61
 msgid "Downloads"
 msgstr ""
 
@@ -936,29 +936,29 @@ msgstr "Es ist ein Server Fehler aufgetreten."
 #: templates/base.html:16 templates/base.html.py:85 templates/base.html:131
 #: templates/twa-dojo.html:58 templates/twa-dojos.html:46
 #: templates/twa-index.html:69 templates/twa-members-all.html:8
-#: templates/twa-members.html:8 templates/2011/index.html:72
+#: templates/twa-members.html:8 templates/2011/index.html:71
 #: templates/members/dojo_detail.html:110
 #: templates/members/person_counter.html:8
 msgid "Members"
 msgstr "Mitglieder"
 
 #: templates/base.html:35 templates/twa-index.html:57
-#: templates/2011/index.html:85
+#: templates/2011/index.html:84
 msgid "Welcome"
 msgstr "Willkommen"
 
 #: templates/base.html:42 templates/twa-index.html:64
-#: templates/2011/index.html:96 templates/registration/logout.html:7
+#: templates/2011/index.html:95 templates/registration/logout.html:7
 msgid "Logout"
 msgstr "Abmelden"
 
 #: templates/base.html:45 templates/info.html:14 templates/twa-index.html:82
-#: templates/2011/index.html:93
+#: templates/2011/index.html:92
 msgid "Admin"
 msgstr "Verwaltung"
 
 #: templates/base.html:46 templates/twa-index.html:83
-#: templates/2011/index.html:94
+#: templates/2011/index.html:93
 msgid "Info"
 msgstr ""
 
@@ -971,7 +971,7 @@ msgid "Login"
 msgstr "Anmelden"
 
 #: templates/base.html:69 templates/twa-index.html:78
-#: templates/2011/index.html:80
+#: templates/2011/index.html:79
 msgid "Suggestions"
 msgstr "Vorschläge"
 
@@ -981,7 +981,7 @@ msgid "Requests"
 msgstr "Anträge"
 
 #: templates/base.html:92 templates/twa-index.html:43
-#: templates/2011/index.html:58
+#: templates/2011/index.html:57
 msgid "Home"
 msgstr "Startseite"
 
@@ -1029,7 +1029,7 @@ msgstr "Keine"
 #: templates/twa-dojos.html:33 templates/twa-graduations.html:11
 #: templates/twa-index.html:89 templates/twa-member-requests.html:55
 #: templates/twa-members-all.html:20 templates/twa-suggestions.html:16
-#: templates/2011/index.html:100 templates/members/association_detail.html:23
+#: templates/2011/index.html:99 templates/members/association_detail.html:23
 #: templates/members/association_list.html:18
 #: templates/members/dojo_detail.html:24 templates/members/dojo_list.html:22
 #: templates/members/person_detail.html:45
@@ -1093,7 +1093,7 @@ msgstr ""
 #: templates/twa-members-all.html:15 templates/twa-members.html:11
 #: templates/twa-news.html:14 templates/twa-suggestions.html:11
 #: templates/2011/downloads.html:12 templates/2011/flatpage.html:13
-#: templates/2011/news-archive.html:9 templates/2011/news-snippet.html:13
+#: templates/2011/news-archive.html:7 templates/2011/news-snippet.html:13
 #: templates/2011/seminar-archive.html:9 templates/2011/seminar-current.html:9
 #: templates/2011/seminar-snippet.html:14
 #: templates/members/dojo_detail.html:14
@@ -1130,7 +1130,7 @@ msgid "NEU"
 msgstr ""
 
 #: templates/twa-index.html:50 templates/twa-licensees-public.html:7
-#: templates/2011/index.html:61 templates/2011/teachers.html:7
+#: templates/2011/index.html:60 templates/2011/teachers.html:7
 msgid "Teachers"
 msgstr "Lehrer"
 
@@ -1142,23 +1142,23 @@ msgstr "Mitgliedschaft"
 msgid "NPO"
 msgstr ""
 
-#: templates/twa-index.html:70 templates/2011/index.html:73
+#: templates/twa-index.html:70 templates/2011/index.html:72
 msgid "All"
 msgstr "Alle"
 
-#: templates/twa-index.html:75 templates/2011/index.html:77
+#: templates/twa-index.html:75 templates/2011/index.html:76
 msgid "TWA-Region"
 msgstr ""
 
-#: templates/twa-index.html:76 templates/2011/index.html:78
+#: templates/twa-index.html:76 templates/2011/index.html:77
 msgid "TWA-Requests"
 msgstr "TWA-Anträge"
 
-#: templates/twa-index.html:77 templates/2011/index.html:79
+#: templates/twa-index.html:77 templates/2011/index.html:78
 msgid "License-Requests"
 msgstr "Lizenz-Anträge"
 
-#: templates/twa-index.html:91 templates/2011/index.html:102
+#: templates/twa-index.html:91 templates/2011/index.html:101
 #: templates/members/search.html:7
 msgid "Search"
 msgstr "Suchen"
@@ -1180,7 +1180,7 @@ msgstr "wird"
 msgid "read more"
 msgstr "weiterlesen"
 
-#: templates/twa-index.html:191 templates/2011/index.html:182
+#: templates/twa-index.html:191 templates/2011/index.html:183
 msgid "Official TWA Site"
 msgstr "Zur offiziellen TWA Seite"
 
@@ -1317,33 +1317,33 @@ msgstr "Online Antrag TWA Mitgliedschaft"
 msgid "Send"
 msgstr "Abschicken"
 
-#: templates/2011/index.html:113
+#: templates/2011/index.html:112
 msgid "photos from news"
 msgstr "Bilder aus den News"
 
-#: templates/2011/index.html:132 templates/2011/seminar-current.html:18
+#: templates/2011/index.html:131 templates/2011/seminar-current.html:18
 msgid "all seminars"
 msgstr "alle Lehrgänge"
 
-#: templates/2011/index.html:140 templates/2011/seminar-current.html:35
+#: templates/2011/index.html:139 templates/2011/seminar-current.html:35
 msgid "No upcoming seminars."
 msgstr "Keine Lehrgänge in nächster Zeit."
 
-#: templates/2011/index.html:151
+#: templates/2011/index.html:150
 msgid "all news"
 msgstr "alle News"
 
-#: templates/2011/index.html:159
+#: templates/2011/index.html:158
 msgid "No news, sorry."
 msgstr "Keine News zur Zeit."
 
-#: templates/2011/news-archive.html:6
-msgid "All News"
-msgstr "Alle News"
-
-#: templates/2011/news-archive.html:18 templates/2011/seminar-archive.html:23
+#: templates/2011/news-archive.html:16 templates/2011/seminar-archive.html:23
 msgid "by year"
 msgstr "nach Jahren"
+
+#: templates/2011/news-archive.html:28
+msgid "Overview"
+msgstr "Übersicht"
 
 #: templates/2011/seminar-archive.html:6
 msgid "All Seminars"
@@ -1394,40 +1394,3 @@ msgstr "Erfolgreich abgemeldet."
 #: utils/__init__.py:10
 msgid "Created"
 msgstr "Erstellt"
-
-#~ msgid "Language"
-#~ msgstr "Sprache"
-
-#~ msgid "Title (en)"
-#~ msgstr "Titel"
-
-#~ msgid "Title (ja)"
-#~ msgstr "Titel"
-
-#~ msgid "headlines"
-#~ msgstr "Schlagzeilen"
-
-#~ msgid "show current seminars only"
-#~ msgstr "nur aktuelle Lehrgänge zeigen"
-
-#~ msgid "show all seminars"
-#~ msgstr "alle Lehrgänge zeigen"
-
-#~ msgid "Seminars Archive"
-#~ msgstr "Lehrgangs-Archiv"
-
-#~ msgid "News Archive"
-#~ msgstr "News-Archiv"
-
-#~ msgid "Licensees"
-#~ msgstr "Lizenzinhaber"
-
-#~ msgid ""
-#~ "Please send your application form to the below mentioned address (email "
-#~ "and postal)."
-#~ msgstr ""
-#~ "Anträge auf TWA-Mitgliedschaft bzw. -Lehrbefugnis bitte ausgefüllt per "
-#~ "Email und unterschrieben per Post an die angegebene Adresse senden."
-
-#~ msgid "Thumbnail"
-#~ msgstr "Vorschau"

@@ -1253,73 +1253,92 @@ def news_preview(request, nid=None):
                          extra_context=ctx)
 
 
-def news(request, nid=None):
-    '''Display a public news article.'''
+def news(request, year=date.today().year, news_id=None):
+    detailed = False
+
+    if int(year) < 2000:
+        raise Http404
+
+    if news_id is not None:
+        detailed = True
+        news_list_details = News.current_objects.filter(id=news_id)
+        if not news_list_details:
+            raise Http404
+        year = news_list_details[0].pub_date.year
+        news_list_overview = News.current_objects.filter(pub_date__year=year)
+    else:
+        news_list_overview = News.current_objects.filter(pub_date__year=year)
+        news_list_details = news_list_overview
+        if news_list_details:
+            year = news_list_details[0].pub_date.year
+
     ctx = get_context(request)
-    ctx['menu'] = 'news'
-    ctx['detailed'] = True
-    ctx['all_news'] = News.current_objects.filter(id=nid)
+    ctx['news_list_overview'] = news_list_overview
+    ctx['news_list_details'] = news_list_details
     ctx['photo_news'] = _get_photos()
-    return direct_to_template(request,
-                              template='2011/news-view.html',
-                              extra_context=ctx)
-
-
-def news_archive(request, year=date.today().year):
-    '''Displays the news archive.'''
-
-    ctx = get_context(request)
     ctx['years'] = reversed(News.current_objects.dates('pub_date', 'year'))
-    # if year is None:
-    #     last_date = max(ctx['years'])
-    #     if last_date is not None:
-    #         year = last_date.year
-    #     else:
-    #         year = date.today().year
-    ctx['menu'] = 'news'
-    ctx['include_main_image'] = False
-    ctx['all_news'] = News.current_objects.filter(pub_date__year=year)
-    ctx['photo_news'] = _get_photos()
     ctx['year'] = year
+    ctx['detailed'] = detailed
+    ctx['menu'] = 'news'
 
     return direct_to_template(request,
                               template='2011/news-archive.html',
                               extra_context=ctx)
 
 
-def seminar(request, sid=None):
+# def seminar(request, sid=None):
+#     ctx = get_context(request)
+#     ctx['menu'] = 'seminars'
+#     ctx['detailed'] = True
+#     ctx['seminars'] = Seminar.public_objects.filter(id=sid)
+#     return direct_to_template(request,
+#                               template='2011/seminar-view.html',
+#                               extra_context=ctx)
+
+
+# def seminars_current(request):
+#     ctx = get_context(request)
+#     ctx['menu'] = 'seminars'
+#     ctx['seminars'] = Seminar.public_objects.get_current()
+#     return direct_to_template(request,
+#                               template='2011/seminar-current.html',
+#                               extra_context=ctx)
+
+
+def seminar(request, year=None, seminar_id=None):
     ctx = get_context(request)
-    ctx['menu'] = 'seminars'
-    ctx['detailed'] = True
-    ctx['seminars'] = Seminar.public_objects.filter(id=sid)
-    return direct_to_template(request,
-                              template='2011/seminar-view.html',
-                              extra_context=ctx)
-
-
-def seminars_current(request):
-    ctx = get_context(request)
-    ctx['menu'] = 'seminars'
-    ctx['seminars'] = Seminar.public_objects.get_current()
-    return direct_to_template(request,
-                              template='2011/seminar-current.html',
-                              extra_context=ctx)
-
-
-def seminar_archive(request, year=date.today().year):
-    ctx = get_context(request)
-    ctx['menu'] = 'seminars'
     city = request.GET.get('city', None)
+    detailed = False
 
-    if city:
-        ctx['seminars'] = Seminar.public_objects.filter(city__icontains=city)
+    if year is None and seminar_id is None and city is None:
+        seminars = Seminar.public_objects.get_current()
+        year = 'current'
     else:
-        ctx['seminars'] = Seminar.public_objects.filter(start_date__year=year)
+        if city:
+            seminars = Seminar.public_objects.filter(city__icontains=city)
+        elif year:
+            seminars = Seminar.public_objects.filter(start_date__year=year)
+            year = int(year)
+        elif seminar_id:
+            seminars = Seminar.public_objects.filter(id=seminar_id)
+            year = seminars[0].start_date.year
+            detailed = True
+        else:
+            seminars = Seminar.public_objects.none()
 
+    if seminar_id:
+        seminars_overview = Seminar.public_objects.filter(start_date__year=year)
+    else:
+        seminars_overview = seminars
+
+    ctx['seminars_overview'] = seminars_overview
+    ctx['seminars'] = seminars
     ctx['years'] = reversed(Seminar.public_objects.dates('start_date', 'year'))
     ctx['cities'] = Seminar.public_objects.values_list('city', flat=True).distinct().order_by('city')
     ctx['city'] = city
+    ctx['menu'] = 'seminars'
     ctx['year'] = year
+    ctx['detailed'] = detailed
 
     return direct_to_template(request,
                               template='2011/seminar-archive.html',
