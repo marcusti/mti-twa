@@ -66,6 +66,7 @@
         {% endif %}
 
     </table>
+
     {% if seminar.get_text %}
         {% autoescape off %}
             {{ seminar.get_text|urlize|linebreaks }}
