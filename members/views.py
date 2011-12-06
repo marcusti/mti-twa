@@ -74,7 +74,7 @@ def get_context(request):
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
     ctx['request'] = request
-    ctx['flatpages'] = Page.current_objects.filter(show_in_menu=True).order_by('menu_order')
+    ctx['flatpages'] = Page.current_objects.filter(show_in_menu=True).order_by('menu_order', 'menu')
 
     return ctx
 

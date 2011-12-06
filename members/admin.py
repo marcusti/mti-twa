@@ -19,6 +19,7 @@ class CountryAdmin(admin.ModelAdmin):
     ordering = ['name']
     list_display = ('id', 'name', 'name_de', 'name_ja', 'code')
     list_display_links = ('name', 'name_de', 'name_ja')
+    save_on_top = True
 
 
 class GraduationInline(admin.StackedInline):
@@ -55,6 +56,7 @@ class PersonAdmin(admin.ModelAdmin):
     search_fields = ['id', 'firstname', 'lastname', 'city']
     filter_horizontal = ('dojos',)
     inlines = [GraduationInline, ]
+    save_on_top = True
 
 
 class DojoAdmin(admin.ModelAdmin):
@@ -63,6 +65,7 @@ class DojoAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
     list_filter = ('is_active', 'country',)
     search_fields = ['id', 'city', 'name', 'leader__firstname']
+    save_on_top = True
 
 
 class AssociationAdmin(admin.ModelAdmin):
@@ -71,6 +74,7 @@ class AssociationAdmin(admin.ModelAdmin):
     list_display_links = ('name',)
     list_filter = ('is_active', 'country',)
     search_fields = ['id', 'name', 'shortname', 'city', 'text']
+    save_on_top = True
 
 
 class GraduationAdmin(admin.ModelAdmin):
@@ -80,6 +84,7 @@ class GraduationAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'is_nomination', 'rank', 'person')
     date_hierarchy = 'date'
     search_fields = ['id', 'text']
+    save_on_top = True
 
 
 class LicenseAdmin(admin.ModelAdmin):
@@ -89,6 +94,7 @@ class LicenseAdmin(admin.ModelAdmin):
     list_filter = ['status', 'is_active']
     date_hierarchy = 'date'
     search_fields = ['person__firstname', 'person__nickname', 'person__lastname']
+    save_on_top = True
 
 
 class MembershipAdmin(admin.ModelAdmin):
@@ -99,6 +105,7 @@ class MembershipAdmin(admin.ModelAdmin):
     date_hierarchy = 'request'
     search_fields = ['person__firstname', 'person__nickname', 'person__lastname', 'person__country__name']
     inlines = [TWAPaymentInline, ]
+    save_on_top = True
     actions = ['set_status_open', 'set_status_accepted', 'set_status_confirmed', 'set_status_to_be_confirmed', 'set_status_rejected',
         'set_status_verify', 'set_status_member']
 
@@ -138,12 +145,14 @@ class TWAPaymentAdmin(admin.ModelAdmin):
     list_filter = ['date']
     date_hierarchy = 'date'
     search_fields = ['twa__twa_id_number', 'twa__person__firstname', 'twa__person__nickname', 'twa__person__lastname', 'text']
+    save_on_top = True
 
 
 class DocumentAdmin(admin.ModelAdmin):
     ordering = ['name']
     list_display = ('id', 'name', 'file', 'person')
     list_display_links = ('name', 'file',)
+    save_on_top = True
 
 
 class SeminarAdmin(admin.ModelAdmin):
@@ -174,6 +183,7 @@ class NewsAdmin(admin.ModelAdmin):
                  ('Japanese', {'fields': ('title_ja', 'preview_ja', 'text_ja'), 'classes': ('collapse', )}),
                  )
     inlines = [AttachmentInline, ]
+    save_on_top = True
 
 
 class DownloadAdmin(admin.ModelAdmin):
@@ -181,12 +191,14 @@ class DownloadAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'datei', 'public', 'last_modified')
     list_display_links = ('name',)
     search_fields = ['name', 'text', 'datei']
+    save_on_top = True
 
 
 class LogEntryAdmin(admin.ModelAdmin):
     ordering = ['-action_time']
     list_display = ('action_time', 'user', 'content_type', 'object_repr', 'change_message', 'is_addition', 'is_change', 'is_deletion')
     list_filter = ['user']
+    save_on_top = True
 
 
 class PageForm(FlatpageForm):
@@ -208,6 +220,7 @@ class PageAdmin(FlatPageAdmin):
                  ('English', {'fields': ('menu_en', 'title_en', 'content_en')}),
                  ('Japanese', {'fields': ('menu_ja', 'title_ja', 'content_ja')}),
                  )
+    save_on_top = True
 
 
 admin.site.unregister(FlatPage)

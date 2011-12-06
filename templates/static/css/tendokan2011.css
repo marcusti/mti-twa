@@ -7,8 +7,8 @@ body {
     background-repeat: repeat-x;
     border-top: 5px solid RoyalBlue;
 }
-a {text-decoration: none; color: RoyalBlue;}
-a:hover {text-decoration: none; color: RoyalBlue; border-bottom: 1px dotted;}
+a {text-decoration: none; color: RoyalBlue; margin: 0; padding: 2px;}
+a:hover {text-decoration: none; color: RoyalBlue; border-bottom: 1px dotted; margin: 0; padding: 2px;}
 h1 {font-size: 2em;}
 h2 {font-size: 1.8em;}
 h3 {font-size: 1.6em;}
@@ -16,22 +16,25 @@ h4 {font-size: 1.4em;}
 h5 {font-size: 1.2em;}
 h6 {font-size: 1em;}
 h1, h2, h3, h4, h5, h6 {font-weight: normal;}
-li {margin: 0; padding: .2em;}
+li {margin: 0; padding: 2px;}
 td, th {padding: 0 10px 0 0; text-align: left;}
 th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 
 #footer {font-size: .8em; text-align: center; padding: 10px 0; color: #888; border-top: solid #eee 5px;}
-#header {text-align: center; font-size: 3em; text-shadow: #444 3px 3px 3px;}
+#header {text-align: center; font-size: 3em; text-shadow: #444 3px 3px 3px;  zoom: 1; -ms-filter: "progid:DXImageTransform.Microsoft.Chroma(Color=*Your background colour*) progid:DXImageTransform.Microsoft.DropShadow(Color=#000, OffX=1, OffY=1)";  filter: progid:DXImageTransform.Microsoft.Chroma(Color=*Your background colour*) progid:DXImageTransform.Microsoft.DropShadow(OffX=1, OffY=1, Color=#000);}
 #header table {margin: auto;}
 #header, #content, #menu, #footer {margin-top: 10px;}
 #menu {font-size:1.2em; text-align: center; margin-bottom: 10px; color: #aaa;}
-#menu ul, ul {list-style-type:none; margin: 0; padding: 0;}
-#menu li {display: inline; color: #444; margin: 0; padding: .2em;}
+#menu ul, ul {list-style-type:none; margin: 0; padding: 2px;}
+#menu li {display: inline; color: #444; margin: 0; padding: 2px;}
 
+.align-left {float: left;}
+.align-right {float: right;}
 .border {border-bottom: 1px dotted #ddd;}
 .bottom {vertical-align: bottom;}
 .bottom-space {margin-bottom: 10px;}
 .center {text-align: center;}
+.clear {clear: both;}
 .columnhover:hover {background-color: LemonChiffon;}
 .delete, .delete:hover {color: red;}
 .detailed {font-size: 1.8em;}
@@ -43,8 +46,7 @@ th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 .img-left {margin-right: 3px;}
 .left {text-align: left;}
 .logo {vertical-align: middle; text-align: center;}
-.logo td {margin: 0; padding: 0;}
-.menu-entry {padding: .1em .2em;}
+.menu-entry {padding: 2px;}
 .menu-logged-in {font-size: .8em;}
 .middle {vertical-align: middle;}
 .new, .new:hover {color: green;}
