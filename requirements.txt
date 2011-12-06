@@ -1,5 +1,7 @@
-django
+Django
+django-debug-toolbar
 django-rosetta
 markdown
 pyExcelerator
 south
+
