@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:300|Merriweather:300);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300|Ubuntu+Mono|Merriweather:300);
 body {
     font-family: 'Ubuntu', 'Merriweather', sans-serif;
     font-size: 101%;
@@ -9,6 +9,7 @@ body {
 }
 a {text-decoration: none; color: RoyalBlue; margin: 0; padding: 2px;}
 a:hover {text-decoration: none; color: RoyalBlue; border-bottom: 1px dotted; margin: 0; padding: 2px;}
+code {font-family: "Ubuntu Mono";}
 h1 {font-size: 2em;}
 h2 {font-size: 1.8em;}
 h3 {font-size: 1.6em;}
@@ -21,7 +22,7 @@ td, th {padding: 0 10px 0 0; text-align: left;}
 th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 
 #footer {font-size: .8em; text-align: center; padding: 10px 0; color: #888; border-top: solid #eee 5px;}
-#header {text-align: center; font-size: 3em; text-shadow: #444 3px 3px 3px;  zoom: 1; -ms-filter: "progid:DXImageTransform.Microsoft.Chroma(Color=*Your background colour*) progid:DXImageTransform.Microsoft.DropShadow(Color=#000, OffX=1, OffY=1)";  filter: progid:DXImageTransform.Microsoft.Chroma(Color=*Your background colour*) progid:DXImageTransform.Microsoft.DropShadow(OffX=1, OffY=1, Color=#000);}
+#header {text-align: center; font-size: 3em;}
 #header table {margin: auto;}
 #header, #content, #menu, #footer {margin-top: 10px;}
 #menu {font-size:1.2em; text-align: center; margin-bottom: 10px; color: #aaa;}
@@ -51,6 +52,7 @@ th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 .middle {vertical-align: middle;}
 .new, .new:hover {color: green;}
 .news-content {margin-top: 10px;}
+.news-content h1, .news-content h2, .news-content h3, .news-content h4 {margin: 10px 0;}
 .news-footer {margin-bottom: 2em; clear: both;}
 .news-header {font-size: 1.2em;}
 .news-meta {color: #888;}
