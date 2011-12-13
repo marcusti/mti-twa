@@ -168,6 +168,7 @@ class SeminarAdmin(admin.ModelAdmin):
                  ('Japanese', {'fields': ('title_ja', 'text_ja')}),
                  )
     inlines = [SeminarAttachmentInline, ]
+    save_on_top = True
 
 
 class NewsAdmin(admin.ModelAdmin):

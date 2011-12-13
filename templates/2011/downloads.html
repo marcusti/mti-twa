@@ -37,8 +37,16 @@
     <div class="section-header">
         {{ membership.get_title }}
     </div>
+
     <div class="section-meta">
+        {% if user.is_authenticated %}
+            <div>
+                <a href="/admin/members/page/add/" class="new">{{ _('new') }}</a> //
+                <a href="/admin/members/page/{{ membership.id }}/" class="edit">{{ _('edit') }}</a>
+            </div>
+        {% endif %}
     </div>
+
     <div>
         {{ membership.get_content|markdown }}
     </div>

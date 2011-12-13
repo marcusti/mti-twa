@@ -102,17 +102,17 @@ INSTALLED_APPS = (
     # 'twa.requests',
  )
 
-INTERNAL_IPS = ('127.0.0.1',)
+# INTERNAL_IPS = ('127.0.0.1',)
 
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-    'SHOW_TOOLBAR_CALLBACK': None,
-    'EXTRA_SIGNALS': [],
-    'HIDE_DJANGO_SQL': True,
-    'SHOW_TEMPLATE_CONTEXT': True,
-    'TAG': 'div',
-    'ENABLE_STACKTRACES': True,
-}
+# DEBUG_TOOLBAR_CONFIG = {
+#     'INTERCEPT_REDIRECTS': False,
+#     'SHOW_TOOLBAR_CALLBACK': None,
+#     'EXTRA_SIGNALS': [],
+#     'HIDE_DJANGO_SQL': True,
+#     'SHOW_TEMPLATE_CONTEXT': True,
+#     'TAG': 'div',
+#     'ENABLE_STACKTRACES': True,
+# }
 
 try:
     from mysettings import *
