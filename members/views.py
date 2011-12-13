@@ -154,7 +154,7 @@ def info(request):
 
 
 def _get_photos():
-    return [news for news in News.current_objects.all() if news.photo][:8]
+    return [news for news in News.current_objects.all() if news.photo][:7]
 
 
 def public(request):
