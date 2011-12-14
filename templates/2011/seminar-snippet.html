@@ -75,13 +75,19 @@
 </div>
 
 <div class="news-footer">
+{% if not detailed and seminar.attachment_set.all %}
+    <a href="{{ seminar.get_absolute_url }}" class="overview">[{% trans 'more information' %}]</a>
+{% else %}
   {% for attachment in seminar.attachment_set.all  %}
-      <p>
-        <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
-        <span class="small">
-        ({{ attachment.file|extension|lower }},
-        {{ attachment.file.size|filesizeformat }})
-        </span>
-      </p>
+      <ul class="{% if not detailed %}overview{% endif %}">
+        <li>
+            <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
+            <span class="small">
+            ({{ attachment.file|extension|lower }},
+            {{ attachment.file.size|filesizeformat }})
+            </span>
+        </li>
+      </ul>
   {% endfor %}
+{% endif %}
 </div>
