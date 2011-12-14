@@ -1,8 +1,12 @@
 {% load i18n %}
 {% load twa_tags %}
 
-<div class="{% if detailed %} detailed{% else %}news-header{% endif %}">
+<div class="news-header{% if detailed %}-detail{% endif %}">
+{% if detailed %}
+    {{ news.get_title }}
+{% else %}
     <a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a>
+{% endif %}
 </div>
 
 <div class="news-meta">
@@ -19,7 +23,7 @@
 <div class="news-content">
 {% autoescape off %}
     {% if news.photo %}
-        <a href="{{ news.photo|thumbnail:'800x800' }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo-right" src="{{ news.photo|thumbnail:'200x200' }}" title="" alt="[{{ news.photo }}]" /></a>
+        <a href="{{ news.photo|thumbnail:'800x800' }}" class="highslide align-right" onclick="return hs.expand(this)"><img align="right" class="photo-right" src="{{ news.photo|thumbnail:'200x200' }}" title="" alt="[{{ news.photo }}]" /></a>
     {% endif %}
 
     {% if news.get_preview %}

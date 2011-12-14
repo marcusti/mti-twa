@@ -457,15 +457,31 @@ def licensees(request):
     qs = License.objects.get_public_licenses()
 
     l = list(qs)
+    l = sorted(l, key=lambda x: x.person.firstname)
     l = sorted(l, key=lambda x: x.person.current_rank(), reverse=True)
-    l = sorted(l, key=lambda x: x.person.dojos.all()[0].name)
+    # l = sorted(l, key=lambda x: x.person.dojos.all()[0].name)
     l = sorted(l, key=lambda x: x.person.dojos.all()[0].city)
     l = sorted(l, key=lambda x: x.person.dojos.all()[0].country.code)
 
     ctx['object_list'] = l
+    # ctx['object_list'] = License.objects.get_public_licenses()
 
     return direct_to_template(request,
                               template='2011/teachers.html',
+                              extra_context=ctx)
+
+
+@login_required
+def licensees_mailinglist(request):
+    '''Displays a link with the email addresses of all licensed teachers.'''
+
+    ctx = get_context(request)
+    ctx['menu'] = 'mailinglist'
+
+    ctx['object_list'] = License.objects.get_mailinglist()
+
+    return direct_to_template(request,
+                              template='2011/teachers-mailinglist.html',
                               extra_context=ctx)
 
 

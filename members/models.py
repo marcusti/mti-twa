@@ -502,7 +502,10 @@ class LicenseManager(models.Manager):
         return self.get_query_set().filter(status=LICENSE_STATUS_LICENSED, is_active=True, public=True).order_by('-id')
 
     def get_public_licenses(self):
-        return self.get_granted_licenses().filter(person__public=True)
+        return self.get_granted_licenses()
+
+    def get_mailinglist(self):
+        return self.get_public_licenses().filter(person__email__isnull=False).order_by('person__dojos__country__code', 'person__firstname', 'person__lastname').distinct()
 
     def get_rejected_licenses(self):
         return self.get_query_set().filter(status=LICENSE_STATUS_REJECTED, is_active=True, public=True)
