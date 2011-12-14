@@ -34,7 +34,10 @@
     <br/>
 
     {% if not city and seminars_overview %}
-    <div>{{ _('Overview') }}</div>
+    <div>
+        {{ _('Overview') }}
+        {% if year and year != 'current' %}{{ year }}{% endif %}
+    </div>
     <ul class="overview">
         <li class="border"></li>
         {% for seminar in seminars_overview %}
