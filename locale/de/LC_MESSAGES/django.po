@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-14 15:12+0100\n"
+"POT-Creation-Date: 2011-12-14 15:31+0100\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1179,7 +1179,7 @@ msgstr "wird"
 msgid "read more"
 msgstr "weiterlesen"
 
-#: templates/twa-index.html:190 templates/2011/index.html:194
+#: templates/twa-index.html:190 templates/2011/index.html:195
 msgid "Official TWA Site"
 msgstr "Zur offiziellen TWA Seite"
 
@@ -1348,11 +1348,15 @@ msgstr "alle News"
 msgid "No news, sorry."
 msgstr "Keine News zur Zeit."
 
+#: templates/2011/index.html:181
+msgid "Language"
+msgstr "Sprache"
+
 #: templates/2011/news-archive.html:12 templates/2011/seminar-archive.html:23
 msgid "by year"
 msgstr "nach Jahren"
 
-#: templates/2011/news-archive.html:24 templates/2011/seminar-archive.html:37
+#: templates/2011/news-archive.html:24 templates/2011/seminar-archive.html:38
 msgid "Overview"
 msgstr "Übersicht"
 
@@ -1360,11 +1364,11 @@ msgstr "Übersicht"
 msgid "current seminars"
 msgstr "aktuelle Lehrgänge"
 
-#: templates/2011/seminar-archive.html:50
+#: templates/2011/seminar-archive.html:53
 msgid "by city"
 msgstr "nach Städten"
 
-#: templates/2011/seminar-archive.html:68
+#: templates/2011/seminar-archive.html:71
 msgid "No seminars."
 msgstr "Keine Lehrgänge gefunden."
 

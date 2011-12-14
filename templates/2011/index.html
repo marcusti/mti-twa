@@ -177,17 +177,18 @@
         <!-- FOOTER -->
 
         <div id="footer">
-            <div class="bottom-space">
-                <a href="/lang/de/"><img class="flag" src="/static/images/de.png" alt="[de]" title="Deutsch" /></a>
-                <a href="/lang/en/"><img class="flag" src="/static/images/en.png" alt="[en]" title="English" /></a>
-                <a href="/lang/ja/"><img class="flag" src="/static/images/ja.png" alt="[ja]" title="日本語" /></a>
+            <div class="bottom-space languages">
+                {% trans 'Language' %}:
+                <a href="/lang/de/">Deutsch</a> //
+                <a href="/lang/en/">English</a> //
+                <a href="/lang/ja/">日本語</a>
             </div>
 
             <div>
                 <img src="/static/images/feed.png" alt="News Feeds" />
                 <a href="/feed/news-de/">News Feed (de)</a> //
                 <a href="/feed/news-en/">News Feed (en)</a> //
-                <a href="/feed/seminars/">Seminar Feed (en)</a>
+                <a href="/feed/seminars/">Seminar Feed</a>
             </div>
 
             <div>
@@ -206,12 +207,12 @@
                 {% endif %}
             </div>
 
-            <div class="bottom-space">
-                &copy; tendo world aikido 2009 - {% now "Y" %}
+            <div class="small bottom-space">
+                powered by <a href="https://www.djangoproject.com/" target="_blank">django</a>
             </div>
 
-            <div class="small">
-                powered by <a href="https://www.djangoproject.com/" target="_blank">django</a>
+            <div class="">
+                &copy; tendo world aikido 2009 - {% now "Y" %}
             </div>
 
         </div>
