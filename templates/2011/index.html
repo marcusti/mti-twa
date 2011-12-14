@@ -68,6 +68,7 @@
                     <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a></li> |
                     <li><a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a></li> |
                     <li><a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a></li> |
+                    <li><a href="/teachers/mailinglist/" class='{% if menu == "mailinglist" %} selected{% endif %}'>{% trans "Mailinglists" %}</a></li> |
                     <li><a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a></li> |
                     <li><a href="/graduations/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a></li>
                 </ul>
@@ -113,7 +114,7 @@
 
         <!-- PHOTOS -->
 
-        <div class="grid_24 center alpha news-meta border">
+        <div id="photos" class="grid_24 center alpha news-meta border">
         {% if photo_news %}
             <div class="border"><!-- {{ _('photos from news') }} --></div>
             {% for news in photo_news %}
@@ -144,7 +145,6 @@
                 {% for seminar in current_seminars %}
                     <div class="bottom-space">
                         {% include "2011/seminar-snippet.html" %}
-                        {% if not forloop.last %}<div class="border"></div>{% endif %}
                     </div>
                 {% empty %}
                     <div>{{ _('No upcoming seminars.') }}</div>
@@ -163,7 +163,6 @@
                 {% for news in current_news %}
                     <div class="bottom-space">
                         {% include "2011/news-snippet.html" %}
-                        {% if not forloop.last %}<div class="border"></div>{% endif %}
                     </div>
                 {% empty %}
                     <div>{{ _('No news, sorry.') }}</div>

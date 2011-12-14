@@ -22,7 +22,7 @@
 
     {% if news_list_overview %}
     <div>{{ _('Overview') }}</div>
-    <ul>
+    <ul class="overview">
         <li class="border"></li>
     {% for news in news_list_overview %}
         <li class="border"><a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a></li>
@@ -35,7 +35,6 @@
     {% for news in news_list_details %}
         <div class="bottom-space">
             {% include "2011/news-snippet.html" %}
-            {% if not forloop.last %}<div class="border"></div>{% endif %}
         </div>
     {% endfor %}
 </div>
