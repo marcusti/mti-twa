@@ -35,7 +35,7 @@
 
     {% if not city and seminars_overview %}
     <div>{{ _('Overview') }}</div>
-    <ul>
+    <ul class="overview">
         <li class="border"></li>
         {% for seminar in seminars_overview %}
             <li class="border">
@@ -50,7 +50,7 @@
         {{ _('by city') }}
     </div>
 
-    <ul>
+    <ul class="overview">
     {% for c in cities %}
         <li><a href="/seminars/?city={{ c }}" class="menu-entry{% if c == city %} selected{% endif %}">{{ c }}</a></li>
     {% empty %}
@@ -63,7 +63,6 @@
     {% for seminar in seminars %}
         <div class="bottom-space">
             {% include "2011/seminar-snippet.html" %}
-            {% if not forloop.last %}<div class="border"></div>{% endif %}
         </div>
     {% empty %}
         <div>{{ _('No seminars.') }}</div>
