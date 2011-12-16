@@ -96,9 +96,10 @@ def twa_login(request):
 
 def twa_logout(request):
     ctx = get_context(request)
+    ctx['next'] = request.GET.get('next', LOGIN_REDIRECT_URL)
     ctx['menu'] = 'logout'
     logout(request)
-    return redirect_to(request, '/')
+    return redirect_to(request, ctx['next'])
 
 
 @login_required

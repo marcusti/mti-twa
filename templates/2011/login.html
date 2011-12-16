@@ -4,6 +4,7 @@
 {% block content %}
 
 <form id="login-form" method="post" action=".">
+{% csrf_token %}
   <table>
 
   <colgroup>
@@ -33,7 +34,6 @@
 
  </table>
  <input type="hidden" name="next" value="{{ next }}" />
- <input type="hidden" name="language" value="{{ language }}" />
 
 </form>
 
