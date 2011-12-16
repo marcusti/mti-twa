@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-14 15:31+0100\n"
+"POT-Creation-Date: 2011-12-16 07:32+0100\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1179,7 +1179,7 @@ msgstr "wird"
 msgid "read more"
 msgstr "weiterlesen"
 
-#: templates/twa-index.html:190 templates/2011/index.html:195
+#: templates/twa-index.html:190 templates/2011/index.html:212
 msgid "Official TWA Site"
 msgstr "Zur offiziellen TWA Seite"
 
@@ -1351,6 +1351,10 @@ msgstr "Keine News zur Zeit."
 #: templates/2011/index.html:181
 msgid "Language"
 msgstr "Sprache"
+
+#: templates/2011/index.html:193
+msgid "Go"
+msgstr "Ändern"
 
 #: templates/2011/news-archive.html:12 templates/2011/seminar-archive.html:23
 msgid "by year"

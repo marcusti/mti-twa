@@ -179,9 +179,26 @@
         <div id="footer">
             <div class="bottom-space languages">
                 {% trans 'Language' %}:
+                <form action="/i18n/setlang/" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.META.HTTP_REFERER }}" />
+                    <select name="language">
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for lang in languages %}
+                            <option value="{{ lang.code }}" {% if language == lang.code %}selected{% endif %}>
+                                {{ lang.name_local }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="{% trans 'Go' %}" />
+                </form>
+
+{% comment %}
                 <a href="/lang/de/">Deutsch</a> //
                 <a href="/lang/en/">English</a> //
                 <a href="/lang/ja/">日本語</a>
+{% endcomment %}
+
             </div>
 
             <div>
