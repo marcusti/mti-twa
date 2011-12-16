@@ -183,7 +183,7 @@
 
                 <form action="/i18n/setlang/" method="post">
                     {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.META.HTTP_REFERER }}" />
+                    <input name="next" type="hidden" value="{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" />
                     <select name="language" class="small languages">
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for lang in languages %}
@@ -213,7 +213,7 @@
                   <a href="/logout/">Logout</a>
                 {% else %}
                     {% if request.META.PATH_INFO %}
-                        <a href="/login/?next={{ request.META.PATH_INFO }}">Login</a>
+                        <a href="/login/?next={{ next }}">Login</a>
                     {% else %}
                         <a href="/login/">Login</a>
                     {% endif %}
