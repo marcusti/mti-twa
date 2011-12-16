@@ -210,13 +210,9 @@
 
             <div class="bottom-space">
                 {% if user.is_authenticated %}
-                  <a href="/logout/">Logout</a>
+                    <a href="/logout/?next={{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">Logout</a>
                 {% else %}
-                    {% if request.META.PATH_INFO %}
-                        <a href="/login/?next={{ next }}">Login</a>
-                    {% else %}
-                        <a href="/login/">Login</a>
-                    {% endif %}
+                    <a href="/login/?next={{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">Login</a>
                 {% endif %}
             </div>
 
