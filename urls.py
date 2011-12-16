@@ -95,7 +95,6 @@ urlpatterns += patterns('twa.members.views',
     (r'^(?P<path>.*)$', 'dynamic_pages'),
     )
 
-print settings.INSTALLED_APPS
 if 'rosetta' in settings.INSTALLED_APPS:
     urlpatterns += patterns('',
         url(r'^rosetta/', include('rosetta.urls')),
