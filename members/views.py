@@ -28,7 +28,6 @@ from django.views.generic.list_detail import object_detail
 from django.views.generic.list_detail import object_list
 from django.views.generic.simple import direct_to_template
 from django.views.generic.simple import redirect_to
-from django.views.i18n import set_language
 import pyExcelerator as xl
 
 from twa.members.forms import LoginForm
@@ -53,17 +52,6 @@ except:
 
 
 def get_context(request):
-    #try:
-    #    ua = request.META['HTTP_USER_AGENT']
-    #    if ua.find( 'dummy connection' ) == -1:
-    #        r = Request( user = request.user.username )
-    #        r.user_agent = ua
-    #        r.remote = request.META['REMOTE_ADDR']
-    #        r.path = request.get_full_path()
-    #        r.save()
-    #except:
-    #    pass
-
     ctx = {}
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
