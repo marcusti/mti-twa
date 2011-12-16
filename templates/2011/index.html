@@ -179,12 +179,11 @@
         <div id="footer">
             <div class="bottom-space">
 
-                {% trans 'Language' %}:
-
                 <form id="setlang" action="/i18n/setlang/" method="post">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" />
-                    <select id="language" name="language" class="small languages">
+                    {% trans 'Language' %}:
+                    <select id="language" name="language" class="languages">
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for lang in languages %}
                             <option value="{{ lang.code }}" {% if language == lang.code %}selected{% endif %}>
