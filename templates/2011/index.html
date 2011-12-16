@@ -181,10 +181,10 @@
 
                 {% trans 'Language' %}:
 
-                <form action="/i18n/setlang/" method="post">
+                <form id="setlang" action="/i18n/setlang/" method="post">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" />
-                    <select name="language" class="small languages">
+                    <select id="language" name="language" class="small languages">
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for lang in languages %}
                             <option value="{{ lang.code }}" {% if language == lang.code %}selected{% endif %}>
@@ -192,7 +192,6 @@
                             </option>
                         {% endfor %}
                     </select>
-                    <input type="submit" value="{% trans 'Go' %}" class="small languages" />
                 </form>
 
             </div>
