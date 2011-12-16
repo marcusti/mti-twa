@@ -32,8 +32,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 TMP_DIR = '/tmp/'
 
-CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
-
 # Diese URLs an SSL weiterleiten
 SSL_URLS = [
     #r'.*',
@@ -64,21 +62,21 @@ SSL_URLS = [
     r'/twa-region/',
 ]
 
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
- )
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader'
+)
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'twa.members.ssl.SSLRedirect',
  )
 
@@ -97,7 +95,7 @@ INSTALLED_APPS = (
     # 'rosetta',    # translating applications
     'south',      # db migrations
 
-    'debug_toolbar',
+    # 'debug_toolbar',
     'twa.members',
     # 'twa.requests',
  )
