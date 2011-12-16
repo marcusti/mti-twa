@@ -52,10 +52,10 @@ except:
     db_link = ''
 
 
-def set_lang(request, code=LANGUAGE_CODE):
-    if code in dict(LANGUAGES).keys():
-        request.session['django_language'] = code
-    return set_language(request)
+# def set_lang(request, code=LANGUAGE_CODE):
+#     if code in dict(LANGUAGES).keys():
+#         request.session['django_language'] = code
+#     return set_language(request)
 
 
 def get_context(request):
