@@ -703,11 +703,14 @@ class Page(FlatPage):
 
 
 class SeminarManager(models.Manager):
-    def get_query_set(self):
-        return super(SeminarManager, self).get_query_set().filter(public=True).order_by('start_date', 'end_date')
+    def get_query_set(self, user=None):
+        if user is None or not user.is_authenticated():
+            return super(SeminarManager, self).get_query_set().filter(public=True).order_by('start_date', 'end_date')
+        else:
+            return super(SeminarManager, self).get_query_set().all().order_by('start_date', 'end_date')
 
-    def get_current(self):
-        return self.get_query_set().filter(
+    def get_current(self, user=None):
+        return self.get_query_set(user).filter(
             (Q(start_date__gte=datetime.now()) & Q(end_date__exact=None))
             | Q(end_date__gte=datetime.now()))
 
@@ -758,8 +761,11 @@ class Seminar(AbstractModel):
 
 
 class NewsManager(models.Manager):
-    def get_query_set(self):
-        return super(NewsManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+    def get_query_set(self, user=None):
+        if user is None or not user.is_authenticated():
+            return super(NewsManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+        else:
+            return super(NewsManager, self).get_query_set().filter(pub_date__lte=datetime.now())
 
 
 class News(AbstractModel):

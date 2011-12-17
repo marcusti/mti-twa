@@ -15,6 +15,10 @@
             <a href="/admin/members/seminar/{{ seminar.id }}/" class="edit">{{ _('edit') }}</a>
         </div>
     {% endif %}
+
+    {% if not seminar.public %}
+        <div class="preview">{% trans 'This seminar is not yet published. Check the "public" checkbox to publish it.' %}</div>
+    {% endif %}
 </div>
 
 <div class="news-content">

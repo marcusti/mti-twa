@@ -143,13 +143,13 @@ def _get_photos():
 def public(request):
     '''Displays the public home page.'''
 
-    news = News.current_objects.all()
+    news = News.current_objects.get_query_set(request.user).all()
 
     ctx = get_context(request)
     ctx['menu'] = 'home'
     ctx['current_news'] = news[:5]
     ctx['photo_news'] = _get_photos()
-    ctx['current_seminars'] = Seminar.public_objects.get_current()
+    ctx['current_seminars'] = Seminar.public_objects.get_current(request.user)
     ctx['include_main_image'] = True
 
     if request.user.is_authenticated():
@@ -1256,18 +1256,20 @@ def news_preview(request, nid=None):
 def news(request, year=date.today().year, news_id=None):
     detailed = False
 
+    news = News.current_objects.get_query_set(request.user)
+
     if int(year) < 2000:
         raise Http404
 
     if news_id is not None:
         detailed = True
-        news_list_details = News.current_objects.filter(id=news_id)
+        news_list_details = news.filter(id=news_id)
         if not news_list_details:
             raise Http404
         year = news_list_details[0].pub_date.year
-        news_list_overview = News.current_objects.filter(pub_date__year=year)
+        news_list_overview = news.filter(pub_date__year=year)
     else:
-        news_list_overview = News.current_objects.filter(pub_date__year=year)
+        news_list_overview = news.filter(pub_date__year=year)
         news_list_details = news_list_overview
         if news_list_details:
             year = news_list_details[0].pub_date.year
@@ -1311,30 +1313,30 @@ def seminar(request, year=None, seminar_id=None):
     detailed = False
 
     if year is None and seminar_id is None and city is None:
-        seminars = Seminar.public_objects.get_current()
+        seminars = Seminar.public_objects.get_current(request.user)
         year = 'current'
     else:
         if city:
-            seminars = Seminar.public_objects.filter(city__icontains=city)
+            seminars = Seminar.public_objects.get_query_set(request.user).filter(city__icontains=city)
         elif year:
-            seminars = Seminar.public_objects.filter(start_date__year=year)
+            seminars = Seminar.public_objects.get_query_set(request.user).filter(start_date__year=year)
             year = int(year)
         elif seminar_id:
-            seminars = Seminar.public_objects.filter(id=seminar_id)
+            seminars = Seminar.public_objects.get_query_set(request.user).filter(id=seminar_id)
             year = seminars[0].start_date.year
             detailed = True
         else:
             seminars = Seminar.public_objects.none()
 
     if seminar_id:
-        seminars_overview = Seminar.public_objects.filter(start_date__year=year)
+        seminars_overview = Seminar.public_objects.get_query_set(request.user).filter(start_date__year=year)
     else:
         seminars_overview = seminars
 
     ctx['seminars_overview'] = seminars_overview
     ctx['seminars'] = seminars
-    ctx['years'] = reversed(Seminar.public_objects.dates('start_date', 'year'))
-    ctx['cities'] = Seminar.public_objects.values_list('city', flat=True).distinct().order_by('city')
+    ctx['years'] = reversed(Seminar.public_objects.get_query_set(request.user).dates('start_date', 'year'))
+    ctx['cities'] = Seminar.public_objects.get_query_set(request.user).values_list('city', flat=True).distinct().order_by('city')
     ctx['city'] = city
     ctx['menu'] = 'seminars'
     ctx['year'] = year
