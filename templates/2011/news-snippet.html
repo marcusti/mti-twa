@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load twa_tags %}
+{% load markup %}
 
 <div class="news-header{% if detailed %}-detail{% endif %}">
 {% if detailed %}
@@ -27,12 +28,34 @@
     {% endif %}
 
     {% if news.get_preview %}
-        {{ news.get_preview|urlize|linebreaks }}
+        {% if news.markup == 'markdown' %}
+            {{ news.get_preview|markdown }}
+        {% endif %}
+        {% if news.markup == 'restructuredtext' %}
+            {{ news.get_preview|restructuredtext }}
+        {% endif %}
+        {% if news.markup == 'textile' %}
+            {{ news.get_preview|textile }}
+        {% endif %}
+        {% if news.markup == 'text' %}
+            {{ news.get_preview|urlize|linebreaks }}
+        {% endif %}
     {% endif %}
 
     {% if news.get_text %}
         {% if detailed %}
-            {% if news.get_text %}{{ news.get_text|urlize|linebreaks }}{% endif %}
+            {% if news.markup == 'markdown' %}
+                {{ news.get_text|markdown }}
+            {% endif %}
+            {% if news.markup == 'restructuredtext' %}
+                {{ news.get_text|restructuredtext }}
+            {% endif %}
+            {% if news.markup == 'textile' %}
+                {{ news.get_text|textile }}
+            {% endif %}
+            {% if news.markup == 'text' %}
+                {{ news.get_text|urlize|linebreaks }}
+            {% endif %}
         {% else %}
             {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
         {% endif %}

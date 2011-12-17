@@ -97,6 +97,22 @@ MEMBERSHIP_STATUS = [
     (MEMBERSHIP_STATUS_EX, _('exit')),
 ]
 
+MARKUP_MARKDOWN = 'markdown'
+MARKUP_REST = 'restructuredtext'
+MARKUP_TEXT = 'text'
+MARKUP_TEXTILE = 'textile'
+MARKUP_CHOICES = (
+    (MARKUP_MARKDOWN, MARKUP_MARKDOWN),
+    (MARKUP_REST, MARKUP_REST),
+    (MARKUP_TEXTILE, MARKUP_TEXTILE),
+    (MARKUP_TEXT, MARKUP_TEXT),
+)
+
+__textile_url = 'http://en.wikipedia.org/wiki/Textile_%28markup_language%29'
+__rest_url = 'http://docutils.sourceforge.net/docs/user/rst/quickref.html'
+__markdown_url = 'http://daringfireball.net/projects/markdown/syntax'
+MARKUP_HELP = _('Text formatting. Default is plain text. For other formats see documentation: <a href="%s" target="_blank">Markdown</a>, <a href="%s" target="_blank">reStructuredText</a>, <a href="%s" target="_blank">textile</a>' % (__markdown_url, __rest_url, __textile_url))
+
 
 class Country(AbstractModel):
     name = models.CharField(_('Name (en)'), max_length=DEFAULT_MAX_LENGTH, unique=True)
@@ -654,6 +670,7 @@ class Page(FlatPage):
     menu = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH)
     menu_en = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
     menu_ja = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    markup = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_MARKDOWN, help_text=MARKUP_HELP)
 
     def get_title(self, language=None):
         return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
@@ -757,6 +774,7 @@ class News(AbstractModel):
     text_ja = models.TextField(_('Text'), blank=True)
     photo = models.ImageField(_('Photo'), upload_to='images/', null=True, blank=True)
     pub_date = models.DateTimeField(_('Date'), default=datetime.now())
+    markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
 
     objects = models.Manager()
     current_objects = NewsManager()
