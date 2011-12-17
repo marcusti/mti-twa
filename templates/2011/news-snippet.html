@@ -19,6 +19,10 @@
             <a href="/admin/members/news/{{ news.id }}/" class="edit">{{ _('edit') }}</a>
         </div>
     {% endif %}
+
+    {% if not news.public %}
+        <div class="preview">{% trans 'This article is not yet published. Check the "public" checkbox to publish it.' %}</div>
+    {% endif %}
 </div>
 
 <div class="news-content">
