@@ -1,7 +1,8 @@
 Django
 django-debug-toolbar
 django-rosetta
+docutils
 markdown
 pyExcelerator
 south
-
+textile

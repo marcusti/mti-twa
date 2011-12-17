@@ -178,7 +178,7 @@ class NewsAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     search_fields = ['title', 'text']
     fieldsets = (
-                 (None, {'fields': ('public', 'photo', 'pub_date')}),
+                 (None, {'fields': ('public', 'photo', 'pub_date', 'markup')}),
                  ('Deutsch', {'fields': ('title', 'preview', 'text')}),
                  ('English', {'fields': ('title_en', 'preview_en', 'text_en'), 'classes': ('collapse', )}),
                  ('Japanese', {'fields': ('title_ja', 'preview_ja', 'text_ja'), 'classes': ('collapse', )}),
@@ -216,7 +216,7 @@ class PageAdmin(FlatPageAdmin):
     date_hierarchy = 'pub_date'
     search_fields = ['title', 'content', 'title_en', 'content_en', 'title_ja', 'content_ja']
     fieldsets = (
-                 (None, {'fields': ('public', 'show_in_menu', 'menu_order', 'url', 'pub_date')}),
+                 (None, {'fields': ('public', 'show_in_menu', 'menu_order', 'url', 'pub_date', 'markup')}),
                  ('Deutsch', {'fields': ('menu', 'title', 'content')}),
                  ('English', {'fields': ('menu_en', 'title_en', 'content_en')}),
                  ('Japanese', {'fields': ('menu_ja', 'title_ja', 'content_ja')}),
