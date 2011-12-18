@@ -654,8 +654,11 @@ class Document(AbstractModel):
 
 
 class PageManager(models.Manager):
-    def get_query_set(self):
-        return super(PageManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+    def get_query_set(self, user=None):
+        if user is None or not user.is_authenticated():
+            return super(PageManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+        else:
+            return super(PageManager, self).get_query_set().filter(pub_date__lte=datetime.now())
 
 
 class Page(FlatPage):
@@ -670,7 +673,7 @@ class Page(FlatPage):
     menu = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH)
     menu_en = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
     menu_ja = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
-    markup = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_MARKDOWN, help_text=MARKUP_HELP)
+    markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_MARKDOWN, help_text=MARKUP_HELP)
 
     def get_title(self, language=None):
         return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
