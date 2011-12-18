@@ -58,8 +58,10 @@
                 <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/">{% trans "Seminars" %}</a></li> |
                 <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/membership/">{% trans "Become a Member" %}</a></li> |
                 {% for page in flatpages %}
-                    <li><a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
-                    {% if not forloop.last %}|{% endif %}
+                    {% if page.show_in_menu %}
+                        <li><a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}{% if not page.public %} preview{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
+                        {% if not forloop.last %}|{% endif %}
+                    {% endif %}
                 {% endfor %}
             </ul>
 

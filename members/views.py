@@ -56,7 +56,7 @@ def get_context(request):
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
     ctx['request'] = request
-    ctx['flatpages'] = Page.current_objects.filter(show_in_menu=True).order_by('menu_order', 'menu')
+    ctx['flatpages'] = Page.current_objects.get_query_set(request.user).filter(show_in_menu=True).order_by('menu_order', 'menu')
 
     return ctx
 
@@ -1447,9 +1447,15 @@ def dynamic_pages(request, path):
         path = '/' + path
 
     try:
-        page = get_object_or_404(Page, public=True, url__iexact=path)
+        if request.user.is_authenticated():
+            page = get_object_or_404(Page, url__iexact=path)
+        else:
+            page = get_object_or_404(Page, public=True, url__iexact=path)
     except Http404:
-        page = get_object_or_404(Page, public=True, url__iexact=path + '/')
+        if request.user.is_authenticated():
+            page = get_object_or_404(Page, url__iexact=path + '/')
+        else:
+            page = get_object_or_404(Page, public=True, url__iexact=path + '/')
 
     ctx = get_context(request)
     ctx['menu'] = page.get_menu()

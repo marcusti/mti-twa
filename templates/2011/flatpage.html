@@ -1,4 +1,5 @@
 {% extends "2011/index.html" %}
+{% load i18n %}
 {% load markup %}
 
 {% block content %}
@@ -13,6 +14,10 @@
                 <a href="/admin/members/page/add/" class="new">{{ _('new') }}</a> //
                 <a href="/admin/members/page/{{ page.id }}/" class="edit">{{ _('edit') }}</a>
             </div>
+        {% endif %}
+
+        {% if not page.public %}
+            <div class="preview">{% trans 'This page is not yet published. Check the "public" checkbox to publish it.' %}</div>
         {% endif %}
     </div>
 
