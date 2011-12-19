@@ -26,7 +26,7 @@ if settings.DEBUG:
 newsfeed = {
     'news-de': NewsDeFeed,
     'news-en': NewsEnFeed,
-    'seminars-de': SeminarDeFeed,
+    'seminars': SeminarDeFeed,
     'seminars-en': SeminarEnFeed,
 }
 

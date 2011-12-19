@@ -903,7 +903,11 @@ class SeminarDeFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        return txt_to_html(item.text, item.markup)
+        html = '<div>Lehrer: %s</div>' % item.teacher
+        html += '<div>Datum: %s - %s</div>' % (item.start_date, item.end_date)
+        html += '<div>Ort: %s %s</div>' % (item.city, item.venue)
+        html += txt_to_html(item.text, item.markup)
+        return html
 
 
 class SeminarEnFeed(Feed):
@@ -919,4 +923,9 @@ class SeminarEnFeed(Feed):
         return item.title_en or item.title
 
     def item_description(self, item):
-        return txt_to_html(item.text_en or item.text, item.markup)
+        html = ''
+        html = '<div>Teacher: %s</div>' % item.teacher
+        html += '<div>Date: %s - %s</div>' % (item.start_date, item.end_date)
+        html += '<div>Venue: %s %s</div>' % (item.city, item.venue)
+        html += txt_to_html(item.text_en or item.text, item.markup)
+        return html
