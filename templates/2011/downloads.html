@@ -48,7 +48,18 @@
     </div>
 
     <div>
-        {{ membership.get_content|markdown }}
+        {% if membership.markup == 'markdown' %}
+            {{ membership.get_content|markdown }}
+        {% endif %}
+        {% if membership.markup == 'restructuredtext' %}
+            {{ membership.get_content|restructuredtext }}
+        {% endif %}
+        {% if membership.markup == 'textile' %}
+            {{ membership.get_content|textile }}
+        {% endif %}
+        {% if membership.markup == 'text' %}
+            {{ membership.get_content|urlize|linebreaks }}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
