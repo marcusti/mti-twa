@@ -103,15 +103,13 @@
                         <li><a href="/info/"{% ifequal menu "info" %} class="active"{% endifequal %}>{% trans "Info" %}</a></li>
                     {% endif %}
                     <li><a href="/logout/" class="edit">{% trans "Logout" %}</a></li>
-
-                    <li>
-                      <form action="/members/" method="get" id="member_filter" class="">
-                        {% trans "Name" %} / {% trans "ID" %}:
-                        <input type="text" id="s" name="s" value="{{ search }}" size="15" />
-                        <input type="submit" id="search-go" value="{% trans "Search" %}" />
-                      </form>
-                    </li>
                 </ul>
+
+                <form action="/members/" method="get" id="member_filter" class="small">
+                    {% trans "Name" %} / {% trans "ID" %}:
+                    <input type="text" id="s" name="s" value="{{ search }}" size="15" class="small" />
+                    <input type="submit" id="search-go" value="{% trans "Search" %}" class="small" />
+                </form>
           {% endif %}
         </div>
 
