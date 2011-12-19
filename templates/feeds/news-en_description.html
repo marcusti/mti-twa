@@ -1,13 +1,40 @@
+{% load markup %}
 {% autoescape off %}
 <div>{{ obj.pub_date|date:"d.m.Y, H:i" }}</div>
 
 <div>
-  <br/>
-  {% if obj.preview_en %}
-    {{ obj.preview_en|linebreaksbr }}
-  {% else %}
-    {{ obj.preview|linebreaksbr }}
-  {% endif %}
-  {% if obj.text_en or obj.text %}<p><a href="{{ obj.get_absolute_url }}" class="tx10">[read more]</a></p>{% endif %}
+    <br/>
+    {% with markup=obj.markup text_en=obj.preview_en text_de=obj.preview %}
+        {% if markup == 'markdown' %}
+            {% if text_en %}
+                {{ text_en|markdown }}
+            {% else %}
+                {{ text_de|markdown }}
+            {% endif %}
+        {% endif %}
+        {% if markup == 'restructuredtext' %}
+            {% if text_en %}
+                {{ text_en|restructuredtext }}
+            {% else %}
+                {{ text_de|restructuredtext }}
+            {% endif %}
+        {% endif %}
+        {% if markup == 'textile' %}
+            {% if text_en %}
+                {{ text_en|textile }}
+            {% else %}
+                {{ text_de|textile }}
+            {% endif %}
+        {% endif %}
+        {% if markup == 'text' %}
+            {% if text_en %}
+                {{ text_en|urlize|linebreaks }}
+            {% else %}
+                {{ text_de|urlize|linebreaks }}
+            {% endif %}
+        {% endif %}
+    {% endwith %}
+
+    {% if obj.text_en or obj.text %}<p><a href="{{ obj.get_absolute_url }}" class="tx10">[read more]</a></p>{% endif %}
 </div>
 {% endautoescape %}

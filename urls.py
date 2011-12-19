@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.contrib import admin
 
-from twa.members.models import NewsFeed, SeminarFeed
+from twa.members.models import NewsDeFeed, NewsEnFeed, SeminarDeFeed, SeminarEnFeed
 
 admin.autodiscover()
 
@@ -24,9 +24,10 @@ if settings.DEBUG:
         )
 
 newsfeed = {
-    'news-de': NewsFeed,
-    'news-en': NewsFeed,
-    'seminars': SeminarFeed,
+    'news-de': NewsDeFeed,
+    'news-en': NewsEnFeed,
+    'seminars-de': SeminarDeFeed,
+    'seminars-en': SeminarEnFeed,
 }
 
 urlpatterns += patterns('',

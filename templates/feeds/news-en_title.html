@@ -1,1 +1,5 @@
-{{ obj.title_en }}
+{% if title_en %}
+    {{ obj.title_en }}
+{% else %}
+    {{ obj.title }}
+{% endif %}
