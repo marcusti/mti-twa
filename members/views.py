@@ -463,8 +463,16 @@ def licensees(request):
     ctx['object_list'] = l
     # ctx['object_list'] = License.objects.get_public_licenses()
 
+    # textile = ''
+    # for country in Country.objects.all().order_by('code'):
+    #     textile += '|_\\4. %s - %s |' % (country.code, country.name)
+        # for lic in License.objects.get_public_licenses().filter(person__dojos__country__code=country.code):
+        #     textile += '| %s |' % (lic.person)
+
+    # logging.error(textile)
+
     return direct_to_template(request,
-                              template='2011/teachers.html',
+                              template='2011/teachers.textile',
                               extra_context=ctx)
 
 

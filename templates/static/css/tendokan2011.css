@@ -48,6 +48,9 @@ th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 .flatpage ul, .flatpage ol, .flatpage table {margin-left: 10px; padding-left: 10px;}
 .flatpage li {margin-left: 10px; padding-left: 10px;}
 .flatpage .news-content img {float: right;}
+.flatpage tr {border-bottom: 1px dotted #ddd;}
+.flatpage tr:hover {background-color: LemonChiffon;}
+.flatpage th {padding: 20px 0;}
 .img-left {margin-right: 3px;}
 .languages {font-size: 1em;}
 .left {text-align: left;}

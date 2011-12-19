@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load twa_tags %}
+
+{% regroup object_list by person.dojos.all.0.country as license_list %}
+
+{% spaceless %}
+{% for items in license_list %}|_\4. {{ items.grouper.code }} - {{ items.grouper.get_name }} |{% for license in items.list %}{% with dojo=license.person.dojos.all.0 %}
+| {{ dojo.city }} | {{ license.person }} | {{ license.person.current_rank }} | {% if dojo.website %}"{{ dojo.name }}":{{ dojo.website }}{% else %}{{ dojo.name }}{% endif %} |{% endwith %}{% endfor %}
+{% endfor %}
+{% endspaceless %}
