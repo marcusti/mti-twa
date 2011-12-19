@@ -28,7 +28,6 @@ from django.views.generic.list_detail import object_detail
 from django.views.generic.list_detail import object_list
 from django.views.generic.simple import direct_to_template
 from django.views.generic.simple import redirect_to
-from django.views.i18n import set_language
 import pyExcelerator as xl
 
 from twa.members.forms import LoginForm
@@ -52,27 +51,16 @@ except:
     db_link = ''
 
 
-def set_lang(request, code=LANGUAGE_CODE):
-    if code in dict(LANGUAGES).keys():
-        request.session['django_language'] = code
-    return set_language(request)
-
-
 def get_context(request):
-    #try:
-    #    ua = request.META['HTTP_USER_AGENT']
-    #    if ua.find( 'dummy connection' ) == -1:
-    #        r = Request( user = request.user.username )
-    #        r.user_agent = ua
-    #        r.remote = request.META['REMOTE_ADDR']
-    #        r.path = request.get_full_path()
-    #        r.save()
-    #except:
-    #    pass
+    flatpages = Page.current_objects.get_query_set(request.user)
+    flatpages = flatpages.filter(show_in_menu=True)
+    flatpages = flatpages.order_by('menu_order', 'menu')
 
     ctx = {}
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
+    ctx['request'] = request
+    ctx['flatpages'] = flatpages
 
     return ctx
 
@@ -107,14 +95,15 @@ def twa_login(request):
         form = LoginForm()
 
     ctx['form'] = form
-    return render_to_response('twa-login.html', ctx)
+    return render_to_response('2011/login.html', ctx)
 
 
 def twa_logout(request):
     ctx = get_context(request)
+    ctx['next'] = request.GET.get('next', LOGIN_REDIRECT_URL)
     ctx['menu'] = 'logout'
     logout(request)
-    return redirect_to(request, '/')
+    return redirect_to(request, ctx['next'])
 
 
 @login_required
@@ -151,18 +140,27 @@ def info(request):
     return direct_to_template(request, template='info.html', extra_context=ctx)
 
 
+def _get_photos():
+    return [news for news in News.current_objects.all() if news.photo][:7]
+
+
 def public(request):
     '''Displays the public home page.'''
 
+    news = News.current_objects.get_query_set(request.user).all()
+
     ctx = get_context(request)
-    ctx['current_news'] = News.current_objects.all()[:5]
+    ctx['menu'] = 'home'
+    ctx['current_news'] = news[:5]
+    ctx['photo_news'] = _get_photos()
+    ctx['current_seminars'] = Seminar.public_objects.get_current(request.user)
     ctx['include_main_image'] = True
 
     if request.user.is_authenticated():
         ctx['birthdays'] = Person.persons.get_next_birthdays()
 
     return direct_to_template(request,
-                              template='twa-index.html',
+                              template='2011/index.html',
                               extra_context=ctx)
 
 
@@ -182,10 +180,20 @@ def index(request):
         ctx['licenses'] = License.objects.get_granted_licenses().count()
         ctx['graduations'] = Graduation.graduations.get_this_years_graduations().count()
         ctx['suggestions'] = Graduation.suggestions.count()
-        ctx['birthdays'] = Person.persons.get_next_birthdays()
 
     return direct_to_template(request,
                               template='base.html',
+                              extra_context=ctx)
+
+
+@login_required
+def birthdays(request):
+    ctx = get_context(request)
+    ctx['menu'] = 'birthdays'
+    ctx['birthdays'] = Person.persons.get_next_birthdays()
+
+    return direct_to_template(request,
+                              template='2011/birthdays.html',
                               extra_context=ctx)
 
 
@@ -437,6 +445,7 @@ def twa_region(request, region_id=None):
                        template_name='twa-region.html')
 
 
+@login_required
 def licensees(request):
     '''Displays a public list of licensed twa teachers.'''
 
@@ -445,15 +454,31 @@ def licensees(request):
     qs = License.objects.get_public_licenses()
 
     l = list(qs)
+    l = sorted(l, key=lambda x: x.person.firstname)
     l = sorted(l, key=lambda x: x.person.current_rank(), reverse=True)
-    l = sorted(l, key=lambda x: x.person.dojos.all()[0].name)
+    # l = sorted(l, key=lambda x: x.person.dojos.all()[0].name)
     l = sorted(l, key=lambda x: x.person.dojos.all()[0].city)
     l = sorted(l, key=lambda x: x.person.dojos.all()[0].country.code)
 
     ctx['object_list'] = l
+    # ctx['object_list'] = License.objects.get_public_licenses()
 
     return direct_to_template(request,
-                              template='twa-licensees-public.html',
+                              template='2011/teachers.html',
+                              extra_context=ctx)
+
+
+@login_required
+def licensees_mailinglist(request):
+    '''Displays a link with the email addresses of all licensed teachers.'''
+
+    ctx = get_context(request)
+    ctx['menu'] = 'mailinglist'
+
+    ctx['object_list'] = License.objects.get_mailinglist()
+
+    return direct_to_template(request,
+                              template='2011/teachers-mailinglist.html',
                               extra_context=ctx)
 
 
@@ -1242,49 +1267,116 @@ def news_preview(request, nid=None):
                          extra_context=ctx)
 
 
-def news(request, nid=None):
-    '''Display a public news article.'''
+def news(request, year=date.today().year, news_id=None):
+    detailed = False
+
+    news = News.current_objects.get_query_set(request.user)
+
+    if int(year) < 2000:
+        raise Http404
+
+    if news_id is not None:
+        detailed = True
+        news_list_details = news.filter(id=news_id)
+        if not news_list_details:
+            raise Http404
+        year = news_list_details[0].pub_date.year
+        news_list_overview = news.filter(pub_date__year=year)
+    else:
+        news_list_overview = news.filter(pub_date__year=year)
+        news_list_details = news_list_overview
+        if news_list_details:
+            year = news_list_details[0].pub_date.year
 
     ctx = get_context(request)
+    ctx['news_list_overview'] = news_list_overview
+    ctx['news_list_details'] = news_list_details
+    ctx['photo_news'] = _get_photos()
+    ctx['years'] = reversed(News.current_objects.dates('pub_date', 'year'))
+    ctx['year'] = year
+    ctx['detailed'] = detailed
     ctx['menu'] = 'news'
-    ctx['include_main_image'] = False
 
-    return object_detail(request,
-                         queryset=News.current_objects.filter(id=nid),
-                         object_id=nid,
-                         template_object_name='news',
-                         template_name='twa-news.html',
-                         extra_context=ctx)
+    return direct_to_template(request,
+                              template='2011/news-archive.html',
+                              extra_context=ctx)
 
 
-def news_archive(request):
-    '''Displays the news archive.'''
+# def seminar(request, sid=None):
+#     ctx = get_context(request)
+#     ctx['menu'] = 'seminars'
+#     ctx['detailed'] = True
+#     ctx['seminars'] = Seminar.public_objects.filter(id=sid)
+#     return direct_to_template(request,
+#                               template='2011/seminar-view.html',
+#                               extra_context=ctx)
 
+
+# def seminars_current(request):
+#     ctx = get_context(request)
+#     ctx['menu'] = 'seminars'
+#     ctx['seminars'] = Seminar.public_objects.get_current()
+#     return direct_to_template(request,
+#                               template='2011/seminar-current.html',
+#                               extra_context=ctx)
+
+
+def seminar(request, year=None, seminar_id=None):
     ctx = get_context(request)
-    ctx['menu'] = 'news'
-    ctx['include_main_image'] = False
+    city = request.GET.get('city', None)
+    detailed = False
 
-    return object_list(request,
-                       queryset=News.current_objects.all(),
-                       paginate_by=50,
-                       extra_context=ctx,
-                       template_name='twa-news-archive.html')
+    if year is None and seminar_id is None and city is None:
+        seminars = Seminar.public_objects.get_current(request.user)
+        year = 'current'
+    else:
+        if city:
+            seminars = Seminar.public_objects.get_query_set(request.user).filter(city__icontains=city)
+        elif year:
+            seminars = Seminar.public_objects.get_query_set(request.user).filter(start_date__year=year)
+            year = int(year)
+        elif seminar_id:
+            seminars = Seminar.public_objects.get_query_set(request.user).filter(id=seminar_id)
+            year = seminars[0].start_date.year
+            detailed = True
+        else:
+            seminars = Seminar.public_objects.none()
+
+    if seminar_id:
+        seminars_overview = Seminar.public_objects.get_query_set(request.user).filter(start_date__year=year)
+    else:
+        seminars_overview = seminars
+
+    ctx['seminars_overview'] = seminars_overview
+    ctx['seminars'] = seminars
+    ctx['years'] = reversed(Seminar.public_objects.get_query_set(request.user).dates('start_date', 'year'))
+    ctx['cities'] = Seminar.public_objects.get_query_set(request.user).values_list('city', flat=True).distinct().order_by('city')
+    ctx['city'] = city
+    ctx['menu'] = 'seminars'
+    ctx['year'] = year
+    ctx['detailed'] = detailed
+
+    return direct_to_template(request,
+                              template='2011/seminar-archive.html',
+                              extra_context=ctx)
 
 
 def downloads(request):
     '''Displays the public downloads site.'''
 
-    ctx = get_context(request)
-    ctx['menu'] = 'downloads'
-    ctx['include_main_image'] = False
+    try:
+        membership = Page.current_objects.get(url='/membership/')
+    except:
+        membership = Page.objects.none()
 
-    return object_list(
-                       request,
-                       queryset=Download.public_objects.all(),
-                       paginate_by=50,
-                       extra_context=ctx,
-                       template_name='twa-downloads.html',
-                       )
+    ctx = get_context(request)
+    ctx['downloads'] = Download.public_objects.all()
+    ctx['membership'] = membership
+    ctx['menu'] = 'downloads'
+
+    return direct_to_template(request,
+                              template='2011/downloads.html',
+                              extra_context=ctx)
 
 
 @login_required
@@ -1369,10 +1461,20 @@ def dynamic_pages(request, path):
         path = '/' + path
 
     try:
-        page = get_object_or_404(Page, url__iexact=path)
+        if request.user.is_authenticated():
+            page = get_object_or_404(Page, url__iexact=path)
+        else:
+            page = get_object_or_404(Page, public=True, url__iexact=path)
     except Http404:
-        page = get_object_or_404(Page, url__iexact=path + '/')
+        if request.user.is_authenticated():
+            page = get_object_or_404(Page, url__iexact=path + '/')
+        else:
+            page = get_object_or_404(Page, public=True, url__iexact=path + '/')
+
+    ctx = get_context(request)
+    ctx['menu'] = page.get_menu()
+    ctx['page'] = page
 
     return direct_to_template(request,
-                              template='flatpages/default.html',
-                              extra_context=dict(page=page))
+                              template='2011/flatpage.html',
+                              extra_context=ctx)

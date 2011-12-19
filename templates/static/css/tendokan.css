@@ -62,3 +62,6 @@ form{margin:10px;}
 .plain {text-align:left;}
 .plain ul {list-style-type:circle;margin:0 1em;padding:0 1em;}
 .plain li, .plain td {border: none;line-height:normal;text-align:left;font-size: 14px;color:#333;margin:0;padding:.3em;}
+
+#news-block {float: right; text-align: left;}
+#seminars-block {float: left; text-align: left;}

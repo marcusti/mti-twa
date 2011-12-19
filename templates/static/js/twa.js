@@ -1,13 +1,13 @@
 function confirmationemail() {
     c = confirm('Bestätigungsemail senden?');
-    if (c == true) {
+    if (c === true) {
 	window.location.href='/member-requests/confirmation-email/';
     }
 }
 
 function acceptopen() {
     c = confirm('Alle offenen Anträge akzeptieren?');
-    if (c == true) {
+    if (c === true) {
 	window.location.href='/member-requests/accept_open_requests/';
     }
 }

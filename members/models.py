@@ -10,10 +10,12 @@ from django.contrib.syndication.feeds import Feed
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.storage import FileSystemStorage
 from django.db import models
+from django.db.models import Q
 from django.utils import translation
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
 
+from twa.members.helpers import MARKUP_MARKDOWN, MARKUP_REST, MARKUP_TEXTILE, MARKUP_TEXT, txt_to_html
 from twa.settings import DOCUMENTS_DIR
 from twa.utils import AbstractModel
 from twa.utils import DEFAULT_MAX_LENGTH
@@ -95,6 +97,18 @@ MEMBERSHIP_STATUS = [
     (MEMBERSHIP_STATUS_MEMBER, _('member')),
     (MEMBERSHIP_STATUS_EX, _('exit')),
 ]
+
+MARKUP_CHOICES = (
+    (MARKUP_MARKDOWN, MARKUP_MARKDOWN),
+    (MARKUP_REST, MARKUP_REST),
+    (MARKUP_TEXTILE, MARKUP_TEXTILE),
+    (MARKUP_TEXT, MARKUP_TEXT),
+)
+
+__textile_url = 'http://en.wikipedia.org/wiki/Textile_%28markup_language%29'
+__rest_url = 'http://docutils.sourceforge.net/docs/user/rst/quickref.html'
+__markdown_url = 'http://daringfireball.net/projects/markdown/syntax'
+MARKUP_HELP = 'Text formatting. Default is plain text. For other formats see documentation: <a href="%s" target="_blank">Markdown</a>, <a href="%s" target="_blank">reStructuredText</a>, <a href="%s" target="_blank">textile</a>' % (__markdown_url, __rest_url, __textile_url)
 
 
 class Country(AbstractModel):
@@ -185,6 +199,26 @@ class Person(AbstractModel):
 
     objects = AllPersonsManager()
     persons = PersonManager()
+
+    def get_name(self, language=None):
+        lang = language or translation.get_language()[:2]
+        name = u''
+        if self.name_prefix:
+            name = self.get_name_prefix_display()
+        if lang == 'ja':
+            if self.lastname_jp:
+                name += ' %s' % self.lastname_jp
+            if self.firstname_jp:
+                name += ' %s' % self.firstname_jp
+        if self.firstname:
+            name += ' %s' % self.firstname
+        if self.nickname:
+            name += ' "%s"' % self.nickname
+        if self.lastname:
+            name += ' %s' % self.lastname
+        return name.strip()
+    get_name.short_description = _('Name')
+    get_name.allow_tags = False
 
     def is_license_requested(self):
         return self.license_set.filter(request__isnull=False, date__isnull=True).count() > 0
@@ -299,27 +333,28 @@ class Person(AbstractModel):
         return cmp(self.days(), other.days())
 
     def __unicode__(self):
-        name = u''
+        return self.get_name()
+        # name = u''
 
-        if self.name_prefix:
-            name = self.get_name_prefix_display()
+        # if self.name_prefix:
+        #     name = self.get_name_prefix_display()
 
-        if self.lastname_jp:
-            name += ' %s' % self.lastname_jp
+        # if self.lastname_jp:
+        #     name += ' %s' % self.lastname_jp
 
-        if self.firstname_jp:
-            name += ' %s' % self.firstname_jp
+        # if self.firstname_jp:
+        #     name += ' %s' % self.firstname_jp
 
-        if self.firstname:
-            name += ' %s' % self.firstname
+        # if self.firstname:
+        #     name += ' %s' % self.firstname
 
-        if self.nickname:
-            name += ' "%s"' % self.nickname
+        # if self.nickname:
+        #     name += ' "%s"' % self.nickname
 
-        if self.lastname:
-            name += ' %s' % self.lastname
+        # if self.lastname:
+        #     name += ' %s' % self.lastname
 
-        return name.strip()
+        # return name.strip()
 
     class Meta:
         ordering = ['firstname', 'lastname']
@@ -480,7 +515,10 @@ class LicenseManager(models.Manager):
         return self.get_query_set().filter(status=LICENSE_STATUS_LICENSED, is_active=True, public=True).order_by('-id')
 
     def get_public_licenses(self):
-        return self.get_granted_licenses().filter(person__public=True)
+        return self.get_granted_licenses()
+
+    def get_mailinglist(self):
+        return self.get_public_licenses().filter(person__email__isnull=False).order_by('person__dojos__country__code', 'person__firstname', 'person__lastname').distinct()
 
     def get_rejected_licenses(self):
         return self.get_query_set().filter(status=LICENSE_STATUS_REJECTED, is_active=True, public=True)
@@ -613,21 +651,36 @@ class Document(AbstractModel):
 
 
 class PageManager(models.Manager):
-    def get_query_set(self):
-        return super(PageManager, self).get_query_set().filter(pub_date__lte=datetime.now())
+    def get_query_set(self, user=None):
+        if user is None or not user.is_authenticated():
+            return super(PageManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+        else:
+            return super(PageManager, self).get_query_set().filter(pub_date__lte=datetime.now())
 
 
 class Page(FlatPage):
-    title_en = models.CharField(_('Title (en)'), max_length=DEFAULT_MAX_LENGTH, blank=True)
-    title_ja = models.CharField(_('Title (ja)'), max_length=DEFAULT_MAX_LENGTH, blank=True)
-    content_en = models.TextField(_('Content (en)'), blank=True)
-    content_ja = models.TextField(_('Content (ja)'), blank=True)
+    title_en = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    title_ja = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    content_en = models.TextField(_('Content'), blank=True)
+    content_ja = models.TextField(_('Content'), blank=True)
     pub_date = models.DateTimeField(_('Date'), default=datetime.now())
+    public = models.BooleanField(_(u'Public'), default=False)
+    show_in_menu = models.BooleanField(_(u'Show in Menu'), default=True)
+    menu_order = models.IntegerField(_('Menu Order'), default=0)
+    menu = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH)
+    menu_en = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    menu_ja = models.CharField(_('Menu'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_MARKDOWN, help_text=MARKUP_HELP)
 
     def get_title(self, language=None):
         return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
     get_title.short_description = _('Title')
     get_title.allow_tags = False
+
+    def get_menu(self, language=None):
+        return getattr(self, "menu_%s" % (language or translation.get_language()[:2]), "") or self.menu
+    get_menu.short_description = _('Menu')
+    get_menu.allow_tags = False
 
     def get_content(self, language=None):
         return getattr(self, "content_%s" % (language or translation.get_language()[:2]), "") or self.content
@@ -649,9 +702,71 @@ class Page(FlatPage):
         verbose_name_plural = _('Pages')
 
 
+class SeminarManager(models.Manager):
+    def get_query_set(self, user=None):
+        if user is None or not user.is_authenticated():
+            return super(SeminarManager, self).get_query_set().filter(public=True).order_by('start_date', 'end_date')
+        else:
+            return super(SeminarManager, self).get_query_set().all().order_by('start_date', 'end_date')
+
+    def get_current(self, user=None):
+        return self.get_query_set(user).filter(
+            (Q(start_date__gte=datetime.now()) & Q(end_date__exact=None))
+            | Q(end_date__gte=datetime.now()))
+
+
+class Seminar(AbstractModel):
+    title = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH)
+    title_en = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    title_ja = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
+    text = models.TextField(_('Text'), blank=True)
+    text_en = models.TextField(_('Text'), blank=True)
+    text_ja = models.TextField(_('Text'), blank=True)
+    photo = models.ImageField(_('Photo'), upload_to='images/', null=True, blank=True)
+    venue = models.CharField(_('Venue'), max_length=DEFAULT_MAX_LENGTH, default='', null=True, blank=True)
+    city = models.CharField(_('City'), max_length=DEFAULT_MAX_LENGTH, default='')
+    country = models.ForeignKey(Country, verbose_name=_('Country'), default=1)
+    teacher = models.ForeignKey(Person, verbose_name=_('Teacher'), related_name='teacher', blank=True, null=True)
+    markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
+
+    start_date = models.DateField(_('Start Date'), default=date.today())
+    end_date = models.DateField(_('End Date'), blank=True, null=True, default=date.today())
+
+    objects = models.Manager()
+    public_objects = SeminarManager()
+
+    def get_title(self, language=None):
+        return getattr(self, "title_%s" % (language or translation.get_language()[:2]), "") or self.title
+    get_title.short_description = _('Title')
+    get_title.allow_tags = False
+
+    def get_text(self, language=None):
+        return getattr(self, "text_%s" % (language or translation.get_language()[:2]), "") or self.text
+    get_text.short_description = _('Text')
+    get_text.allow_tags = False
+
+    def get_absolute_url(self):
+        return '/seminar/%i/' % self.id
+
+    def __unicode__(self):
+        fields = []
+        if self.city:
+            fields.append(self.city.strip())
+        fields.append(self.title.strip())
+        return ': '.join(fields)
+
+    class Meta:
+        ordering = ['start_date', 'end_date']
+        verbose_name = _('Seminar')
+        verbose_name_plural = _('Seminars')
+
+
 class NewsManager(models.Manager):
-    def get_query_set(self):
-        return super(NewsManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+    def get_query_set(self, user=None):
+        if user is None or not user.is_authenticated():
+            return super(NewsManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+        else:
+            return super(NewsManager, self).get_query_set().filter(pub_date__lte=datetime.now())
 
 
 class News(AbstractModel):
@@ -664,8 +779,9 @@ class News(AbstractModel):
     text = models.TextField(_('Text'), blank=True)
     text_en = models.TextField(_('Text'), blank=True)
     text_ja = models.TextField(_('Text'), blank=True)
-    photo = models.ImageField(_('Photo'), upload_to='images/', null=True, blank=True)
+    photo = models.ImageField(_('Photo'), upload_to='images/blog/', null=True, blank=True)
     pub_date = models.DateTimeField(_('Date'), default=datetime.now())
+    markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
 
     objects = models.Manager()
     current_objects = NewsManager()
@@ -701,6 +817,7 @@ class Attachment(AbstractModel):
     name = models.CharField(_('Name'), max_length=DEFAULT_MAX_LENGTH)
     file = models.FileField(_('File'), upload_to='attachments/')
     news = models.ForeignKey(News, verbose_name=_('News'), blank=True, null=True)
+    seminar = models.ForeignKey(Seminar, verbose_name=_('Seminar'), blank=True, null=True)
 
     def __unicode__(self):
         return self.name
@@ -741,11 +858,74 @@ class Download(AbstractModel):
         verbose_name_plural = _(u'Downloads')
 
 
-class NewsFeed(Feed):
-    title = 'tendo-world-aikido.de'
+class NewsDeFeed(Feed):
+    title = 'tendo world aikido: News'
     link = '/feed/'
     feed_type = Atom1Feed
-    description = _(u'Nachrichten vom Weltverband für Tendoryu Aikido')
+    description = u'Weltverband für Tendoryu Aikido: News'
 
     def items(self):
         return News.current_objects.all()[:10]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return txt_to_html(item.preview, item.markup)
+
+
+class NewsEnFeed(Feed):
+    title = 'tendo world aikido: News'
+    link = '/feed/'
+    feed_type = Atom1Feed
+    description = u'World Association of Tendoryu Aikido: News'
+
+    def items(self):
+        return News.current_objects.all()[:10]
+
+    def item_title(self, item):
+        return item.title_en or item.title
+
+    def item_description(self, item):
+        return txt_to_html(item.preview_en or item.preview, item.markup)
+
+
+class SeminarDeFeed(Feed):
+    title = u'tendo world aikido: Lehrgänge'
+    link = '/feed/'
+    feed_type = Atom1Feed
+    description = _(u'Weltverband für Tendoryu Aikido: Lehrgänge')
+
+    def items(self):
+        return Seminar.public_objects.get_current()
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        html = '<div>Lehrer: %s</div>' % item.teacher
+        html += '<div>Datum: %s - %s</div>' % (item.start_date, item.end_date)
+        html += '<div>Ort: %s %s</div>' % (item.city, item.venue)
+        html += txt_to_html(item.text, item.markup)
+        return html
+
+
+class SeminarEnFeed(Feed):
+    title = 'tendo world aikido: Seminars'
+    link = '/feed/'
+    feed_type = Atom1Feed
+    description = _(u'World Association of Tendoryu Aikido: Seminars')
+
+    def items(self):
+        return Seminar.public_objects.get_current()
+
+    def item_title(self, item):
+        return item.title_en or item.title
+
+    def item_description(self, item):
+        html = ''
+        html = '<div>Teacher: %s</div>' % item.teacher
+        html += '<div>Date: %s - %s</div>' % (item.start_date, item.end_date)
+        html += '<div>Venue: %s %s</div>' % (item.city, item.venue)
+        html += txt_to_html(item.text_en or item.text, item.markup)
+        return html

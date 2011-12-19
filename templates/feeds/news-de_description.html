@@ -1,9 +1,0 @@
-{% autoescape off %}
-<div>{{ obj.pub_date|date:"d.m.Y, H:i" }}</div>
-
-<div>
-  <br/>
-  {{ obj.preview|linebreaksbr }}
-  {% if obj.text %}<p><a href="{{ obj.get_absolute_url }}" class="tx10">[weiterlesen]</a></p>{% endif %}
-</div>
-{% endautoescape %}
