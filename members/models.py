@@ -111,7 +111,7 @@ MARKUP_CHOICES = (
 __textile_url = 'http://en.wikipedia.org/wiki/Textile_%28markup_language%29'
 __rest_url = 'http://docutils.sourceforge.net/docs/user/rst/quickref.html'
 __markdown_url = 'http://daringfireball.net/projects/markdown/syntax'
-MARKUP_HELP = _('Text formatting. Default is plain text. For other formats see documentation: <a href="%s" target="_blank">Markdown</a>, <a href="%s" target="_blank">reStructuredText</a>, <a href="%s" target="_blank">textile</a>' % (__markdown_url, __rest_url, __textile_url))
+MARKUP_HELP = 'Text formatting. Default is plain text. For other formats see documentation: <a href="%s" target="_blank">Markdown</a>, <a href="%s" target="_blank">reStructuredText</a>, <a href="%s" target="_blank">textile</a>' % (__markdown_url, __rest_url, __textile_url)
 
 
 class Country(AbstractModel):
@@ -781,7 +781,7 @@ class News(AbstractModel):
     text = models.TextField(_('Text'), blank=True)
     text_en = models.TextField(_('Text'), blank=True)
     text_ja = models.TextField(_('Text'), blank=True)
-    photo = models.ImageField(_('Photo'), upload_to='images/', null=True, blank=True)
+    photo = models.ImageField(_('Photo'), upload_to='images/blog/', null=True, blank=True)
     pub_date = models.DateTimeField(_('Date'), default=datetime.now())
     markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
 

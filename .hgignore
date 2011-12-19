@@ -6,6 +6,7 @@ log
 static/attachments
 static/docs
 static/downloads
+static/images/blog
 static/photos
 mysettings.py
 twa.sublime-*
