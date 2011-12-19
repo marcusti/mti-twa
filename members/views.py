@@ -52,11 +52,15 @@ except:
 
 
 def get_context(request):
+    flatpages = Page.current_objects.get_query_set(request.user)
+    flatpages = flatpages.filter(show_in_menu=True)
+    flatpages = flatpages.order_by('menu_order', 'menu')
+
     ctx = {}
     ctx['LANGUAGES'] = LANGUAGES
     ctx['language'] = request.LANGUAGE_CODE
     ctx['request'] = request
-    ctx['flatpages'] = Page.current_objects.get_query_set(request.user).filter(show_in_menu=True).order_by('menu_order', 'menu')
+    ctx['flatpages'] = flatpages
 
     return ctx
 
@@ -176,10 +180,20 @@ def index(request):
         ctx['licenses'] = License.objects.get_granted_licenses().count()
         ctx['graduations'] = Graduation.graduations.get_this_years_graduations().count()
         ctx['suggestions'] = Graduation.suggestions.count()
-        ctx['birthdays'] = Person.persons.get_next_birthdays()
 
     return direct_to_template(request,
                               template='base.html',
+                              extra_context=ctx)
+
+
+@login_required
+def birthdays(request):
+    ctx = get_context(request)
+    ctx['menu'] = 'birthdays'
+    ctx['birthdays'] = Person.persons.get_next_birthdays()
+
+    return direct_to_template(request,
+                              template='2011/birthdays.html',
                               extra_context=ctx)
 
 
