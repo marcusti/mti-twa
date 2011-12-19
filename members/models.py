@@ -15,6 +15,7 @@ from django.utils import translation
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
 
+from twa.members.helpers import MARKUP_MARKDOWN, MARKUP_REST, MARKUP_TEXTILE, MARKUP_TEXT, txt_to_html
 from twa.settings import DOCUMENTS_DIR
 from twa.utils import AbstractModel
 from twa.utils import DEFAULT_MAX_LENGTH
@@ -97,10 +98,6 @@ MEMBERSHIP_STATUS = [
     (MEMBERSHIP_STATUS_EX, _('exit')),
 ]
 
-MARKUP_MARKDOWN = 'markdown'
-MARKUP_REST = 'restructuredtext'
-MARKUP_TEXT = 'text'
-MARKUP_TEXTILE = 'textile'
 MARKUP_CHOICES = (
     (MARKUP_MARKDOWN, MARKUP_MARKDOWN),
     (MARKUP_REST, MARKUP_REST),
@@ -730,6 +727,7 @@ class Seminar(AbstractModel):
     city = models.CharField(_('City'), max_length=DEFAULT_MAX_LENGTH, default='')
     country = models.ForeignKey(Country, verbose_name=_('Country'), default=1)
     teacher = models.ForeignKey(Person, verbose_name=_('Teacher'), related_name='teacher', blank=True, null=True)
+    markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
 
     start_date = models.DateField(_('Start Date'), default=date.today())
     end_date = models.DateField(_('End Date'), blank=True, null=True, default=date.today())
@@ -860,21 +858,65 @@ class Download(AbstractModel):
         verbose_name_plural = _(u'Downloads')
 
 
-class NewsFeed(Feed):
-    title = 'tendo world aikido News'
+class NewsDeFeed(Feed):
+    title = 'tendo world aikido: News'
     link = '/feed/'
     feed_type = Atom1Feed
-    description = _(u'Nachrichten vom Weltverband für Tendoryu Aikido')
+    description = u'Weltverband für Tendoryu Aikido: News'
 
     def items(self):
         return News.current_objects.all()[:10]
 
+    def item_title(self, item):
+        return item.title
 
-class SeminarFeed(Feed):
-    title = 'tendo world aikido Seminars'
+    def item_description(self, item):
+        return txt_to_html(item.preview, item.markup)
+
+
+class NewsEnFeed(Feed):
+    title = 'tendo world aikido: News'
     link = '/feed/'
     feed_type = Atom1Feed
-    description = _(u'Seminare des Weltverband für Tendoryu Aikido')
+    description = u'World Association of Tendoryu Aikido: News'
+
+    def items(self):
+        return News.current_objects.all()[:10]
+
+    def item_title(self, item):
+        return item.title_en or item.title
+
+    def item_description(self, item):
+        return txt_to_html(item.preview_en or item.preview, item.markup)
+
+
+class SeminarDeFeed(Feed):
+    title = u'tendo world aikido: Lehrgänge'
+    link = '/feed/'
+    feed_type = Atom1Feed
+    description = _(u'Weltverband für Tendoryu Aikido: Lehrgänge')
 
     def items(self):
         return Seminar.public_objects.get_current()
+
+    def item_title(self, item):
+        return item.title
+
+    def item_description(self, item):
+        return txt_to_html(item.text, item.markup)
+
+
+class SeminarEnFeed(Feed):
+    title = 'tendo world aikido: Seminars'
+    link = '/feed/'
+    feed_type = Atom1Feed
+    description = _(u'World Association of Tendoryu Aikido: Seminars')
+
+    def items(self):
+        return Seminar.public_objects.get_current()
+
+    def item_title(self, item):
+        return item.title_en or item.title
+
+    def item_description(self, item):
+        return txt_to_html(item.text_en or item.text, item.markup)
