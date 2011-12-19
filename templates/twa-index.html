@@ -66,7 +66,6 @@
             <a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a>
             <a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a>
             <a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a>
-            <a href="/members/all/"{% ifequal menu "all members" %} class="active"{% endifequal %}>{% trans "All" %}</a>
             <a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a>
             <a href="/graduations/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a>
 
@@ -137,36 +136,45 @@
   </table>
   {% endif %}
 
-<ul>
-  <li class="tx12g"></li>
-  {% for news in current_news %}
-    <li>
-      <a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a>
-      <br/><span class="tx12g">{{ news.pub_date|date:"d.m.Y" }}</span>
-      {% autoescape off %}
-      {% if news.photo %}
-          <a href="{{ news.get_absolute_url }}"><img align="right" class="photo" src='{{ news.photo|thumbnail:"100x100" }}' title="" alt="[{{ news.photo }}]" /></a>
-      {% endif %}
-      {{ news.get_preview|urlize|linebreaks }}
-      {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
-      {% endautoescape %}
+<div id="news-block">
+  <h2>News</h2>
+  <ul>
+    <li class="tx12g"></li>
+    {% for news in current_news %}
+      <li>
+        <a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a>
+        <br/><span class="tx12g">{{ news.pub_date|date:"d.m.Y" }}</span>
+        {% autoescape off %}
+        {% if news.photo %}
+            <a href="{{ news.get_absolute_url }}"><img align="right" class="photo" src='{{ news.photo|thumbnail:"100x100" }}' title="" alt="[{{ news.photo }}]" /></a>
+        {% endif %}
+        {{ news.get_preview|urlize|linebreaks }}
+        {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
+        {% endautoescape %}
 
-    <div>
-    {% for attachment in news.attachment_set.all  %}
-        <p>
-          <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
-          <span class="small">
-          ({{ attachment.file|extension|lower }},
-          {{ attachment.file.size|filesizeformat }})
-          </span>
-        </p>
+      <div>
+      {% for attachment in news.attachment_set.all  %}
+          <p>
+            <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
+            <span class="small">
+            ({{ attachment.file|extension|lower }},
+            {{ attachment.file.size|filesizeformat }})
+            </span>
+          </p>
+      {% endfor %}
+      </div>
+
+        <div class=""></div>
+      </li>
     {% endfor %}
-    </div>
+  </ul>
+</div>
 
-      <div class="clear"></div>
-    </li>
-  {% endfor %}
-</ul>
+<div id="seminars-block">
+  <h2>Seminars</h2>
+  <p></p>
+</div>
+<div class="clear"></div>
 {% endblock %}
 
 <img src="/static/images/spacer.gif" width="760" height="10" alt="" />

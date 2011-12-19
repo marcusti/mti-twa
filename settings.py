@@ -13,6 +13,7 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
+USE_L10N = True
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -30,8 +31,6 @@ LOGOUT_URL = '/logout/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 TMP_DIR = '/tmp/'
-
-CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 # Diese URLs an SSL weiterleiten
 SSL_URLS = [
@@ -63,20 +62,21 @@ SSL_URLS = [
     r'/twa-region/',
 ]
 
-# List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
- )
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader'
+)
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'twa.members.ssl.SSLRedirect',
  )
 
@@ -92,12 +92,25 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'django.contrib.markup',
 
-    'rosetta',    # translating applications
+    # 'rosetta',    # translating applications
     'south',      # db migrations
 
+    # 'debug_toolbar',
     'twa.members',
-    'twa.requests',
+    # 'twa.requests',
  )
+
+# INTERNAL_IPS = ('127.0.0.1',)
+
+# DEBUG_TOOLBAR_CONFIG = {
+#     'INTERCEPT_REDIRECTS': False,
+#     'SHOW_TOOLBAR_CALLBACK': None,
+#     'EXTRA_SIGNALS': [],
+#     'HIDE_DJANGO_SQL': True,
+#     'SHOW_TEMPLATE_CONTEXT': True,
+#     'TAG': 'div',
+#     'ENABLE_STACKTRACES': True,
+# }
 
 try:
     from mysettings import *
