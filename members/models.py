@@ -11,6 +11,7 @@ from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.db.models import Q
+from django.forms import ValidationError
 from django.utils import translation
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
@@ -111,6 +112,30 @@ __markdown_url = 'http://daringfireball.net/projects/markdown/syntax'
 MARKUP_HELP = 'Text formatting. Default is plain text. For other formats see documentation: <a href="%s" target="_blank">Markdown</a>, <a href="%s" target="_blank">reStructuredText</a>, <a href="%s" target="_blank">textile</a>' % (__markdown_url, __rest_url, __textile_url)
 
 
+def validate_not_before(value, before=date(1900, 1, 1)):
+    """Raises a `ValidationError` if a date is before the specified limit."""
+    if value < before:
+        raise ValidationError(_('"%(value)s" is not a valid date. (Date may not be before %(before)s.)') % dict(value=value, before=before))
+
+
+def validate_not_before_dt(value, before=datetime(1900, 1, 1)):
+    """Raises a `ValidationError` if a datetime is before the specified limit."""
+    if value < before:
+        raise ValidationError(_('"%(value)s" is not a valid date. (Date may not be before %(before)s.)') % dict(value=value, before=before))
+
+
+def validate_no_future(value):
+    """Raises a `ValidationError` if a date is in the future."""
+    if value > date.today():
+        raise ValidationError(_('"%(value)s" is not a valid date. (Date may not be in the future.)') % dict(value=value))
+
+
+def validate_no_future_dt(value):
+    """Raises a `ValidationError` if a datetime is in the future."""
+    if value > datetime.utcnow():
+        raise ValidationError(_('"%(value)s" is not a valid date. (Date may not be in the future.)') % dict(value=value))
+
+
 class Country(AbstractModel):
     name = models.CharField(_('Name (en)'), max_length=DEFAULT_MAX_LENGTH, unique=True)
     code = models.CharField(_('Code'), max_length=2, unique=True)
@@ -121,7 +146,7 @@ class Country(AbstractModel):
         return getattr(self, "name_%s" % (language or translation.get_language()[:2]), "") or self.name
 
     def __unicode__(self):
-        return self.name
+        return self.get_name()
 
     class Meta:
         ordering = ['name']
@@ -189,12 +214,12 @@ class Person(AbstractModel):
     email = models.EmailField(_('Email'), blank=True, null=True)
     website = models.URLField(_('Website'), verify_exists=False, blank=True, null=True)
 
-    birth = models.DateField(_('Birth'), blank=True, null=True)
+    birth = models.DateField(_('Birth'), blank=True, null=True, validators=[validate_not_before, validate_no_future])
     birth_sort_string = models.CharField(max_length=4, editable=False, null=True)
-    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER, blank=True, null=True)
+    gender = models.CharField(_('Gender'), max_length=1, choices=GENDER)
 
     is_active = models.BooleanField(_('Active'), default=True)
-    aikido_since = models.DateField(_('Aikido'), blank=True, null=True)
+    aikido_since = models.DateField(_('Aikido'), blank=True, null=True, validators=[validate_not_before, validate_no_future])
     dojos = models.ManyToManyField('Dojo', verbose_name=_('Dojos'), blank=True, null=True)
 
     objects = AllPersonsManager()
@@ -301,7 +326,7 @@ class Person(AbstractModel):
 
     def save(self, force_insert=False):
         if self.birth:
-            self.birth_sort_string = self.birth.strftime('%m%d')
+            self.birth_sort_string = '%s%s' % (self.birth.month, self.birth.day)
         else:
             self.birth_sort_string = ''
 
@@ -476,7 +501,7 @@ class Graduation(AbstractModel):
     person = models.ForeignKey('Person', verbose_name=_('Person'), related_name='graduations')
     nominated_by = models.ForeignKey('Person', verbose_name=_('Nominated By'), related_name='nominations', blank=True, null=True)
     rank = models.IntegerField(_('Rank'), choices=RANK)
-    date = models.DateField(_('Date'))
+    date = models.DateField(_('Date'), validators=[validate_not_before])
     text = models.TextField(_('Text'), blank=True, null=True)
     is_nomination = models.BooleanField(_('Nomination'), default=False)
     request_doc = models.FileField(_('Request Document'), storage=doc_file_system, upload_to='docs/', blank=True, null=True)
@@ -527,10 +552,10 @@ class LicenseManager(models.Manager):
 class License(AbstractModel):
     person = models.ForeignKey(Person, verbose_name=_('Person'))
     status = models.IntegerField(_('License Status'), choices=LICENSE_STATUS, default=LICENSE_STATUS_OPEN)
-    date = models.DateField(_('License Date'), blank=True, null=True)
-    request = models.DateField(_('License Request'), blank=True, null=True)
-    receipt = models.DateField(_('License Receipt'), blank=True, null=True)
-    rejected = models.DateField(_('License Rejected'), blank=True, null=True)
+    date = models.DateField(_('License Date'), blank=True, null=True, validators=[validate_not_before])
+    request = models.DateField(_('License Request'), blank=True, null=True, validators=[validate_not_before])
+    receipt = models.DateField(_('License Receipt'), blank=True, null=True, validators=[validate_not_before])
+    rejected = models.DateField(_('License Rejected'), blank=True, null=True, validators=[validate_not_before])
     request_doc = models.FileField(_('License Request Document'), storage=doc_file_system, upload_to='docs/', blank=True, null=True)
     receipt_doc = models.FileField(_('License Receipt Document'), storage=doc_file_system, upload_to='docs/', blank=True, null=True)
     text = models.TextField(_('Text'), blank=True, null=True)
@@ -572,9 +597,9 @@ class TWAMembershipManager(models.Manager):
 class TWAMembership(AbstractModel):
     person = models.ForeignKey(Person, verbose_name=_('Person'))
     status = models.IntegerField(_('Membership Status'), choices=MEMBERSHIP_STATUS, default=LICENSE_STATUS_OPEN)
-    date = models.DateField(_('Membership Date'), blank=True, null=True)
-    passport_date = models.DateField(_('Passport Date'), blank=True, null=True)
-    request = models.DateField(_('Membership Request'), blank=True, null=True)
+    date = models.DateField(_('Membership Date'), blank=True, null=True, validators=[validate_not_before])
+    passport_date = models.DateField(_('Passport Date'), blank=True, null=True, validators=[validate_not_before])
+    request = models.DateField(_('Membership Request'), blank=True, null=True, validators=[validate_not_before])
     request_doc = models.FileField(_('Membership Request Document'), storage=doc_file_system, upload_to='docs/', blank=True, null=True)
     text = models.TextField(_('Text'), blank=True)
     twa_id_country = models.ForeignKey(Country, blank=True, null=True)
@@ -620,7 +645,7 @@ class TWAPaymentManager(models.Manager):
 
 class TWAPayment(AbstractModel):
     twa = models.ForeignKey(TWAMembership, verbose_name=_('TWA Membership'))
-    date = models.DateField(_('Payment Date'))
+    date = models.DateField(_('Payment Date'), validators=[validate_not_before])
     year = models.IntegerField(_('Payment for year'), default=datetime.now().year)
     cash = models.BooleanField(_('Cash'), default=False)
     text = models.TextField(_('Text'), blank=True, null=True)
@@ -663,7 +688,7 @@ class Page(FlatPage):
     title_ja = models.CharField(_('Title'), max_length=DEFAULT_MAX_LENGTH, blank=True)
     content_en = models.TextField(_('Content'), blank=True)
     content_ja = models.TextField(_('Content'), blank=True)
-    pub_date = models.DateTimeField(_('Date'), default=datetime.now())
+    pub_date = models.DateTimeField(_('Date'), default=datetime.now(), validators=[validate_not_before_dt])
     public = models.BooleanField(_(u'Public'), default=False)
     show_in_menu = models.BooleanField(_(u'Show in Menu'), default=True)
     menu_order = models.IntegerField(_('Menu Order'), default=0)
@@ -729,8 +754,8 @@ class Seminar(AbstractModel):
     teacher = models.ForeignKey(Person, verbose_name=_('Teacher'), related_name='teacher', blank=True, null=True)
     markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
 
-    start_date = models.DateField(_('Start Date'), default=date.today())
-    end_date = models.DateField(_('End Date'), blank=True, null=True, default=date.today())
+    start_date = models.DateField(_('Start Date'), default=date.today(), validators=[validate_not_before])
+    end_date = models.DateField(_('End Date'), blank=True, null=True, default=date.today(), validators=[validate_not_before])
 
     objects = models.Manager()
     public_objects = SeminarManager()
@@ -780,7 +805,7 @@ class News(AbstractModel):
     text_en = models.TextField(_('Text'), blank=True)
     text_ja = models.TextField(_('Text'), blank=True)
     photo = models.ImageField(_('Photo'), upload_to='images/blog/', null=True, blank=True)
-    pub_date = models.DateTimeField(_('Date'), default=datetime.now())
+    pub_date = models.DateTimeField(_('Date'), default=datetime.now(), validators=[validate_not_before_dt])
     markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
 
     objects = models.Manager()

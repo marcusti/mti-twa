@@ -1280,7 +1280,7 @@ def news(request, year=date.today().year, news_id=None):
 
     news = News.current_objects.get_query_set(request.user)
 
-    if int(year) < 2000:
+    if int(year) < 1900:
         raise Http404
 
     if news_id is not None:
