@@ -13,7 +13,7 @@
 
 <div>
     <div>
-        <a href='mailto:{% for license in object_list %}"{{ license.person.get_name }}" &lt;{{ license.person.email }}&gt;{% if not forloop.last %}, {% endif %}{% endfor %}'>{% trans 'Email to all teachers' %}</a>
+        <a href='mailto:{% for license in object_list %}{{ license.person.email }}{% if not forloop.last %}, {% endif %}{% endfor %}'>{% trans 'Email to all teachers' %}</a>
         <span class="small news-meta">({{ object_list|length }})</span>
     </div>
 
@@ -27,7 +27,7 @@
         </div>
 
         <div class="news-meta">
-            <a href='mailto:{% for license in country.list %}"{{ license.person.get_name }}" &lt;{{ license.person.email }}&gt;{% if not forloop.last %}, {% endif %}{% endfor %}'>{% blocktrans with country=country.grouper.get_name%}Email to teachers in {{ country }}{% endblocktrans %}</a>
+            <a href='mailto:{% for license in country.list %}{{ license.person.email }}{% if not forloop.last %}, {% endif %}{% endfor %}'>{% blocktrans with country=country.grouper.get_name%}Email to teachers in {{ country }}{% endblocktrans %}</a>
             <span class="small news-meta">({{ country.list|length }})</span>
         </div>
 
@@ -35,7 +35,7 @@
         {% for license in country.list %}
             {% with person=license.person %}
                 <div>
-                    <a href="mailto:{{ person.get_name }} &lt;{{ person.email }}&gt;">{{ person.get_name }}</a>
+                    <a href="mailto:{{ person.email }}">{{ person.get_name }}</a>
                     {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
                 </div>
             {% endwith %}
