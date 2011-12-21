@@ -379,7 +379,7 @@ def member(request, mid=None):
                          queryset=Person.persons.filter(id=mid),
                          object_id=mid,
                          template_object_name='person',
-                         template_name='twa-member.html',
+                         template_name='2011/member.html',
                          extra_context=ctx)
 
 
