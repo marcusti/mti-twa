@@ -2,7 +2,11 @@
 {% load twa_tags %}
 
 <div class="{% if detailed %} detailed{% else %}news-header{% endif %}">
+{% if detailed %}
+    {{ seminar.get_title }}
+{% else %}
     <a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a>
+{% endif %}
 </div>
 
 <div class="news-meta">
