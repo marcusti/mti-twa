@@ -180,8 +180,8 @@ class NewsAdmin(admin.ModelAdmin):
     fieldsets = (
                  (None, {'fields': ('public', 'photo', 'pub_date', 'markup')}),
                  ('Deutsch', {'fields': ('title', 'preview', 'text')}),
-                 ('English', {'fields': ('title_en', 'preview_en', 'text_en'), 'classes': ('collapse', )}),
-                 ('Japanese', {'fields': ('title_ja', 'preview_ja', 'text_ja'), 'classes': ('collapse', )}),
+                 ('English', {'fields': ('title_en', 'preview_en', 'text_en')}),
+                 ('Japanese', {'fields': ('title_ja', 'preview_ja', 'text_ja')}),
                  )
     inlines = [AttachmentInline, ]
     save_on_top = True

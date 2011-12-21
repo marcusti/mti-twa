@@ -619,6 +619,9 @@ class TWAMembership(AbstractModel):
     payment.short_description = _('Payment')
     payment.allow_tags = False
 
+    def get_payments(self):
+        return self.twapayment_set.all().order_by('-year', 'date')
+
     def twa_id(self):
         if self.twa_id_country is None or self.twa_id_number is None:
             return ''
@@ -928,9 +931,9 @@ class SeminarDeFeed(Feed):
         return item.title
 
     def item_description(self, item):
-        html = '<div>Lehrer: %s</div>' % item.teacher
-        html += '<div>Datum: %s - %s</div>' % (item.start_date, item.end_date)
-        html += '<div>Ort: %s %s</div>' % (item.city, item.venue)
+        html = u'<div>Lehrer: %s</div>' % item.teacher
+        html += u'<div>Datum: %s - %s</div>' % (item.start_date, item.end_date)
+        html += u'<div>Ort: %s %s</div>' % (item.city, item.venue)
         html += txt_to_html(item.text, item.markup)
         return html
 
@@ -948,9 +951,9 @@ class SeminarEnFeed(Feed):
         return item.title_en or item.title
 
     def item_description(self, item):
-        html = ''
-        html = '<div>Teacher: %s</div>' % item.teacher
-        html += '<div>Date: %s - %s</div>' % (item.start_date, item.end_date)
-        html += '<div>Venue: %s %s</div>' % (item.city, item.venue)
+        html = u''
+        html = u'<div>Teacher: %s</div>' % item.teacher
+        html += u'<div>Date: %s - %s</div>' % (item.start_date, item.end_date)
+        html += u'<div>Venue: %s %s</div>' % (item.city, item.venue)
         html += txt_to_html(item.text_en or item.text, item.markup)
         return html
