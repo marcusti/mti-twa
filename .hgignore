@@ -1,0 +1,21 @@
+syntax: glob
+
+env
+documents
+log
+static/attachments
+static/docs
+static/downloads
+static/images/blog
+static/photos
+mysettings.py
+twa.sublime-*
+*.pyc
+*.yaml
+*.json
+*.markdown
+*.sqlite
+*.dump
+*.csv
+*.tgz
+*~

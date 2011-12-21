@@ -1,0 +1,41 @@
+{% extends "2011/index.html" %}
+
+{% block content %}
+<div class="grid_8 alpha">
+    <div class="section-header">
+        {{ _('News') }} {{ year }}
+    </div>
+    <div class="section-meta">
+    </div>
+
+    <div>
+        {{ _('by year') }}
+    </div>
+
+    <ul>
+    {% for date in years %}
+        <li><a href="/news/year/{{ date.year }}/" class="menu-entry{% if date.year == year %} selected{% endif %}">{{ date.year }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <br/>
+
+    {% if news_list_overview %}
+    <div>{{ _('Overview') }}</div>
+    <ul class="overview">
+        <li class="border"></li>
+    {% for news in news_list_overview %}
+        <li class="border"><a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a></li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<div class="grid_16 omega">
+    {% for news in news_list_details %}
+        <div class="bottom-space">
+            {% include "2011/news-snippet.html" %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

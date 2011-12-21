@@ -1,0 +1,41 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Teachers" %}</h1>
+<p>{% trans "Here you can find all officially authorized and licensed teachers of Tendoryu Aikido, sorted by country and city." %}</p>
+
+{% regroup object_list by person.dojos.all.0.country as license_list %}
+
+<table class="columnhover">
+{% for items in license_list %}
+    <tr>
+        <th colspan="3"><br/>{{ items.grouper.code }} - {{ items.grouper.get_name }}</th>
+    </tr>
+
+    {% for license in items.list %}
+    <tr>
+        <td class="tx12">
+            {{ license.person.dojos.all.0.city }}
+        </td>
+
+        <td>
+            {{ license.person }},
+            <span class="tx12">{{ license.person.current_rank }}</span>
+        </td>
+
+        <td class="tx12">
+            {% if license.person.dojos.all.0.website %}
+                <a href="{{ license.person.dojos.all.0.website }}" target="_blank">{{ license.person.dojos.all.0.name }}</a>
+            {% else %}
+                {{ license.person.dojos.all.0.name }}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+{% endfor %}
+</table>
+
+{% endblock %}

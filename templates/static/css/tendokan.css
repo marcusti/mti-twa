@@ -1,0 +1,67 @@
+@charset "UTF-8";a{color:#02339a;font-weight:bold;text-decoration:none;}
+a:hover{color:#fff;background-color:#02339a;}
+a:active{color:#cc0013;}
+.edit a{color:white;background-color:#edd400;padding:0 5px;}
+.edit a:hover{color:#edd400;background-color:white;padding:0 5px;}
+a.edit{color:#cc0013;}
+a.edit:hover{color:white;background-color:#cc0013;}
+h1{font-size:16px;text-align:center;color:#333;margin-top:0;margin-left:auto;margin-right:auto;margin-bottom:0;}
+h2{font-size:14px;text-align:center;color:#333;margin-top:0;margin-left:auto;margin-right:auto;margin-bottom:0;}
+h3{font-size:12px;text-align:center;color:#333;margin-top:5px;margin-left:auto;margin-right:auto;margin-bottom:5px;}
+h4{font-size:10px;text-align:center;color:#333;margin-top:5px;margin-left:auto;margin-right:auto;margin-bottom:5px;}
+.tx16{font-size:16px;line-height:120%;}
+.tx14{font-size:14px;line-height:140%;}
+.tx13{font-size:13px;line-height:140%;}
+.tx12{font-size:12px;line-height:140%;}
+.tx12g{font-size:12px;line-height:140%;color:#666;}
+.tx11{font-size:11px;line-height:140%;}
+.tx10{font-size:10px;line-height:160%;}
+.tx10g{font-size:10px;line-height:160%;color:#666;}
+.grau{color:#666;}
+body{font-family:"Lucida Grande","Hiragino Kaku Gothic Pro",Osaka,Verdana,sans-serif;background-image:url("/static/images/bg_img.jpg");background-repeat:repeat-x;line-height:normal;text-align:center;margin:0;padding:0;}
+p{color:#333;font-size:14px;line-height:18px;margin:1em;}
+img{border:none;virtical-align:middle;}
+.box{border:solid 1px #ccc;}
+#wrapper{width:760px;margin:0 auto;}
+#content{width:760px;margin:0 auto;background:#fff;text-align:left;}
+#primary{float:left;width:360px;margin:10px 0 0 10px;padding:0;}
+#secondary{float:right;width:360px;margin:10px 10px 0 0;padding:0;}
+#box2{width:700px;border:1px solid #999;background:#e1dbc1;margin-left:auto;margin-right:auto;}
+#box2 p{color:#333;text-align:left;font-size:12px;line-height:18px;padding:0 20px;}
+#footer,#footer a{clear:both;margin-top:0;margin-left:auto;margin-right:auto;margin-bottom:0;padding:5px 0;color:#fff;background:#999;text-align:center;text-decoration:none;}
+#footer a:hover{text-decoration:underline;}
+#footer p{text-align:center;}
+#menu{width:100%;margin:0;padding:5px 0;border:0 solid #999;background:#e5e5cb;text-align:center;}
+.menu-entry{padding:0 10px;}
+#menu .menu-logged-in a{font-weight:normal;padding:0 10px;}
+#menu .menu-logged-in a.edit:hover{font-weight:normal;padding:0 10px;color:white;background-color:#cc0013;}
+#menu .menu-logged-in,#menu .menu-logged-in a.edit,.edit{color:#cc0013;}
+.flag{border:1px solid;}
+ul{list-style-type:none;margin:1em;padding:0;}
+li{border-bottom:1px solid #e8e7d0;padding:5px 0;}
+ul ul,ul li ul li,td ul li{border:none;margin:0 0 0 1em;padding:0;}
+td,th{border-bottom:1px solid #e8e7d0;vertical-align:top;padding:5px;}
+.clean tr td,.clean tr th{border:none;vertical-align:top;padding:5px;}
+.columnhover tr:hover{background-color:#f5f5e7;}
+.status-2,.status-6{background-color:#90ff90;}
+.columnhover tr:hover .status-2,.columnhover tr:hover .status-6{background-color:#0f0;}
+.status-5{background-color:#9090ff;}
+.columnhover tr:hover .status-5{background-color:#00f;}
+.status-3,.status--1{background-color:#ff9090;}
+.columnhover tr:hover .status-3,.columnhover tr:hover .status--1{background-color:#f00;}
+.status-4{background-color:#ffff90;}
+.columnhover tr:hover .status-4{background-color:#ff0;}
+.clear{clear:both;}
+table{margin:0;padding:1em;width:100%;empty-cells:show;border-spacing:0;}
+.photo{padding:1px;border:1px solid #c1c0b5;background:#FFF;}
+.photo-margin{margin:1em;padding:1px;border:1px solid #c1c0b5;background:#FFF;}
+form{margin:10px;}
+.filter{background-color:#ff0;}
+.active{background-color:#ff0;}
+.absatz{margin:1em;}
+.plain {text-align:left;}
+.plain ul {list-style-type:circle;margin:0 1em;padding:0 1em;}
+.plain li, .plain td {border: none;line-height:normal;text-align:left;font-size: 14px;color:#333;margin:0;padding:.3em;}
+
+#news-block {float: right; text-align: left;}
+#seminars-block {float: left; text-align: left;}

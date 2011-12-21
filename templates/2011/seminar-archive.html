@@ -1,0 +1,74 @@
+{% extends "2011/index.html" %}
+
+{% block content %}
+<div class="grid_8 alpha">
+    <div class="section-header">
+        {{ _('Seminars') }}{% if city %},
+            {{ city }}
+        {% else %}
+            {% if year and year != 'current' %}
+                {{ year }}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="section-meta">
+    </div>
+
+    <div>
+        <a href="/seminars/" class="menu-entry{% if year == 'current' %} selected{% endif %}">{{ _('current seminars') }}</a>
+    </div>
+
+    <br/>
+    <div>
+        {{ _('by year') }}
+    </div>
+
+    <ul>
+    {% for date in years %}
+        <li><a href="/seminars/year/{{ date.year }}/" class="menu-entry{% if date.year == year %} selected{% endif %}">{{ date.year }}</a></li>
+    {% empty %}
+        <li>-</li>
+    {% endfor %}
+    </ul>
+
+    <br/>
+
+    {% if not city and seminars_overview %}
+    <div>
+        {{ _('Overview') }}
+        {% if year and year != 'current' %}{{ year }}{% endif %}
+    </div>
+    <ul class="overview">
+        <li class="border"></li>
+        {% for seminar in seminars_overview %}
+            <li class="border">
+                <a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <br/>
+    {% endif %}
+
+    <div>
+        {{ _('by city') }}
+    </div>
+
+    <ul class="overview">
+    {% for c in cities %}
+        <li><a href="/seminars/?city={{ c }}" class="menu-entry{% if c == city %} selected{% endif %}">{{ c }}</a></li>
+    {% empty %}
+        <li>-</li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="grid_16 omega">
+    {% for seminar in seminars %}
+        <div class="bottom-space">
+            {% include "2011/seminar-snippet.html" %}
+        </div>
+    {% empty %}
+        <div>{{ _('No seminars.') }}</div>
+    {% endfor %}
+</div>
+{% endblock %}

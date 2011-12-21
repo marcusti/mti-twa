@@ -1,0 +1,9 @@
+{% extends "twa-index.html" %}
+{% load markup %}
+
+{% block content %}
+<h2>{{ page.get_title }}</h2>
+<p class="plain">
+  {{ page.get_content|safe}}
+</p>
+{% endblock %}

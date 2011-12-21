@@ -1,0 +1,35 @@
+{% load i18n %}
+{% load twa_tags %}
+
+{% regroup object_list by person.dojos.all.0.country as license_list %}
+
+<table>
+{% for items in license_list %}
+    <tr class="border">
+        <th colspan="3"><br/>{{ items.grouper.code }} - {{ items.grouper.get_name }}</th>
+    </tr>
+
+    {% for license in items.list %}
+        {% with dojo=license.person.dojos.all.0 %}
+        <tr class="columnhover border">
+            <td>
+                {{ dojo.city }}
+            </td>
+
+            <td>
+                {{ license.person }},
+                <span class="tx12">{{ license.person.current_rank }}</span>
+            </td>
+
+            <td class="tx12">
+                {% if dojo.website %}
+                    <a href="{{ dojo.website }}" target="_blank">{{ dojo.name }}</a>
+                {% else %}
+                    {{ dojo.name }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endwith %}
+    {% endfor %}
+{% endfor %}
+</table>

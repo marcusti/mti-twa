@@ -1,0 +1,44 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<form id="login-form" method="post" action=".">
+  <table class="clean">
+
+  <colgroup>
+    <col width="25%">
+    <col width="*">
+  </colgroup>
+
+  <tr>
+    <th colspan="2">{% trans "Login" %}</th>
+  </tr>
+
+ {% for field in form %}
+ {% if field.is_hidden %}
+   {{ field }}
+ {% else %}
+   <tr>
+     <td>{{ field.label_tag }}:</td>
+     <td>{{ field }}{% if field.errors %}<span class="edit tx12g">{{ field.errors }}</span>{% endif %}</td>
+   </tr>
+ {% endif %}
+ {% endfor %}
+
+  <tr>
+   <td></td>
+   <td><input type="submit" id="login-button" value="{% trans "Login" %}" /></td>
+  </tr>
+
+ </table>
+ <input type="hidden" name="next" value="{{ next }}" />
+ <input type="hidden" name="language" value="{{ language }}" />
+
+</form>
+
+{% if form.errors %}
+<p class="edit tx12g">{% trans "Wrong username or password." %}</p>
+{% endif %}
+
+{% endblock %}

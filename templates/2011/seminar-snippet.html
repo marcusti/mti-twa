@@ -1,0 +1,97 @@
+{% load i18n %}
+{% load twa_tags %}
+
+<div class="{% if detailed %} detailed{% else %}news-header{% endif %}">
+    <a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a>
+</div>
+
+<div class="news-meta">
+    {{ seminar.start_date|date:"SHORT_DATE_FORMAT" }}
+    {% if seminar.end_date %} - {{ seminar.end_date|date:"SHORT_DATE_FORMAT" }}{% endif %}
+
+    {% if user.is_authenticated %}
+        <div>
+            <a href="/admin/members/seminar/add/" class="new">{{ _('new') }}</a> //
+            <a href="/admin/members/seminar/{{ seminar.id }}/" class="edit">{{ _('edit') }}</a>
+        </div>
+    {% endif %}
+
+    {% if not seminar.public %}
+        <div class="preview">{% trans 'This seminar is not yet published. Check the "public" checkbox to publish it.' %}</div>
+    {% endif %}
+</div>
+
+<div class="news-content">
+    {% if seminar.photo %}
+        <a href="{{ seminar.photo|thumbnail:'800x800' }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo-right" src="{{ seminar.photo|thumbnail:'200x200' }}" title="" alt="[{{ seminar.photo }}]" /></a>
+    {% endif %}
+
+    <table>
+        {% if seminar.teacher %}
+        <tr>
+            <td>{{ _('Teacher') }}:</td>
+            <td>{{ seminar.teacher }}{% if seminar.teacher.current_rank %}, {{ seminar.teacher.current_rank }}{% endif %}</td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.start_date %}
+        <tr>
+            <td>{% if seminar.end_date %}{{ _('Start Date') }}{% else %}{{ _('Date') }}{% endif %}:</td>
+            <td>{{ seminar.start_date|date:"D, d. F Y" }}</td>
+        {% endif %}
+        </tr>
+
+        {% if seminar.end_date %}
+        <tr>
+            <td>{{ _('End Date') }}:</td>
+            <td>{{ seminar.end_date|date:"D, d. F Y" }}</td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.venue %}
+        <tr>
+            <td>{{ _('Venue') }}:</td>
+            <td>{{ seminar.venue }}</td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.city %}
+        <tr>
+            <td>{{ _('City') }}:</td>
+            <td>{{ seminar.city }}</td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.country %}
+        <tr>
+            <td>{{ _('Country') }}:</td>
+            <td>{{ seminar.country.get_name }}</td>
+        </tr>
+        {% endif %}
+
+    </table>
+
+    {% if seminar.get_text %}
+        {% autoescape off %}
+            {{ seminar.get_text|urlize|linebreaks }}
+        {% endautoescape %}
+    {% endif %}
+</div>
+
+<div class="news-footer">
+{% if not detailed and seminar.attachment_set.all %}
+    <a href="{{ seminar.get_absolute_url }}" class="overview">[{% trans 'more information' %}]</a>
+{% else %}
+  {% for attachment in seminar.attachment_set.all  %}
+      <ul class="{% if not detailed %}overview{% endif %}">
+        <li>
+            <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
+            <span class="small">
+            ({{ attachment.file|extension|lower }},
+            {{ attachment.file.size|filesizeformat }})
+            </span>
+        </li>
+      </ul>
+  {% endfor %}
+{% endif %}
+</div>
