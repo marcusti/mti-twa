@@ -29,13 +29,21 @@
                     </ul>
                 </td>
 
+                <!-- TWA STATUS -->
+
+                <td class="top">
+                    {% if person.is_member %}
+                        <img src="/static/images/kamon.png" alt="[member logo]" />
+                    {% endif %}
+                </td>
+
                 <!-- TWA ID -->
 
                 <td class="top">
                     {% for membership in person.twamembership_set.all  %}
                         <div>
                             {{ membership.twa_id }}
-                            <span class="meta status-{{ membership.status }}">{{ membership.get_status_display }}</span>
+                            <span class="status-{{ membership.status }}">{{ membership.get_status_display }}</span>
                         </div>
                     {% endfor %}
                 </td>
@@ -57,16 +65,6 @@
                             {% endif %}
                         {% endif %}
                     </div>
-                </td>
-
-                <!-- TWA STATUS -->
-
-                <td class="top">
-                    {% if person.is_member %}
-                        <img src="/static/images/kamon.png">
-                    {% else %}
-                        &nbsp;&nbsp;
-                    {% endif %}
                 </td>
 
                 <!-- PHOTO -->
