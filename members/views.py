@@ -321,7 +321,7 @@ def members(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name="twa-members.html")
+                       template_name="2011/members.html")
 
 
 @login_required
@@ -336,13 +336,13 @@ def __get_members(request):
         ctx['search'] = s
         if s:
             try:
-                qs = Person.persons.filter(twamembership__twa_id_number=int(s))
+                qs = qs.filter(twamembership__twa_id_number=int(s))
             except:
-                qs = Person.persons.filter(
-                                           Q(firstname__icontains=s) |
-                                           Q(nickname__icontains=s) |
-                                           Q(lastname__icontains=s) |
-                                           Q(email__icontains=s))
+                qs = qs.filter(
+                                Q(firstname__icontains=s) |
+                                Q(nickname__icontains=s) |
+                                Q(lastname__icontains=s) |
+                                Q(email__icontains=s))
 
     if 'sort' in request.REQUEST:
         sort = request.REQUEST['sort']
@@ -357,7 +357,7 @@ def __get_members(request):
         sid = request.REQUEST['sid']
         ctx['searchid'] = sid
         if sid:
-            qs = Person.persons.filter(Q(id__exact=sid))
+            qs = qs.filter(Q(id__exact=sid))
 
     if qs is None:
         qs = Person.persons.all()
@@ -371,9 +371,9 @@ def member(request, mid=None):
 
     ctx = get_context(request)
     ctx['menu'] = 'members'
-    ctx['dojos'] = Dojo.dojos.filter(person__id=mid)
-    ctx['graduations'] = Graduation.objects.filter(person__id=mid)
-    ctx['documents'] = Document.objects.filter(person__id=mid)
+    # ctx['dojos'] = Dojo.dojos.filter(person__id=mid)
+    # ctx['graduations'] = Graduation.objects.filter(person__id=mid)
+    # ctx['documents'] = Document.objects.filter(person__id=mid)
 
     return object_detail(request,
                          queryset=Person.persons.filter(id=mid),

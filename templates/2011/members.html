@@ -1,0 +1,103 @@
+{% extends "2011/index.html" %}
+
+{% load i18n %}
+{% load l10n %}
+{% load twa_tags %}
+
+{% block content %}
+
+    <div class="section-header">
+        {% trans "Members" %} <span class="small meta">({{ counter|localize }})</span>
+    </div>
+
+    <div class="section-meta">
+      {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
+    </div>
+
+    <table class="person-table" width="100%">
+        {% for person in object_list %}
+            <tr class="columnhover border">
+
+                <!-- NAME, DOJO -->
+
+                <td class="top">
+                    <a href="{{ person.get_absolute_url }}">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
+                    <ul class="small">
+                        {% for dojo in person.dojos.all %}
+                            <li><a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </td>
+
+                <!-- TWA ID -->
+
+                <td class="top">
+                    {% for membership in person.twamembership_set.all  %}
+                        <div>
+                            {{ membership.twa_id }}
+                            <span class="meta status-{{ membership.status }}">{{ membership.get_status_display }}</span>
+                        </div>
+                    {% endfor %}
+                </td>
+
+                <!-- TWA LICENSE -->
+
+                <td class="top">
+                    <div class="{% if not person.is_licensed and not person.is_license_requested %}meta{% endif %}">
+                        {% trans "License" %}:
+                        {% if person.is_licensed %}
+                            {% for license in person.license_set.all %}
+                                {{ license.date|date:"Y-m-d" }}
+                            {% endfor %}
+                        {% else %}
+                            {% if person.is_license_requested %}
+                                {% trans "Requested" %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </td>
+
+                <!-- TWA STATUS -->
+
+                <td class="top">
+                    {% if person.is_member %}
+                        <img src="/static/images/kamon.png">
+                    {% else %}
+                        &nbsp;&nbsp;
+                    {% endif %}
+                </td>
+
+                <!-- PHOTO -->
+
+                <td class="top">
+                    {% if person.photo %}
+                        <a href="{{ person.get_absolute_url }}"><img
+                              src="/image/{{ person.photo.name }}/64x64/"
+                              class="photo"
+                              align="right"
+                              alt="[{{ person.firstname }} {{ person.lastname }}]"
+                              title="{{ person.firstname }} {{ person.lastname }}"
+                              /></a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if is_paginated %}
+    <div class="white" align="center">
+        <small>{% paginator %}</small>
+    </div>
+    {% endif %}
+
+    {% if user.is_superuser %}
+        <div class="white" align="center">
+            <small>
+                <br/>{% trans "Export to" %} <a href="/members/xls/">xls</a>, <a href="/members/csv/">csv</a>
+            </small>
+        </div>
+    {% endif %}
+
+{% endblock %}

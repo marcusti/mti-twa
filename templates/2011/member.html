@@ -36,7 +36,7 @@
                 {% trans 'Dojo' %}:
             </td>
             <td class="person-data">
-                {% for dojo in dojos %}
+                {% for dojo in person.dojos.all %}
                     <div>
                         <a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a>
                     </div>
