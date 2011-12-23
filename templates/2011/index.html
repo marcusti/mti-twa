@@ -43,7 +43,7 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
-<head>
+</head>
 <body>
     <div class="container_24">
 
@@ -52,45 +52,50 @@
         <div id="header" class="grid_24">
             <!--[if lt IE 7]>  <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
             <div class="logo">
-                    <div class="middle"><a href="/"><img src="/static/images/twa-trans-400.png" width="400" height="68"class="img-left"></a></div>
-<!--                     <div class="middle">
-                        <a href="/"><img src="/static/images/kamon-trans.png" align="" class="img-left">
-                        <span class="tendo">tendo</span> <span class="worldaikido">world aikido</span></a>
-                    </div>
- -->            </div>
+                <div class="middle">
+                    <a href="/"><img
+                            src="/static/images/twa-trans-400.png"
+                            width="400"
+                            height="68"
+                            alt="[tendo world aikido logo]"
+                            class="img-left" /></a>
+                </div>
+            </div>
         </div>
 
         <!-- MENU -->
 
         <div id="menu" class="grid_24">
-            <ul>
-                <li><a class='menu-entry{% if menu == "home" %} selected{% endif %}' href="/">{% trans "Home" %}</a></li> |
-                <li><a class='menu-entry{% if menu == "news" %} selected{% endif %}' href="/news/">{% trans "News" %}</a></li> |
-                <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/">{% trans "Seminars" %}</a></li> |
-                <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/membership/">{% trans "Become a Member" %}</a></li> |
+            <ul class="meta">
+                <li><a class='menu-entry{% if menu == "home" %} selected{% endif %}' href="/">{% trans "Home" %}</a> |</li>
+                <li><a class='menu-entry{% if menu == "news" %} selected{% endif %}' href="/news/">{% trans "News" %}</a> |</li>
+                <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/">{% trans "Seminars" %}</a> |</li>
+                <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/membership/">{% trans "Become a Member" %}</a> |</li>
                 {% for page in flatpages %}
                     {% if page.show_in_menu %}
-                        <li><a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}{% if not page.public %} preview{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a></li>
-                        {% if not forloop.last %}|{% endif %}
+                        <li>
+                            <a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}{% if not page.public %} preview{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a>
+                            {% if not forloop.last %}|{% endif %}
+                        </li>
                     {% endif %}
                 {% endfor %}
             </ul>
 
             {% if user.is_authenticated %}
                 <ul class="menu-logged-in">
-                    <li><a href="/birthdays/"{% ifequal menu "birthdays" %} class="active"{% endifequal %}>{% trans "Birthdays" %}</a></li> |
-                    <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a></li> |
-                    <li><a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a></li> |
-                    <li><a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a></li> |
-                    <li><a href="/teachers/mailinglist/" class='{% if menu == "mailinglist" %} selected{% endif %}'>{% trans "Mailinglists" %}</a></li> |
-                    <li><a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a></li> |
+                    <li><a href="/birthdays/"{% ifequal menu "birthdays" %} class="active"{% endifequal %}>{% trans "Birthdays" %}</a> |</li>
+                    <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a> |</li>
+                    <li><a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a> |</li>
+                    <li><a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a> |</li>
+                    <li><a href="/teachers/mailinglist/" class='{% if menu == "mailinglist" %} selected{% endif %}'>{% trans "Mailinglists" %}</a> |</li>
+                    <li><a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a> |</li>
                     <li><a href="/graduations/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a></li>
                 </ul>
 
                 <ul class="menu-logged-in">
-                    <li><a href="/twa-region/"{% ifequal menu "twa-region" %} class="active"{% endifequal %}>{% trans "TWA-Region" %}</a></li> |
-                    <li><a href="/member-requests/open/"{% ifequal menu "member-requests" %} class="active"{% endifequal %}>{% trans "TWA-Requests" %}</a></li> |
-                    <li><a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License-Requests" %}</a></li> |
+                    <li><a href="/twa-region/"{% ifequal menu "twa-region" %} class="active"{% endifequal %}>{% trans "TWA-Region" %}</a> |</li>
+                    <li><a href="/member-requests/open/"{% ifequal menu "member-requests" %} class="active"{% endifequal %}>{% trans "TWA-Requests" %}</a> |</li>
+                    <li><a href="/license-requests/"{% ifequal menu "license-requests" %} class="active"{% endifequal %}>{% trans "License-Requests" %}</a> |</li>
                     <li><a href="/suggestions/"{% ifequal menu "suggestions" %} class="active"{% endifequal %}>{% trans "Suggestions" %}</a></li>
                 </ul>
 
@@ -130,7 +135,7 @@
         {% if photo_news %}
             <div class="border"><!-- {{ _('photos from news') }} --></div>
             {% for news in photo_news %}
-                <a href="{{ news.get_absolute_url }}" class=""><img align="" class="photo middle" src="{{ news.photo|thumbnail:'100x100' }}" title="{{ news.get_title }}" alt="[{{ news.photo }}]" /></a>
+                <a href="{{ news.get_absolute_url }}" class=""><img class="photo middle" src="{{ news.photo|thumbnail:'100x100' }}" title="{{ news.get_title }}" alt="[{{ news.photo }}]" /></a>
             {% endfor %}
         {% endif %}
         </div>
@@ -198,7 +203,7 @@
                     <select id="language" name="language" class="languages">
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for lang in languages %}
-                            <option value="{{ lang.code }}" {% if language == lang.code %}selected{% endif %}>
+                            <option value="{{ lang.code }}" {% if language == lang.code %}selected="selected"{% endif %}>
                                 {{ lang.name_local }}
                             </option>
                         {% endfor %}
@@ -237,3 +242,4 @@
 
         </div>
 </body>
+</html>
