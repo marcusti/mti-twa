@@ -204,8 +204,9 @@
 
 <div class="grid_8 alpha">
     <h4>{% trans 'Graduations' %}</h4>
+
     <div class="section-meta">
-        {% if not person.graduations.all and perms.members.add_graduation %}
+        {% if perms.members.add_graduation %}
             {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
         {% endif %}
     </div>
@@ -302,6 +303,11 @@
             {% endif %}
 
             {% if membership.get_payments %}
+                <tr>
+                    <td class="person-label">&nbsp;</td>
+                    <td class="person-data"></td>
+                </tr>
+
                 <tr>
                     <td class="">{% trans "Payment" %}:</td>
                     <td class="person-data"></td>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-20 04:23+0100\n"
+"POT-Creation-Date: 2011-12-23 09:47+0100\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.5.2\n"
 
-#: members/admin.py:113
+#: members/admin.py:114
 msgid "Set selected members to status \"open\""
 msgstr ""
 
-#: members/admin.py:117
+#: members/admin.py:118
 msgid "Set selected members to status \"accepted\""
 msgstr ""
 
-#: members/admin.py:121
+#: members/admin.py:122
 msgid "Set selected members to status \"confirmed\""
 msgstr ""
 
-#: members/admin.py:125
+#: members/admin.py:126
 msgid "Set selected members to status \"to be confirmed\""
 msgstr ""
 
-#: members/admin.py:129
+#: members/admin.py:130
 msgid "Set selected members to status \"rejected\""
 msgstr ""
 
-#: members/admin.py:133
+#: members/admin.py:134
 msgid "Set selected members to status \"verify\""
 msgstr ""
 
-#: members/admin.py:137
+#: members/admin.py:138
 msgid "Set selected members to status \"member\""
 msgstr ""
 
-#: members/forms.py:14 members/models.py:184
+#: members/forms.py:14 members/models.py:196
 #: templates/members/person_list.html:26
 msgid "First Name"
 msgstr "Vorname"
@@ -58,7 +58,7 @@ msgstr "Vorname muss angegeben werden."
 msgid "Firstname is too short."
 msgstr "Vorname ist zu kurz."
 
-#: members/forms.py:22 members/models.py:185
+#: members/forms.py:22 members/models.py:197
 #: templates/members/person_list.html:27
 msgid "Last Name"
 msgstr "Nachname"
@@ -71,8 +71,8 @@ msgstr "Nachname muss angegeben werden."
 msgid "Lastname is too short."
 msgstr "Nachname ist zu kurz."
 
-#: members/forms.py:30 members/models.py:194 members/models.py:390
-#: members/models.py:439 templates/members/association_detail.html:51
+#: members/forms.py:30 members/models.py:206 members/models.py:402
+#: members/models.py:451 templates/members/association_detail.html:51
 #: templates/members/dojo_detail.html:56
 #: templates/members/person_detail.html:71
 msgid "Street"
@@ -86,8 +86,8 @@ msgstr "Straße muss angegeben werden."
 msgid "Street is too short."
 msgstr "Straße ist zu kurz."
 
-#: members/forms.py:38 members/models.py:195 members/models.py:391
-#: members/models.py:440 templates/members/association_detail.html:55
+#: members/forms.py:38 members/models.py:207 members/models.py:403
+#: members/models.py:452 templates/members/association_detail.html:55
 #: templates/members/dojo_detail.html:60
 #: templates/members/person_detail.html:75
 msgid "Zip"
@@ -101,9 +101,9 @@ msgstr "PLZ muss angegeben werden."
 msgid "Zip is too short."
 msgstr "PLZ ist zu kurz."
 
-#: members/forms.py:46 members/models.py:196 members/models.py:392
-#: members/models.py:441 members/models.py:740 templates/twa-dojos.html:17
-#: templates/twa-dojos.html.py:35 templates/2011/seminar-snippet.html:60
+#: members/forms.py:46 members/models.py:208 members/models.py:404
+#: members/models.py:453 members/models.py:755 templates/twa-dojos.html:17
+#: templates/twa-dojos.html.py:35 templates/2011/seminar-snippet.html:64
 #: templates/members/association_detail.html:55
 #: templates/members/dojo_detail.html:60 templates/members/dojo_list.html:33
 #: templates/members/person_detail.html:75
@@ -118,10 +118,10 @@ msgstr "Stadt muss angegeben werden."
 msgid "City is too short."
 msgstr "Stadt ist zu kurz."
 
-#: members/forms.py:54 members/models.py:141 members/models.py:197
-#: members/models.py:393 members/models.py:443 members/models.py:741
+#: members/forms.py:54 members/models.py:153 members/models.py:209
+#: members/models.py:405 members/models.py:455 members/models.py:756
 #: templates/twa-associations.html:11 templates/twa-dojos.html:10
-#: templates/twa-dojos.html.py:36 templates/2011/seminar-snippet.html:67
+#: templates/twa-dojos.html.py:36 templates/2011/seminar-snippet.html:71
 #: templates/members/association_detail.html:59
 #: templates/members/association_list.html:19
 #: templates/members/dojo_detail.html:64 templates/members/dojo_list.html:24
@@ -137,8 +137,9 @@ msgstr "Land muss angegeben werden."
 msgid "Please choose a valid country."
 msgstr "Bitte ein Land aus derListe wählen"
 
-#: members/forms.py:62 members/models.py:199 members/models.py:396
-#: members/models.py:445 templates/members/association_detail.html:69
+#: members/forms.py:62 members/models.py:211 members/models.py:408
+#: members/models.py:457 templates/2011/member.html:97
+#: templates/members/association_detail.html:69
 #: templates/members/dojo_detail.html:74
 #: templates/members/person_detail.html:89
 msgid "Phone"
@@ -152,10 +153,10 @@ msgstr "Telefonnummer muss angegeben werden."
 msgid "Phone is too short."
 msgstr "Telefonnummer ist zu kurz."
 
-#: members/forms.py:70 members/models.py:200 members/models.py:397
-#: members/models.py:446 templates/twa-association.html:36
+#: members/forms.py:70 members/models.py:212 members/models.py:409
+#: members/models.py:458 templates/twa-association.html:36
 #: templates/twa-dojo.html:44 templates/twa-member.html:85
-#: templates/members/association_detail.html:73
+#: templates/2011/member.html:116 templates/members/association_detail.html:73
 #: templates/members/dojo_detail.html:78
 #: templates/members/person_detail.html:93
 msgid "Fax"
@@ -169,8 +170,9 @@ msgstr "Fax muss angegeben werden."
 msgid "Fax is too short."
 msgstr "Fax ist zu kurz."
 
-#: members/forms.py:78 members/models.py:201 members/models.py:398
-#: members/models.py:447 templates/members/association_detail.html:77
+#: members/forms.py:78 members/models.py:213 members/models.py:410
+#: members/models.py:459 templates/2011/member.html:106
+#: templates/members/association_detail.html:77
 #: templates/members/dojo_detail.html:82
 #: templates/members/person_detail.html:97
 msgid "Mobile"
@@ -184,8 +186,9 @@ msgstr "Handynummer muss angegeben werden."
 msgid "Mobile is too short."
 msgstr "Handynummer ist zu kurz."
 
-#: members/forms.py:86 members/models.py:202 members/models.py:399
-#: members/models.py:448 templates/members/association_detail.html:81
+#: members/forms.py:86 members/models.py:214 members/models.py:411
+#: members/models.py:460 templates/2011/member.html:126
+#: templates/members/association_detail.html:81
 #: templates/members/dojo_detail.html:86
 #: templates/members/person_detail.html:101
 msgid "Email"
@@ -203,8 +206,9 @@ msgstr "Email ist zu kurz."
 msgid "Please enter a valid email address."
 msgstr "Bitte eine gültige Email-Adresse eingeben."
 
-#: members/forms.py:93 members/models.py:205 templates/base.html:172
-#: templates/twa-member.html:93 templates/members/person_detail.html:123
+#: members/forms.py:93 members/models.py:217 templates/base.html:172
+#: templates/twa-member.html:93 templates/2011/member.html:150
+#: templates/members/person_detail.html:123
 msgid "Birth"
 msgstr "Geburtstag"
 
@@ -308,8 +312,8 @@ msgstr ""
 msgid "5.Dan is required."
 msgstr "5. Dan muss angegeben werden."
 
-#: members/forms.py:178 members/models.py:192 members/models.py:339
-#: members/models.py:738 members/models.py:795
+#: members/forms.py:178 members/models.py:204 members/models.py:351
+#: members/models.py:753 members/models.py:810
 #: templates/members/person_list.html:55
 msgid "Photo"
 msgstr "Bild"
@@ -455,89 +459,98 @@ msgstr "Mitglied"
 msgid "exit"
 msgstr "Austritt"
 
-#: members/models.py:118
+#: members/models.py:118 members/models.py:124
+#, python-format
 msgid "\"%(value)s\" is not a valid date. (Date may not be before %(before)s.)"
-msgstr "\"%(value)s\" ist kein gültiges Datum. (Das Datum darf nicht vor %(before)s liegen.)"
+msgstr ""
+"\"%(value)s\" ist kein gültiges Datum. (Das Datum darf nicht vor %(before)s "
+"liegen.)"
 
-#: members/models.py:124
+#: members/models.py:130 members/models.py:136
+#, python-format
 msgid "\"%(value)s\" is not a valid date. (Date may not be in the future.)"
-msgstr "\"%(value)s\" ist kein gültiges Datum. (Das Datum darf nicht in der Zukunft liegen.)"
+msgstr ""
+"\"%(value)s\" ist kein gültiges Datum. (Das Datum darf nicht in der Zukunft "
+"liegen.)"
 
-#: members/models.py:128
+#: members/models.py:140
 msgid "Name (en)"
 msgstr ""
 
-#: members/models.py:129
+#: members/models.py:141
 msgid "Code"
 msgstr ""
 
-#: members/models.py:130
+#: members/models.py:142
 msgid "Name (de)"
 msgstr ""
 
-#: members/models.py:131
+#: members/models.py:143
 msgid "Name (ja)"
 msgstr ""
 
-#: members/models.py:142 templates/base.html:116
+#: members/models.py:154 templates/base.html:116
 msgid "Countries"
 msgstr "Länder"
 
-#: members/models.py:186
+#: members/models.py:198
 msgid "Nickname"
 msgstr "Spitzname"
 
-#: members/models.py:187
+#: members/models.py:199
 msgid "Japanese First Name"
 msgstr "Vorname (ja)"
 
-#: members/models.py:188
+#: members/models.py:200
 msgid "Japanese Last Name"
 msgstr "Nachname (ja)"
 
-#: members/models.py:189
+#: members/models.py:201
 msgid "Name Prefix"
 msgstr "Titel"
 
-#: members/models.py:190 members/models.py:388 members/models.py:437
-#: members/models.py:493 members/models.py:549 members/models.py:592
-#: members/models.py:639 members/models.py:735 members/models.py:736
-#: members/models.py:737 members/models.py:758 members/models.py:792
-#: members/models.py:793 members/models.py:794 members/models.py:814
-#: members/models.py:851 templates/members/association_detail.html:95
+#: members/models.py:202 members/models.py:400 members/models.py:449
+#: members/models.py:505 members/models.py:561 members/models.py:604
+#: members/models.py:654 members/models.py:750 members/models.py:751
+#: members/models.py:752 members/models.py:773 members/models.py:807
+#: members/models.py:808 members/models.py:809 members/models.py:829
+#: members/models.py:866 templates/2011/member.html:177
+#: templates/2011/member.html.py:293
+#: templates/members/association_detail.html:95
 #: templates/members/dojo_detail.html:100
 #: templates/members/person_detail.html:280
 #: templates/members/person_detail.html:304 templates/members/search.html:4
 msgid "Text"
 msgstr ""
 
-#: members/models.py:191
+#: members/models.py:203
 msgid "Text (Beirat)"
 msgstr ""
 
-#: members/models.py:203 members/models.py:400 members/models.py:449
-#: templates/members/association_detail.html:85
+#: members/models.py:215 members/models.py:412 members/models.py:461
+#: templates/2011/member.html:140 templates/members/association_detail.html:85
 #: templates/members/dojo_detail.html:90 templates/members/dojo_list.html:42
 #: templates/members/person_detail.html:105
 msgid "Website"
 msgstr "Webseite"
 
-#: members/models.py:207 templates/members/person_detail.html:115
+#: members/models.py:219 templates/2011/member.html:168
+#: templates/members/person_detail.html:115
 msgid "Gender"
 msgstr "Geschlecht"
 
-#: members/models.py:209 members/models.py:402 members/models.py:451
-#: members/models.py:498 members/models.py:550 members/models.py:595
+#: members/models.py:221 members/models.py:414 members/models.py:463
+#: members/models.py:510 members/models.py:562 members/models.py:607
 #: templates/info.html:13 templates/members/person_detail.html:189
 msgid "Active"
 msgstr "Aktiv"
 
-#: members/models.py:210 templates/twa-member.html:75
-#: templates/members/person_detail.html:127
+#: members/models.py:222 templates/twa-member.html:75
+#: templates/2011/member.html:73 templates/members/person_detail.html:127
 msgid "Aikido"
 msgstr ""
 
-#: members/models.py:211 members/models.py:431 templates/base.html:84
+#: members/models.py:223 members/models.py:443 templates/base.html:84
 #: templates/base.html.py:126 templates/twa-association.html:50
 #: templates/twa-dojos.html:7 templates/twa-index.html:68
 #: templates/twa-licenses.html:19 templates/2011/index.html:73
@@ -546,8 +559,8 @@ msgstr ""
 msgid "Dojos"
 msgstr ""
 
-#: members/models.py:233 members/models.py:385 members/models.py:435
-#: members/models.py:653 members/models.py:830 members/models.py:850
+#: members/models.py:245 members/models.py:397 members/models.py:447
+#: members/models.py:668 members/models.py:845 members/models.py:865
 #: templates/base.html:170 templates/info.html:11
 #: templates/twa-associations.html:15 templates/twa-dojos.html:34
 #: templates/twa-graduations.html:12 templates/twa-index.html:88
@@ -566,7 +579,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: members/models.py:254 members/models.py:491
+#: members/models.py:266 members/models.py:503
 #: templates/twa-graduations.html:14 templates/twa-licenses.html:33
 #: templates/twa-members-all.html:22 templates/members/graduation_list.html:22
 #: templates/members/graduation_suggestion_list.html:22
@@ -578,68 +591,69 @@ msgstr ""
 msgid "Rank"
 msgstr "Graduierung"
 
-#: members/models.py:270
+#: members/models.py:282
 msgid "TWA Status"
 msgstr ""
 
-#: members/models.py:278
+#: members/models.py:290
 msgid "TWA-ID"
 msgstr ""
 
-#: members/models.py:289 templates/base.html:173 templates/twa-member.html:92
+#: members/models.py:301 templates/base.html:173 templates/twa-member.html:92
+#: templates/2011/member.html:159
 #: templates/members/member_requests_list.html:25
 #: templates/members/person_detail.html:119
 msgid "Age"
 msgstr "Alter"
 
-#: members/models.py:312 templates/twa-index.html:120
+#: members/models.py:324 templates/twa-index.html:120
 #: templates/2011/birthdays.html:18
 msgid "Days"
 msgstr "Tage"
 
-#: members/models.py:375 members/models.py:489 members/models.py:541
-#: members/models.py:586 members/models.py:655
+#: members/models.py:387 members/models.py:501 members/models.py:553
+#: members/models.py:598 members/models.py:670
 #: templates/members/person_detail.html:15
 msgid "Person"
 msgstr ""
 
-#: members/models.py:376
+#: members/models.py:388
 msgid "Persons"
 msgstr "Personen"
 
-#: members/models.py:386
+#: members/models.py:398
 msgid "Japanese Name"
 msgstr "Name (ja)"
 
-#: members/models.py:387 members/models.py:436
+#: members/models.py:399 members/models.py:448
 msgid "Short Name"
 msgstr "Kurzer Name"
 
-#: members/models.py:394 templates/twa-region.html:9
+#: members/models.py:406 templates/twa-region.html:9
 msgid "TWA Region"
 msgstr ""
 
-#: members/models.py:403 templates/twa-member.html:27
-#: templates/members/person_detail.html:194
+#: members/models.py:415 templates/twa-member.html:27
+#: templates/2011/member.html:23 templates/members/person_detail.html:194
 #: templates/members/person_list.html:40
 msgid "TWA Member"
 msgstr "TWA Mitglied"
 
-#: members/models.py:404 templates/twa-dojo.html:25
+#: members/models.py:416 templates/twa-dojo.html:25
 #: templates/members/association_detail.html:33
 #: templates/members/dojo_detail.html:38
 msgid "Dojo Leader"
 msgstr "Dojo Leiter"
 
-#: members/models.py:405 members/models.py:465
+#: members/models.py:417 members/models.py:477
 msgid "Association"
 msgstr "Verband"
 
-#: members/models.py:430 templates/base.html:171
+#: members/models.py:442 templates/base.html:171
 #: templates/twa-graduations.html:13 templates/twa-license-requests.html:20
 #: templates/twa-licenses.html:31 templates/twa-member-requests.html:60
-#: templates/twa-members-all.html:23 templates/members/dojo_counter.html:6
-#: templates/members/dojo_detail.html:13
+#: templates/twa-members-all.html:23 templates/2011/member.html:36
+#: templates/members/dojo_counter.html:6 templates/members/dojo_detail.html:13
 #: templates/members/graduation_list.html:21
 #: templates/members/graduation_suggestion_list.html:21
 #: templates/members/license_list.html:21
@@ -649,280 +663,286 @@ msgstr "Verband"
 msgid "Dojo"
 msgstr ""
 
-#: members/models.py:442 templates/twa-associations.html:12
+#: members/models.py:454 templates/twa-associations.html:12
 #: templates/members/association_list.html:20
 msgid "Province"
 msgstr "Bundesland"
 
-#: members/models.py:452 templates/twa-association.html:17
+#: members/models.py:464 templates/twa-association.html:17
 #: templates/twa-associations.html:16 templates/twa-index.html:52
 #: templates/members/association_list.html:22
 msgid "Contact"
 msgstr "Kontakt"
 
-#: members/models.py:466 templates/base.html:83 templates/twa-index.html:67
+#: members/models.py:478 templates/base.html:83 templates/twa-index.html:67
 #: templates/2011/index.html:72
 msgid "Associations"
 msgstr "Verbände"
 
-#: members/models.py:490 templates/twa-member.html:55
-#: templates/twa-suggestions.html:19
+#: members/models.py:502 templates/twa-member.html:55
+#: templates/twa-suggestions.html:19 templates/2011/member.html:220
 #: templates/members/graduation_suggestion_list.html:23
 #: templates/members/person_detail.html:156
 msgid "Nominated By"
 msgstr "Vorschlag von"
 
-#: members/models.py:492 members/models.py:679 members/models.py:796
+#: members/models.py:504 members/models.py:694 members/models.py:811
 #: templates/info.html:55 templates/twa-graduations.html:15
-#: templates/twa-suggestions.html:20 templates/2011/seminar-snippet.html:39
+#: templates/twa-suggestions.html:20 templates/2011/member.html:359
+#: templates/2011/seminar-snippet.html:43
 #: templates/members/graduation_list.html:23
 #: templates/members/graduation_suggestion_list.html:24
 msgid "Date"
 msgstr "Datum"
 
-#: members/models.py:494 templates/twa-member.html:57
-#: templates/twa-suggestions.html:18
+#: members/models.py:506 templates/twa-member.html:57
+#: templates/twa-suggestions.html:18 templates/2011/member.html:222
 #: templates/members/graduation_suggestion_list.html:22
 #: templates/members/person_detail.html:145
 msgid "Nomination"
 msgstr "Vorschlag"
 
-#: members/models.py:495
+#: members/models.py:507
 msgid "Request Document"
 msgstr "Dokument Antrag"
 
-#: members/models.py:496
+#: members/models.py:508
 msgid "Confirmation Document"
 msgstr "Dokument Bestätigung"
 
-#: members/models.py:497
+#: members/models.py:509
 msgid "Payment Document"
 msgstr "Dokument Zahlung"
 
-#: members/models.py:519
+#: members/models.py:531
 msgid "Graduation"
 msgstr "Graduierung"
 
-#: members/models.py:520 templates/base.html:68
+#: members/models.py:532 templates/base.html:68
 #: templates/twa-graduations.html:7 templates/twa-index.html:71
-#: templates/2011/index.html:77 templates/members/graduation_counter.html:5
+#: templates/2011/index.html:77 templates/2011/member.html:206
+#: templates/members/graduation_counter.html:5
 #: templates/members/person_detail.html:138
 msgid "Graduations"
 msgstr "Graduierungen"
 
-#: members/models.py:542
+#: members/models.py:554
 msgid "License Status"
 msgstr "Lizenz Status"
 
-#: members/models.py:543 templates/twa-member.html:170
+#: members/models.py:555 templates/twa-member.html:170
 msgid "License Date"
 msgstr "Lizenz Datum"
 
-#: members/models.py:544 templates/twa-member.html:175
+#: members/models.py:556 templates/twa-member.html:175
 msgid "License Request"
 msgstr "Lizenz Antrag"
 
-#: members/models.py:545
+#: members/models.py:557
 msgid "License Receipt"
 msgstr "Zahlungseingang"
 
-#: members/models.py:546
+#: members/models.py:558
 msgid "License Rejected"
 msgstr "Lizenz Abgelehnt"
 
-#: members/models.py:547
+#: members/models.py:559
 msgid "License Request Document"
 msgstr "Antrag Dokument"
 
-#: members/models.py:548
+#: members/models.py:560
 msgid "License Receipt Document"
 msgstr "Zahlungsbeleg Dokument"
 
-#: members/models.py:562 templates/twa-licenses.html:34
+#: members/models.py:574 templates/twa-licenses.html:34
 #: templates/twa-members.html:51 templates/members/license_list.html:23
 #: templates/members/person_detail.html:218
 #: templates/members/person_list.html:77
 msgid "License"
 msgstr "Lizenz"
 
-#: members/models.py:563 templates/base.html:75 templates/base.html.py:141
+#: members/models.py:575 templates/base.html:75 templates/base.html.py:141
 #: templates/twa-index.html:70 templates/twa-licenses.html:7
 #: templates/2011/index.html:76 templates/members/license_counter.html:5
 msgid "Licenses"
 msgstr "Lizenzen"
 
-#: members/models.py:587
+#: members/models.py:599
 msgid "Membership Status"
 msgstr "Status"
 
-#: members/models.py:588 templates/twa-member.html:121
+#: members/models.py:600 templates/twa-member.html:121
 msgid "Membership Date"
 msgstr "Datum Mitgliedschaft"
 
-#: members/models.py:589 templates/twa-member.html:134
-#: templates/twa-members.html:45
+#: members/models.py:601 templates/twa-member.html:134
+#: templates/twa-members.html:45 templates/2011/member.html:285
 msgid "Passport Date"
 msgstr "Pass Ausgabe"
 
-#: members/models.py:590 templates/twa-member.html:126
+#: members/models.py:602 templates/twa-member.html:126
 msgid "Membership Request"
 msgstr "Datum Antrag"
 
-#: members/models.py:591
+#: members/models.py:603
 msgid "Membership Request Document"
 msgstr "Antrag Dokument"
 
-#: members/models.py:607 templates/twa-member-requests.html:63
+#: members/models.py:619 templates/twa-member-requests.html:63
 #: templates/twa-member.html:67 templates/twa-member.html.py:143
+#: templates/2011/member.html:230 templates/2011/member.html.py:311
 msgid "Payment"
 msgstr "Zahlung"
 
-#: members/models.py:617 templates/twa-member-requests.html:56
+#: members/models.py:632 templates/twa-member-requests.html:56
+#: templates/2011/member.html:60 templates/2011/member.html.py:260
 #: templates/members/member_requests_list.html:20
 msgid "TWA ID"
 msgstr ""
 
-#: members/models.py:625 members/models.py:626 members/models.py:635
+#: members/models.py:640 members/models.py:641 members/models.py:650
 #: templates/twa-member.html:104 templates/twa-members.html:39
+#: templates/2011/member.html:237
 msgid "TWA Membership"
 msgstr "TWA Mitgliedschaft"
 
-#: members/models.py:636
+#: members/models.py:651
 msgid "Payment Date"
 msgstr "Eingang der Zahlung"
 
-#: members/models.py:637
+#: members/models.py:652
 msgid "Payment for year"
 msgstr "Zahlung (Jahr)"
 
-#: members/models.py:638 templates/twa-member.html:147
+#: members/models.py:653 templates/twa-member.html:147
+#: templates/2011/member.html:321
 msgid "Cash"
 msgstr "Barzahlung"
 
-#: members/models.py:648 members/models.py:649
+#: members/models.py:663 members/models.py:664
 msgid "TWA Payment"
 msgstr "TWA Zahlung"
 
-#: members/models.py:654 members/models.py:831
+#: members/models.py:669 members/models.py:846
 msgid "File"
 msgstr "Datei"
 
-#: members/models.py:662
+#: members/models.py:677
 msgid "Document"
 msgstr "Dokument"
 
-#: members/models.py:663 templates/twa-member.html:192
-#: templates/members/person_detail.html:314
+#: members/models.py:678 templates/twa-member.html:192
+#: templates/2011/member.html:190 templates/members/person_detail.html:314
 msgid "Documents"
 msgstr "Dokumente"
 
-#: members/models.py:675 members/models.py:676 members/models.py:690
-#: members/models.py:732 members/models.py:733 members/models.py:734
-#: members/models.py:753 members/models.py:786 members/models.py:787
-#: members/models.py:788 members/models.py:804
+#: members/models.py:690 members/models.py:691 members/models.py:705
+#: members/models.py:747 members/models.py:748 members/models.py:749
+#: members/models.py:768 members/models.py:801 members/models.py:802
+#: members/models.py:803 members/models.py:819
 msgid "Title"
 msgstr "Titel"
 
-#: members/models.py:677 members/models.py:678 members/models.py:700
+#: members/models.py:692 members/models.py:693 members/models.py:715
 msgid "Content"
 msgstr "Inhalt"
 
-#: members/models.py:680 utils/__init__.py:9
+#: members/models.py:695 utils/__init__.py:9
 msgid "Public"
 msgstr "Öffentlich"
 
-#: members/models.py:681
+#: members/models.py:696
 msgid "Show in Menu"
 msgstr ""
 
-#: members/models.py:682
+#: members/models.py:697
 msgid "Menu Order"
 msgstr ""
 
-#: members/models.py:683 members/models.py:684 members/models.py:685
-#: members/models.py:695
+#: members/models.py:698 members/models.py:699 members/models.py:700
+#: members/models.py:710
 msgid "Menu"
 msgstr ""
 
-#: members/models.py:686 members/models.py:743 members/models.py:797
+#: members/models.py:701 members/models.py:758 members/models.py:812
 msgid "Markup"
 msgstr ""
 
-#: members/models.py:714 templates/pagination.html:4
+#: members/models.py:729 templates/pagination.html:4
 #: templates/paginator.html:11
 msgid "Page"
 msgstr "Seite"
 
-#: members/models.py:715
+#: members/models.py:730
 msgid "Pages"
 msgstr "Seiten"
 
-#: members/models.py:739 templates/2011/seminar-snippet.html:53
+#: members/models.py:754 templates/2011/seminar-snippet.html:57
 msgid "Venue"
 msgstr "Ort"
 
-#: members/models.py:742 templates/2011/seminar-snippet.html:32
+#: members/models.py:757 templates/2011/seminar-snippet.html:36
 msgid "Teacher"
 msgstr "Lehrer"
 
-#: members/models.py:745 templates/2011/seminar-snippet.html:39
+#: members/models.py:760 templates/2011/seminar-snippet.html:43
 msgid "Start Date"
 msgstr "Start Datum"
 
-#: members/models.py:746 templates/2011/seminar-snippet.html:46
+#: members/models.py:761 templates/2011/seminar-snippet.html:50
 msgid "End Date"
 msgstr "Ende Datum"
 
-#: members/models.py:773 members/models.py:833
+#: members/models.py:788 members/models.py:848
 msgid "Seminar"
 msgstr "Lehrgang"
 
-#: members/models.py:774 templates/2011/index.html:59
+#: members/models.py:789 templates/2011/index.html:59
 #: templates/2011/index.html.py:142 templates/2011/seminar-archive.html:6
 msgid "Seminars"
 msgstr "Lehrgänge"
 
-#: members/models.py:789 members/models.py:790 members/models.py:791
-#: members/models.py:809
+#: members/models.py:804 members/models.py:805 members/models.py:806
+#: members/models.py:824
 msgid "Preview"
 msgstr "Vorschau"
 
-#: members/models.py:825 members/models.py:826 members/models.py:832
+#: members/models.py:840 members/models.py:841 members/models.py:847
 #: templates/twa-index.html:44 templates/2011/index.html:58
 #: templates/2011/index.html.py:160 templates/2011/news-archive.html:6
 msgid "News"
 msgstr ""
 
-#: members/models.py:840
+#: members/models.py:855
 msgid "Attachment"
 msgstr "Anhang"
 
-#: members/models.py:841
+#: members/models.py:856
 msgid "Attachments"
 msgstr "Anhänge"
 
-#: members/models.py:852 requests/models.py:38
+#: members/models.py:867 requests/models.py:38
 msgid "Path"
 msgstr "Pfad"
 
-#: members/models.py:859
+#: members/models.py:874
 msgid "New"
 msgstr "Neu"
 
-#: members/models.py:870
+#: members/models.py:885
 msgid "Download"
 msgstr ""
 
-#: members/models.py:871 templates/twa-index.html:49
+#: members/models.py:886 templates/twa-index.html:49
 #: templates/2011/downloads.html:9
 msgid "Downloads"
 msgstr ""
 
-#: members/models.py:910
+#: members/models.py:925
 msgid "Weltverband für Tendoryu Aikido: Lehrgänge"
 msgstr ""
 
-#: members/models.py:930
+#: members/models.py:945
 msgid "World Association of Tendoryu Aikido: Seminars"
 msgstr "Weltverband für Tendoryu Aikido: Lehrgänge"
 
@@ -1105,8 +1125,9 @@ msgstr ""
 #: templates/twa-members-all.html:15 templates/twa-members.html:11
 #: templates/twa-news.html:14 templates/twa-suggestions.html:11
 #: templates/2011/downloads.html:13 templates/2011/downloads.html.py:44
-#: templates/2011/flatpage.html:14 templates/2011/news-snippet.html:18
-#: templates/2011/seminar-snippet.html:14
+#: templates/2011/flatpage.html:14 templates/2011/member.html:28
+#: templates/2011/member.html.py:241 templates/2011/member.html:342
+#: templates/2011/news-snippet.html:18 templates/2011/seminar-snippet.html:18
 #: templates/members/dojo_detail.html:14
 #: templates/members/person_detail.html:16
 #: templates/members/person_detail.html:210
@@ -1119,7 +1140,9 @@ msgstr "neu"
 #: templates/twa-member.html.py:111 templates/twa-member.html:166
 #: templates/twa-news.html:16 templates/2011/downloads.html:26
 #: templates/2011/downloads.html.py:45 templates/2011/flatpage.html:15
-#: templates/2011/news-snippet.html:19 templates/2011/seminar-snippet.html:15
+#: templates/2011/member.html:30 templates/2011/member.html.py:209
+#: templates/2011/member.html:248 templates/2011/member.html.py:349
+#: templates/2011/news-snippet.html:19 templates/2011/seminar-snippet.html:19
 #: templates/2011/teachers-mailinglist.html:39
 #: templates/members/association_detail.html:14
 #: templates/members/dojo_detail.html:15
@@ -1145,7 +1168,7 @@ msgstr ""
 msgid "Teachers"
 msgstr "Lehrer"
 
-#: templates/twa-index.html:51
+#: templates/twa-index.html:51 templates/2011/member.html:265
 msgid "Membership"
 msgstr "Mitgliedschaft"
 
@@ -1200,6 +1223,8 @@ msgstr ""
 #: templates/twa-license-requests.html:17
 #: templates/twa-member-requests.html:57 templates/twa-member.html:110
 #: templates/twa-member.html.py:165 templates/twa-members.html:42
+#: templates/2011/member.html:60 templates/2011/member.html.py:253
+#: templates/2011/member.html:354
 #: templates/members/license_requests_list.html:20
 #: templates/members/member_requests_list.html:21
 msgid "Status"
@@ -1208,7 +1233,9 @@ msgstr ""
 #: templates/twa-license-requests.html:22
 #: templates/twa-member-requests.html:62 templates/twa-member.html:65
 #: templates/twa-member.html.py:128 templates/twa-member.html:177
-#: templates/twa-suggestions.html:21
+#: templates/twa-suggestions.html:21 templates/2011/member.html:228
+#: templates/2011/member.html.py:272 templates/2011/member.html:278
+#: templates/2011/member.html.py:364 templates/2011/member.html:369
 #: templates/members/license_requests_list.html:24
 #: templates/members/member_requests_list.html:26
 #: templates/members/person_detail.html:234
@@ -1216,6 +1243,7 @@ msgid "Request"
 msgstr "Antrag"
 
 #: templates/twa-license-requests.html:23 templates/twa-member.html:183
+#: templates/2011/member.html:376 templates/2011/member.html.py:379
 #: templates/members/license_requests_list.html:25
 #: templates/members/person_detail.html:257
 msgid "Receipt"
@@ -1292,11 +1320,12 @@ msgstr "Filter nach twa Region"
 msgid "filter by dojo"
 msgstr "Filter nach Dojo"
 
-#: templates/twa-member.html:66
+#: templates/twa-member.html:66 templates/2011/member.html:229
 msgid "Confirmation"
 msgstr "Bestätigung"
 
-#: templates/twa-member.html:160 templates/members/person_detail.html:210
+#: templates/twa-member.html:160 templates/2011/member.html:338
+#: templates/members/person_detail.html:210
 #: templates/members/person_list.html:48
 msgid "TWA License"
 msgstr "TWA Lizenz"
@@ -1369,6 +1398,26 @@ msgstr "Keine News zur Zeit."
 msgid "Language"
 msgstr "Sprache"
 
+#: templates/2011/member.html:17
+msgid "no image"
+msgstr "kein Bild"
+
+#: templates/2011/member.html:51
+msgid "Current Rank"
+msgstr "Graduierung"
+
+#: templates/2011/member.html:66
+msgid "not a member"
+msgstr "nicht Mitglied"
+
+#: templates/2011/member.html:86
+msgid "Address"
+msgstr "Adresse"
+
+#: templates/2011/member.html:328
+msgid "no payments"
+msgstr "keine Zahlung"
+
 #: templates/2011/news-archive.html:12 templates/2011/seminar-archive.html:23
 msgid "by year"
 msgstr "nach Jahren"
@@ -1381,7 +1430,7 @@ msgstr "Übersicht"
 msgid ""
 "This article is not yet published. Check the \"public\" checkbox to publish "
 "it."
-msgstr ""
+msgstr "Dieser Artikel ist noch nicht veröffentlicht."
 
 #: templates/2011/seminar-archive.html:18
 msgid "current seminars"
@@ -1395,13 +1444,13 @@ msgstr "nach Städten"
 msgid "No seminars."
 msgstr "Keine Lehrgänge gefunden."
 
-#: templates/2011/seminar-snippet.html:20
+#: templates/2011/seminar-snippet.html:24
 msgid ""
 "This seminar is not yet published. Check the \"public\" checkbox to publish "
 "it."
-msgstr ""
+msgstr "Dieser Lehrgang ist noch nicht veröffentlicht."
 
-#: templates/2011/seminar-snippet.html:83
+#: templates/2011/seminar-snippet.html:87
 msgid "more information"
 msgstr "mehr Informationen"
 
