@@ -1,0 +1,68 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+<div class="grid_5 alpha">
+    <div class="section-header">
+        {% trans "Dojos" %}
+        <span class="meta small">({{ counter }})</span>
+    </div>
+
+    <div class="section-meta">
+        <div>
+            <div>{% trans "Country" %} ({{ countries|length }}):</div>
+            <ul class="overview">
+              {% for country in countries %}
+                  <li><a href="?s={{ country|urlencode }}" class="menu-entry{% ifequal search country %} active{% endifequal %}">{{ country }}</a></li>
+              {% endfor %}
+            </ul>
+        </div>
+
+        <div>
+            <div>{% trans "City" %} ({{ cities|length }}):</div>
+            <ul class="overview">
+                {% for city in cities %}
+                    <li><a href="?s={{ city }}" class="menu-entry{% ifequal search city %} active{% endifequal %}">{{ city }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="small">
+            <a href="/dojos/" class="menu-entry{% if not search %} active{% endif %}">{% trans "alle" %}</a>
+        </div>
+
+        <form action="." method="get" id="member_filter">
+            <small><div align="center">{% include "members/search.html" %}</div></small>
+        </form>
+    </div>
+</div>
+
+<div class="grid_19 omega">
+    <table width="100%">
+        <tr class="columnhover border">
+            <th>#</th>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "City" %}</th>
+            <th>{% trans "Country" %}</th>
+        </tr>
+        {% for dojo in object_list %}
+            <tr class="columnhover border">
+                {% with dojo.person_set.all|length as dojo_count %}
+                    <td align="right" class="small" title="{{ dojo_count }} {% trans "Members" %}">{{ dojo_count }}</td>
+                {% endwith %}
+                <td class=""><a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a></td>
+                <td class="">{{ dojo.city }}</td>
+                <td class="">{{ dojo.country.get_name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if is_paginated %}
+    <div class="white" align="center">
+        <small>{% paginator %}</small>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

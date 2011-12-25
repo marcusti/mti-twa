@@ -68,10 +68,10 @@
 
             {% if user.is_authenticated %}
                 <ul class="menu-logged-in">
-                    <li><a href="/birthdays/"{% ifequal menu "birthdays" %} class="active"{% endifequal %}>{% trans "Birthdays" %}</a></li> |
+                    <li><a href="/birthdays/" class='menu-entry{% if menu == "birthdays" %} selected{% endif %}'>{% trans "Birthdays" %}</a></li> |
                     <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a></li> |
-                    <li><a href="/dojos/"{% ifequal menu "dojos" %} class="active"{% endifequal %}>{% trans "Dojos" %}</a></li> |
-                    <li><a href="/members/"{% ifequal menu "members" %} class="active"{% endifequal %}>{% trans "Members" %}</a></li> |
+                    <li><a href="/dojos/" class='menu-entry{% if menu == "dojos" %} selected{% endif %}'>{% trans "Dojos" %}</a></li> |
+                    <li><a href="/members/" class='menu-entry{% if menu == "members" %} selected{% endif %}'>{% trans "Members" %}</a></li> |
                     <li><a href="/teachers/mailinglist/" class='{% if menu == "mailinglist" %} selected{% endif %}'>{% trans "Mailinglists" %}</a></li> |
                     <li><a href="/licenses/"{% ifequal menu "licenses" %} class="active"{% endifequal %}>{% trans "Licenses" %}</a></li> |
                     <li><a href="/graduations/"{% ifequal menu "graduations" %} class="active"{% endifequal %}>{% trans "Graduations" %}</a></li>

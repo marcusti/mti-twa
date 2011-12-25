@@ -10,6 +10,7 @@ import sys
 from PIL import Image
 from csvutf8 import UnicodeWriter
 from django import get_version
+from django.conf import settings
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -201,38 +202,32 @@ def birthdays(request):
 def dojos(request):
     '''Displays a list of Dojos.'''
 
+    qs = Dojo.dojos.ordered_by_lang(request.LANGUAGE_CODE)
+
     ctx = get_context(request)
     ctx['menu'] = 'dojos'
-
-    countries = []
-    for d in Dojo.dojos.values('country').order_by('country').distinct():
-        countries.append((str(d['country']), Country.objects.get(id=d['country']).get_name()))
-    ctx['counties'] = countries
-    ctx['cities'] = Dojo.dojos.values('city').order_by('city').distinct()
+    ctx['countries'] = Dojo.dojos.get_country_names(request.LANGUAGE_CODE)
+    ctx['cities'] = Dojo.dojos.get_city_names()
 
     if 's' in request.REQUEST:
         s = request.REQUEST['s']
         ctx['search'] = s
         if s:
-            qs = Dojo.dojos.filter(Q(name__icontains=s) |
-                                   Q(shortname__icontains=s) |
-                                   Q(text__icontains=s) |
-                                   Q(country__name__icontains=s) |
-                                   Q(country__name_de__icontains=s) |
-                                   Q(country__name_ja__icontains=s) |
-                                   Q(street__icontains=s) |
-                                   Q(zip__icontains=s) |
-                                   Q(city__icontains=s))
-        else:
-            qs = Dojo.dojos.all()
-    else:
-        qs = Dojo.dojos.all()
+            qs = qs.filter(Q(name__icontains=s) |
+                           Q(shortname__icontains=s) |
+                           Q(text__icontains=s) |
+                           Q(country__name__icontains=s) |
+                           Q(country__name_de__icontains=s) |
+                           Q(country__name_ja__icontains=s) |
+                           Q(street__icontains=s) |
+                           Q(zip__icontains=s) |
+                           Q(city__icontains=s))
 
     if 'sid' in request.REQUEST:
         sid = request.REQUEST['sid']
         ctx['searchid'] = sid
         if sid:
-            qs &= Dojo.dojos.filter(Q(id__icontains=sid))
+            qs &= qs.filter(Q(id__icontains=sid))
 
     ctx['counter'] = qs.count()
 
@@ -240,7 +235,7 @@ def dojos(request):
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name="twa-dojos.html")
+                       template_name="2011/dojos.html")
 
 
 @login_required
