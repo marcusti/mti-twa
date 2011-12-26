@@ -491,7 +491,7 @@ def licenses(request, twa_status=None, dojo_id=None):
 
     ctx = get_context(request)
     ctx['menu'] = 'licenses'
-    ctx['dojos'] = Dojo.dojos.filter(person__license__isnull=False, person__license__status=5).distinct().order_by('city', 'shortname', 'name')
+    ctx['sort'] = request.GET.get('sort', None)
 
     qs = License.objects.get_granted_licenses()
 
@@ -508,13 +508,20 @@ def licenses(request, twa_status=None, dojo_id=None):
         ctx['filtervalue'] = int(dojo_id)
         qs = qs.filter(person__dojos__id=dojo_id)
 
+    if ctx['sort'] == 'name':
+        qs = qs.order_by('person__firstname')
+    elif ctx['sort'] == 'dojo':
+        qs = qs.order_by('person__dojos__city', 'person__dojos')
+    elif ctx['sort'] == 'date':
+        qs = qs.order_by('-date', '-id')
+
     ctx['counter'] = qs.count()
 
     return object_list(request,
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name='twa-licenses.html')
+                       template_name='2011/licenses.html')
 
 
 @login_required
