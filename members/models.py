@@ -602,6 +602,9 @@ class TWAMembershipManager(models.Manager):
     def get_requested_memberships(self):
         return self.get_query_set().filter(status__gt=MEMBERSHIP_STATUS_EX)
 
+    def get_ex_members(self):
+        return super(TWAMembershipManager, self).get_query_set().filter(status=MEMBERSHIP_STATUS_EX)
+
     def get_next_id_for_country(self, country_code):
         try:
             country = Country.objects.get(code=country_code)

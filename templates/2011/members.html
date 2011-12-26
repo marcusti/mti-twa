@@ -11,7 +11,9 @@
     </div>
 
     <div class="section-meta">
-      {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
+        {% if perms.members.add_person %}
+            <a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>
+        {% endif %}
     </div>
 
     <table class="person-table" width="100%">
