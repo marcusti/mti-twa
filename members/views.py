@@ -209,19 +209,19 @@ def dojos(request):
     ctx['countries'] = Dojo.dojos.get_country_names(request.LANGUAGE_CODE)
     ctx['cities'] = Dojo.dojos.get_city_names()
 
-    if 's' in request.REQUEST:
-        s = request.REQUEST['s']
-        ctx['search'] = s
-        if s:
-            qs = qs.filter(Q(name__icontains=s) |
-                           Q(shortname__icontains=s) |
-                           Q(text__icontains=s) |
-                           Q(country__name__icontains=s) |
-                           Q(country__name_de__icontains=s) |
-                           Q(country__name_ja__icontains=s) |
-                           Q(street__icontains=s) |
-                           Q(zip__icontains=s) |
-                           Q(city__icontains=s))
+    if 'dojo' in request.REQUEST:
+        dojo = request.REQUEST['dojo']
+        ctx['dojo'] = dojo
+        if dojo:
+            qs = qs.filter(Q(name__icontains=dojo) |
+                           Q(shortname__icontains=dojo) |
+                           Q(text__icontains=dojo) |
+                           Q(country__name__icontains=dojo) |
+                           Q(country__name_de__icontains=dojo) |
+                           Q(country__name_ja__icontains=dojo) |
+                           Q(street__icontains=dojo) |
+                           Q(zip__icontains=dojo) |
+                           Q(city__icontains=dojo))
 
     if 'sid' in request.REQUEST:
         sid = request.REQUEST['sid']
@@ -251,7 +251,7 @@ def dojo(request, did=None):
                          object_id=did,
                          template_object_name='dojo',
                          extra_context=ctx,
-                         template_name="twa-dojo.html")
+                         template_name="2011/dojo.html")
 
 
 @login_required
@@ -268,7 +268,7 @@ def associations(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name="twa-associations.html")
+                       template_name="2011/associations.html")
 
 
 @login_required
@@ -285,7 +285,7 @@ def association(request, aid=None):
                          queryset=Association.objects.filter(id=aid),
                          object_id=aid,
                          template_object_name='association',
-                         template_name="twa-association.html",
+                         template_name="2011/association.html",
                          extra_context=ctx)
 
 
