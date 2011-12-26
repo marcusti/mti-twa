@@ -1481,3 +1481,15 @@ def dynamic_pages(request, path):
     return direct_to_template(request,
                               template='2011/flatpage.html',
                               extra_context=ctx)
+
+
+@login_required
+def exit_to_inactive(request):
+    if not request.user.is_superuser:
+        raise Http404
+    next = request.REQUEST.get('next', '/')
+    for membership in TWAMembership.objects.get_ex_members():
+        logging.debug(u'set to in_active: %s' % membership.person)
+        membership.person.is_active = False
+        membership.person.save()
+    return redirect_to(request, next)

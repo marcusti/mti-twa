@@ -84,12 +84,6 @@
                     <li><a href="/suggestions/"{% ifequal menu "suggestions" %} class="active"{% endifequal %}>{% trans "Suggestions" %}</a></li>
                 </ul>
 
-                {% if user.is_superuser %}
-                    <ul class="menu-logged-in">
-                        <li><a class='menu-entry delete {% if menu == "licensees" %} selected{% endif %}' href="/create-teachers-page/">{% trans "Create Teachers Page" %}</a></li>
-                    </ul>
-                {% endif %}
-
                 <ul class="menu-logged-in">
                     <li>
                         {% trans "Welcome" %},
@@ -111,6 +105,17 @@
                     <input type="text" id="s" name="s" value="{{ search }}" size="15" class="small" />
                     <input type="submit" id="search-go" value="{% trans "Search" %}" class="small" />
                 </form>
+
+                {% if user.is_superuser %}
+                    <ul class="small">
+                        <li>{% trans 'Superuser actions' %}</li>
+                        <ul class="menu-superuser">
+                            <li><a class='menu-entry delete' href="/create-teachers-page/">{% trans "Create Teachers Page" %}</a> //</li>
+                            <li><a class="menu-entry delete" href="/exit-to-inactive/?next={{ request.path }}">{% trans "Set 'TWA.Exit' to 'Person.InActive'" %}</a></li>
+                        </ul>
+                    </ul>
+                {% endif %}
+
           {% endif %}
         </div>
 
