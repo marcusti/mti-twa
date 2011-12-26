@@ -1,0 +1,42 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<div class="section-header">
+    {% trans "Associations" %}
+</div>
+
+<div class="section-meta">
+</div>
+
+<div>
+    <table width="100%">
+        <tr>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Contact' %}</th>
+            <th>{% trans 'Country' %}</th>
+        </tr>
+
+        {% for association in object_list %}
+            <tr class="columnhover border">
+                <td class="dojo"><a href="{{ association.get_absolute_url }}">{{ association.name }}</a></td>
+                <td>
+                    {% if association.contact %}
+                        <a href="/member/{{ association.contact.id }}/">{{ association.contact.firstname }} {{ association.contact.lastname }}</a>
+                    {% endif %}
+                </td>
+                <td class="small meta">{{ association.country.code }} - {{ association.province }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% if is_paginated %}
+    <div class="white" align="center">
+        <small>{% paginator %}</small>
+    </div>
+{% endif %}
+
+{% endblock %}

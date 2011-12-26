@@ -69,7 +69,7 @@
             {% if user.is_authenticated %}
                 <ul class="menu-logged-in">
                     <li><a href="/birthdays/" class='menu-entry{% if menu == "birthdays" %} selected{% endif %}'>{% trans "Birthdays" %}</a></li> |
-                    <li><a href="/associations/"{% ifequal menu "associations" %} class="active"{% endifequal %}>{% trans "Associations" %}</a></li> |
+                    <li><a href="/associations/" class='menu-entry{% if menu == "associations" %} selected{% endif %}'>{% trans "Associations" %}</a></li> |
                     <li><a href="/dojos/" class='menu-entry{% if menu == "dojos" %} selected{% endif %}'>{% trans "Dojos" %}</a></li> |
                     <li><a href="/members/" class='menu-entry{% if menu == "members" %} selected{% endif %}'>{% trans "Members" %}</a></li> |
                     <li><a href="/teachers/mailinglist/" class='{% if menu == "mailinglist" %} selected{% endif %}'>{% trans "Mailinglists" %}</a></li> |

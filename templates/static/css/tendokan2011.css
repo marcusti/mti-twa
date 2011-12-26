@@ -42,6 +42,7 @@ th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 .columnhover:hover {background-color: LemonChiffon;}
 .delete, .delete:hover {color: red;}
 .detailed {font-size: 1.6em;}
+.dojo {font-size: 1.2em;}
 .edit, .edit:hover {color: orange;}
 .flag{border:1px solid RoyalBlue;}
 .flatpage ul {list-style-type: circle;}

@@ -95,22 +95,10 @@ INSTALLED_APPS = (
     # 'rosetta',    # translating applications
     'south',      # db migrations
 
-    # 'debug_toolbar',
+    'debug_toolbar',
     'twa.members',
     # 'twa.requests',
  )
-
-# INTERNAL_IPS = ('127.0.0.1',)
-
-# DEBUG_TOOLBAR_CONFIG = {
-#     'INTERCEPT_REDIRECTS': False,
-#     'SHOW_TOOLBAR_CALLBACK': None,
-#     'EXTRA_SIGNALS': [],
-#     'HIDE_DJANGO_SQL': True,
-#     'SHOW_TEMPLATE_CONTEXT': True,
-#     'TAG': 'div',
-#     'ENABLE_STACKTRACES': True,
-# }
 
 try:
     from mysettings import *
