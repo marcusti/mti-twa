@@ -572,7 +572,7 @@ def graduations(request):
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name='twa-graduations.html')
+                       template_name='2011/graduations.html')
 
 
 @login_required

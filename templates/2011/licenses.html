@@ -43,7 +43,7 @@
         {% for license in object_list %}
         <tr class="columnhover border">
             <td class="dojo top"><a href="{{ license.person.get_absolute_url }}">{{ license.person }}</a></td>
-            <td class="small top">
+            <td class="top">
                 {% for dojo in license.person.dojos.all %}
                     <div><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></div>
                 {% endfor %}
