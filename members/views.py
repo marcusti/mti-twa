@@ -1277,10 +1277,11 @@ def news_preview(request, nid=None):
 
 def news(request, year=date.today().year, news_id=None):
     detailed = False
+    year = int(year)
 
     news = News.current_objects.get_query_set(request.user)
 
-    if int(year) < 1900:
+    if year < 2009:
         raise Http404
 
     if news_id is not None:
