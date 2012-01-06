@@ -1292,6 +1292,9 @@ def news(request, year=date.today().year, news_id=None):
         news_list_overview = news.filter(pub_date__year=year)
     else:
         news_list_overview = news.filter(pub_date__year=year)
+        while not news_list_overview:
+            year -= 1
+            news_list_overview = news.filter(pub_date__year=year)
         news_list_details = news_list_overview
         if news_list_details:
             year = news_list_details[0].pub_date.year
