@@ -425,7 +425,10 @@ def twa_region(request, region_id=None):
     ctx['filter'] = 'region'
 
     dojos = Dojo.dojos.none()
-    if region_id:
+    if region_id is None:
+        dojos = Dojo.dojos.filter(twa_region__isnull=True)
+        ctx['filter_value'] = 'None'
+    else:
         dojos = Dojo.dojos.filter(twa_region=region_id)
         ctx['filter_value'] = int(region_id)
     ctx['dojos'] = dojos
@@ -437,7 +440,7 @@ def twa_region(request, region_id=None):
                        queryset=dojos,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-region.html')
+                       template_name='2011/twa-region.html')
 
 
 @login_required
