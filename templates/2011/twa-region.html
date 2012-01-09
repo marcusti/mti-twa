@@ -20,6 +20,10 @@
 </div>
 
 <table width="100%">
+    <tr>
+        <th>{% trans 'City' %}</th>
+        <th>{% trans 'Dojo' %}</th>
+    </tr>
 {% for dojo in object_list %}
     <tr class="columnhover">
         <td>{{ dojo.city }}</td>
