@@ -541,7 +541,7 @@ def license_requests(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-license-requests.html')
+                       template_name='2011/license-requests.html')
 
 
 @login_required
