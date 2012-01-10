@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-09 07:08+0100\n"
+"POT-Creation-Date: 2012-01-10 11:52+0100\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,7 @@ msgstr "PLZ ist zu kurz."
 #: members/models.py:473 members/models.py:778 templates/twa-dojos.html:17
 #: templates/twa-dojos.html.py:35 templates/2011/dojos.html:21
 #: templates/2011/dojos.html.py:39 templates/2011/seminar-snippet.html:64
+#: templates/2011/twa-region.html:24
 #: templates/members/association_detail.html:55
 #: templates/members/dojo_detail.html:60 templates/members/dojo_list.html:33
 #: templates/members/person_detail.html:75
@@ -423,21 +424,28 @@ msgstr ""
 #: members/models.py:76 members/models.py:93
 #: templates/twa-member-requests.html:19
 #: templates/twa-member-requests.html:138
+#: templates/2011/member-requests.html:29
+#: templates/2011/member-requests.html:178
 msgid "open"
 msgstr "offen"
 
 #: members/models.py:77 members/models.py:94
 #: templates/twa-member-requests.html:20
 #: templates/twa-member-requests.html:139
+#: templates/2011/member-requests.html:30
+#: templates/2011/member-requests.html:200
 msgid "accepted"
 msgstr "akzeptiert"
 
 #: members/models.py:78 members/models.py:97
+#: templates/2011/member-requests.html:233
 msgid "rejected"
 msgstr "abgelehnt"
 
 #: members/models.py:79 members/models.py:98
 #: templates/twa-member-requests.html:23
+#: templates/2011/member-requests.html:33
+#: templates/2011/member-requests.html:189
 msgid "verify"
 msgstr "überprüfen"
 
@@ -447,19 +455,24 @@ msgstr "lizenziert"
 
 #: members/models.py:95 templates/twa-member-requests.html:22
 #: templates/twa-member-requests.html:140
+#: templates/2011/member-requests.html:32
+#: templates/2011/member-requests.html:222
 msgid "confirmed"
 msgstr "bestätigt"
 
 #: members/models.py:96 templates/twa-member-requests.html:21
 #: templates/twa-member-requests.html:141
+#: templates/2011/member-requests.html:31
+#: templates/2011/member-requests.html:211
 msgid "to be confirmed"
 msgstr "zu bestätigen"
 
 #: members/models.py:99 templates/twa-member-requests.html:142
+#: templates/2011/member-requests.html:255
 msgid "member"
 msgstr "Mitglied"
 
-#: members/models.py:100
+#: members/models.py:100 templates/2011/member-requests.html:244
 msgid "exit"
 msgstr "Austritt"
 
@@ -545,7 +558,8 @@ msgstr "Geschlecht"
 
 #: members/models.py:222 members/models.py:434 members/models.py:483
 #: members/models.py:530 members/models.py:582 members/models.py:630
-#: templates/info.html:13 templates/members/person_detail.html:189
+#: templates/info.html:13 templates/2011/info.html:15
+#: templates/members/person_detail.html:189
 msgid "Active"
 msgstr "Aktiv"
 
@@ -573,7 +587,9 @@ msgstr ""
 #: templates/twa-member-requests.html:59 templates/twa-members-all.html:21
 #: templates/twa-suggestions.html:17 templates/2011/associations.html:17
 #: templates/2011/dojos.html:38 templates/2011/graduations.html:22
-#: templates/2011/index.html:104 templates/2011/licenses.html:28
+#: templates/2011/index.html:104 templates/2011/info.html:13
+#: templates/2011/license-requests.html:21 templates/2011/licenses.html:28
+#: templates/2011/member-requests.html:77 templates/2011/suggestions.html:20
 #: templates/members/association_detail.html:19
 #: templates/members/association_list.html:21
 #: templates/members/dojo_detail.html:20 templates/members/dojo_list.html:41
@@ -662,8 +678,10 @@ msgstr "Verband"
 #: templates/twa-graduations.html:13 templates/twa-license-requests.html:20
 #: templates/twa-licenses.html:31 templates/twa-member-requests.html:60
 #: templates/twa-members-all.html:23 templates/2011/graduations.html:23
-#: templates/2011/licenses.html:29 templates/2011/member.html:36
-#: templates/members/dojo_counter.html:6 templates/members/dojo_detail.html:13
+#: templates/2011/license-requests.html:22 templates/2011/licenses.html:29
+#: templates/2011/member-requests.html:78 templates/2011/member.html:36
+#: templates/2011/twa-region.html:25 templates/members/dojo_counter.html:6
+#: templates/members/dojo_detail.html:13
 #: templates/members/graduation_list.html:21
 #: templates/members/graduation_suggestion_list.html:21
 #: templates/members/license_list.html:21
@@ -692,6 +710,7 @@ msgstr "Verbände"
 
 #: members/models.py:522 templates/twa-member.html:55
 #: templates/twa-suggestions.html:19 templates/2011/member.html:221
+#: templates/2011/suggestions.html:22
 #: templates/members/graduation_suggestion_list.html:23
 #: templates/members/person_detail.html:156
 msgid "Nominated By"
@@ -700,8 +719,9 @@ msgstr "Vorschlag von"
 #: members/models.py:524 members/models.py:717 members/models.py:834
 #: templates/info.html:55 templates/twa-graduations.html:15
 #: templates/twa-suggestions.html:20 templates/2011/graduations.html:25
-#: templates/2011/licenses.html:30 templates/2011/member.html:360
-#: templates/2011/seminar-snippet.html:43
+#: templates/2011/info.html:85 templates/2011/licenses.html:30
+#: templates/2011/member.html:360 templates/2011/seminar-snippet.html:43
+#: templates/2011/suggestions.html:23
 #: templates/members/graduation_list.html:23
 #: templates/members/graduation_suggestion_list.html:24
 msgid "Date"
@@ -709,6 +729,7 @@ msgstr "Datum"
 
 #: members/models.py:526 templates/twa-member.html:57
 #: templates/twa-suggestions.html:18 templates/2011/member.html:223
+#: templates/2011/suggestions.html:21
 #: templates/members/graduation_suggestion_list.html:22
 #: templates/members/person_detail.html:145
 msgid "Nomination"
@@ -804,13 +825,14 @@ msgstr "Antrag Dokument"
 
 #: members/models.py:642 templates/twa-member-requests.html:63
 #: templates/twa-member.html:67 templates/twa-member.html.py:143
-#: templates/2011/member.html:231 templates/2011/member.html.py:312
+#: templates/2011/member-requests.html:81 templates/2011/member.html:231
+#: templates/2011/member.html.py:312
 msgid "Payment"
 msgstr "Zahlung"
 
 #: members/models.py:655 templates/twa-member-requests.html:56
-#: templates/2011/licenses.html:31 templates/2011/member.html:60
-#: templates/2011/member.html.py:261
+#: templates/2011/licenses.html:31 templates/2011/member-requests.html:74
+#: templates/2011/member.html:60 templates/2011/member.html.py:261
 #: templates/members/member_requests_list.html:20
 msgid "TWA ID"
 msgstr ""
@@ -961,7 +983,7 @@ msgstr ""
 msgid "World Association of Tendoryu Aikido: Seminars"
 msgstr "Weltverband für Tendoryu Aikido: Lehrgänge"
 
-#: requests/models.py:36 templates/info.html:56
+#: requests/models.py:36 templates/info.html:56 templates/2011/info.html:86
 #: templates/registration/login.html:18
 msgid "User"
 msgstr "Benutzer"
@@ -1000,7 +1022,8 @@ msgid "Logout"
 msgstr "Abmelden"
 
 #: templates/base.html:45 templates/info.html:14 templates/twa-index.html:81
-#: templates/2011/index.html:97
+#: templates/2011/index.html:97 templates/2011/info.html:16
+#: templates/2011/member-requests.html:62
 msgid "Admin"
 msgstr "Verwaltung"
 
@@ -1023,7 +1046,7 @@ msgid "Suggestions"
 msgstr "Vorschläge"
 
 #: templates/base.html:76 templates/base.html.py:86
-#: templates/twa-region.html:28 templates/2011/twa-region.html:27
+#: templates/twa-region.html:28 templates/2011/twa-region.html:40
 msgid "Requests"
 msgstr "Anträge"
 
@@ -1037,11 +1060,13 @@ msgid "National Associations"
 msgstr "Landesverbände"
 
 #: templates/base.html:136 templates/twa-member-requests.html:9
+#: templates/2011/member-requests.html:9
 #: templates/members/member_requests_counter.html:5
 msgid "Requested TWA Membership"
 msgstr "Anträge auf TWA Mitgliedschaft"
 
 #: templates/base.html:146 templates/twa-license-requests.html:8
+#: templates/2011/license-requests.html:9
 #: templates/members/license_requests_counter.html:5
 msgid "Requested Licenses"
 msgstr "Anträge auf TWA Lizenz"
@@ -1051,6 +1076,7 @@ msgid "This Year's Graduations"
 msgstr "Graduierungen in diesem Jahr"
 
 #: templates/base.html:156 templates/twa-suggestions.html:8
+#: templates/2011/suggestions.html:9
 #: templates/members/graduation_suggestion_counter.html:5
 msgid "Suggestions of Graduation"
 msgstr "Vorschläge zur Graduierung"
@@ -1067,6 +1093,7 @@ msgstr "heute"
 
 #: templates/base.html:196 templates/twa-graduations.html:37
 #: templates/twa-index.html:134 templates/2011/graduations.html:44
+#: templates/2011/member-requests.html:142 templates/2011/twa-region.html:50
 #: templates/members/graduation_list.html:47
 #: templates/members/graduation_suggestion_list.html:51
 #: templates/members/license_list.html:45
@@ -1079,7 +1106,9 @@ msgstr "Keine"
 #: templates/twa-dojos.html:33 templates/twa-graduations.html:11
 #: templates/twa-index.html:88 templates/twa-member-requests.html:55
 #: templates/twa-members-all.html:20 templates/twa-suggestions.html:16
-#: templates/2011/index.html:104 templates/members/association_detail.html:23
+#: templates/2011/index.html:104 templates/2011/info.html:12
+#: templates/2011/member-requests.html:73 templates/2011/suggestions.html:19
+#: templates/members/association_detail.html:23
 #: templates/members/association_list.html:18
 #: templates/members/dojo_detail.html:24 templates/members/dojo_list.html:22
 #: templates/members/person_detail.html:45
@@ -1087,31 +1116,31 @@ msgstr "Keine"
 msgid "ID"
 msgstr ""
 
-#: templates/info.html:12
+#: templates/info.html:12 templates/2011/info.html:14
 msgid "Last Login"
 msgstr "Zuletzt angemeldet"
 
-#: templates/info.html:15
+#: templates/info.html:15 templates/2011/info.html:17
 msgid "Groups"
 msgstr "Gruppen"
 
-#: templates/info.html:18
+#: templates/info.html:18 templates/2011/info.html:20
 msgid "Superuser"
 msgstr "Administrator"
 
-#: templates/info.html:57
+#: templates/info.html:57 templates/2011/info.html:87
 msgid "Change Message"
 msgstr "Änderung"
 
-#: templates/info.html:67
+#: templates/info.html:67 templates/2011/info.html:111
 msgid "added"
 msgstr "hinzugefügt"
 
-#: templates/info.html:68
+#: templates/info.html:68 templates/2011/info.html:112
 msgid "deleted"
 msgstr "gelöscht"
 
-#: templates/info.html:78
+#: templates/info.html:78 templates/2011/info.html:123
 msgid "Technical Information"
 msgstr "Technische Informationen"
 
@@ -1144,10 +1173,11 @@ msgstr ""
 #: templates/2011/association.html:15 templates/2011/dojo.html:11
 #: templates/2011/downloads.html:13 templates/2011/downloads.html.py:44
 #: templates/2011/flatpage.html:14 templates/2011/graduations.html:14
-#: templates/2011/licenses.html:14 templates/2011/member.html:28
+#: templates/2011/license-requests.html:13 templates/2011/licenses.html:14
+#: templates/2011/member-requests.html:19 templates/2011/member.html:28
 #: templates/2011/member.html.py:242 templates/2011/member.html:343
 #: templates/2011/members.html:15 templates/2011/news-snippet.html:18
-#: templates/2011/seminar-snippet.html:18
+#: templates/2011/seminar-snippet.html:18 templates/2011/suggestions.html:14
 #: templates/members/dojo_detail.html:14
 #: templates/members/person_detail.html:16
 #: templates/members/person_detail.html:210
@@ -1237,6 +1267,7 @@ msgid "Official TWA Site"
 msgstr "Zur offiziellen TWA Seite"
 
 #: templates/twa-license-requests.html:16 templates/twa-licenses.html:28
+#: templates/2011/license-requests.html:18
 #: templates/members/license_list.html:19
 #: templates/members/license_requests_list.html:19
 msgid "LID"
@@ -1245,7 +1276,8 @@ msgstr ""
 #: templates/twa-license-requests.html:17
 #: templates/twa-member-requests.html:57 templates/twa-member.html:110
 #: templates/twa-member.html.py:165 templates/twa-members.html:42
-#: templates/2011/licenses.html:32 templates/2011/member.html:60
+#: templates/2011/license-requests.html:19 templates/2011/licenses.html:32
+#: templates/2011/member-requests.html:75 templates/2011/member.html:60
 #: templates/2011/member.html.py:254 templates/2011/member.html:355
 #: templates/members/license_requests_list.html:20
 #: templates/members/member_requests_list.html:21
@@ -1255,9 +1287,11 @@ msgstr ""
 #: templates/twa-license-requests.html:22
 #: templates/twa-member-requests.html:62 templates/twa-member.html:65
 #: templates/twa-member.html.py:128 templates/twa-member.html:177
-#: templates/twa-suggestions.html:21 templates/2011/member.html:229
+#: templates/twa-suggestions.html:21 templates/2011/license-requests.html:24
+#: templates/2011/member-requests.html:80 templates/2011/member.html:229
 #: templates/2011/member.html.py:273 templates/2011/member.html:279
 #: templates/2011/member.html.py:365 templates/2011/member.html:370
+#: templates/2011/suggestions.html:24
 #: templates/members/license_requests_list.html:24
 #: templates/members/member_requests_list.html:26
 #: templates/members/person_detail.html:234
@@ -1265,7 +1299,8 @@ msgid "Request"
 msgstr "Antrag"
 
 #: templates/twa-license-requests.html:23 templates/twa-member.html:183
-#: templates/2011/member.html:377 templates/2011/member.html.py:380
+#: templates/2011/license-requests.html:25 templates/2011/member.html:377
+#: templates/2011/member.html.py:380
 #: templates/members/license_requests_list.html:25
 #: templates/members/person_detail.html:257
 msgid "Receipt"
@@ -1285,9 +1320,10 @@ msgstr ""
 
 #: templates/twa-licenses.html:12 templates/twa-member-requests.html:18
 #: templates/twa-region.html:35 templates/2011/dojos.html:28
-#: templates/2011/licenses.html:20 templates/2011/twa-region.html:34
-#: templates/members/dojo_list.html:26 templates/members/dojo_list.html:35
-#: templates/members/person_list.html:42 templates/members/person_list.html:50
+#: templates/2011/licenses.html:20 templates/2011/member-requests.html:28
+#: templates/2011/twa-region.html:57 templates/members/dojo_list.html:26
+#: templates/members/dojo_list.html:35 templates/members/person_list.html:42
+#: templates/members/person_list.html:50
 msgid "all"
 msgstr "alle"
 
@@ -1305,8 +1341,8 @@ msgstr ""
 
 #: templates/twa-licenses.html:76 templates/twa-member-requests.html:130
 #: templates/twa-members-all.html:52 templates/twa-members.html:91
-#: templates/2011/licenses.html:67 templates/2011/members.html:98
-#: templates/members/license_list.html:58
+#: templates/2011/licenses.html:67 templates/2011/member-requests.html:160
+#: templates/2011/members.html:98 templates/members/license_list.html:58
 #: templates/members/license_requests_list.html:82
 #: templates/members/member_requests_list.html:86
 #: templates/members/person_list.html:107
@@ -1319,29 +1355,34 @@ msgid "Wrong username or password."
 msgstr "Benutzername oder Passwort ist falsch."
 
 #: templates/twa-member-requests.html:11
+#: templates/2011/member-requests.html:12
 msgid "filtered"
 msgstr "gefiltert"
 
 #: templates/twa-member-requests.html:17
+#: templates/2011/member-requests.html:25
 msgid "filter by status"
 msgstr "Filter nach Status"
 
 #: templates/twa-member-requests.html:24
+#: templates/2011/member-requests.html:34
 #: templates/members/person_counter.html:6
 #: templates/members/person_list.html:43
 msgid "Member"
 msgstr "Mitglied"
 
 #: templates/twa-member-requests.html:25
+#: templates/2011/member-requests.html:35
 msgid "Open Payment"
 msgstr "offene Zahlung"
 
 #: templates/twa-member-requests.html:30 templates/twa-region.html:15
-#: templates/2011/twa-region.html:14
+#: templates/2011/member-requests.html:40 templates/2011/twa-region.html:14
 msgid "filter by twa region"
 msgstr "Filter nach twa Region"
 
 #: templates/twa-member-requests.html:37
+#: templates/2011/member-requests.html:51
 msgid "filter by dojo"
 msgstr "Filter nach Dojo"
 
@@ -1440,6 +1481,38 @@ msgstr "Sprache"
 #: templates/2011/licenses.html:38
 msgid "sort"
 msgstr ""
+
+#: templates/2011/member-requests.html:181
+msgid "Open requests."
+msgstr "Offene Anträge"
+
+#: templates/2011/member-requests.html:192
+msgid "Consultation of Shimizu Sensei required."
+msgstr "Rücksprache mit Shimizu Sensei erforderlich."
+
+#: templates/2011/member-requests.html:203
+msgid "Request accepted by Shimizu Sensei."
+msgstr "Antrag von Shimizu Sensei akzeptiert."
+
+#: templates/2011/member-requests.html:214
+msgid "Confirmation email could not be sent. Individual confirmation required."
+msgstr "Bestätigungsmail konnte nicht zugestellt werden. Manuelle Bestätigung erforderlich."
+
+#: templates/2011/member-requests.html:225
+msgid "Confirmation email and payment request have been sent."
+msgstr "Bestätigungsmail und Zahlungsaufforderung sind versandt."
+
+#: templates/2011/member-requests.html:236
+msgid "Request rejected by Shimizu Sensei."
+msgstr "Antrag von Shimizu Sensei abgelehnt."
+
+#: templates/2011/member-requests.html:247
+msgid "Former member."
+msgstr "Ehemaliges Mitglied."
+
+#: templates/2011/member-requests.html:258
+msgid "After handing over the passport."
+msgstr "Nach Aushändigung des TWA-Passes."
 
 #: templates/2011/member.html:17
 msgid "no image"

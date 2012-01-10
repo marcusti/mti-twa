@@ -72,7 +72,7 @@
     <tr class="border">
         <th title="Eindeutige ID des Mitgliedschaftsantrags">{% trans "ID" %}</th>
         <th title="Manuell zu vergebende ID bestehend aus Länder-Code und laufender Nummer">{% trans "TWA ID" %}</th>
-        <th colspan="2">{% trans "Status" %}</th>
+        <th>{% trans "Status" %}</th>
         <th>
             {% trans "Name" %}
             <div class="small">{% trans "Dojo" %}</div>
@@ -99,15 +99,8 @@
             {% endif %}
         </td>
 
-        <td class="top status-{{ membership.status }}">
-            {% ifequal membership.status 10 %}
-                <img src="/static/images/kamon.png">
-            {% else %}
-                &nbsp;&nbsp;
-            {% endifequal %}
-        </td>
-
         <td class="top">
+            <span class="status-{{ membership.status }}">&nbsp;&nbsp;</span>
             {{ membership.get_status_display }}
         </td>
 
@@ -143,6 +136,12 @@
           {% endif %}
         </td>
     </tr>
+    {% empty %}
+    <tr class="meta">
+        <td>
+            {% trans 'None' %}
+        </td>
+    </tr>
     {% endfor %}
 </table>
 
@@ -152,7 +151,7 @@
     </div>
 {% endif %}
 
-{% if user.is_superuser %}
+{% if user.is_superuser and object_list %}
     <div class="small" align="center">
         <div>
             <a href="mailto:{% for membership in queryset %}{% if membership.person.email %}&quot;{{ membership.person.firstname|escape }} {{ membership.person.lastname|escape }}&quot; &lt;{{ membership.person.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}" class="edit menu-entry">Email an diese Auswahl</a>(ohne offene: {{ queryset|length }})
@@ -164,12 +163,93 @@
     </div>
 {% endif %}
 
+<br/>
+<br/>
+
 <table class="small">
-    <tr><th>Status</th><th>Kommentar</th></tr>
-    <tr><td>{% trans "open" %}</td><td> offene Anträge</td></tr>
-    <tr><td>{% trans "accepted" %}</td><td> von Shimizu Sensei akzeptierte Anträge</td></tr>
-    <tr><td>{% trans "confirmed" %}</td><td> Bestätigungsmail und Zahlungsaufforderung sind versandt.</td></tr>
-    <tr><td>{% trans "to be confirmed" %}</td><td> Bestätigungsmail konnte nicht zugestellt werden. Manuelle Bestätigung erforderlich.</td></tr>
-    <tr><td>{% trans "member" %}</td><td>Nach Aushändigung des TWA-Passes.</td></tr>
+    <tr>
+        <th>Status</th>
+        <th>Kommentar</th>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-1">&nbsp;&nbsp;</span>
+            {% trans "open" %}
+        </td>
+        <td>
+            {% trans 'Open requests.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-4">&nbsp;&nbsp;</span>
+            {% trans "verify" %}
+        </td>
+        <td>
+            {% trans 'Consultation of Shimizu Sensei required.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-2">&nbsp;&nbsp;</span>
+            {% trans "accepted" %}
+        </td>
+        <td>
+            {% trans 'Request accepted by Shimizu Sensei.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-6">&nbsp;&nbsp;</span>
+            {% trans "to be confirmed" %}
+        </td>
+        <td>
+            {% trans 'Confirmation email could not be sent. Individual confirmation required.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-5">&nbsp;&nbsp;</span>
+            {% trans "confirmed" %}
+        </td>
+        <td>
+            {% trans 'Confirmation email and payment request have been sent.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-3">&nbsp;&nbsp;</span>
+            {% trans "rejected" %}
+        </td>
+        <td>
+            {% trans 'Request rejected by Shimizu Sensei.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status--1">&nbsp;&nbsp;</span>
+            {% trans "exit" %}
+        </td>
+        <td>
+            {% trans 'Former member.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-10">&nbsp;&nbsp;</span>
+            {% trans "member" %}
+        </td>
+        <td>
+            {% trans 'After handing over the passport.' %}
+        </td>
+    </tr>
 </table>
 {% endblock %}

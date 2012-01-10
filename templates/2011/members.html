@@ -23,7 +23,10 @@
                 <!-- NAME, DOJO -->
 
                 <td class="top">
-                    <a href="{{ person.get_absolute_url }}">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
+                    <a href="{{ person.get_absolute_url }}" class="name">{{ person }}</a>
+                    {% if person.current_rank %}
+                        <span class="small">{{ person.current_rank }}</span>
+                    {% endif %}
                     <ul class="small">
                         {% for dojo in person.dojos.all %}
                             <li><a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a></li>
@@ -34,9 +37,6 @@
                 <!-- TWA STATUS -->
 
                 <td class="top">
-                    {% if person.is_member %}
-                        <img src="/static/images/kamon.png" alt="[member logo]" />
-                    {% endif %}
                 </td>
 
                 <!-- TWA ID -->
@@ -45,7 +45,10 @@
                     {% for membership in person.twamembership_set.all  %}
                         <div>
                             {{ membership.twa_id }}
-                            <span class="menu-entry status-{{ membership.status }}">{{ membership.get_status_display }}</span>
+                        </div>
+                        <div class="small">
+                            <span class="status-{{ membership.status }}">&nbsp;&nbsp;</span>
+                            <span>{{ membership.get_status_display }}</span>
                         </div>
                     {% endfor %}
                 </td>
@@ -55,17 +58,19 @@
                 <td class="top">
                     <div class="{% if not person.is_licensed and not person.is_license_requested %}meta{% endif %}">
                         {% trans "License" %}:
-                        {% if person.is_licensed %}
-                            {% for license in person.license_set.all %}
-                                {{ license.date|date:"Y-m-d" }}
-                            {% endfor %}
-                        {% else %}
-                            {% if person.is_license_requested %}
-                                {% trans "Requested" %}
+                        <div class="small">
+                            {% if person.is_licensed %}
+                                {% for license in person.license_set.all %}
+                                    {{ license.date|date:"Y-m-d" }}
+                                {% endfor %}
                             {% else %}
-                                -
+                                {% if person.is_license_requested %}
+                                    {% trans "Requested" %}
+                                {% else %}
+                                    -
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
+                        </div>
                     </div>
                 </td>
 

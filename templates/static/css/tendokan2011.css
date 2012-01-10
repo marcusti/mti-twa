@@ -64,6 +64,7 @@ th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 .menu-superuser {font-size: .8em; color: #888;}
 .meta {color: #888;}
 .middle {vertical-align: middle;}
+.name {font-size: 1.4em;}
 .new, .new:hover {color: green;}
 .news-content {margin-top: 10px;}
 .news-content ul {list-style-type:circle;}
@@ -86,13 +87,15 @@ th {font-size: 1.2em; font-weight: normal; padding-bottom: 10px;}
 .selected {background-color: SkyBlue; color: white;}
 .small {font-size: .8em;}
 .status-2, .status-6 {background-color: #90ff90; color: white;}
-tr:hover .status-2, .status-6 {background-color: #0f0; color: white;}
+tr:hover .status-2, tr:hover .status-6 {background-color: #0f0; color: white;}
 .status-5 {background-color: #9090ff; color: white;}
 tr:hover .status-5 {background-color: #00f; color: white;}
+.status-10 {background-color: Khaki; color: white;}
+tr:hover .status-10 {background-color: Gold; color: white;}
 .status-3, .status--1 {background-color: #ff9090; color: white;}
 tr:hover .status-3, tr:hover .status--1 {background-color: #f00; color: white;}
-.status-4 {background-color: #ffff90; color: white;}
-tr:hover .status-4 {background-color: #ff0; color: white;}
+.status-4 {background-color: Plum; color: white;}
+tr:hover .status-4 {background-color: Purple; color: white;}
 .top {vertical-align: top;}
 .tendo {color: white;}
 .worldaikido {color: #ccc;}
