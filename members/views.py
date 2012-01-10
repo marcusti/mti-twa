@@ -1400,23 +1400,22 @@ def downloads(request):
 def create_twa_ids(request):
     '''Create twa IDs and redirect to open member requests.'''
 
-    if request.user.is_superuser:
-        antraege = TWAMembership.objects.filter(twa_id_number=None).exclude(person__country__code='JP')
-        antraege = antraege.filter(Q(status=MEMBERSHIP_STATUS_ACCEPTED) |
-                                   Q(status=MEMBERSHIP_STATUS_CONFIRMED) |
-                                   Q(status=MEMBERSHIP_STATUS_TO_BE_CONFIRMED)
-                                   ).order_by('id')
-        for antrag in antraege:
-            dojos = antrag.person.dojos.all()
-            if dojos.count() > 0:
-                country = dojos[0].country
-            else:
-                country = antrag.person.country
-            antrag.twa_id_country = country
-            twa_id_number = TWAMembership.objects.get_next_id_for_country(country.code)
-            if twa_id_number is not None:
-                antrag.twa_id_number = twa_id_number
-                antrag.save()
+    antraege = TWAMembership.objects.filter(twa_id_number=None).exclude(person__country__code='JP')
+    antraege = antraege.filter(Q(status=MEMBERSHIP_STATUS_ACCEPTED) |
+                               Q(status=MEMBERSHIP_STATUS_CONFIRMED) |
+                               Q(status=MEMBERSHIP_STATUS_TO_BE_CONFIRMED)
+                               ).order_by('id')
+    for antrag in antraege:
+        dojos = antrag.person.dojos.all()
+        if dojos.count() > 0:
+            country = dojos[0].country
+        else:
+            country = antrag.person.country
+        antrag.twa_id_country = country
+        twa_id_number = TWAMembership.objects.get_next_id_for_country(country.code)
+        if twa_id_number is not None:
+            antrag.twa_id_number = twa_id_number
+            antrag.save()
 
     return member_requests(request, status=LICENSE_STATUS_OPEN)
 
