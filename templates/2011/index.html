@@ -94,8 +94,8 @@
                         {% endif %}
                     </li>
                     {% if user.is_staff %}
-                        <li><a href="/admin/" {% ifequal menu "admin" %} class="active"{% endifequal %}>{% trans "Admin" %}</a></li>
-                        <li><a href="/info/"{% ifequal menu "info" %} class="active"{% endifequal %}>{% trans "Info" %}</a></li>
+                        <li><a href="/admin/" class='{% if menu == "admin" %} selected{% endif %}'>{% trans "Admin" %}</a></li>
+                        <li><a href="/info/" class='{% if menu == "info" %} selected{% endif %}'>{% trans "Info" %}</a></li>
                     {% endif %}
                     <li><a href="/logout/" class="edit">{% trans "Logout" %}</a></li>
                 </ul>
