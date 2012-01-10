@@ -14,7 +14,7 @@
 </div>
 
 <table width="100%">
-  <tr>
+  <tr class="border">
     <th title="Eindeutige ID des Lizenzantrags">{% trans "LID" %}</th>
     <th>{% trans "Status" %}</th>
     <th>
@@ -26,7 +26,7 @@
   </tr>
 
 {% for license in object_list %}
-  <tr class="columnhover">
+  <tr class="columnhover border">
     <td class="top">
       {% if perms.members.change_license %}
         <a href="/admin/members/license/{{ license.id }}/" class="edit">{{ license.id }}</a>
@@ -35,7 +35,8 @@
       {% endif %}
     </td>
 
-    <td class="top status-{{ license.status }}">
+    <td class="top">
+      <span class="status-{{ license.status }}">&nbsp;&nbsp;</span>
       {{ license.get_status_display }}
     </td>
 

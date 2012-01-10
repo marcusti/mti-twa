@@ -20,16 +20,35 @@
 </div>
 
 <table width="100%">
-    <tr>
+    <tr class="border">
         <th>{% trans 'City' %}</th>
         <th>{% trans 'Dojo' %}</th>
+        <th></th>
+        <th></th>
     </tr>
 {% for dojo in object_list %}
-    <tr class="columnhover">
-        <td>{{ dojo.city }}</td>
-        <td><a href="/dojo/{{ dojo.id }}/">{{ dojo.name }}</a></td>
-        <td class="tx12g"><a href="/member-requests/dojo/{{ dojo.id }}/">{% trans "Requests" %}</a></td>
-        <td class="tx12g"><a href="/dojo/{{ dojo.id }}/csv/">csv</a></td>
+    <tr class="columnhover border">
+        <td class="top">
+            {{ dojo.city }}
+        </td>
+
+        <td class="top">
+            <a href="/dojo/{{ dojo.id }}/">{{ dojo.name }}</a>
+        </td>
+
+        <td class="top">
+            <a href="/member-requests/dojo/{{ dojo.id }}/">{% trans "Requests" %}</a>
+        </td>
+
+        <td class="top">
+            <a href="/dojo/{{ dojo.id }}/csv/">csv</a>
+        </td>
+    </tr>
+{% empty %}
+    <tr class="meta">
+        <td class="top">
+            {% trans 'None' %}
+        </td>
     </tr>
 {% endfor %}
 {% if filter_value != 'None' %}
