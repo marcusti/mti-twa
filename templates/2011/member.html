@@ -252,8 +252,8 @@
 
             <tr>
                 <td class="person-label top">{% trans "Status" %}:</td>
-                <td class="person-data status-{{ membership.status }}">
-                    {{ membership.get_status_display }}
+                <td class="person-data">
+                    <span class="menu-entry status-{{ membership.status }}">{{ membership.get_status_display }}</span>
                 </td>
             </tr>
 
