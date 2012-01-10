@@ -138,7 +138,7 @@ def info(request):
     else:
         ctx['logentries'] = LogEntry.objects.none()
 
-    return direct_to_template(request, template='info.html', extra_context=ctx)
+    return direct_to_template(request, template='2011/info.html', extra_context=ctx)
 
 
 def _get_photos():
