@@ -384,6 +384,7 @@ def member_requests(request, status=None, dojo_id=None, region_id=None, no_payme
 
     ctx = get_context(request)
     ctx['menu'] = 'member-requests'
+    ctx['filter'] = 'all'
 
     ctx['dojos'] = Dojo.dojos.filter(person__twamembership__isnull=False).distinct().order_by('city', 'shortname', 'name')
     ctx['regions'] = TWA_REGION
@@ -413,7 +414,7 @@ def member_requests(request, status=None, dojo_id=None, region_id=None, no_payme
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-member-requests.html')
+                       template_name='2011/member-requests.html')
 
 
 @login_required
