@@ -592,7 +592,7 @@ def suggestions(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-suggestions.html')
+                       template_name='2011/suggestions.html')
 
 
 @login_required
