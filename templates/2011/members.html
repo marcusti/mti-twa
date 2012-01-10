@@ -45,7 +45,7 @@
                     {% for membership in person.twamembership_set.all  %}
                         <div>
                             {{ membership.twa_id }}
-                            <span class="status-{{ membership.status }}">{{ membership.get_status_display }}</span>
+                            <span class="menu-entry status-{{ membership.status }}">{{ membership.get_status_display }}</span>
                         </div>
                     {% endfor %}
                 </td>
