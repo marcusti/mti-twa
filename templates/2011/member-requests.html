@@ -57,12 +57,16 @@
         {% endfor %}
     </div>
 
+    <div class="bottom-space">
+        {% trans 'Admin' %}:
+        <a href="/member-requests/twa-ids/" class="edit menu-entry">{% trans 'Create TWA IDs' %}</a>
+    </div>
+
     {% if user.is_superuser %}
         <div class="bottom-space">
             {% trans 'Admin' %}:
-            <a href="javascript:acceptopen()" class="edit menu-entry">offene akzeptieren</a> //
-            <a href="javascript:confirmationemail()" class="edit menu-entry">Bestätigungsemail versenden</a> //
-            <a href="/member-requests/twa-ids/" class="edit menu-entry">TWA IDs erzeugen</a>
+            <a href="javascript:acceptopen()" class="delete menu-entry">{% trans 'set all "open" requests to "accepted"' %}</a> //
+            <a href="javascript:confirmationemail()" class="delete menu-entry">{% trans 'Send confirmation emails' %}</a>
         </div>
     {% endif %}
 
