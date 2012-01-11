@@ -5,6 +5,7 @@ from datetime import date
 from datetime import datetime
 
 from PIL import Image
+from django.conf import settings
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.syndication.feeds import Feed
 from django.core.exceptions import MultipleObjectsReturned
@@ -186,7 +187,7 @@ class PersonManager(AllPersonsManager):
         liste = []
         persons = self.get_query_set().filter(birth__isnull=False)
         for person in persons:
-            if person.days() < 2:
+            if person.days() < 3:
                 liste.append(person)
         liste.sort()
         return liste
@@ -392,6 +393,25 @@ class DojoManager(models.Manager):
     def get_query_set(self):
         return super(DojoManager, self).get_query_set().filter(is_active=True, public=True)
 
+    def ordered_by_lang(self, lang=settings.LANGUAGE_CODE):
+        field_name = 'country__name'
+        if lang == 'de':
+            field_name += '_de'
+        elif lang == 'ja':
+            field_name += '_ja'
+        return self.get_query_set().order_by(field_name, 'city', 'name')
+
+    def get_country_names(self, lang=settings.LANGUAGE_CODE):
+        field_name = 'country__name'
+        if lang == 'de':
+            field_name += '_de'
+        elif lang == 'ja':
+            field_name += '_ja'
+        return self.get_query_set().order_by(field_name).values_list(field_name, flat=True).distinct()
+
+    def get_city_names(self):
+        return self.get_query_set().order_by('city').values_list('city', flat=True).distinct()
+
 
 class Dojo(AbstractModel):
     name = models.CharField(_('Name'), max_length=DEFAULT_MAX_LENGTH, unique=True)
@@ -537,7 +557,7 @@ class LicenseManager(models.Manager):
         return self.get_query_set().filter(is_active=True, public=True).exclude(status=LICENSE_STATUS_LICENSED)  # .exclude( status = LICENSE_STATUS_REJECTED )
 
     def get_granted_licenses(self):
-        return self.get_query_set().filter(status=LICENSE_STATUS_LICENSED, is_active=True, public=True).order_by('-id')
+        return self.get_query_set().filter(status=LICENSE_STATUS_LICENSED, is_active=True, public=True, person__is_active=True, person__public=True).order_by('-date', '-id')
 
     def get_public_licenses(self):
         return self.get_granted_licenses()
@@ -582,6 +602,9 @@ class TWAMembershipManager(models.Manager):
     def get_requested_memberships(self):
         return self.get_query_set().filter(status__gt=MEMBERSHIP_STATUS_EX)
 
+    def get_ex_members(self):
+        return super(TWAMembershipManager, self).get_query_set().filter(status=MEMBERSHIP_STATUS_EX)
+
     def get_next_id_for_country(self, country_code):
         try:
             country = Country.objects.get(code=country_code)
@@ -618,6 +641,9 @@ class TWAMembership(AbstractModel):
             return ''
     payment.short_description = _('Payment')
     payment.allow_tags = False
+
+    def get_payments(self):
+        return self.twapayment_set.all().order_by('-year', 'date')
 
     def twa_id(self):
         if self.twa_id_country is None or self.twa_id_number is None:
