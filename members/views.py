@@ -10,6 +10,7 @@ import sys
 from PIL import Image
 from csvutf8 import UnicodeWriter
 from django import get_version
+from django.conf import settings
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth import login
 from django.contrib.auth import logout
@@ -137,7 +138,7 @@ def info(request):
     else:
         ctx['logentries'] = LogEntry.objects.none()
 
-    return direct_to_template(request, template='info.html', extra_context=ctx)
+    return direct_to_template(request, template='2011/info.html', extra_context=ctx)
 
 
 def _get_photos():
@@ -201,38 +202,32 @@ def birthdays(request):
 def dojos(request):
     '''Displays a list of Dojos.'''
 
+    qs = Dojo.dojos.ordered_by_lang(request.LANGUAGE_CODE)
+
     ctx = get_context(request)
     ctx['menu'] = 'dojos'
+    ctx['countries'] = Dojo.dojos.get_country_names(request.LANGUAGE_CODE)
+    ctx['cities'] = Dojo.dojos.get_city_names()
 
-    countries = []
-    for d in Dojo.dojos.values('country').order_by('country').distinct():
-        countries.append((str(d['country']), Country.objects.get(id=d['country']).get_name()))
-    ctx['counties'] = countries
-    ctx['cities'] = Dojo.dojos.values('city').order_by('city').distinct()
-
-    if 's' in request.REQUEST:
-        s = request.REQUEST['s']
-        ctx['search'] = s
-        if s:
-            qs = Dojo.dojos.filter(Q(name__icontains=s) |
-                                   Q(shortname__icontains=s) |
-                                   Q(text__icontains=s) |
-                                   Q(country__name__icontains=s) |
-                                   Q(country__name_de__icontains=s) |
-                                   Q(country__name_ja__icontains=s) |
-                                   Q(street__icontains=s) |
-                                   Q(zip__icontains=s) |
-                                   Q(city__icontains=s))
-        else:
-            qs = Dojo.dojos.all()
-    else:
-        qs = Dojo.dojos.all()
+    if 'dojo' in request.REQUEST:
+        dojo = request.REQUEST['dojo']
+        ctx['dojo'] = dojo
+        if dojo:
+            qs = qs.filter(Q(name__icontains=dojo) |
+                           Q(shortname__icontains=dojo) |
+                           Q(text__icontains=dojo) |
+                           Q(country__name__icontains=dojo) |
+                           Q(country__name_de__icontains=dojo) |
+                           Q(country__name_ja__icontains=dojo) |
+                           Q(street__icontains=dojo) |
+                           Q(zip__icontains=dojo) |
+                           Q(city__icontains=dojo))
 
     if 'sid' in request.REQUEST:
         sid = request.REQUEST['sid']
         ctx['searchid'] = sid
         if sid:
-            qs &= Dojo.dojos.filter(Q(id__icontains=sid))
+            qs &= qs.filter(Q(id__icontains=sid))
 
     ctx['counter'] = qs.count()
 
@@ -240,7 +235,7 @@ def dojos(request):
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name="twa-dojos.html")
+                       template_name="2011/dojos.html")
 
 
 @login_required
@@ -256,7 +251,7 @@ def dojo(request, did=None):
                          object_id=did,
                          template_object_name='dojo',
                          extra_context=ctx,
-                         template_name="twa-dojo.html")
+                         template_name="2011/dojo.html")
 
 
 @login_required
@@ -273,7 +268,7 @@ def associations(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name="twa-associations.html")
+                       template_name="2011/associations.html")
 
 
 @login_required
@@ -290,7 +285,7 @@ def association(request, aid=None):
                          queryset=Association.objects.filter(id=aid),
                          object_id=aid,
                          template_object_name='association',
-                         template_name="twa-association.html",
+                         template_name="2011/association.html",
                          extra_context=ctx)
 
 
@@ -321,7 +316,7 @@ def members(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name="twa-members.html")
+                       template_name="2011/members.html")
 
 
 @login_required
@@ -336,13 +331,13 @@ def __get_members(request):
         ctx['search'] = s
         if s:
             try:
-                qs = Person.persons.filter(twamembership__twa_id_number=int(s))
+                qs = qs.filter(twamembership__twa_id_number=int(s))
             except:
-                qs = Person.persons.filter(
-                                           Q(firstname__icontains=s) |
-                                           Q(nickname__icontains=s) |
-                                           Q(lastname__icontains=s) |
-                                           Q(email__icontains=s))
+                qs = qs.filter(
+                                Q(firstname__icontains=s) |
+                                Q(nickname__icontains=s) |
+                                Q(lastname__icontains=s) |
+                                Q(email__icontains=s))
 
     if 'sort' in request.REQUEST:
         sort = request.REQUEST['sort']
@@ -357,7 +352,7 @@ def __get_members(request):
         sid = request.REQUEST['sid']
         ctx['searchid'] = sid
         if sid:
-            qs = Person.persons.filter(Q(id__exact=sid))
+            qs = qs.filter(Q(id__exact=sid))
 
     if qs is None:
         qs = Person.persons.all()
@@ -371,15 +366,15 @@ def member(request, mid=None):
 
     ctx = get_context(request)
     ctx['menu'] = 'members'
-    ctx['dojos'] = Dojo.dojos.filter(person__id=mid)
-    ctx['graduations'] = Graduation.objects.filter(person__id=mid)
-    ctx['documents'] = Document.objects.filter(person__id=mid)
+    # ctx['dojos'] = Dojo.dojos.filter(person__id=mid)
+    # ctx['graduations'] = Graduation.objects.filter(person__id=mid)
+    # ctx['documents'] = Document.objects.filter(person__id=mid)
 
     return object_detail(request,
                          queryset=Person.persons.filter(id=mid),
                          object_id=mid,
                          template_object_name='person',
-                         template_name='twa-member.html',
+                         template_name='2011/member.html',
                          extra_context=ctx)
 
 
@@ -389,6 +384,7 @@ def member_requests(request, status=None, dojo_id=None, region_id=None, no_payme
 
     ctx = get_context(request)
     ctx['menu'] = 'member-requests'
+    ctx['filter'] = 'all'
 
     ctx['dojos'] = Dojo.dojos.filter(person__twamembership__isnull=False).distinct().order_by('city', 'shortname', 'name')
     ctx['regions'] = TWA_REGION
@@ -418,7 +414,7 @@ def member_requests(request, status=None, dojo_id=None, region_id=None, no_payme
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-member-requests.html')
+                       template_name='2011/member-requests.html')
 
 
 @login_required
@@ -430,7 +426,10 @@ def twa_region(request, region_id=None):
     ctx['filter'] = 'region'
 
     dojos = Dojo.dojos.none()
-    if region_id:
+    if region_id is None:
+        dojos = Dojo.dojos.filter(twa_region__isnull=True)
+        ctx['filter_value'] = 'None'
+    else:
         dojos = Dojo.dojos.filter(twa_region=region_id)
         ctx['filter_value'] = int(region_id)
     ctx['dojos'] = dojos
@@ -442,7 +441,7 @@ def twa_region(request, region_id=None):
                        queryset=dojos,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-region.html')
+                       template_name='2011/twa-region.html')
 
 
 @login_required
@@ -496,7 +495,7 @@ def licenses(request, twa_status=None, dojo_id=None):
 
     ctx = get_context(request)
     ctx['menu'] = 'licenses'
-    ctx['dojos'] = Dojo.dojos.filter(person__license__isnull=False, person__license__status=5).distinct().order_by('city', 'shortname', 'name')
+    ctx['sort'] = request.GET.get('sort', None)
 
     qs = License.objects.get_granted_licenses()
 
@@ -513,13 +512,20 @@ def licenses(request, twa_status=None, dojo_id=None):
         ctx['filtervalue'] = int(dojo_id)
         qs = qs.filter(person__dojos__id=dojo_id)
 
+    if ctx['sort'] == 'name':
+        qs = qs.order_by('person__firstname')
+    elif ctx['sort'] == 'dojo':
+        qs = qs.order_by('person__dojos__city', 'person__dojos')
+    elif ctx['sort'] == 'date':
+        qs = qs.order_by('-date', '-id')
+
     ctx['counter'] = qs.count()
 
     return object_list(request,
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name='twa-licenses.html')
+                       template_name='2011/licenses.html')
 
 
 @login_required
@@ -536,7 +542,7 @@ def license_requests(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-license-requests.html')
+                       template_name='2011/license-requests.html')
 
 
 @login_required
@@ -570,7 +576,7 @@ def graduations(request):
                        queryset=qs,
                        paginate_by=100,
                        extra_context=ctx,
-                       template_name='twa-graduations.html')
+                       template_name='2011/graduations.html')
 
 
 @login_required
@@ -587,7 +593,7 @@ def suggestions(request):
                        queryset=qs,
                        paginate_by=50,
                        extra_context=ctx,
-                       template_name='twa-suggestions.html')
+                       template_name='2011/suggestions.html')
 
 
 @login_required
@@ -1395,23 +1401,22 @@ def downloads(request):
 def create_twa_ids(request):
     '''Create twa IDs and redirect to open member requests.'''
 
-    if request.user.is_superuser:
-        antraege = TWAMembership.objects.filter(twa_id_number=None).exclude(person__country__code='JP')
-        antraege = antraege.filter(Q(status=MEMBERSHIP_STATUS_ACCEPTED) |
-                                   Q(status=MEMBERSHIP_STATUS_CONFIRMED) |
-                                   Q(status=MEMBERSHIP_STATUS_TO_BE_CONFIRMED)
-                                   ).order_by('id')
-        for antrag in antraege:
-            dojos = antrag.person.dojos.all()
-            if dojos.count() > 0:
-                country = dojos[0].country
-            else:
-                country = antrag.person.country
-            antrag.twa_id_country = country
-            twa_id_number = TWAMembership.objects.get_next_id_for_country(country.code)
-            if twa_id_number is not None:
-                antrag.twa_id_number = twa_id_number
-                antrag.save()
+    antraege = TWAMembership.objects.filter(twa_id_number=None).exclude(person__country__code='JP')
+    antraege = antraege.filter(Q(status=MEMBERSHIP_STATUS_ACCEPTED) |
+                               Q(status=MEMBERSHIP_STATUS_CONFIRMED) |
+                               Q(status=MEMBERSHIP_STATUS_TO_BE_CONFIRMED)
+                               ).order_by('id')
+    for antrag in antraege:
+        dojos = antrag.person.dojos.all()
+        if dojos.count() > 0:
+            country = dojos[0].country
+        else:
+            country = antrag.person.country
+        antrag.twa_id_country = country
+        twa_id_number = TWAMembership.objects.get_next_id_for_country(country.code)
+        if twa_id_number is not None:
+            antrag.twa_id_number = twa_id_number
+            antrag.save()
 
     return member_requests(request, status=LICENSE_STATUS_OPEN)
 
@@ -1490,3 +1495,15 @@ def dynamic_pages(request, path):
     return direct_to_template(request,
                               template='2011/flatpage.html',
                               extra_context=ctx)
+
+
+@login_required
+def exit_to_inactive(request):
+    if not request.user.is_superuser:
+        raise Http404
+    next = request.REQUEST.get('next', '/')
+    for membership in TWAMembership.objects.get_ex_members():
+        logging.debug(u'set to in_active: %s' % membership.person)
+        membership.person.is_active = False
+        membership.person.save()
+    return redirect_to(request, next)
