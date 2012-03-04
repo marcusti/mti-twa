@@ -17,6 +17,7 @@ from django.utils import translation
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.translation import ugettext_lazy as _
 
+from twa.members import helpers
 from twa.members.helpers import MARKUP_MARKDOWN, MARKUP_REST, MARKUP_TEXTILE, MARKUP_TEXT, txt_to_html
 from twa.settings import DOCUMENTS_DIR
 from twa.utils import AbstractModel
@@ -293,10 +294,7 @@ class Person(AbstractModel):
 
     def age(self):
         try:
-            today = date.today()
-            if (self.birth.month < today.month) or (self.birth.month == today.month and self.birth.day <= today.day):
-                return today.year - self.birth.year
-            return today.year - self.birth.year - 1
+            return helpers.years_since(self.birth)
         except:
             return ''
     age.short_description = _('Age')
@@ -304,22 +302,11 @@ class Person(AbstractModel):
 
     def days(self):
         try:
-            if self.birth:
-                today = date.today()
-                year = today.year
-                if self.birth.month == 2 and self.birth.day == 29:
-                    while not calendar.isleap(year):
-                        year += 1
-                this_years_birthday = date(year, self.birth.month, self.birth.day)
-                if this_years_birthday < today:
-                    year = today.year + 1
-                    this_years_birthday = date(year, self.birth.month, self.birth.day)
-                return (this_years_birthday - today).days
-            else:
-                return 0
-        except:
+            return helpers.days_until(helpers.get_next_yearly_event(self.birth))
+        except Exception, ex:
             from django.core.mail import mail_admins
-            msg = 'error resolving days to birth %s for %s. today is %s' % (self.birth, self, date.today())
+            msg = 'error resolving days to birth %s for %s. today is %s\n%s'
+            msg = msg % (self.birth, self, date.today(), ex)
             mail_admins('Error', msg, fail_silently=True)
             return 9999
     days.short_description = _('Days')
