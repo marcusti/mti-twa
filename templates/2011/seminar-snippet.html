@@ -27,7 +27,31 @@
 
 <div class="news-content">
     {% if seminar.photo %}
-        <a href="{{ seminar.photo|thumbnail:'800x800' }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo-right" src="{{ seminar.photo|thumbnail:'200x200' }}" title="" alt="[{{ seminar.photo }}]" /></a>
+        <div class="align-right">
+            <a href="{{ seminar.photo|thumbnail:'800x800' }}"
+               class="highslide"
+               onclick="return hs.expand(this)"><img
+                    src="{{ seminar.photo|thumbnail:'128x128' }}"
+                    align="right"
+                    class="photo-right"
+                    title="[{{ seminar.photo }}]"
+                    alt="[{{ seminar.photo }}]" /></a>
+            <div class="highslide-caption">{{ seminar.get_title }}</div>
+        </div>
+    {% else %}
+        {% if seminar.teacher and seminar.teacher.photo %}
+        <div class="align-right">
+            <a href="/image/{{ seminar.teacher.photo.name }}/800x800/"
+               class="highslide"
+               onclick="return hs.expand(this)"><img
+                    src="/image/{{ seminar.teacher.photo.name }}/128x128/"
+                    align="right"
+                    class="photo-right"
+                    title="[{{ seminar.teacher }}]"
+                    alt="[{{ seminar.teacher }}]" /></a>
+            <div class="highslide-caption">{{ seminar.teacher }}</div>
+        </div>
+        {% endif %}
     {% endif %}
 
     <table>
