@@ -203,7 +203,10 @@ class Person(AbstractModel):
     name_prefix = models.CharField(_('Name Prefix'), max_length=5, choices=NAME_PREFIX, blank=True, null=True)
     text = models.TextField(_('Text'), blank=True, null=True)
     text_beirat = models.TextField(_('Text (Beirat)'), editable=False, blank=True, null=True)
-    photo = models.ImageField(_('Photo'), storage=doc_file_system, upload_to='photos/', null=True, blank=True)
+    photo = models.ImageField(_('Photo'), storage=doc_file_system, upload_to='photos/', null=True, blank=True,
+        help_text=_('This is used in non public sites, visible for logged in members only.'))
+    public_photo = models.ImageField(_('Public Photo'), upload_to='images/', null=True, blank=True,
+        help_text=_('This is used in public sites, for example seminar announcements.'))
 
     street = models.CharField(_('Street'), max_length=DEFAULT_MAX_LENGTH, blank=True, null=True)
     zip = models.CharField(_('Zip'), max_length=DEFAULT_MAX_LENGTH, blank=True, null=True)
@@ -767,8 +770,8 @@ class Seminar(AbstractModel):
     teacher = models.ForeignKey(Person, verbose_name=_('Teacher'), related_name='teacher', blank=True, null=True)
     markup = models.CharField(_('Markup'), max_length=DEFAULT_MAX_LENGTH, choices=MARKUP_CHOICES, default=MARKUP_TEXT, help_text=MARKUP_HELP)
 
-    start_date = models.DateField(_('Start Date'), default=date.today(), validators=[validate_not_before])
-    end_date = models.DateField(_('End Date'), blank=True, null=True, default=date.today(), validators=[validate_not_before])
+    start_date = models.DateField(_('Start'), default=date.today(), validators=[validate_not_before])
+    end_date = models.DateField(_('End'), blank=True, null=True, default=date.today(), validators=[validate_not_before])
 
     objects = models.Manager()
     public_objects = SeminarManager()

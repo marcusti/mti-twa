@@ -31,7 +31,7 @@
             <a href="{{ seminar.photo|thumbnail:'800x800' }}"
                class="highslide"
                onclick="return hs.expand(this)"><img
-                    src="{{ seminar.photo|thumbnail:'128x128' }}"
+                    src="{{ seminar.photo|thumbnail:'96x96' }}"
                     align="right"
                     class="photo-right"
                     title="[{{ seminar.photo }}]"
@@ -39,12 +39,12 @@
             <div class="highslide-caption">{{ seminar.get_title }}</div>
         </div>
     {% else %}
-        {% if seminar.teacher and seminar.teacher.photo %}
+        {% if seminar.teacher and seminar.teacher.public_photo %}
         <div class="align-right">
-            <a href="/image/{{ seminar.teacher.photo.name }}/800x800/"
+            <a href="{{ seminar.teacher.public_photo|thumbnail:'800x800' }}"
                class="highslide"
                onclick="return hs.expand(this)"><img
-                    src="/image/{{ seminar.teacher.photo.name }}/128x128/"
+                    src="{{ seminar.teacher.public_photo|thumbnail:'96x96' }}"
                     align="right"
                     class="photo-right"
                     title="[{{ seminar.teacher }}]"
@@ -58,20 +58,26 @@
         {% if seminar.teacher %}
         <tr>
             <td>{{ _('Teacher') }}:</td>
-            <td>{{ seminar.teacher }}{% if seminar.teacher.current_rank %}, {{ seminar.teacher.current_rank }}{% endif %}</td>
+            <td>
+            {% if user.is_authenticated %}
+                <a href="{{seminar.teacher.get_absolute_url}}">{{ seminar.teacher }}{% if seminar.teacher.current_rank %}, {{ seminar.teacher.current_rank }}{% endif %}</a>
+            {% else %}
+                {{ seminar.teacher }}{% if seminar.teacher.current_rank %}, {{ seminar.teacher.current_rank }}{% endif %}
+            {% endif %}
+            </td>
         </tr>
         {% endif %}
 
         {% if seminar.start_date %}
         <tr>
-            <td>{% if seminar.end_date %}{{ _('Start Date') }}{% else %}{{ _('Date') }}{% endif %}:</td>
+            <td>{% if seminar.end_date %}{{ _('Start') }}{% else %}{{ _('Date') }}{% endif %}:</td>
             <td>{{ seminar.start_date|date:"D, d. F Y" }}</td>
         {% endif %}
         </tr>
 
         {% if seminar.end_date %}
         <tr>
-            <td>{{ _('End Date') }}:</td>
+            <td>{{ _('End') }}:</td>
             <td>{{ seminar.end_date|date:"D, d. F Y" }}</td>
         </tr>
         {% endif %}
