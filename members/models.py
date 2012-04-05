@@ -746,9 +746,9 @@ class Page(FlatPage):
 class SeminarManager(models.Manager):
     def get_query_set(self, user=None):
         if user is None or not user.is_authenticated():
-            return super(SeminarManager, self).get_query_set().filter(public=True).order_by('start_date', 'end_date')
+            return super(SeminarManager, self).get_query_set().filter(public=True).order_by('start_date', 'end_date', 'title')
         else:
-            return super(SeminarManager, self).get_query_set().all().order_by('start_date', 'end_date')
+            return super(SeminarManager, self).get_query_set().all().order_by('start_date', 'end_date', 'title')
 
     def get_current(self, user=None):
         return self.get_query_set(user).filter(
