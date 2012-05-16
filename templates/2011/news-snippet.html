@@ -20,8 +20,8 @@
         </div>
     {% endif %}
 
-    {% if not news.public %}
-        <div class="preview">{% trans 'This article is not yet published. Check the "public" checkbox to publish it.' %}</div>
+    {% if not news.is_published %}
+        <div class="preview">{% trans 'This article is not yet published.' %}</div>
     {% endif %}
 </div>
 

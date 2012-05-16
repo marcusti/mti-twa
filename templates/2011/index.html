@@ -74,7 +74,7 @@
                 {% for page in flatpages %}
                     {% if page.show_in_menu %}
                         <li>
-                            <a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}{% if not page.public %} preview{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a>
+                            <a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}{% if not page.is_published %} preview{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a>
                             {% if not forloop.last %}|{% endif %}
                         </li>
                     {% endif %}
