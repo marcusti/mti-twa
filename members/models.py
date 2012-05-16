@@ -694,9 +694,9 @@ class Document(AbstractModel):
 class PageManager(models.Manager):
     def get_query_set(self, user=None):
         if user is None or not user.is_authenticated():
-            return super(PageManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+            return super(PageManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.utcnow())
         else:
-            return super(PageManager, self).get_query_set().filter(pub_date__lte=datetime.now())
+            return super(PageManager, self).get_query_set()
 
 
 class Page(FlatPage):
@@ -730,6 +730,10 @@ class Page(FlatPage):
 
     objects = models.Manager()
     current_objects = PageManager()
+
+    @property
+    def is_published(self):
+        return self.public and self.pub_date is not None and self.pub_date <= datetime.utcnow()
 
     def __unicode__(self):
         return self.title
@@ -804,10 +808,12 @@ class Seminar(AbstractModel):
 
 class NewsManager(models.Manager):
     def get_query_set(self, user=None):
+        query = super(NewsManager, self).get_query_set()
+
         if user is None or not user.is_authenticated():
-            return super(NewsManager, self).get_query_set().filter(public=True, pub_date__lte=datetime.now())
+            return query.filter(public=True, pub_date__lte=datetime.utcnow())
         else:
-            return super(NewsManager, self).get_query_set().filter(pub_date__lte=datetime.now())
+            return query
 
 
 class News(AbstractModel):
@@ -841,6 +847,10 @@ class News(AbstractModel):
         return getattr(self, "text_%s" % (language or translation.get_language()[:2]), "") or self.text
     get_text.short_description = _('Text')
     get_text.allow_tags = False
+
+    @property
+    def is_published(self):
+        return self.public and self.pub_date is not None and self.pub_date <= datetime.utcnow()
 
     def __unicode__(self):
         return self.title

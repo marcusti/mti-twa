@@ -1488,6 +1488,9 @@ def dynamic_pages(request, path):
         else:
             page = get_object_or_404(Page, public=True, url__iexact=path + '/')
 
+    if not request.user.is_authenticated() and not page.is_published:
+        raise Http404
+
     ctx = get_context(request)
     ctx['menu'] = page.get_menu()
     ctx['page'] = page

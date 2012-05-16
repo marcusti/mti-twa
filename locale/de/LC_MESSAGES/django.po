@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-26 15:14+0200\n"
+"POT-Creation-Date: 2012-05-16 14:28+0200\n"
 "PO-Revision-Date: 2010-02-13 16:30\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -318,7 +318,7 @@ msgid "5.Dan is required."
 msgstr "5. Dan muss angegeben werden."
 
 #: members/forms.py:178 members/models.py:206 members/models.py:342
-#: members/models.py:766 members/models.py:823
+#: members/models.py:766 members/models.py:825
 #: templates/members/person_list.html:55
 msgid "Photo"
 msgstr "Bild"
@@ -529,9 +529,9 @@ msgstr "Titel"
 #: members/models.py:204 members/models.py:410 members/models.py:459
 #: members/models.py:515 members/models.py:571 members/models.py:617
 #: members/models.py:667 members/models.py:763 members/models.py:764
-#: members/models.py:765 members/models.py:786 members/models.py:820
-#: members/models.py:821 members/models.py:822 members/models.py:842
-#: members/models.py:879 templates/2011/member.html:177
+#: members/models.py:765 members/models.py:786 members/models.py:822
+#: members/models.py:823 members/models.py:824 members/models.py:844
+#: members/models.py:885 templates/2011/member.html:177
 #: templates/2011/member.html.py:295
 #: templates/members/association_detail.html:95
 #: templates/members/dojo_detail.html:100
@@ -591,7 +591,7 @@ msgid "Dojos"
 msgstr ""
 
 #: members/models.py:250 members/models.py:407 members/models.py:457
-#: members/models.py:681 members/models.py:858 members/models.py:878
+#: members/models.py:681 members/models.py:864 members/models.py:884
 #: templates/base.html:170 templates/info.html:11
 #: templates/twa-associations.html:15 templates/twa-dojos.html:34
 #: templates/twa-graduations.html:12 templates/twa-index.html:88
@@ -728,7 +728,7 @@ msgstr "Verbände"
 msgid "Nominated By"
 msgstr "Vorschlag von"
 
-#: members/models.py:514 members/models.py:707 members/models.py:824
+#: members/models.py:514 members/models.py:707 members/models.py:826
 #: templates/info.html:55 templates/twa-graduations.html:15
 #: templates/twa-suggestions.html:20 templates/2011/graduations.html:25
 #: templates/2011/info.html:85 templates/2011/licenses.html:30
@@ -872,7 +872,7 @@ msgstr "Barzahlung"
 msgid "TWA Payment"
 msgstr "TWA Zahlung"
 
-#: members/models.py:682 members/models.py:859
+#: members/models.py:682 members/models.py:865
 msgid "File"
 msgstr "Datei"
 
@@ -887,8 +887,8 @@ msgstr "Dokumente"
 
 #: members/models.py:703 members/models.py:704 members/models.py:718
 #: members/models.py:760 members/models.py:761 members/models.py:762
-#: members/models.py:781 members/models.py:814 members/models.py:815
-#: members/models.py:816 members/models.py:832
+#: members/models.py:781 members/models.py:816 members/models.py:817
+#: members/models.py:818 members/models.py:834
 msgid "Title"
 msgstr "Titel"
 
@@ -913,7 +913,7 @@ msgstr ""
 msgid "Menu"
 msgstr ""
 
-#: members/models.py:714 members/models.py:771 members/models.py:825
+#: members/models.py:714 members/models.py:771 members/models.py:827
 msgid "Markup"
 msgstr ""
 
@@ -934,16 +934,15 @@ msgstr "Ort"
 msgid "Teacher"
 msgstr "Lehrer"
 
-#: members/models.py:773
-#, fuzzy
+#: members/models.py:773 templates/2011/seminar-snippet.html:73
 msgid "Start"
 msgstr "Start"
 
-#: members/models.py:774
+#: members/models.py:774 templates/2011/seminar-snippet.html:80
 msgid "End"
 msgstr "Ende"
 
-#: members/models.py:801 members/models.py:861
+#: members/models.py:801 members/models.py:867
 msgid "Seminar"
 msgstr "Lehrgang"
 
@@ -952,47 +951,47 @@ msgstr "Lehrgang"
 msgid "Seminars"
 msgstr "Lehrgänge"
 
-#: members/models.py:817 members/models.py:818 members/models.py:819
-#: members/models.py:837
+#: members/models.py:819 members/models.py:820 members/models.py:821
+#: members/models.py:839
 msgid "Preview"
 msgstr "Vorschau"
 
-#: members/models.py:853 members/models.py:854 members/models.py:860
+#: members/models.py:859 members/models.py:860 members/models.py:866
 #: templates/twa-index.html:44 templates/2011/index.html:71
 #: templates/2011/index.html.py:179 templates/2011/news-archive.html:6
 msgid "News"
 msgstr ""
 
-#: members/models.py:868
+#: members/models.py:874
 msgid "Attachment"
 msgstr "Anhang"
 
-#: members/models.py:869
+#: members/models.py:875
 msgid "Attachments"
 msgstr "Anhänge"
 
-#: members/models.py:880 requests/models.py:38
+#: members/models.py:886 requests/models.py:38
 msgid "Path"
 msgstr "Pfad"
 
-#: members/models.py:887
+#: members/models.py:893
 msgid "New"
 msgstr "Neu"
 
-#: members/models.py:898
+#: members/models.py:904
 msgid "Download"
 msgstr ""
 
-#: members/models.py:899 templates/twa-index.html:49
+#: members/models.py:905 templates/twa-index.html:49
 #: templates/2011/downloads.html:9
 msgid "Downloads"
 msgstr ""
 
-#: members/models.py:938
+#: members/models.py:944
 msgid "Weltverband für Tendoryu Aikido: Lehrgänge"
 msgstr ""
 
-#: members/models.py:958
+#: members/models.py:964
 msgid "World Association of Tendoryu Aikido: Seminars"
 msgstr "Weltverband für Tendoryu Aikido: Lehrgänge"
 
@@ -1439,9 +1438,8 @@ msgid "No Dojo found"
 msgstr ""
 
 #: templates/2011/flatpage.html:20
-msgid ""
-"This page is not yet published. Check the \"public\" checkbox to publish it."
-msgstr ""
+msgid "This page is not yet published."
+msgstr "Diese Seite ist noch nicht veröffentlicht."
 
 #: templates/2011/index.html:73
 msgid "Become a Member"
@@ -1563,9 +1561,7 @@ msgid "Overview"
 msgstr "Übersicht"
 
 #: templates/2011/news-snippet.html:24
-msgid ""
-"This article is not yet published. Check the \"public\" checkbox to publish "
-"it."
+msgid "This article is not yet published."
 msgstr "Dieser Artikel ist noch nicht veröffentlicht."
 
 #: templates/2011/seminar-archive.html:18
@@ -1581,18 +1577,8 @@ msgid "No seminars."
 msgstr "Keine Lehrgänge gefunden."
 
 #: templates/2011/seminar-snippet.html:24
-msgid ""
-"This seminar is not yet published. Check the \"public\" checkbox to publish "
-"it."
+msgid "This seminar is not yet published."
 msgstr "Dieser Lehrgang ist noch nicht veröffentlicht."
-
-#: templates/2011/seminar-snippet.html:73
-msgid "Start Date"
-msgstr "Start Datum"
-
-#: templates/2011/seminar-snippet.html:80
-msgid "End Date"
-msgstr "Ende Datum"
 
 #: templates/2011/seminar-snippet.html:117
 msgid "more information"
