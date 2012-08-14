@@ -102,20 +102,21 @@
             <td>{{ seminar.country.get_name }}</td>
         </tr>
         {% endif %}
-
     </table>
 
+</div>
+
+<div class="news-footer">
+{% if not detailed %}
+    {% if seminar.attachment_set.all or seminar.get_text %}
+        <a href="{{ seminar.get_absolute_url }}" class="overview">[{% trans 'more information' %}]</a>
+    {% endif %}
+{% else %}
     {% if seminar.get_text %}
         {% autoescape off %}
             {{ seminar.get_text|urlize|linebreaks }}
         {% endautoescape %}
     {% endif %}
-</div>
-
-<div class="news-footer">
-{% if not detailed and seminar.attachment_set.all %}
-    <a href="{{ seminar.get_absolute_url }}" class="overview">[{% trans 'more information' %}]</a>
-{% else %}
   {% for attachment in seminar.attachment_set.all  %}
       <ul class="{% if not detailed %}overview{% endif %}">
         <li>
