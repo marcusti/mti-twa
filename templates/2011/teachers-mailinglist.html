@@ -36,7 +36,7 @@
             {% with person=license.person %}
                 <div>
                     <a href="mailto:{{ person.email }}">{{ person.get_name }}</a>
-                    {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+                    {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}
                 </div>
             {% endwith %}
         {% endfor %}
