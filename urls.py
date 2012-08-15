@@ -31,7 +31,7 @@ newsfeed = {
 }
 
 urlpatterns += patterns('',
-    (r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': newsfeed}),
+    (r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed', {'feed_dict': newsfeed}),
     )
 
 urlpatterns += patterns('twa.members.views',

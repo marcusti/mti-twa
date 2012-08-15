@@ -13,7 +13,7 @@
     </div>
 
     {% if perms.members.add_association %}<a href="/admin/members/association/add/" class="new">{% trans "new" %}</a>{% endif %}
-    {% if perms.members.change_association %} // <a href="/admin/members/association/{{ association.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+    {% if perms.members.change_association %} // <a href="/admin/members/association/{{ association.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}
 </div>
 
 <div class="grid_12 alpha">
