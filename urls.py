@@ -23,15 +23,11 @@ if settings.DEBUG:
         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
         )
 
-newsfeed = {
-    'news-de': NewsDeFeed,
-    'news-en': NewsEnFeed,
-    'seminars': SeminarDeFeed,
-    'seminars-en': SeminarEnFeed,
-}
-
 urlpatterns += patterns('',
-    (r'^feed/(?P<url>.*)/$', 'django.contrib.syndication.views.Feed', {'feed_dict': newsfeed}),
+        (r'^feed/news-de', NewsDeFeed()),
+        (r'^feed/news-en', NewsEnFeed()),
+        (r'^feed/seminars', SeminarDeFeed()),
+        (r'^feed/seminars-en', SeminarEnFeed()),
     )
 
 urlpatterns += patterns('twa.members.views',
