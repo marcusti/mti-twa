@@ -1,0 +1,41 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "ID" %}</th>
+    <th>
+      {% trans "Country" %}<br/>
+      <div class="tx12">{% trans "Province" %}</div>
+    </th>
+    <th>
+      {% trans "Name" %}<br/>
+      <div class="tx12">{% trans "Contact" %}</div>
+    </th>
+  </tr>
+
+{% for association in object_list %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td class="tx12g">{{ association.id }}</td>
+    <td class="tx12g">
+      {{ association.country.get_name }}
+      <div class="tx12g">{{ association.province }}</div>
+    </td>
+    <td>
+      <a href="{{ association.get_absolute_url }}">{{ association.name }}</a>
+      <div class="tx12g">{% if association.contact %}<a href="/member/{{ association.contact.id }}/">{{ association.contact.firstname }} {{ association.contact.lastname }}</a>{% endif %}</div>
+    </td>
+  </tr>
+{% endfor %}
+</table>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% endblock %}

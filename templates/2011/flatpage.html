@@ -1,0 +1,43 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+{% load markup %}
+
+{% block content %}
+<div class="flatpage">
+    <div class="detailed">
+        {{ page.get_title }}
+    </div>
+
+    <div class="news-meta">
+        {% if user.is_authenticated %}
+            <div>
+                <a href="/admin/members/page/add/" class="new">{{ _('new') }}</a> //
+                <a href="/admin/members/page/{{ page.id }}/" class="edit">{{ _('edit') }}</a>
+            </div>
+        {% endif %}
+
+        {% if not page.is_published %}
+            <div class="preview">{% trans 'This page is not yet published.' %}</div>
+        {% endif %}
+    </div>
+
+    <div class="news-content">
+        {% if page.markup == 'markdown' %}
+            {{ page.get_content|markdown }}
+        {% endif %}
+        {% if page.markup == 'restructuredtext' %}
+            {{ page.get_content|restructuredtext }}
+        {% endif %}
+        {% if page.markup == 'textile' %}
+            {{ page.get_content|textile }}
+        {% endif %}
+        {% if page.markup == 'text' %}
+            {{ page.get_content|urlize|linebreaks }}
+        {% endif %}
+    </div>
+
+    <div class="news-footer">
+        &nbsp;
+    </div>
+</div>
+{% endblock %}

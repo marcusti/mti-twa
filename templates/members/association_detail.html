@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<table>
+  <colgroup>
+    <col width="25%">
+    <col width="*">
+  </colgroup>
+
+  <tr>
+    <th colspan="2">
+      {% trans "National Association" %}
+      {% if perms.members.change_association %} | <a href="/admin/members/association/{{ association.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+    </th>
+  </tr>
+
+  <tr>
+    <td>{% trans "Name" %}:</td>
+    <td><b>{{ association.name }}</b></td>
+  </tr>
+  <tr>
+    <td>{% trans "ID" %}:</td>
+    <td>{{ association.id }}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Dojo Leader" %}:</td>
+    <td>
+      {% if association.contact %}
+        {% if user.is_authenticated %}
+          <a href="{{ association.contact.get_absolute_url }}">{{ association.contact }}</a>
+        {% else %}
+          {{ association.contact }}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Street" %}:</td>
+    <td>{{ association.street }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Zip" %}, {% trans "City" %}:</td>
+    <td>{{ association.zip }} {{ association.city }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Country" %}:</td>
+    <td>{{ association.country.get_name|default:"" }}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Phone" %}:</td>
+    <td>{{ association.phone }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Fax" %}:</td>
+    <td>{{ association.fax }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Mobile" %}:</td>
+    <td>{{ association.mobile }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Email" %}:</td>
+    <td>{% if person.email %}<a href="mailto:{{ association.email }}">{{ association.email }}</a>{% endif %}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Website" %}:</td>
+    <td>{% if association.website %}<a href="{{ association.website }}" target="_blank">{{ association.website }}</a>{% endif %}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Text" %}:</td>
+    <td>{{ association.text|linebreaksbr }}</td>
+  </tr>
+
+  <tr>
+    <td colspan="2" class="white">&nbsp;</td>
+  </tr>
+
+  {% if user.is_authenticated %}
+  <tr>
+    <th colspan="2">{% trans "Dojos" %}</th>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>
+    <ul>
+    {% for dojo in association.dojo_set.all %}
+      <li><a href="{{ dojo.get_absolute_url }}">{{ dojo.name }}</a></li>
+    {% endfor %}
+    </ul>
+    </td>
+  </tr>
+  {% endif %}
+
+</table>
+
+<p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ association.last_modified }}</small></p>
+{% endblock %}

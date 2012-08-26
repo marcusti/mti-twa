@@ -1,0 +1,65 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="section-header">
+    {% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}
+</div>
+
+<div class="section-meta">
+    {% if perms.members.add_dojo %}<a href="/admin/members/dojo/add/" class="new">{% trans "new" %}</a>{% endif %}
+    {% if perms.members.change_dojo %} // <a href="/admin/members/dojo/{{ dojo.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}
+</div>
+
+<div class="grid_12 alpha">
+    <h4>{% trans 'Contact' %}</h4>
+
+    <div class="bottom-space">
+        {% trans "Dojo Leader" %}:
+        <div>
+            {% if dojo.leader %}
+                {% if user.is_authenticated %}
+                    <a href="{{ dojo.leader.get_absolute_url }}">{{ dojo.leader }}</a>
+                {% else %}
+                    {{ dojo.leader }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    {% if dojo.association %}
+    <div class="small bottom-space">
+        {% trans "National Association" %}:
+        <div><a href="{{ dojo.association.get_absolute_url  }}">{{ dojo.association }}</a></div>
+    </div>
+    {% endif %}
+
+    <div class="small">
+        {{ dojo.street }}<br/>
+        {{ dojo.country.code }}-{{ dojo.zip }} {{ dojo.city }}<br/>
+        {{ dojo.country.get_name }}<br/>
+        {% if dojo.phone %}{{ dojo.phone }}<br/>{% endif %}
+        {% if dojo.fax %}{{ dojo.fax }} ({% trans "Fax" %})<br/>{% endif %}
+        {% if dojo.mobile %}{{ dojo.mobile }}<br/>{% endif %}
+        {% if dojo.email %}<a href="mailto:{{ dojo.email }}">{{ dojo.email }}</a><br/>{% endif %}
+        {% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a><br/>{% endif %}
+    </div>
+
+  {% if dojo.text %}
+  <div class="small">
+    {{ dojo.text|linebreaksbr }}
+  </div>
+  {% endif %}
+
+</div>
+
+<div class="grid_12 omega">
+    <h4>{% trans 'Members' %} <span class="small meta">({{ members|length }})</span></h4>
+    {% for person in members %}
+      <div><a href="{{ person.get_absolute_url }}">{{ person }}</a></div>
+    {% endfor %}
+</div>
+<div class="clear"></div>
+
+{% endblock %}

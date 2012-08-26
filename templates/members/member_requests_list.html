@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<form action="." method="get" id="member_filter">
+
+<table>
+  <tr>
+    <td class="white bottom">
+      {% include "members/member_requests_counter.html" %}<br/>{% paginator %}
+    </td>
+  </tr>
+</table>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "Request ID" %}</th>
+    <th>{% trans "TWA ID" %}</th>
+    <th>{% trans "Status" %}</th>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Dojo" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "Age" %}</th>
+    <th>{% trans "Request" %}</th>
+  </tr>
+
+{% for membership in object_list %}
+  <tr class="{% cycle 'row1' 'row2' %}">
+    <td>
+    {% if perms.members.change_twamembership %}
+      <a href="/admin/members/twamembership/{{ membership.id }}/" class="edit">{{ membership.id }}</a>
+    {% else %}
+      {{ membership.id }}
+    {% endif %}
+    </td>
+
+    <td>
+      {{ membership.twa_id|default:"" }}
+    </td>
+
+    <td class="status-{{ membership.status }}">
+      {{ membership.get_status_display }}
+    </td>
+
+    <td>
+      <a href="{{ membership.person.get_absolute_url }}">{{ membership.person }}</a>
+    </td>
+
+    <td>
+      <ul>{% for dojo in membership.person.dojos.all %}<li><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></li>{% endfor %}</ul>
+    </td>
+
+    <td>
+      {{ membership.person.current_rank }}
+    </td>
+
+    <td>
+      {{ membership.person.age }}
+    </td>
+
+    <td>
+      {{ membership.request|default:"" }}
+      {% if membership.request_doc %}<span class="smaller leftpad"><a href="{{ membership.request_doc.url }}">{{ membership.request_doc|slice:"-3:" }}</a></span>{% endif %}
+    </td>
+  </tr>
+{% endfor %}
+
+{% if object_list|length_is:"0" %}
+  <tr>
+    <td class="" colspan="7">
+      {% trans "None" %}
+    </td>
+  </tr>
+{% endif %}
+
+  <tr>
+    <td class="white" colspan="7">
+      {% paginator %}
+    </td>
+  </tr>
+
+  <tr>
+    <td class="white meta" colspan="7">
+      {% trans "Export to" %} <a href="/member-requests/xls/">xls</a>
+    </td>
+  </tr>
+</table>
+</form>
+
+{% endblock %}

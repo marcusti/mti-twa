@@ -1,0 +1,81 @@
+{% extends "twa-index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Licenses" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<div class=""  align="center">
+  <p class="tx10g" align="center">
+  {% trans "Filter" %}:<br/>
+    <a href="/licenses/" class="menu-entry{% if not filter %} active{% endif %}">{% trans "all" %}</a>
+    <a href="/licenses/twa/" class="menu-entry{% ifequal filter "twa" %} active{% endifequal %}">{% trans "mit TWA" %}</a>
+    <a href="/licenses/notwa/" class="menu-entry{% ifequal filter "nontwa" %} active{% endifequal %}">{% trans "ohne TWA" %}</a>
+  {% if perms.members.add_license %}<a href="/admin/members/license/add/" class="edit menu-entry">{% trans "new" %}</a>{% endif %}
+  </p>
+
+  <p class="tx10g" align="center">
+  {% trans "Dojos" %} ({{ dojos|length }}):<br/>
+  {% for dojo in dojos %}
+    <a href="/licenses/dojo/{{ dojo.id }}/" class="menu-entry{% ifequal filter "dojo" %}{% ifequal filtervalue dojo.id %} active{% endifequal %}{% endifequal %}">{{ dojo }}</a>
+  {% endfor %}
+  </p>
+</div>
+
+<table class="columnhover">
+  <tr>
+    <th>{% trans "LID" %}</th>
+    <th>
+      {% trans "Name" %}
+      <div class="tx10">{% trans "Dojo" %}</div>
+    </th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "License" %}</th>
+    <th>{% trans "TWA" %}</th>
+  </tr>
+
+{% for license in object_list %}
+  <tr class="">
+
+    <td class="tx12g" align="">
+      {% if perms.members.change_license %}
+        <a href="/admin/members/license/{{ license.id }}/" class="edit">{{ license.id }}</a>
+      {% else %}
+        {{ license.id }}
+      {% endif %}
+    </td>
+
+    <td>
+      <a href="{{ license.person.get_absolute_url }}">{{ license.person }}</a>
+      <div class="tx10g">
+      {% for dojo in license.person.dojos.all %}
+        <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
+      {% endfor %}
+      </div>
+    </td>
+
+    <td class="tx12">{{ license.person.current_rank }}</td>
+
+    <td class="tx12g">{{ license.date|date:"Y-m-d" }}</td>
+
+    <td class="tx12g">{{ license.person.twa_status }}</td>
+  </tr>
+{% endfor %}
+</table>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% if user.is_superuser %}
+<div class="white" align="center">
+  <small>
+    <br/>{% trans "Export to" %} <a href="/licenses/xls/">xls</a>
+  </small>
+</div>
+{% endif %}
+
+{% endblock %}

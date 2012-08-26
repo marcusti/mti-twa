@@ -1,0 +1,46 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>
+  {% trans "TWA Region" %}
+</h1>
+
+<div class=""  align="center">
+
+  <p class="tx10g" align="center">
+  {% trans "filter by twa region" %} ({{ regions|length }}):<br/>
+  {% for region in regions %}
+  <a href="/twa-region/region/{{ region|first }}/" class="menu-entry{% ifequal filter 'region' %}{% ifequal region.0 filter_value %} filter{% endifequal %}{% endifequal%}">{{ region.1 }}</a>
+  {% endfor %}
+  </p>
+
+</div>
+
+<table class="columnhover">
+{% for dojo in object_list %}
+    <tr>
+        <td>{{ dojo.city }}</td>
+        <td><a href="/dojo/{{ dojo.id }}/">{{ dojo.name }}</a></td>
+        <td class="tx12g"><a href="/member-requests/dojo/{{ dojo.id }}/">{% trans "Requests" %}</a></td>
+        <td class="tx12g"><a href="/dojo/{{ dojo.id }}/csv/">csv</a></td>
+    </tr>
+{% endfor %}
+{% if filter_value %}
+    <tr>
+        <td colspan="2"></td>
+        <td colspan="2" class="tx12g"><a href="/region/{{ filter_value }}/csv/">csv ({% trans "all" %})</a></td>
+    </tr>
+{% endif %}
+</table>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small><br/>
+</div>
+{% endif %}
+
+{% endblock %}

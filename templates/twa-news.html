@@ -1,0 +1,44 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+{% if news %}
+<h2>{{ news.get_title }}</h2>
+
+<p class="tx12g" align="center">{{ news.pub_date|date:"l, d. F Y" }}</p>
+
+<p class="tx12g"  align="center">
+  {% if perms.members.add_news %}<a href="/admin/members/news/add/" class="edit">{% trans "new" %}</a>{% endif %}
+  {% if perms.members.add_news and perms.members.change_news %} | {% endif %}
+  {% if perms.members.change_news %}<a href="/admin/members/news/{{ news.id }}" class="edit">{% trans "edit" %}</a>{% endif %}
+</p>
+
+{% autoescape off %}
+<p>
+    {% if news.photo %}
+        <a href="{{ news.photo|thumbnail:'600x600' }}" class="highslide" onclick="return hs.expand(this)"><img align="right" class="photo" src="{{ news.photo|thumbnail:'200x200' }}" title="" alt="[{{ news.photo }}]" /></a>
+    {% endif %}
+
+    {{ news.get_preview|urlize|linebreaks }}
+    {{ news.get_text|urlize|linebreaks }}
+</p>
+{% endautoescape %}
+
+<div>
+{% for attachment in news.attachment_set.all  %}
+    <p>
+      <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
+      <span class="small">
+      ({{ attachment.file|extension|lower }},
+      {{ attachment.file.size|filesizeformat }})
+      </span>
+    </p>
+{% endfor %}
+</div>
+
+{% endif %}
+
+{% endblock %}

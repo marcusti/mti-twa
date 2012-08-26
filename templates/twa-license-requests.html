@@ -1,0 +1,78 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Requested Licenses" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_license %}<a href="/admin/members/license/add/" class="edit">{% trans "new" %}</a>{% endif %}
+</div>
+
+<table class="columnhover">
+  <tr>
+    <th title="Eindeutige ID des Lizenzantrags">{% trans "LID" %}</th>
+    <th colspan="2">{% trans "Status" %}</th>
+    <th>
+      {% trans "Name" %}
+      <div class="tx10">{% trans "Dojo" %}</div>
+    </th>
+    <th>{% trans "Request" %}</th>
+    <th>{% trans "Receipt" %}</th>
+  </tr>
+
+{% for license in object_list %}
+  <tr>
+    <td class="tx12g" align="">
+      {% if perms.members.change_license %}
+        <a href="/admin/members/license/{{ license.id }}/" class="edit">{{ license.id }}</a>
+      {% else %}
+        {{ license.id }}
+      {% endif %}
+    </td>
+
+    <td class="status-{{ license.status }}">
+      &nbsp;&nbsp;
+    </td>
+
+    <td class="tx12g">
+      {{ license.get_status_display }}
+    </td>
+
+    <td>
+      <a href="{{ license.person.get_absolute_url }}">{{ license.person }}</a>
+      <div class="tx10g">
+      {% for dojo in license.person.dojos.all %}
+        <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
+      {% endfor %}
+      </div>
+    </td>
+
+    <td class="tx12g">
+      {% if license.request %}{{ license.request|date:"Y-m-d" }}{% endif %}
+      {% if license.request_doc %}
+        <div class="tx10g"><a href="/document/{{ license.request_doc.name }}">{{ license.request_doc|extension|lower }}</a></div>
+      {% endif %}
+    </td>
+
+    <td class="tx12g">
+      {% if license.receipt %}{{ license.receipt|date:"Y-m-d" }}{% endif %}
+      {% if license.receipt_doc %}
+        <div class="tx10g"><a href="/document/{{ license.receipt_doc.name }}">{{ license.receipt_doc|extension|lower }}</a></div>
+      {% endif %}
+      {% if not license.receipt and not license.receipt_doc %}&nbsp;{% endif %}
+    </td>
+
+  </tr>
+{% endfor %}
+</table>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% endblock %}

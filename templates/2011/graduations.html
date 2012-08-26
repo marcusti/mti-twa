@@ -1,0 +1,57 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+{% load l10n %}
+{% load twa_tags %}
+
+{% block content %}
+    <div class="section-header">
+        {% trans "Graduations" %} {% now "Y" %} <span class="small meta">({{ counter|localize }})</span>
+    </div>
+
+    <div class="section-meta">
+        <div class="bottom-space">
+            {% if perms.members.add_graduation %}
+                <a href="/admin/members/graduation/add/" class="new">{% trans "new" %}</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+<table width="100%">
+  <tr>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Dojo" %}</th>
+    <th>{% trans "Rank" %}</th>
+    <th>{% trans "Date" %}</th>
+  </tr>
+
+{% for graduation in object_list %}
+  <tr class="columnhover border {% cycle 'row1' 'row2' %}">
+    <td class="dojo top"><a href="{{ graduation.person.get_absolute_url }}">{{ graduation.person }}</a></td>
+    <td class="top">
+        {% for dojo in graduation.person.dojos.all %}
+            <div><a href="{{ dojo.get_absolute_url }}">{{ dojo }}</a></div>
+        {% endfor %}
+    </td>
+    <td class="top">{{ graduation }}</td>
+    <td class="top">{{ graduation.date|date:"Y-m-d"|default:"" }}</td>
+  </tr>
+{% endfor %}
+
+{% if object_list|length_is:"0" %}
+  <tr>
+    <td class="meta" colspan="6">
+      {% trans "None" %}
+    </td>
+  </tr>
+{% endif %}
+</table>
+
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% endblock %}

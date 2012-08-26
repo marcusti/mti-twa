@@ -1,0 +1,65 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+{% load markup %}
+
+{% block content %}
+<div class="grid_8 alpha">
+    <div class="section-header">
+        {{ _('Downloads') }}
+    </div>
+    <div class="section-meta">
+        {% if perms.members.add_download %}
+            <a href="/admin/members/download/add/" class="new">{{ _('new') }}</a>
+        {% endif %}
+    </div>
+
+    {% for download in downloads %}
+        <div class="news-content">
+            {% if download.datei|exists %}
+                <div>
+                    <a href="/static/{{ download.datei.name }}">{{ download.name }}</a>
+                    <br/>
+                    <div class="tx12g">
+                      {{ download.datei.size|filesizeformat }},
+                      {{ download.datei|extension|lower }}
+                      {% if perms.members.change_download %}<a class="edit tx12g" href="/admin/members/download/{{ download.id }}/">{% trans "edit" %}</a>{% endif %}
+                    </div>
+                    {% if download.neu %}<span class="edit">{% trans "NEU" %}</span>{% endif %}
+                    {% if download.text %}<ul><li>{{ download.text|linebreaksbr }}</li></ul>{% endif %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="grid_16 omega">
+    <div class="section-header">
+        {{ membership.get_title }}
+    </div>
+
+    <div class="section-meta">
+        {% if user.is_authenticated %}
+            <div>
+                <a href="/admin/members/page/add/" class="new">{{ _('new') }}</a> //
+                <a href="/admin/members/page/{{ membership.id }}/" class="edit">{{ _('edit') }}</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div>
+        {% if membership.markup == 'markdown' %}
+            {{ membership.get_content|markdown }}
+        {% endif %}
+        {% if membership.markup == 'restructuredtext' %}
+            {{ membership.get_content|restructuredtext }}
+        {% endif %}
+        {% if membership.markup == 'textile' %}
+            {{ membership.get_content|textile }}
+        {% endif %}
+        {% if membership.markup == 'text' %}
+            {{ membership.get_content|urlize|linebreaks }}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

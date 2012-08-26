@@ -1,0 +1,394 @@
+{% extends "2011/index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+<div class="grid_24">
+    <div class="section-header">
+        {% if person.photo %}
+            <img src="/image/{{ person.photo.name }}/300x400/"
+                 class="photo photo-right"
+                 align="right"
+                 alt="[{{ person.firstname }} {{ person.lastname }}]"
+                 title="{{ person.firstname }} {{ person.lastname }}"
+                 />
+        {% else %}
+            <div class="meta small align-right">({% trans 'no image' %})</div>
+        {% endif %}
+
+        {{ person }}
+
+        {% if person.is_member %}
+          <img src="/static/images/kamon.png" align="" title="{% trans 'TWA Member' %}">
+        {% endif %}
+    </div>
+
+    <div class="section-meta">
+        {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="new">{% trans "new" %}</a>{% endif %}
+        {% if perms.members.add_person and perms.members.change_person %} // {% endif %}
+        {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}
+    </div>
+
+    <table class="person-table">
+        <tr class="large">
+            <td class="person-label top">
+                {% trans 'Dojo' %}:
+            </td>
+            <td class="person-data">
+                {% for dojo in person.dojos.all %}
+                    <div>
+                        <a href="{{ dojo.get_absolute_url }}">{% if dojo.name_jp %}{{ dojo.name_jp }} {% endif %}{{ dojo.name }}</a>
+                    </div>
+                {% empty %}
+                    -
+                {% endfor %}
+            </td>
+        </tr>
+
+        <tr class="large">
+            <td class="person-label">
+                {% trans 'Current Rank' %}:
+            </td>
+            <td class="person-data">
+                {{ person.current_rank|default:"-" }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label">
+                {% trans 'TWA ID' %} ({% trans 'Status' %}):
+            </td>
+            <td class="person-data">
+                {% if person.is_member %}
+                    {{ person.twa_id }} ({{ person.twa_status }})
+                {% else %}
+                    ({% trans 'not a member' %})
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label top">
+                {% trans 'Aikido' %}:
+            </td>
+            <td class="person-data">
+                {% if person.aikido_since %}
+                    {{ person.aikido_since|date:"Y-m-d" }} ({{ person.aikido_since|timesince }})
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label top">
+                {% trans 'Address' %}:
+            </td>
+            <td class="person-data">
+                {% if person.street %}{{ person.street }}<br/>{% endif %}
+                {% if person.zip or person.city %}{{ person.country.code }}-{{ person.zip }} {{ person.city }}<br/>{% endif %}
+                {% if person.country %}{{ person.country.get_name }}{% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Phone' %}:
+            </td>
+            <td class="person-data">
+                {{ person.phone|default:"-" }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Mobile' %}:
+            </td>
+            <td class="person-data">
+                {{ person.mobile|default:"-" }}
+            </td>
+        </tr>
+
+        {% if person.fax %}
+        <tr>
+            <td class="person-label">
+                {% trans 'Fax' %}:
+            </td>
+            <td class="person-data">
+                {{ person.fax|default:"-" }}
+            </td>
+        </tr>
+        {% endif %}
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Email' %}:
+            </td>
+            <td class="person-data">
+                {% if person.email %}
+                    <a href="mailto:{{ person.firstname }} {{ person.lastname }} <{{ person.email }}>">{{ person.email }}</a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+
+        {% if person.website %}
+        <tr>
+            <td class="person-label">
+                {% trans 'Website' %}:
+            </td>
+            <td class="person-data">
+                <a href="{{ person.website }}">{{ person.website }}</a>
+            </td>
+        </tr>
+        {% endif %}
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Birth' %}:
+            </td>
+            <td class="person-data">
+                {{ person.birth|date:"Y-m-d"|default:"-" }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Age' %}:
+            </td>
+            <td class="person-data">
+                {{ person.age|default:"-" }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Gender' %}:
+            </td>
+            <td class="person-data">
+                {{ person.get_gender_display }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Text' %}:
+            </td>
+            <td class="person-data">
+                {% if person.text %}
+                    {{ person.text|linebreaksbr }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="person-label">
+                {% trans 'Documents' %}:
+            </td>
+            <td class="person-data">
+                {% for document in person.document_set.all %}
+                    <div><a href="/document/{{ document.file.name }}">{{ document.name }}</a></div>
+                {% empty %}
+                    -
+                {% endfor %}
+            </td>
+        </tr>
+
+    </table>
+</div>
+<div class="clear"></div>
+
+<div class="grid_8 alpha">
+    <h4>{% trans 'Graduations' %}</h4>
+
+    <div class="section-meta">
+        {% if perms.members.add_graduation %}
+            {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}
+        {% endif %}
+    </div>
+
+    {% for grad in person.graduations.all %}
+        <div class="{% if grad.is_nomination %}meta{% endif %}">
+            <div>{{ grad }}</div>
+            <ul class="small">
+                {% if grad.is_nomination %}
+                    <li>
+                        {% if grad.nominated_by %}
+                            {% trans "Nominated By" %} {{ grad.nominated_by }}
+                        {% else %}
+                            {% trans "Nomination" %}
+                        {% endif %}
+                    </li>
+                {% endif %}
+                {% if grad.date %}<li>{{ grad.date|date:"Y-m-d" }} ({{ grad.date|timesince }})</li>{% endif %}
+                {% if grad.text %}<li>{{ grad.text|linebreaksbr }}</li>{% endif %}
+                {% if grad.request_doc %}<li><a href="/document/{{ grad.request_doc.name }}">{% trans "Request" %}</a> {{ grad.request_doc|extension|lower}}</li>{% endif %}
+                {% if grad.confirmation_doc %}<li><a href="/document/{{ grad.confirmation_doc.name }}">{% trans "Confirmation" %}</a> {{ grad.confirmation_doc|extension|lower}}</li>{% endif %}
+                {% if grad.payment_doc %}<li><a href="/document/{{ grad.payment_doc.name }}">{% trans "Payment" %}</a> {{ grad.payment_doc|extension|lower}}</li>{% endif %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="grid_8">
+    <h4>{% trans 'TWA Membership' %}</h4>
+    <div>
+        <div class="section-meta">
+            {% if not person.twamembership_set.all and perms.members.add_twamembership %}
+                <a href="/admin/members/twamembership/add/" class="new">{% trans "new" %}</a>
+            {% endif %}
+        </div>
+
+        {% for membership in person.twamembership_set.all %}
+        <table class="person-table">
+            <tr>
+                <td class="person-label">{% if perms.members.change_twamembership %}<a href="/admin/members/twamembership/{{ membership.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}</td>
+                <td class="person-data"></td>
+            </tr>
+
+            <tr>
+                <td class="person-label top">{% trans "Status" %}:</td>
+                <td class="person-data">
+                    <span class="status-{{ membership.status }}">&nbsp;&nbsp;</span>
+                    <span>{{ membership.get_status_display }}</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="person-label">{% trans 'TWA ID' %}:</td>
+                <td class="person-data">{{ membership.twa_id }}</td>
+            </tr>
+
+            <tr>
+                <td class="person-label">{% trans "Membership" %}:</td>
+                <td class="person-data">
+                    {{ membership.date|date:"Y-m-d"|default:"-" }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="person-label top">{% trans "Request" %}:</td>
+                <td class="person-data">
+                    {% if membership.request %}
+                        <div>{{ membership.request|date:"Y-m-d" }}</div>
+
+                        {% if membership.request_doc %}
+                            <div><a href="/document/{{ membership.request_doc.name }}">{% trans "Request" %} ({{ membership.request_doc|extension|lower }})</a></div>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="person-label">{% trans "Passport Date" %}:</td>
+                <td class="person-data">
+                    {{ membership.passport_date|date:"Y-m-d"|default:"-" }}
+                </td>
+            </tr>
+
+            {% if membership.text %}
+            <tr>
+                <td class="person-label top">{% trans "Text" %}:</td>
+                <td class="person-data">
+                    {% if membership.text %}
+                        <div class="small">{{ membership.text|linebreaksbr }}</div>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+
+            {% if membership.get_payments %}
+                <tr>
+                    <td class="person-label">&nbsp;</td>
+                    <td class="person-data"></td>
+                </tr>
+
+                <tr>
+                    <td class="">{% trans "Payment" %}:</td>
+                    <td class="person-data"></td>
+                </tr>
+
+                {% for payment in membership.get_payments %}
+                <tr>
+                    <td class="person-label">{{ payment.year }}:</td>
+                    <td class="person-data top">
+                        <div>
+                            {{ payment.date|date:"Y-m-d" }}
+                            {%if payment.cash %}({% trans "Cash" %}){% endif %}
+                        </div>
+                        {% if payment.text %}<div>{{ payment.text }}</div>{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td class="person-label">({% trans 'no payments' %})</td></tr>
+            {% endif %}
+
+        </table>
+        {% endfor %}
+
+    </div>
+</div>
+
+<div class="grid_8 omega">
+    <h4>{% trans 'TWA License' %}</h4>
+    <div>
+        <div class="section-meta">
+            {% if not person.license_set.all and perms.members.add_twalicense %}
+                <a href="/admin/members/license/add/" class="new">{% trans "new" %}</a>
+            {% endif %}
+        </div>
+
+        {% for license in person.license_set.all %}
+        <table class="person-table">
+            <tr>
+                <td class="person-label">{% if perms.members.change_license %}<a href="/admin/members/license/{{ license.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}</td>
+                <td class="person-data"></td>
+            </tr>
+
+            <tr>
+                <td class="person-label">{% trans "Status" %}:</td>
+                <td class="person-data">{{ license.get_status_display }}</td>
+            </tr>
+
+            <tr>
+                <td class="person-label">{% trans "Date" %}:</td>
+                <td class="person-data">{{ license.date|date:"Y-m-d"|default:"-" }}</td>
+            </tr>
+
+            <tr>
+                <td class="person-label top">{% trans "Request" %}:</td>
+                <td class="person-data">
+                    {% if license.request %}
+                        <div>{{ license.request|date:"Y-m-d"|default:"-" }}</div>
+                        {% if license.request_doc %}
+                            <div><a href="/document/{{ license.request_doc.name }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a></div>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="person-label">{% trans "Receipt" %}:</td>
+                <td class="person-data">
+                    {% if license.receipt_doc %}
+                        <a href="/document/{{ license.receipt_doc.name }}">{% trans "Receipt" %} ({{ license.receipt_doc|extension|lower }})</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+
+        </table>
+        {% endfor %}
+    </div>
+</div>
+<div class="clear"></div>
+
+{% endblock %}

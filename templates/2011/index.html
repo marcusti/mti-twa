@@ -1,0 +1,249 @@
+{% load i18n %}
+{% load twa_tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>tendo world aikido</title>
+    <meta name="robots" content="noindex" />
+    <meta name="robots" content="noarchive" />
+    <meta name="keywords" content="tendo world aikido, tendoryu aikido, tendo, tendoryu, aikido, shimizu sensei, shimizu" />
+    <meta name="author" content="tendo world aikido" />
+    <meta name="description" content="tendo world aikido" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" type="image/png" href="/static/images/favicon.png" />
+
+    <link rel="stylesheet" type="text/css" media="all" href="/static/css/960gs/reset.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/static/css/960gs/text.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="/static/css/960gs/960_24_col.css" />
+    <link rel="stylesheet" href="/static/highslide/highslide.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/css/tendokan2011.css" type="text/css" />
+
+    <link rel="alternate" type="application/atom+xml" title="tendo world aikido News (deutsch)" href="/feed/news-de/" />
+    <link rel="alternate" type="application/atom+xml" title="tendo world aikido News (english)" href="/feed/news-en/" />
+    <link rel="alternate" type="application/atom+xml" title="tendo world aikido Seminare (deutsch)" href="/feed/seminars/" />
+    <link rel="alternate" type="application/atom+xml" title="tendo world aikido Seminars (english)" href="/feed/seminars-en/" />
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="/static/highslide/highslide.js" type="text/javascript"></script>
+    <script src="/static/js/twa.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      hs.graphicsDir = '/static/highslide/graphics/';
+      hs.outlineType = 'rounded-white';
+      hs.showCredits = false;
+    </script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-27908800-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+    <div class="container_24">
+
+        <!-- HEADER -->
+
+        <div id="header" class="grid_24">
+            <!--[if lt IE 7]>  <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an outdated browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using this site, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>      <div style='width: 75px; float: left;'><a href='http://www.browserforthebetter.com/download.html' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-ie8.jpg' style='border: none;' alt='Get Internet Explorer 8'/></a></div>      <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>  <![endif]-->
+            <div class="logo">
+                <div class="middle">
+                    <a href="/"><img
+                            src="/static/images/twa-trans-400.png"
+                            width="400"
+                            height="68"
+                            alt="[tendo world aikido logo]"
+                            class="img-left" /></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENU -->
+
+        <div id="menu" class="grid_24">
+            <ul class="meta">
+                <li><a class='menu-entry{% if menu == "home" %} selected{% endif %}' href="/">{% trans "Home" %}</a> |</li>
+                <li><a class='menu-entry{% if menu == "news" %} selected{% endif %}' href="/news/">{% trans "News" %}</a> |</li>
+                <li><a class='menu-entry{% if menu == "seminars" %} selected{% endif %}' href="/seminars/">{% trans "Seminars" %}</a> |</li>
+                <li><a class='menu-entry{% if menu == "downloads" %} selected{% endif %}' href="/membership/">{% trans "Become a Member" %}</a> |</li>
+                {% for page in flatpages %}
+                    {% if page.show_in_menu %}
+                        <li>
+                            <a class='menu-entry{% if menu == page.get_menu %} selected{% endif %}{% if not page.is_published %} preview{% endif %}' href="{{ page.url }}">{{ page.get_menu }}</a>
+                            {% if not forloop.last %}|{% endif %}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            {% if user.is_authenticated %}
+                <ul class="menu-logged-in">
+                    <li><a href="/birthdays/" class='menu-entry{% if menu == "birthdays" %} selected{% endif %}'>{% trans "Birthdays" %}</a></li> |
+                    <li><a href="/associations/" class='menu-entry{% if menu == "associations" %} selected{% endif %}'>{% trans "Associations" %}</a></li> |
+                    <li><a href="/dojos/" class='menu-entry{% if menu == "dojos" %} selected{% endif %}'>{% trans "Dojos" %}</a></li> |
+                    <li><a href="/members/" class='menu-entry{% if menu == "members" %} selected{% endif %}'>{% trans "Members" %}</a></li> |
+                    <li><a href="/teachers/mailinglist/" class='{% if menu == "mailinglist" %} selected{% endif %}'>{% trans "Mailinglists" %}</a></li> |
+                    <li><a href="/licenses/" class='{% if menu == "licenses" %} selected{% endif %}'>{% trans "Licenses" %}</a></li> |
+                    <li><a href="/graduations/" class='{% if menu == "graduations" %} selected{% endif %}'>{% trans "Graduations" %}</a></li>
+                </ul>
+
+                <ul class="menu-logged-in">
+                    <li><a href="/twa-region/" class='{% if menu == "twa-region" %} selected{% endif %}'>{% trans "TWA-Region" %}</a></li> |
+                    <li><a href="/member-requests/open/" class='{% if menu == "member-requests" %} selected{% endif %}'>{% trans "TWA-Requests" %}</a></li> |
+                    <li><a href="/license-requests/" class='{% if menu == "license-requests" %} selected{% endif %}'>{% trans "License-Requests" %}</a></li> |
+                    <li><a href="/suggestions/" class='{% if menu == "suggestions" %} selected{% endif %}'>{% trans "Suggestions" %}</a></li>
+                </ul>
+
+                {% if user.is_superuser %}
+                    <ul class="menu-logged-in">
+                        <li><a class='menu-entry delete {% if menu == "licensees" %} selected{% endif %}' href="/create-teachers-page/">{% trans "Create Teachers Page" %}</a></li>
+                    </ul>
+                {% endif %}
+
+                <ul class="menu-logged-in">
+                    <li>
+                        {% trans "Welcome" %},
+                        {% if user.first_name %}
+                          {{ user.first_name }}.
+                        {% else %}
+                          {{ user.username|capfirst }}.
+                        {% endif %}
+                    </li>
+                    {% if user.is_staff %}
+                        <li><a href="/admin/" {% ifequal menu "admin" %} class="active"{% endifequal %}>{% trans "Admin" %}</a></li>
+                        <li><a href="/info/"{% ifequal menu "info" %} class="active"{% endifequal %}>{% trans "Info" %}</a></li>
+                    {% endif %}
+                    <li><a href="/logout/" class="edit">{% trans "Logout" %}</a></li>
+                </ul>
+
+                <form action="/members/" method="get" id="member_filter" class="small">
+                    {% trans "Name" %} / {% trans "ID" %}:
+                    <input type="text" id="s" name="s" value="{{ search }}" size="15" class="small" />
+                    <input type="submit" id="search-go" value="{% trans "Search" %}" class="small" />
+                </form>
+          {% endif %}
+        </div>
+
+        <!-- PHOTOS -->
+
+        <div id="photos" class="grid_24 center alpha news-meta border">
+        {% if photo_news %}
+            <div class="border"><!-- {{ _('photos from news') }} --></div>
+            {% for news in photo_news %}
+                <a href="{{ news.get_absolute_url }}" class=""><img class="photo middle" src="{{ news.photo|thumbnail:'100x100' }}" title="{{ news.get_title }}" alt="[{{ news.photo }}]" /></a>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+        <!-- CONTENT -->
+
+        <div id="content" class="grid_24">
+            {% block content %}
+
+            <div id="welcome" class="grid_24">
+                <h5>{% trans 'Welcome to the World Association of Tendoryu Aikido.' %}</h5>
+            </div>
+            <div class="clear"></div>
+
+            <!-- SEMINARS -->
+
+            <div class="grid_11 alpha">
+                <div class="section-header">
+                    {{ _('Seminars') }}
+                </div>
+                <div class="section-meta">
+                    <!-- <a href="/seminars/">{{ _('all seminars') }}</a> -->
+                </div>
+                {% for seminar in current_seminars %}
+                    <div class="bottom-space">
+                        {% include "2011/seminar-snippet.html" %}
+                    </div>
+                {% empty %}
+                    <div>{{ _('No upcoming seminars.') }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="grid_1">
+                &nbsp;
+            </div>
+
+            <!-- NEWS -->
+
+            <div class="grid_12 omega">
+                <div class="section-header">
+                    {{ _('News') }}
+                </div>
+                <div class="section-meta">
+                    <!-- <a href="/news/">{{ _('all news') }}</a> -->
+                </div>
+                {% for news in current_news %}
+                    <div class="bottom-space">
+                        {% include "2011/news-snippet.html" %}
+                    </div>
+                {% empty %}
+                    <div>{{ _('No news, sorry.') }}</div>
+                {% endfor %}
+            </div>
+            {% endblock %}
+        </div>
+        <div class="clear"></div>
+
+    </div>
+
+        <!-- FOOTER -->
+
+        <div id="footer">
+            <div class="bottom-space">
+
+                <form id="setlang" action="/i18n/setlang/" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}" />
+                    {% trans 'Language' %}:
+                    <select id="language" name="language" class="languages">
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for lang in languages %}
+                            <option value="{{ lang.code }}" {% if language == lang.code %}selected="selected"{% endif %}>
+                                {{ lang.name_local }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </form>
+
+            </div>
+
+            <div>
+                <img src="/static/images/feed.png" alt="News Feeds" />
+                <a href="/feed/news-de/">News Feed (de)</a> //
+                <a href="/feed/news-en/">News Feed (en)</a> //
+                <a href="/feed/seminars/">Seminar Feed (de)</a> //
+                <a href="/feed/seminars-en/">Seminar Feed (en)</a>
+            </div>
+
+            <div>
+                <a href="http://www.aiki-tendo.jp/twa/index.html">{{ _('Official TWA Site') }}</a>
+            </div>
+
+            <div class="bottom-space">
+                {% if user.is_authenticated %}
+                    <a href="/logout/?next={{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">Logout</a>
+                {% else %}
+                    <a href="/login/?next={{ request.path }}{% if request.META.QUERY_STRING %}?{{ request.META.QUERY_STRING }}{% endif %}">Login</a>
+                {% endif %}
+            </div>
+
+            <div class="small bottom-space">
+                powered by <a href="https://www.djangoproject.com/" target="_blank">django</a>
+            </div>
+
+            <div class="">
+                &copy; tendo world aikido 2009 - {% now "Y" %}
+            </div>
+
+        </div>
+</body>
+</html>

@@ -1,0 +1,259 @@
+{% extends "2011/index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<div class="section-header bottom-space">
+    {% trans "Requested TWA Membership" %}
+
+    <span class="small meta">
+        ({% ifnotequal filter "all" %}{% trans "filtered" %}: {% endifnotequal %}{{ counter }})
+    </span>
+</div>
+
+<div class="section-meta small">
+    <div class="bottom-space">
+        {% if perms.members.add_twamembership %}
+            <a href="/admin/members/twamembership/add/" class="new menu-entry">{% trans "new" %}</a>
+        {% endif %}
+    </div>
+
+    <div class="bottom-space">
+        <div>
+            {% trans "filter by status" %}:
+        </div>
+
+        <a href="/member-requests/" class='menu-entry{% if filter == "all" %} selected{% endif %}'>{% trans "all" %}</a>
+        <a href="/member-requests/open/" class='menu-entry{% if filter == "status" %}{% if filter_value == 1 %} selected{% endif %}{% endif%}'>{% trans "open" %}</a>
+        <a href="/member-requests/accepted/" class='menu-entry{% if filter == "status" %}{% if filter_value == 2 %} selected{% endif %}{% endif%}'>{% trans "accepted" %}</a>
+        <a href="/member-requests/to-be-confirmed/" class='menu-entry{% if filter == "status" %}{% if filter_value == 6 %} selected{% endif %}{% endif%}'>{% trans "to be confirmed" %}</a>
+        <a href="/member-requests/confirmed/" class='menu-entry{% if filter == "status" %}{% if filter_value == 5 %} selected{% endif %}{% endif%}'>{% trans "confirmed" %}</a>
+        <a href="/member-requests/verify/" class='menu-entry{% if filter == "status" %}{% if filter_value == 4 %} selected{% endif %}{% endif%}'>{% trans "verify" %}</a>
+        <a href="/member-requests/member/" class='menu-entry{% if filter == "status" %}{% if filter_value == 10 %} selected{% endif %}{% endif%}'>{% trans "Member" %}</a>
+        <a href="/member-requests/nopayment/" class='menu-entry{% if filter == "no_payment" %} selected{% endif%}'>{% trans "Open Payment" %}</a>
+    </div>
+
+    <div class="bottom-space">
+        <div>
+            {% trans "filter by twa region" %} ({{ regions|length }}):
+        </div>
+
+        {% for region in regions %}
+            <a href="/member-requests/region/{{ region|first }}/"
+               class='menu-entry{% if filter == "region" %}{% if region.0 == filter_value %} selected{% endif %}{% endif%}'>{{ region.1 }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="bottom-space">
+        <div>
+            {% trans "filter by dojo" %} ({{ dojos|length }}):
+        </div>
+
+        {% for dojo in dojos %}
+            <a href="/member-requests/dojo/{{ dojo.id }}/"
+               class='menu-entry{% if filter == "dojo" %}{% if dojo.id == filter_value %} selected{% endif %}{% endif%}'>{{ dojo }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="bottom-space">
+        {% trans 'Admin' %}:
+        <a href="/member-requests/twa-ids/" class="edit menu-entry">{% trans 'Create TWA IDs' %}</a>
+    </div>
+
+    {% if user.is_superuser %}
+        <div class="bottom-space">
+            {% trans 'Admin' %}:
+            <a href="javascript:acceptopen()" class="delete menu-entry">{% trans 'set all "open" requests to "accepted"' %}</a> //
+            <a href="javascript:confirmationemail()" class="delete menu-entry">{% trans 'Send confirmation emails' %}</a>
+        </div>
+    {% endif %}
+
+</div>
+
+<table width="100%">
+    <tr class="border">
+        <th title="Eindeutige ID des Mitgliedschaftsantrags">{% trans "ID" %}</th>
+        <th title="Manuell zu vergebende ID bestehend aus Länder-Code und laufender Nummer">{% trans "TWA ID" %}</th>
+        <th>{% trans "Status" %}</th>
+        <th>
+            {% trans "Name" %}
+            <div class="small">{% trans "Dojo" %}</div>
+        </th>
+        <th>{% trans "Request" %}</th>
+        <th>{% trans "Payment" %}</th>
+    </tr>
+
+    {% for membership in object_list %}
+    <tr class="columnhover border">
+        <td class="top">
+            {% if perms.members.change_twamembership %}
+                <a href="/admin/members/twamembership/{{ membership.id }}/" class="edit">{{ membership.id }}</a>
+            {% else %}
+                {{ membership.id }}
+            {% endif %}
+        </td>
+
+        <td class="top">
+            {% if membership.twa_id %}
+                {{ membership.twa_id }}
+            {% else %}
+                &nbsp;
+            {% endif %}
+        </td>
+
+        <td class="top">
+            <span class="status-{{ membership.status }}">&nbsp;&nbsp;</span>
+            {{ membership.get_status_display }}
+        </td>
+
+        <td class="top">
+            <a href="{{ membership.person.get_absolute_url }}">{{ membership.person }}</a>
+
+            {% if membership.person.dojos %}
+                <div class="small">
+                    {% for dojo in membership.person.dojos.all %}
+                        <div>
+                            <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </td>
+
+        <td class="top">
+            {% if membership.request %}
+                {{ membership.request|date:"Y-m-d" }}
+            {% endif %}
+
+            {% if membership.request_doc %}
+                <div class="small">
+                    <a href="/document/{{ membership.request_doc.name }}">{{ membership.request_doc|extension|lower }}</a>
+                </div>
+            {% endif %}
+        </td>
+
+        <td class="top">
+          {% if membership.payment %}
+              {{ membership.payment.date|date:"Y-m-d" }}
+          {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr class="meta">
+        <td>
+            {% trans 'None' %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% if is_paginated %}
+    <div class="small" align="center">
+        <div>{% paginator %}</div>
+    </div>
+{% endif %}
+
+{% if user.is_superuser and object_list %}
+    <div class="small" align="center">
+        <div>
+            <a href="mailto:{% for membership in queryset %}{% if membership.person.email %}&quot;{{ membership.person.firstname|escape }} {{ membership.person.lastname|escape }}&quot; &lt;{{ membership.person.email }}&gt;{% if not forloop.last %}, {% endif %}{% endif %}{% endfor %}" class="edit menu-entry">Email an diese Auswahl</a>(ohne offene: {{ queryset|length }})
+        </div>
+        <div>
+            {% trans "Export to" %}
+            <a href="/member-requests/xls/">xls</a>
+        </div>
+    </div>
+{% endif %}
+
+<br/>
+<br/>
+
+<table class="small">
+    <tr>
+        <th>Status</th>
+        <th>Kommentar</th>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-1">&nbsp;&nbsp;</span>
+            {% trans "open" %}
+        </td>
+        <td>
+            {% trans 'Open requests.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-4">&nbsp;&nbsp;</span>
+            {% trans "verify" %}
+        </td>
+        <td>
+            {% trans 'Consultation of Shimizu Sensei required.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-2">&nbsp;&nbsp;</span>
+            {% trans "accepted" %}
+        </td>
+        <td>
+            {% trans 'Request accepted by Shimizu Sensei.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-6">&nbsp;&nbsp;</span>
+            {% trans "to be confirmed" %}
+        </td>
+        <td>
+            {% trans 'Confirmation email could not be sent. Individual confirmation required.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-5">&nbsp;&nbsp;</span>
+            {% trans "confirmed" %}
+        </td>
+        <td>
+            {% trans 'Confirmation email and payment request have been sent.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-3">&nbsp;&nbsp;</span>
+            {% trans "rejected" %}
+        </td>
+        <td>
+            {% trans 'Request rejected by Shimizu Sensei.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status--1">&nbsp;&nbsp;</span>
+            {% trans "exit" %}
+        </td>
+        <td>
+            {% trans 'Former member.' %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="status-10">&nbsp;&nbsp;</span>
+            {% trans "member" %}
+        </td>
+        <td>
+            {% trans 'After handing over the passport.' %}
+        </td>
+    </tr>
+</table>
+{% endblock %}

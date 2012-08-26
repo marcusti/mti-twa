@@ -1,0 +1,32 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+
+{% block content %}
+    <div>
+        <div class="section-header">{% trans "Upcoming birthdays" %}:</div>
+        <div class="section-meta"></div>
+        <table>
+        {% for person in birthdays %}
+            <tr class="columnhover border">
+                <td class="meta">
+                    {% if person.days == 0 %}
+                        <span class="edit">{% trans "today" %}</span>
+                    {% else %}
+                        {% if person.days == 1 %}
+                            {% trans "tomorrow" %}
+                        {% else %}
+                            {{ person.days }} {% trans "Days" %}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ person.get_absolute_url }}">{{ person }}</a>
+                </td>
+                <td><span class="small">{% trans "turning" %}</span> {% ifequal person.days 0 %}{{ person.age }}{% else %}{{ person.age|add:"1" }}{% endifequal %}</td>
+                <td>{{ person.birth|date:"Y-m-d" }}</td>
+                <td>{% for dojo in person.dojos.all %}{{ dojo }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}

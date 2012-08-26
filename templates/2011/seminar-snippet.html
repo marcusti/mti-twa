@@ -1,0 +1,132 @@
+{% load i18n %}
+{% load twa_tags %}
+
+<div class="{% if detailed %} detailed{% else %}news-header{% endif %}">
+{% if detailed %}
+    {{ seminar.get_title }}
+{% else %}
+    <a href="{{ seminar.get_absolute_url }}">{{ seminar.get_title }}</a>
+{% endif %}
+</div>
+
+<div class="news-meta">
+    {{ seminar.start_date|date:"SHORT_DATE_FORMAT" }}
+    {% if seminar.end_date %} - {{ seminar.end_date|date:"SHORT_DATE_FORMAT" }}{% endif %}
+
+    {% if user.is_authenticated %}
+        <div>
+            <a href="/admin/members/seminar/add/" class="new">{{ _('new') }}</a> //
+            <a href="/admin/members/seminar/{{ seminar.id }}/" class="edit">{{ _('edit') }}</a>
+        </div>
+    {% endif %}
+
+    {% if not seminar.public %}
+        <div class="preview">{% trans 'This seminar is not yet published.' %}</div>
+    {% endif %}
+</div>
+
+<div class="news-content">
+    {% if seminar.photo %}
+        <div class="align-right">
+            <a href="{{ seminar.photo|thumbnail:'800x800' }}"
+               class="highslide"
+               onclick="return hs.expand(this)"><img
+                    src="{{ seminar.photo|thumbnail:'96x96' }}"
+                    align="right"
+                    class="photo-right"
+                    title="[{{ seminar.photo }}]"
+                    alt="[{{ seminar.photo }}]" /></a>
+            <div class="highslide-caption">{{ seminar.get_title }}</div>
+        </div>
+    {% else %}
+        {% if seminar.teacher and seminar.teacher.public_photo %}
+        <div class="align-right">
+            <a href="{{ seminar.teacher.public_photo|thumbnail:'800x800' }}"
+               class="highslide"
+               onclick="return hs.expand(this)"><img
+                    src="{{ seminar.teacher.public_photo|thumbnail:'96x96' }}"
+                    align="right"
+                    class="photo-right"
+                    title="[{{ seminar.teacher }}]"
+                    alt="[{{ seminar.teacher }}]" /></a>
+            <div class="highslide-caption">{{ seminar.teacher }}</div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+    <table>
+        {% if seminar.teacher %}
+        <tr>
+            <td>{{ _('Teacher') }}:</td>
+            <td>
+            {% if user.is_authenticated %}
+                <a href="{{seminar.teacher.get_absolute_url}}">{{ seminar.teacher }}{% if seminar.teacher.current_rank %}, {{ seminar.teacher.current_rank }}{% endif %}</a>
+            {% else %}
+                {{ seminar.teacher }}{% if seminar.teacher.current_rank %}, {{ seminar.teacher.current_rank }}{% endif %}
+            {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.start_date %}
+        <tr>
+            <td>{% if seminar.end_date %}{{ _('Start') }}{% else %}{{ _('Date') }}{% endif %}:</td>
+            <td>{{ seminar.start_date|date:"D, d. F Y" }}</td>
+        {% endif %}
+        </tr>
+
+        {% if seminar.end_date %}
+        <tr>
+            <td>{{ _('End') }}:</td>
+            <td>{{ seminar.end_date|date:"D, d. F Y" }}</td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.venue %}
+        <tr>
+            <td>{{ _('Venue') }}:</td>
+            <td>{{ seminar.venue }}</td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.city %}
+        <tr>
+            <td>{{ _('City') }}:</td>
+            <td>{{ seminar.city }}</td>
+        </tr>
+        {% endif %}
+
+        {% if seminar.country %}
+        <tr>
+            <td>{{ _('Country') }}:</td>
+            <td>{{ seminar.country.get_name }}</td>
+        </tr>
+        {% endif %}
+    </table>
+
+</div>
+
+<div class="news-footer">
+{% if not detailed %}
+    {% if seminar.attachment_set.all or seminar.get_text %}
+        <a href="{{ seminar.get_absolute_url }}" class="overview">[{% trans 'more information' %}]</a>
+    {% endif %}
+{% else %}
+    {% if seminar.get_text %}
+        {% autoescape off %}
+            {{ seminar.get_text|urlize|linebreaks }}
+        {% endautoescape %}
+    {% endif %}
+  {% for attachment in seminar.attachment_set.all  %}
+      <ul class="{% if not detailed %}overview{% endif %}">
+        <li>
+            <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
+            <span class="small">
+            ({{ attachment.file|extension|lower }},
+            {{ attachment.file.size|filesizeformat }})
+            </span>
+        </li>
+      </ul>
+  {% endfor %}
+{% endif %}
+</div>

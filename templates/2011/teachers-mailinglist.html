@@ -1,0 +1,49 @@
+{% extends "2011/index.html" %}
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+<div class="section-header">
+    {{ _('Licensed Teachers Mailinglist') }}
+</div>
+
+<div class="section-meta">
+    {{ object_list|length }} {% trans 'licensed teachers' %}
+</div>
+
+<div>
+    <div>
+        <a href='mailto:{% for license in object_list %}{{ license.person.email }}{% if not forloop.last %}, {% endif %}{% endfor %}'>{% trans 'Email to all licensed  teachers' %}</a>
+        <span class="small news-meta">({{ object_list|length }})</span>
+    </div>
+
+    <div>&nbsp;</div>
+
+    {% regroup object_list by person.dojos.all.0.country as license_list %}
+
+    {% for country in license_list %}
+        <div class="news-header">
+            {{ country.grouper.code }} - {{ country.grouper.get_name }}
+        </div>
+
+        <div class="news-meta">
+            <a href='mailto:{% for license in country.list %}{{ license.person.email }}{% if not forloop.last %}, {% endif %}{% endfor %}'>{% blocktrans with country=country.grouper.get_name%}Email to licensed teachers in {{ country }}{% endblocktrans %}</a>
+            <span class="small news-meta">({{ country.list|length }})</span>
+        </div>
+
+        <div class="news-content overview">
+        {% for license in country.list %}
+            {% with person=license.person %}
+                <div>
+                    <a href="mailto:{{ person.email }}">{{ person.get_name }}</a>
+                    {% if perms.members.change_person %}<a href="/admin/members/person/{{ person.id }}/" class="edit">{% trans "edit" %}</a>{% endif %}
+                </div>
+            {% endwith %}
+        {% endfor %}
+        </div>
+
+        <div class="news-footer">
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "twa-index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<h1>{% trans "Members" %} <span class="tx12g">({{ counter }})</span></h1>
+
+<div class="tx12g"  align="center">
+  {% if perms.members.add_person %}<a href="/admin/members/person/add/" class="edit">{% trans "new" %}</a>{% endif %}
+</div>
+
+<table class="columnhover">
+{% for person in object_list %}
+  <tr>
+
+    <td>
+    <a href="{{ person.get_absolute_url }}">{{ person }}</a>{% if person.current_rank %}, {{ person.current_rank }}{% endif %}
+
+    <div class="tx12g">
+    {% for dojo in person.dojos.all %}
+      <a href="{{ dojo.get_absolute_url }}">{{ dojo.country.code }} - {{ dojo }}</a><br/>
+    {% endfor %}
+    </div>
+    </td>
+
+    <td class="status-{{ membership.status }}">
+      {% if person.is_member %}
+        <img src="/static/images/kamon.png">
+      {% else %}
+      &nbsp;&nbsp;
+      {% endif %}
+    </td>
+
+    <td>
+    <div class="tx12g">
+      {% for membership in person.twamembership_set.all  %}
+          {% trans "TWA Membership" %}:
+            {{ membership.twa_id }}
+            <br/>
+            {% trans "Status" %}:
+            {{ membership.get_status_display }}
+            <br/>
+            {% trans "Passport Date" %}:
+            {% if membership.passport_date %}{{ membership.passport_date|date:"Y-m-d" }}{% else %} - {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="tx12g">
+      {% trans "License" %}:
+      {% if person.is_licensed %}
+        {% for license in person.license_set.all %}
+          ID {{ license.id }}, {{ license.date|date:"Y-m-d" }}
+        {% endfor %}
+      {% else %}
+        {% if person.is_license_requested %}
+          {% trans "Requested" %}
+        {% else %}
+          {% trans "No" %}
+        {% endif %}
+      {% endif %}
+    </div>
+    </td>
+
+    <td>
+    {% if person.photo %}
+    <a href="{{ person.get_absolute_url }}">
+      <img src="/image/{{ person.photo.name }}/64x64/"
+           class="photo"
+       align="right"
+           alt="[{{ person.firstname }} {{ person.lastname }}]"
+           title="{{ person.firstname }} {{ person.lastname }}"
+           />
+    </a>
+    {% endif %}
+    </td>
+  </tr>
+{% endfor %}
+</table>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small>
+</div>
+{% endif %}
+
+{% if user.is_superuser %}
+<div class="white" align="center">
+  <small>
+    <br/>{% trans "Export to" %} <a href="/members/xls/">xls</a>, <a href="/members/csv/">csv</a>
+  </small>
+</div>
+{% endif %}
+
+{% endblock %}

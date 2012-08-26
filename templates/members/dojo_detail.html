@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<table>
+  <colgroup>
+    <col width="25%">
+    <col width="*">
+  </colgroup>
+
+  <tr>
+    <th colspan="2">
+      {% trans "Dojo" %}
+      {% if perms.members.add_dojo %} | <a href="/admin/members/dojo/add/" class="edit small">{% trans "new" %}</a>{% endif %}
+      {% if perms.members.change_dojo %} | <a href="/admin/members/dojo/{{ dojo.id }}" class="edit small">{% trans "edit" %}</a>{% endif %}
+    </th>
+  </tr>
+
+  <tr>
+    <td>{% trans "Name" %}:</td>
+    <td><b>{{ dojo.name }}</b></td>
+  </tr>
+  <tr>
+    <td>{% trans "ID" %}:</td>
+    <td>{{ dojo.id }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "National Association" %}:</td>
+    <td>{% if dojo.association %}<a href="{{ dojo.association.get_absolute_url  }}">{{ dojo.association }}</a>{% endif %}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Dojo Leader" %}:</td>
+    <td>
+      {% if dojo.leader %}
+        {% if user.is_authenticated %}
+          <a href="{{ dojo.leader.get_absolute_url }}">{{ dojo.leader }}</a>
+        {% else %}
+          {{ dojo.leader }}
+        {% endif %}
+      {% endif %}
+    </td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Street" %}:</td>
+    <td>{{ dojo.street }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Zip" %}, {% trans "City" %}:</td>
+    <td>{{ dojo.zip }} {{ dojo.city }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Country" %}:</td>
+    <td>{{ dojo.country.get_name|default:"" }}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Phone" %}:</td>
+    <td>{{ dojo.phone }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Fax" %}:</td>
+    <td>{{ dojo.fax }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Mobile" %}:</td>
+    <td>{{ dojo.mobile }}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Email" %}:</td>
+    <td>{% if person.email %}<a href="mailto:{{ dojo.email }}">{{ dojo.email }}</a>{% endif %}</td>
+  </tr>
+  <tr>
+    <td>{% trans "Website" %}:</td>
+    <td>{% if dojo.website %}<a href="{{ dojo.website }}" target="_blank">{{ dojo.website }}</a>{% endif %}</td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td>{% trans "Text" %}:</td>
+    <td>{{ dojo.text|linebreaksbr }}</td>
+  </tr>
+
+  <tr>
+    <td colspan="2" class="white">&nbsp;</td>
+  </tr>
+
+  {% if user.is_authenticated %}
+  <tr>
+    <th colspan="2">{% trans "Members" %}</th>
+  </tr>
+
+  <tr>
+    <td></td>
+    <td>
+    <ul>
+    {% for person in members %}
+      <li><a href="{{ person.get_absolute_url }}">{{ person }}</a></li>
+    {% endfor %}
+    </ul>
+    </td>
+  </tr>
+  {% endif %}
+
+</table>
+
+<p class="meta" align="right"><small>{% trans "Last Modified" %}: {{ dojo.last_modified }}</small></p>
+{% endblock %}

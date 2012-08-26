@@ -1,0 +1,81 @@
+{% load i18n %}
+{% load twa_tags %}
+{% load markup %}
+
+<div class="news-header{% if detailed %}-detail{% endif %}">
+{% if detailed %}
+    {{ news.get_title }}
+{% else %}
+    <a href="{{ news.get_absolute_url }}">{{ news.get_title }}</a>
+{% endif %}
+</div>
+
+<div class="news-meta">
+    {{ news.pub_date|date:"l, d. F Y" }}
+
+    {% if user.is_authenticated %}
+        <div>
+            <a href="/admin/members/news/add/" class="new">{{ _('new') }}</a> //
+            <a href="/admin/members/news/{{ news.id }}/" class="edit">{{ _('edit') }}</a>
+        </div>
+    {% endif %}
+
+    {% if not news.is_published %}
+        <div class="preview">{% trans 'This article is not yet published.' %}</div>
+    {% endif %}
+</div>
+
+<div class="news-content">
+{% autoescape off %}
+    {% if news.photo %}
+        <a href="{{ news.photo|thumbnail:'800x800' }}" class="highslide align-right" onclick="return hs.expand(this)"><img align="right" class="photo-right" src="{{ news.photo|thumbnail:'200x200' }}" title="" alt="[{{ news.photo }}]" /></a>
+    {% endif %}
+
+    {% if news.get_preview %}
+        {% if news.markup == 'markdown' %}
+            {{ news.get_preview|markdown }}
+        {% endif %}
+        {% if news.markup == 'restructuredtext' %}
+            {{ news.get_preview|restructuredtext }}
+        {% endif %}
+        {% if news.markup == 'textile' %}
+            {{ news.get_preview|textile }}
+        {% endif %}
+        {% if news.markup == 'text' %}
+            {{ news.get_preview|urlize|linebreaks }}
+        {% endif %}
+    {% endif %}
+
+    {% if news.get_text %}
+        {% if detailed %}
+            {% if news.markup == 'markdown' %}
+                {{ news.get_text|markdown }}
+            {% endif %}
+            {% if news.markup == 'restructuredtext' %}
+                {{ news.get_text|restructuredtext }}
+            {% endif %}
+            {% if news.markup == 'textile' %}
+                {{ news.get_text|textile }}
+            {% endif %}
+            {% if news.markup == 'text' %}
+                {{ news.get_text|urlize|linebreaks }}
+            {% endif %}
+        {% else %}
+            {% if news.get_text %}<p><a href="{{ news.get_absolute_url }}" class="tx10">[{% trans "read more" %}]</a></p>{% endif %}
+        {% endif %}
+    {% endif %}
+
+{% endautoescape %}
+</div>
+
+<div class="news-footer">
+  {% for attachment in news.attachment_set.all  %}
+      <p>
+        <a href="/static/{{ attachment.file.name }}">{{ attachment.name }}</a>
+        <span class="small">
+        ({{ attachment.file|extension|lower }},
+        {{ attachment.file.size|filesizeformat }})
+        </span>
+      </p>
+  {% endfor %}
+</div>

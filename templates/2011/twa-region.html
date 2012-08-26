@@ -1,0 +1,68 @@
+{% extends "2011/index.html" %}
+
+{% load i18n %}
+{% load twa_tags %}
+
+{% block content %}
+
+<div class="section-header bottom-space">
+  {% trans "TWA Region" %}
+</div>
+
+<div class="section-meta small">
+    <div>
+        {% trans "filter by twa region" %} ({{ regions|length }}):<br/>
+        <a href="/twa-region/" class="menu-entry{% if filter_value == 'None' %} selected{% endif %}" title="{% trans 'Dojos not assigned to a region.' %}">({% trans 'without region' %})</a>
+        {% for region in regions %}
+            <a href="/twa-region/region/{{ region|first }}/" class="menu-entry{% ifequal filter 'region' %}{% ifequal region.0 filter_value %} selected{% endifequal %}{% endifequal%}">{{ region.1 }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<table width="100%">
+    <tr class="border">
+        <th>{% trans 'City' %}</th>
+        <th>{% trans 'Dojo' %}</th>
+        <th></th>
+        <th></th>
+    </tr>
+{% for dojo in object_list %}
+    <tr class="columnhover border">
+        <td class="top">
+            {{ dojo.city }}
+        </td>
+
+        <td class="top">
+            <a href="/dojo/{{ dojo.id }}/">{{ dojo.name }}</a>
+        </td>
+
+        <td class="top">
+            <a href="/member-requests/dojo/{{ dojo.id }}/">{% trans "Requests" %}</a>
+        </td>
+
+        <td class="top">
+            <a href="/dojo/{{ dojo.id }}/csv/">csv</a>
+        </td>
+    </tr>
+{% empty %}
+    <tr class="meta">
+        <td class="top">
+            {% trans 'None' %}
+        </td>
+    </tr>
+{% endfor %}
+{% if filter_value != 'None' %}
+    <tr>
+        <td colspan="2"></td>
+        <td colspan="2" class="tx12g"><a href="/region/{{ filter_value }}/csv/">csv ({% trans "all" %})</a></td>
+    </tr>
+{% endif %}
+</table>
+
+{% if is_paginated %}
+<div class="white" align="center">
+  <small>{% paginator %}</small><br/>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,8 @@
+Django==1.3.3
+django-debug-toolbar
+django-rosetta
+docutils
+markdown
+pyExcelerator
+south
+textile
