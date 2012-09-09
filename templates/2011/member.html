@@ -5,18 +5,23 @@
 
 {% block content %}
 <div class="grid_24">
-    <div class="section-header">
         {% if person.photo %}
-            <img src="/image/{{ person.photo.name }}/300x400/"
-                 class="photo photo-right"
-                 align="right"
-                 alt="[{{ person.firstname }} {{ person.lastname }}]"
-                 title="{{ person.firstname }} {{ person.lastname }}"
-                 />
+            <div class="align-right">
+                <img src="/image/{{ person.photo.name }}/300x400/"
+                     class="photo photo-right"
+                     align=""
+                     alt="[{{ person.firstname }} {{ person.lastname }}]"
+                     title="{{ person.firstname }} {{ person.lastname }}"
+                     />
+                    <div class="small right">
+                        <a href="/image/{{ person.photo.name }}">{{ person.photo.name|basename }}, {{ person.photo.size|filesizeformat }}</a>
+                    </div>
+            </div>
         {% else %}
             <div class="meta small align-right">({% trans 'no image' %})</div>
         {% endif %}
 
+    <div class="section-header">
         {{ person }}
 
         {% if person.is_member %}

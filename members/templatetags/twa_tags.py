@@ -38,6 +38,15 @@ def extension(value):
         return value
 
 
+@register.filter
+@stringfilter
+def basename(value):
+    try:
+        return os.path.basename(value)
+    except:
+        return value
+
+
 def paginator(context, adjacent_pages=3):
     """
     To be used in conjunction with the object_list generic view.
