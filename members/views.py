@@ -736,7 +736,7 @@ def documents_handler(request, filename):
         filepath = os.path.join(DOCUMENTS_DIR, filename)
         mimetype = mimetypes.guess_type(filename)
         response = HttpResponse(open(filepath, 'r').read(), mimetype=mimetype)
-        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filename)
         return response
     except:
         raise Http404
