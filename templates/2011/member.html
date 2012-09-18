@@ -372,18 +372,21 @@
                 <td class="person-data">
                     {% if license.request %}
                         <div>{{ license.request|date:"Y-m-d"|default:"-" }}</div>
-                        {% if license.request_doc %}
-                            <div><a href="/document/{{ license.request_doc.name }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a></div>
-                        {% endif %}
+                    {% endif %}
+                    {% if license.request_doc %}
+                        <div><a href="/document/{{ license.request_doc.name }}">{% trans "Request" %} ({{ license.request_doc|extension|lower }})</a></div>
                     {% endif %}
                 </td>
             </tr>
 
             <tr>
-                <td class="person-label">{% trans "Receipt" %}:</td>
+                <td class="person-label top">{% trans "Receipt" %}:</td>
                 <td class="person-data">
+                    {% if license.receipt %}
+                        <div>{{ license.receipt|date:"Y-m-d"|default:"-" }}</div>
+                    {% endif %}
                     {% if license.receipt_doc %}
-                        <a href="/document/{{ license.receipt_doc.name }}">{% trans "Receipt" %} ({{ license.receipt_doc|extension|lower }})</a>
+                        <div><a href="/document/{{ license.receipt_doc.name }}">{% trans "Receipt" %} ({{ license.receipt_doc|extension|lower }})</a></div>
                     {% else %}
                         -
                     {% endif %}
