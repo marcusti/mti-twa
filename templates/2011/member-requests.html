@@ -28,6 +28,7 @@
         <a href="/member-requests/" class='menu-entry{% if filter == "all" %} selected{% endif %}'>{% trans "all" %}</a>
         <a href="/member-requests/open/" class='menu-entry{% if filter == "status" %}{% if filter_value == 1 %} selected{% endif %}{% endif%}'>{% trans "open" %}</a>
         <a href="/member-requests/accepted/" class='menu-entry{% if filter == "status" %}{% if filter_value == 2 %} selected{% endif %}{% endif%}'>{% trans "accepted" %}</a>
+        <a href="/member-requests/rejected/" class='menu-entry{% if filter == "status" %}{% if filter_value == 3 %} selected{% endif %}{% endif%}'>{% trans "rejected" %}</a>
         <a href="/member-requests/to-be-confirmed/" class='menu-entry{% if filter == "status" %}{% if filter_value == 6 %} selected{% endif %}{% endif%}'>{% trans "to be confirmed" %}</a>
         <a href="/member-requests/confirmed/" class='menu-entry{% if filter == "status" %}{% if filter_value == 5 %} selected{% endif %}{% endif%}'>{% trans "confirmed" %}</a>
         <a href="/member-requests/verify/" class='menu-entry{% if filter == "status" %}{% if filter_value == 4 %} selected{% endif %}{% endif%}'>{% trans "verify" %}</a>
