@@ -444,6 +444,27 @@ def twa_region(request, region_id=None):
                        template_name='2011/twa-region.html')
 
 
+def _get_license_country(x):
+    dojos = x.person.dojos.all()
+    if dojos:
+        return dojos[0].country.code
+    return x.person.country.code
+
+
+def _get_license_city(x):
+    dojos = x.person.dojos.all()
+    if dojos:
+        return dojos[0].city
+    return x.person.city
+
+
+def _get_dojo_name(x):
+    dojos = x.person.dojos.all()
+    if dojos:
+        return dojos[0].name
+    return None
+
+
 @login_required
 def licensees(request):
     '''Displays a public list of licensed twa teachers.'''
@@ -455,9 +476,9 @@ def licensees(request):
     l = list(qs)
     l = sorted(l, key=lambda x: x.person.firstname)
     l = sorted(l, key=lambda x: x.person.current_rank(), reverse=True)
-    # l = sorted(l, key=lambda x: x.person.dojos.all()[0].name)
-    l = sorted(l, key=lambda x: x.person.dojos.all()[0].city)
-    l = sorted(l, key=lambda x: x.person.dojos.all()[0].country.code)
+    l = sorted(l, key=lambda x: _get_dojo_name(x))
+    l = sorted(l, key=lambda x: _get_license_city(x))
+    l = sorted(l, key=lambda x: _get_license_country(x))
 
     ctx['object_list'] = l
     # ctx['object_list'] = License.objects.get_public_licenses()
