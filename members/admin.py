@@ -101,8 +101,8 @@ class MembershipAdmin(admin.ModelAdmin):
     ordering = ['-id']
     list_display = ('id', 'twa_id', 'status', 'person', 'date', 'request', 'request_doc', 'is_active')
     list_display_links = ('status', 'person')
-    list_filter = ['status', 'is_active', 'twa_id_country']
-    date_hierarchy = 'request'
+    list_filter = ['status', 'is_active', 'twa_id_country', 'twapayment__date']
+    date_hierarchy = 'date'
     search_fields = ['person__firstname', 'person__nickname', 'person__lastname', 'person__country__name']
     inlines = [TWAPaymentInline, ]
     save_on_top = True
@@ -142,7 +142,7 @@ class TWAPaymentAdmin(admin.ModelAdmin):
     ordering = ['-date']
     list_display = ('id', 'twa', 'date', 'cash', 'text')
     list_display_links = ('twa', 'date')
-    list_filter = ['date']
+    list_filter = ['year']
     date_hierarchy = 'date'
     search_fields = ['twa__twa_id_number', 'twa__person__firstname', 'twa__person__nickname', 'twa__person__lastname', 'text']
     save_on_top = True
