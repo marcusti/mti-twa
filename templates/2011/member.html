@@ -264,6 +264,17 @@
             </tr>
 
             <tr>
+                <td class="person-label">{% trans "Active" %}:</td>
+                <td class="person-data">
+                {% if membership.is_active %}
+                    {% trans "Yes" %}
+                {% else %}
+                    {% trans "No" %}
+                {% endif %}
+                </td>
+            </tr>
+
+            <tr>
                 <td class="person-label">{% trans 'TWA ID' %}:</td>
                 <td class="person-data">{{ membership.twa_id }}</td>
             </tr>
