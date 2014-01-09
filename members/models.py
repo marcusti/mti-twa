@@ -548,7 +548,7 @@ class LicenseManager(models.Manager):
 
     def get_granted_licenses(self):
         # return self.get_query_set().filter(status=LICENSE_STATUS_LICENSED, is_active=True, public=True, person__is_active=True, person__public=True).order_by('-date', '-id')
-        return self.get_query_set().filter(status=LICENSE_STATUS_LICENSED, is_active=True, public=True, person__is_active=True, person__public=True, person__twamembership__status__exact=MEMBERSHIP_STATUS_MEMBER).order_by('-date', '-id')
+        return self.get_query_set().filter(status=LICENSE_STATUS_LICENSED, is_active=True, public=True, person__is_active=True, person__public=True, person__twamembership__status__exact=MEMBERSHIP_STATUS_MEMBER).distinct().order_by('-date', '-id')
 
     def get_public_licenses(self):
         return self.get_granted_licenses().filter(person__dojos__isnull=False)
