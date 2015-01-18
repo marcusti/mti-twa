@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-12 19:26+0900\n"
+"POT-Creation-Date: 2015-01-18 20:56+0900\n"
 "PO-Revision-Date: 2010-02-13 16:18\n"
 "Last-Translator: <marcus.titze@gmail.com>\n"
 "Language-Team: LANGUAGE «LL@li.org»\n"
@@ -741,8 +741,7 @@ msgstr "推薦者"
 #: templates/info.html:55 templates/twa-graduations.html:15
 #: templates/twa-suggestions.html:20 templates/2011/graduations.html:25
 #: templates/2011/info.html:85 templates/2011/licenses.html:30
-#: templates/2011/member.html:377 templates/2011/seminar-snippet.html:73
-#: templates/2011/suggestions.html:23
+#: templates/2011/seminar-snippet.html:73 templates/2011/suggestions.html:23
 #: templates/members/graduation_list.html:23
 #: templates/members/graduation_suggestion_list.html:24
 msgid "Date"
@@ -1563,6 +1562,10 @@ msgstr "はい"
 #, fuzzy
 msgid "no payments"
 msgstr "書類"
+
+#: templates/2011/member.html:377
+msgid "Valid until"
+msgstr ""
 
 #: templates/2011/news-archive.html:12 templates/2011/seminar-archive.html:23
 msgid "by year"
