@@ -19,3 +19,5 @@ twa.sublime-*
 *.csv
 *.tgz
 *~
+.vscode
+twa.session.sql
