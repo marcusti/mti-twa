@@ -63,3 +63,49 @@ FROM members_twamembership m
 WHERE m.twa_id_number >= 2000
 ORDER BY m.twa_id_number DESC NULLS LAST, m.last_modified DESC
 ;
+
+-- payments by year and rank
+select count(m.person_id) as payments,
+    g.rank
+from members_twapayment p
+    inner join members_twamembership m on m.id = p.twa_id
+    left join(
+        select person_id,
+            max(rank) as rank
+        from members_graduation
+        where is_active is true
+            and public is true
+            and is_nomination is false
+        group by person_id
+    ) g on g.person_id = m.person_id
+where m.id = p.twa_id
+    and p.public is true
+    and m.public is true
+    and m.is_active is true
+    and p.year = 2019
+group by g.rank
+order by g.rank desc
+
+-- payments by year and youth
+select count(m.person_id) as payments,
+    g.youth
+from members_twapayment p
+    inner join members_twamembership m on m.id = p.twa_id
+    left join(
+        select id,
+            extract(
+                year
+                from age(birth)
+            ) < 18 as youth
+        from members_person
+        where is_active is true
+            and public is true
+    ) g on g.id = m.person_id
+where m.id = p.twa_id
+    and p.public is true
+    and m.public is true
+    and m.is_active is true
+    and p.year = 2019
+group by g.youth
+order by g.youth desc
+
